@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>OpenBSD: Безопасность</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="copyright" content="This document copyright 1997-2016 by OpenBSD.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/security.html">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#23238e">
+
+<h2>
+<a href="index.html">
+<i><font color="#0000ff">Open</font></i><font color="#000084">BSD</font></a>
+<font color="#e00000">Безопасность</font>
+</h2>
+<hr>
+<p>
+
+For security advisories for specific releases, click below:
+<p>
+
+<a href="https://openbsd.org/errata21.html">2.1</a>,
+<a href="https://openbsd.org/errata22.html">2.2</a>,
+<a href="https://openbsd.org/errata23.html">2.3</a>,
+<a href="https://openbsd.org/errata24.html">2.4</a>,
+<a href="https://openbsd.org/errata25.html">2.5</a>,
+<a href="https://openbsd.org/errata26.html">2.6</a>,
+<a href="https://openbsd.org/errata27.html">2.7</a>,
+<a href="https://openbsd.org/errata28.html">2.8</a>,
+<a href="https://openbsd.org/errata29.html">2.9</a>,
+<a href="https://openbsd.org/errata30.html">3.0</a>,
+<a href="https://openbsd.org/errata31.html">3.1</a>,
+<a href="https://openbsd.org/errata32.html">3.2</a>,
+<a href="https://openbsd.org/errata33.html">3.3</a>,
+<a href="https://openbsd.org/errata34.html">3.4</a>,
+<a href="https://openbsd.org/errata35.html">3.5</a>,
+<a href="https://openbsd.org/errata36.html">3.6</a>,
+<a href="https://openbsd.org/errata37.html">3.7</a>,
+<br>
+<a href="https://openbsd.org/errata38.html">3.8</a>,
+<a href="https://openbsd.org/errata39.html">3.9</a>,
+<a href="https://openbsd.org/errata40.html">4.0</a>,
+<a href="https://openbsd.org/errata41.html">4.1</a>,
+<a href="https://openbsd.org/errata42.html">4.2</a>,
+<a href="https://openbsd.org/errata43.html">4.3</a>,
+<a href="https://openbsd.org/errata44.html">4.4</a>,
+<a href="https://openbsd.org/errata45.html">4.5</a>,
+<a href="https://openbsd.org/errata46.html">4.6</a>,
+<a href="https://openbsd.org/errata47.html">4.7</a>,
+<a href="https://openbsd.org/errata48.html">4.8</a>,
+<a href="https://openbsd.org/errata49.html">4.9</a>,
+<a href="https://openbsd.org/errata50.html">5.0</a>,
+<a href="https://openbsd.org/errata51.html">5.1</a>,
+<a href="https://openbsd.org/errata52.html">5.2</a>,
+<a href="https://openbsd.org/errata53.html">5.3</a>,
+<a href="https://openbsd.org/errata54.html">5.4</a>,
+<br>
+<a href="https://openbsd.org/errata55.html">5.5</a>,
+<a href="https://openbsd.org/errata56.html">5.6</a>,
+<a href="https://openbsd.org/errata57.html">5.7</a>,
+<a href="https://openbsd.org/errata58.html">5.8</a>,
+<a href="https://openbsd.org/errata59.html">5.9</a>,
+<a href="https://openbsd.org/errata60.html">6.0</a>,
+<a href="https://openbsd.org/errata61.html">6.1</a>,
+<a href="https://openbsd.org/errata62.html">6.2</a>,
+<a href="https://openbsd.org/errata63.html">6.3</a>,
+<a href="https://openbsd.org/errata64.html">6.4</a>.
+<br>
+<hr>
+
+<a name="goals"></a>
+<ul>
+<li><h3><font color="#e00000">Цели</font></h3><p>
+
+OpenBSD верит в стойкую безопасность. Мы стремимся быть ПЕРВЫМИ в области
+безопасности (если уже не стали ими). Благодаря нашей открытой модели
+разработки, мы имеем абсолютно бескомпромиссный взгяд на вопросы
+безопасности, чем большинство других поставщиков. Мы можем делать такие
+изменения, на которые другие не пошли бы. Кроме того, благодаря
+<a href="crypto.html">криптографии</a>, используемой в OpenBSD, у нас
+больше возможностей и подходов к устранению проблем безопасности.
+
+<a name="disclosure"></a>
+<li><h3><font color="#e00000">Абсолютная открытость</font></h3><p>
+
+
+Как и большинство читателей
+<a href="http://online.securityfocus.com/archive/1">
+рассылки BUGTRAQ</a>, мы верим в преимущества абсолютного разглашения
+проблем безопасности. Среди множества операционных систем мы, похоже,
+первые кто использует такой подход. Многие производители, в том
+числе и свободного программного обеспечения, все ещё пытаются скрыть
+какие-то нюансы от своих пользователей.<p>
+
+Информация, касающаяся безопасности, распространяется очень быстро среди
+взломщиков. С другой строны, наш опыт позволяет уже в течении часа
+выпускать исправления. Таким образом, мы считаем, что полное разглашение
+о проблемах поможет людям, которые заботятся и переживают по поводу
+безопасности.<p>
+
+<a name="process"></a>
+<li><h3><font color="#e00000">Аудит процесс</font></h3><p>
+
+От шести до двенадцати человек входят в команду, кто продолжает
+искать и исправлять ошибки безопасности. Мы проводим аудит с лета 1996г.
+Процесс по улучшению безопасности охватывает все области системы, файл за
+файлом мы анализируем каждый компонент программы. Мы не столько ищем ошибки
+безопасности, сколько простые программные ошибки. Если спустя годы кто-то
+обнаружит уязвимость, у нас она скорее всего уже будет исправленна, так как
+это была просто ошибка в коде. Те или иные изъяны были найдены в процессе
+аудита почти в каждом компоненте системы. Были найдены совершенно новые
+категории проблем безопасности, и часто исходной код, который уже прошёл
+аудит, нуждался в дополнительной проверке. Исходной код обычно проверяется
+несколько раз разными людьми с разным опытом.<p>
+
+Некоторые члены из нашей аудит команды работали в Secure Networks -
+компании, занимающейся сканированием сетей на предмет сетевых уявзвимостей
+и созданием Ballista - пакет программ для проверки сетей на безопасность.
+(Secure Networks бала куплена Network Associates, Ballista переименована
+в Cybercop Scanner.) Эта компания проводила множество тестов и исследований
+уязвимостей и, таким образом, имеет хороший опыт в этой области. OpenBSD
+проходила все проверки Ballista с первого же дня тестирования.<p>
+
+Другой аспект процесса проверки - про-активность. Во многих случаях мы
+обнаруживаем, что найденная уязвимость неактуальна. Тем не менее, в ходе
+процесса аудита мы находим множество ошибок, стараемся их исправить, даже
+если уязвимость не доказана. Мы исправляем одни ошибки и продолжаем искать
+другие, чтобы исправить и их. Мы устранили множество простых и очевидных
+ошибок невнимательного программирования и только по прошествии нескольких
+месяцев обнаружили, что они действительно опасны. (Или, более вероятно, что
+кто-то на <a href="http://online.securityfocus.com/archive/1">BUGTRAQ</a>
+опубликует, что другие операционные системы уязвимы к `недавно обнаруженной
+проблеме`, и тогда выяснится, что в OpenBSD эта ошибка уже была исправлена
+ещё в прошлом релизе). В других случаях, мы застрахованы от реализации
+множества атак лишь потому, что мы исправили один из промежуточных шагов,
+необходимых для их реализации. Примером того, где нам удалось добиться
+успеха, является рекомендация lpd, которую мы получили благодаря Secure
+Networks.<p>
+
+<a name="newtech"></a>
+<li><h3><font color="#e00000">Новые технологии</font></h3><p>
+
+As we audit source code, we often invent new ways of solving problems.
+Sometimes these ideas have been used before in some random application
+written somewhere, but perhaps not taken to the degree that we do.
+<p>
+
+<ul>
+  <li>strlcpy() and strlcat()
+  <li>Memory protection purify
+    <ul>
+    <li>W^X
+    <li>.rodata segment
+    <li>Guard pages
+    <li>Randomized malloc()
+    <li>Randomized mmap()
+    <li>atexit() and stdio protection
+    </ul>
+  <li>Privilege separation
+  <li>Privilege revocation
+  <li>Chroot jailing
+  <li>New uids
+  <li>ProPolice
+  <li>... <a href="/innovations.html">and others</a>
+</ul>
+<p>
+
+<li><h3><font color="#e00000">Награда</font></h3><p>
+
+Наш про-активный процесс аудита действительно оправдан. Заявления
+подобно ``Эта проблема была устранена в OpenBSD приблизительно 6
+месяцев назад'' стали обычным явлением на security-форумах подобных
+<a href="http://online.securityfocus.com/archive/1">BUGTRAQ</a>.<p>
+
+Наиболее интенсивная часть аудита происходила перед релизом OpenBSD 2.0,
+а так же в течение перехода с 2.0-&gt;2.1, в конце 1996 и первой половины
+1997. Тысячи (да, именно тысячи) проблем безопасности были быстро
+устранены в течение этого почти годового периода; ошибки подобно стандартным
+переполнением буфера, слабостям реализации протокола, сбору информации,
+и гонкам файловых систем. Большинство проблем безопасности, с которыми мы
+столкнулись, были устранены перед релизом 2.1, и затем, намного меньше
+исправлений необходимо было в следующем релизе 2.2. Мы больше не находим
+так много ошибок, это простой факт их исчезновения. Однако недавно
+найденные и исправленные проблемы безопасности, имеют тенденцию быть
+значительно более сложными или неясными. Тем не менее, мы будем проводить
+аудит по ряду причин:<p>
+
+<ul>
+<li>Иногда мы находим простые проблемы, которые мы пропустили ранее. Буа!
+<li>Безопасность чем-то походит на гонку вооружений; лучшие нападающие
+продолжат искать более сложный путь для реализации атаки, также будем и мы.
+<li>Нахождение и исправление едва заметных недостатков в сложной программе
+доставляет не мало удовольствия.
+</ul>
+<p>
+
+Процесс аудита ещё не закончен, и, как вы видите, мы продолжаем находить
+и исправлять все новые и новые изъяны безопасности.<p>
+
+<a name="default"></a>
+<li><h3><font color="#e00000">"Secure by Default"</font></h3><p>
+
+Для того, чтобы гарантировать, что начинающему пользователю нет надобности
+становиться экспертом по безопасности (точка зрения, которой, похоже,
+придерживаются другие производители), мы поставляем операционную систему в
+режиме "Secure by Default". Это значит, что все второстепенные сервисы
+запрещены. Когда пользователь/администратор более глубоко освоится
+с этой системой, он поймет, что нужно разрешить работу некоторых демонов
+и других частей системы. По мере изучения того, как запустить какой-то
+новый сервер, новичок, скорее всего, ознакомится с требованиями
+безопасности.<p>
+
+Это совершенный контраст со все возрастающим числом систем, которые
+поставляются с NFS, mountd, web-серверами и другими запущенными по
+умолчанию службами, в первые же минуты после инсталляции создающими
+для своих пользователей проблемы безопасности.<p>
+
+<a name="crypto"></a>
+<li><h3><font color="#e00000">Криптография</font></h3><p>
+
+Так как проект OpenBSD находится в Канаде, у нас есть возможность
+использовать криптографию. Для получения дополнительной информации, читайте
+страницы о том, <a href="crypto.html">что уже сделано при помощи криптографии</a>.
+
+<li><h3><font color="#e00000">Advisories</font></h3><p>
+
+Please refer to the links at the top of this page.
+
+<a name="watching"></a>
+<li><h3><font color="#e00000">Отслеживания изменений</font></h3><p>
+
+Since we take a proactive stance with security, we are continually
+finding and fixing new security problems.  Not all of these problems
+get widely reported because (as stated earlier) many of them are not
+confirmed to be exploitable; many simple bugs we fix do turn out to
+have security consequences we could not predict.  We do not have the
+time resources to make these changes available in the above format.<p>
+
+Thus there are usually minor security fixes in the current source code
+beyond the previous major OpenBSD release.  We make a limited
+guarantee that these problems are of minimal impact and unproven
+exploitability.  If we discover that a problem definitely matters for
+security, patches will show up here <strong>VERY</strong> quickly.<p>
+
+People who are really concerned with security can do a number of
+things:<p>
+
+<ul>
+<li>If you understand security issues, watch our
+	<a href="mail.html">source-changes mailing list</a> and keep an
+	eye out for things which appear security related.  Since
+	exploitability is not proven for many of the fixes we make,
+	do not expect the relevant commit message to say "SECURITY FIX!".
+	If a problem is proven and serious, a patch will be available
+	here very shortly after.
+<li>Track our current source code tree, and teach yourself how to do a
+	complete system build from time to time (read /usr/src/Makefile
+	carefully).  Users can make the assumption that the current
+	source tree always has stronger security than the previous release.
+	However, building your own system from source code is not trivial;
+	it is over 850MB of source code, and problems do occur as we
+	transition between major releases.
+<li>Install a binary snapshot for your
+	architecture, which are made available fairly often.  For
+	instance, an amd64 snapshot is typically made available daily.
+</ul>
+
+<p>
+<a name="reporting"></a>
+<li><h3><font color="#e00000">Сообщения о проблемах</font></h3><p>
+
+<p> If you find a new security problem, you can mail it to
+<a href="mailto:deraadt@openbsd.org">deraadt@openbsd.org</a>.
+<br>
+If you wish to PGP encode it (but please only do so if privacy is very
+urgent, since it is inconvenient) use this <a href="advisories/pgpkey.txt">pgp key</a>.
+
+<p>
+<a name="papers"></a>
+<li><h3><font color="#e00000">Дополнительно</font></h3><p>
+
+Numerous
+<a href="papers/index.html">papers</a> have been written by OpenBSD team members,
+many dedicated to security.
+</ul>
+
+</body>
+</html>
