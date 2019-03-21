@@ -4,7 +4,7 @@
 ## TODO
 
 * openssh/ [Alexander Naumov](https://github.com/alexander-naumov)
-* FAQ#1 [Oleg Pahl](https://github.com/oleg-pahl):
+* FAQ#1 [Oleg Pahl](https://github.com/oleg-pahl)
 
 
 ## TRANSLATION RULES
@@ -13,11 +13,12 @@
 * Comment for every git-commit should contain version of the original file.
 For example, security.html:
 
-´´´
+``` 
 [1.438] added "Full Disclosure" part
 [1.439] better wording
 [1.439] sync
-´´´
+
+``` 
 Take a look at [https://cvsweb.openbsd.org/www/](https://cvsweb.openbsd.org/www/)
 
 
