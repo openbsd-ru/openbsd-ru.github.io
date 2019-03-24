@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>OpenSSH: Goals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="the OpenSSH project goals page">
+<meta name="copyright" content="This document copyright 1999-2016 by OpenBSD.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://www.openssh.com/goals.html">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#23238E">
+
+<h2>
+<a href="index.html">
+<font color="#0000ff"><i>Open</i></font><font color="#000084">SSH</font></a>
+<font color="#e00000">Goals</font>
+</h2>
+<hr>
+
+<p>
+Our goal is simple: Since telnet and rlogin are insecure, all
+operating systems should ship with support for the SSH protocol
+included.
+<p>
+
+The SSH protocol is available in two incompatible varieties:
+SSH 1 and SSH 2.
+<p>
+
+The older SSH 1 protocol comes in two major sub-variants: protocol 1.3 and
+protocol 1.5.  Support for both has been removed from OpenSSH
+as of the <a href="txt/release-7.6">7.6 release</a>.
+Both of used the asymmetric cryptography algorithm
+<a href="https://man.openbsd.org/rsa">RSA</a>
+(for which the USA patent has expired, allowing full use by everyone)
+for key negotiation and authentication, 3DES and
+<a href="https://man.openbsd.org/blowfish">Blowfish</a> for privacy.
+It used a simple CRC for data integrity, which turns out to be flawed.
+<p>
+
+The second major variety of SSH is the SSH 2 protocol.  SSH 2 was
+invented to avoid the patent issues regarding RSA (patent issues which
+no longer apply, since the patent has expired), to fix the CRC data
+integrity problem that SSH1 has, and for a number of other technical
+reasons.  By using the asymmetric
+<a href="https://man.openbsd.org/dsa">DSA</a>
+and
+<a href="https://man.openbsd.org/dh">DH</a>
+algorithms,
+protocol 2 avoids all patents.  The CRC problem is also solved by
+using a real
+<a href="https://man.openbsd.org/HMAC">HMAC</a>
+algorithm. The SSH 2 protocol supports many other choices for symmetric
+ciphers, as well as many other new features.
+<p>
+
+OpenSSH relies on the <a href="https://www.libressl.org">LibreSSL</a>
+library for some of its cryptographic routines, AES-GCM being one example.
+<p>
+
+Continuing that trend, the OpenBSD project members who worked on
+OpenSSH made a push at supporting the SSH 2 protocol as well.  This
+work was primarily done by Markus Friedl.  Around May 4, 2000, the
+SSH 2 protocol support was implemented sufficiently to be usable.
+
+<p>
+</body>
+</html>
