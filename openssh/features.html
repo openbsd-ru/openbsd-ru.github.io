@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>OpenSSH: Features</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="OpenSSH Features">
+<meta name="copyright" content="This document copyright 1996-2016 by OpenBSD.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openssh.com/features.html">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#23238E">
+
+<h2>
+<a href="index.html">
+<font color="#0000ff"><i>Open</i></font><font color="#000084">SSH</font></a>
+<font color="#e00000">Features</font>
+</h2>
+<hr>
+
+<p>
+OpenSSH is a free SSH protocol suite providing encryption for
+network services like remote login or remote file transfers.
+<p>
+The following is a list of OpenSSH features:
+<p>
+
+<ul>
+<li>Completely open source project with
+<a href="https://www.openbsd.org/policy.html">free licensing</a>
+<p>
+The OpenSSH source code is available free to everyone via the Internet.
+This encourages code reuse and code auditing. Code review ensures the bugs
+can be found and corrected by anyone. This results in secure code. OpenSSH
+is not covered by any restrictive license. It can be used for any and all
+purposes, and that explicitly includes commercial use.
+<a href="https://cvsweb.openbsd.org/src/usr.bin/ssh/LICENCE?rev=HEAD">
+The license</a> is included in the distribution. We feel that the world would
+be better if routers, network appliances, operating systems, and all other
+network devices had ssh integrated into them. All components of a restrictive
+nature (i.e. patents) have been removed from the source code. Any licensed or
+patented components are chosen from external libraries (e.g.
+<a href="https://www.libressl.org">LibreSSL</a>).
+<p>
+
+<li>Strong cryptography (AES, ChaCha20, RSA, ECDSA, Ed25519...)
+<p>
+Encryption is started before authentication, and no passwords or other
+information is transmitted in the clear. Encryption is also used to protect
+against spoofed packets. A number of different ciphers and key types are
+available, and legacy options are usually phased out in a reasonable amount
+of time.
+<p>
+
+<li>X11 forwarding (which also encrypts X Window System traffic)
+<p>
+X11 forwarding allows the encryption of remote X windows traffic, so
+that nobody can snoop on your remote xterms or insert malicious
+commands. The program automatically sets DISPLAY on the server
+machine, and forwards any X11 connections over the secure channel.
+Fake Xauthority information is automatically generated and forwarded
+to the remote machine; the local client automatically examines
+incoming X11 connections and replaces the fake authorization data with
+the real data (never telling the remote machine the real information).
+<p>
+
+<li>Port forwarding (encrypted channels for legacy protocols)
+<p>
+Port forwarding allows forwarding of TCP/IP connections to a remote
+machine over an encrypted channel. Insecure internet applications
+like POP can be secured with this.
+<p>
+
+<li>Strong authentication (public keys, one-time passwords)
+<p>
+Strong authentication protects against several security problems:
+IP spoofing, fakes routes and DNS spoofing. Some authentication methods
+include public key authentication, one-time passwords with s/key and
+authentication using Kerberos (only in -portable).
+<p>
+
+<li>Agent forwarding
+<p>
+An authentication agent, running in the user's laptop or local workstation,
+can be used to hold the user's authentication keys. OpenSSH automatically
+forwards the connection to the authentication agent over any connections,
+and there is no need to store the authentication keys on any machine in the
+network (except the user's own local machine). The authentication protocols 
+never reveal the keys; they can only be used to verify that the user's agent
+has a certain key. Eventually the agent could rely on a smart card to perform
+all authentication computations.
+<p>
+
+<li>Interoperability
+<p>
+Interoperability between implementations is a goal, but not a promise.
+As OpenSSH development progresses, older protocols, ciphers, key types
+and other options that have known weaknesses are routinely disabled.
+Some examples can be found on the <a href="legacy.html">legacy</a> page.
+<p>
+
+<li>SFTP client and server support.
+<p>
+Complete SFTP support is included, using the
+<a href="https://man.openbsd.org/sftp">sftp(1)</a> command as a client and
+<a href="https://man.openbsd.org/sftp-server">sftp-server(8)</a>
+subsystem as a server.
+<p>
+
+<li>Optional data compression
+<p>
+Data compression before encryption improves the performance
+for slow network links.
+</ul>
+
+<p>
+</body>
+</html>
