@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="copyright" content="This document copyright 1997-2016 by OpenBSD.">
+<title>OpenBSD: Криптография</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/crypto.html">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#23238E">
+
+<h2>
+<a href="index.html">
+<i><font color="#0000ff">Open</font></i><font color="#000084">BSD</font></a>
+<font color="#e00000">Криптография</font>
+</h2>
+<hr>
+
+<a name="why"></a>
+<h3><font color="#e00000">Почему мы распространяем криптосистемы?</font></h3><p>
+
+В трех словах:  <strong>потому что мы можем</strong>.<p>
+
+Проект OpenBSD расположен в Канаде.<p>
+
+<a href="https://www.openbsd.org/ECL.html">Список контроля за экспортом Канады</a>
+не накладывает существенных ограничений на ПО с криптосистемами,
+более того - определён по отношению к экспорту свободно-распространяемых
+криптосистем. Marc Plumb провёл
+<a href="http://www.efc.ca/pages/doc/crypto-export.html">
+некоторые исследования о законодательствах, касающихся криптографии</a>.
+<p>
+
+Поэтому, проект OpenBSD использует интегрированную криптографию во
+многих частях операционной системы. Необходимым условием использования
+криптографии в нашей системе является
+<a href="policy.html">доступность и свободная лицензия</a>.
+Мы не используем запатентованные алгоритмы или технологии криптографии.
+Мы также следим, чтобы используемое ПО разрабатывалось в странах с
+пригодным для экспорта законодательством, т.к. не хотим нарушать
+никаких законов.
+<p>
+
+OpenBSD была первой операционной системой, распространяемой со стеком
+IPsec. OpenBSD включает IPsec начиная с версии 2.1, вышедьшей в 1997 году.
+<p>
+
+<a name="ssh"></a>
+<h3><font color="#e00000">OpenSSH</font></h3><p>
+
+Начиная с версии 2.6, OpenBSD содержит
+<a href="openssh/index.html">OpenSSH</a>, 
+открытую и свободную от патентов версию ssh.
+<a href="openssh/index.html">OpenSSH</a>
+работал с протоколом ssh версии 1 и имел множество улучшений,
+<ul>
+<li>
+все компоненты ограничительного характера (т.е. патенты, см. 
+<a href="https://man.openbsd.org/?query=ssl&amp;sektion=8">ssl(8)</a>)
+были удалены из исходного кода; все лицензионные или
+запатентованные компоненты вынесены во внешние библиотеки.
+<li>
+добавлена поддержка ssh протокола 1.5.
+<li>
+добавлена поддержка аутентификации по одноразовому паролю, при помощи
+<a href="https://man.openbsd.org/?query=skey&amp;sektion=1">skey(1)</a>.
+</ul>
+<p>
+
+Грубо говоря, мы взяли свободно распространяемую версию ssh и
+переработали её в соответствии с политикой OpenBSD.
+Где-то через год, мы добавили в OpenSSH поддержку протокола SSH 2, и 
+получили в итоге поддержку трёх основных версий протокола SSH: 1.3, 1.5, 2.0.
+
+<p>
+<a name="people"></a>
+<h3><font color="#e00000">Приглашаются криптографы со всего мира</font></h3><p>
+
+Само собой, наш проект нуждается в людях, готовых работать над этими
+системами. Мы приглашаем криптографов, не являющиеся гражданами США
+и желающих принять участие в интеграции криптографии в OpenBSD.<p>
+
+<p>
+<a name="papers"></a>
+<h3><font color="#e00000">Дополнительная литература</font></h3><p>
+
+OpenBSD разработчиками были написаны материалы, касательно изменений,
+связанных с криптографией, интегрированной в OpenBSD.
+Эти материалы доступны в формате postscript.<p>
+
+<ul>
+<li>A Future-Adaptable Password Scheme.<br>
+    <a href="https://www.openbsd.org/events.html#usenix99">Usenix 1999</a>,
+    by <a href="mailto:provos@openbsd.org">Niels Provos</a>,
+    <a href="mailto:dm@openbsd.org">David Mazieres</a>.<br>
+    <a href="https://www.openbsd.org/papers/bcrypt-paper.ps">paper</a> and
+    <a href="https://www.openbsd.org/papers/bcrypt-slides.ps">slides</a>.
+<p>
+<li>Cryptography in OpenBSD: An Overview.<br>
+    <a href="https://www.openbsd.org/events.html#usenix99">Usenix 1999</a>,
+    by <a href="mailto:deraadt@openbsd.org">Theo de Raadt</a>,
+    <a href="mailto:niklas@openbsd.org">Niklas Hallqvist</a>,
+    <a href="mailto:art@openbsd.org">Artur Grabowski</a>,
+    <a href="mailto:angelos@openbsd.org">Angelos D. Keromytis</a>,
+    <a href="mailto:provos@openbsd.org">Niels Provos</a>.<br>
+    <a href="https://www.openbsd.org/papers/crypt-paper.ps">paper</a> and
+    <a href="https://www.openbsd.org/papers/crypt-slides.ps">slides</a>.
+<p>
+<li>Implementing Internet Key Exchange (IKE).<br>
+    <a href="https://www.openbsd.org/events.html#usenix2000">Usenix 2000</a>,
+    by <a href="mailto:niklas@openbsd.org">Niklas Hallqvist</a> and
+    <a href="mailto:angelos@openbsd.org">Angelos D. Keromytis</a>.<br>
+    <a href="https://www.openbsd.org/papers/ikepaper.ps">paper</a> and
+    <a href="https://www.openbsd.org/papers/ikeslides.ps">slides</a>.
+<p>
+<li>Encrypting Virtual Memory.<br>
+    <a href="https://www.openbsd.org/events.html#sec2000">Usenix Security 2000</a>,
+    <a href="mailto:provos@openbsd.org">Niels Provos</a>.<br>
+    <a href="https://www.openbsd.org/papers/swapencrypt.ps">paper</a> and
+    <a href="https://www.openbsd.org/papers/swapencrypt-slides.ps">slides</a>.
+<p>
+<li>The Design of the OpenBSD Cryptographic Framework.<br>
+    <a href="https://www.openbsd.org/events.html#usenix2003">Usenix 2003</a>, by
+    <a href="mailto:angelos@openbsd.org">Angelos D. Keromytis</a>,
+    <a href="mailto:jason@openbsd.org">Jason L. Wright</a>, and
+    <a href="mailto:deraadt@openbsd.org">Theo de Raadt</a>.<br>
+    <a href="https://www.openbsd.org/papers/ocf.pdf">paper</a>.
+<p>
+<li>Cryptography As an Operating System Service: A Case Study.<br>
+    <a href="http://www.acm.org/tocs/">ACM Transactions on Computer Systems</a>,
+    February 2006, by
+    <a href="mailto:angelos@openbsd.org">Angelos D. Keromytis</a>,
+    <a href="mailto:jason@openbsd.org">Jason L. Wright</a>, and
+    <a href="mailto:deraadt@openbsd.org">Theo de Raadt</a>.<br>
+    <a href="https://www.openbsd.org/papers/crypt-service.pdf">paper</a>.
+</ul>
+
+</body>
+</html>
