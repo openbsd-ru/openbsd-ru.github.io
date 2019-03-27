@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang=ru>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD FAQ: Виртуализация</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/faq16.html">
+
+<!--
+Copyright (c) 2018 Oleg Pahl <deface@posteo.de>
+
+Permission to use, copy, modify, and distribute this documentation for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+
+THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS DOCUMENTATION
+-->
+
+<h2 id=OpenBSD>
+<a href="../index.html">
+<i>Open</i><b>BSD</b></a>
+FAQ - Виртуализация
+<small>
+<a href="index.html">[FAQ Index]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#Introduction" >Вступление</a>
+  <li><a href="#Prerequisites">Предпосылки</a>
+  <li><a href="#StartVm"      >Запуск VM</a>
+  <li><a href="#VMMnet"       >Сеть</a>
+</ul>
+
+<hr>
+
+<h2 id="Introduction">Вступление</h2>
+
+OpenBSD поставляется с гипервизором <a href="https://man.openbsd.org/vmm">vmm(4)</a> 
+и демоном <a href="https://man.openbsd.org/vmd">vmd(8)</a>. 
+Виртуальные машины могут быть сконфигурированы с помощью утилиты управления 
+<a href="https://man.openbsd.org/vmctl">vmctl(8)</a> 
+с использованием параметров конфигурации, хранящихся в файле 
+<a href="https://man.openbsd.org/vm.conf">vm.conf(5)</a>.
+
+<p>
+Доступны следующие функции:
+
+<ul>
+  <li>последовательный консольный доступ к виртуальным машинам
+  <li><a href="https://man.openbsd.org/tap">tap(4)</a> интерфейсы
+  <li>владелец пользователь / группа для каждой виртуальной машины
+  <li>разделение привилегий
+  <li>raw, qcow2 и qcow2-derived образы
+  <li>сброс и восстановление памяти гостевой системы
+  <li>управление виртуальным switch
+  <li>приостановка / возобновление виртуальных машин
+</ul>
+
+Следующие функции недоступны в настоящее время:
+
+<ul>
+  <li>графика
+  <li>snapshots - моментальные снимки
+  <li>поддержка гостевого SMP
+  <li>аппаратное прохождение
+  <li>live миграция через хосты
+  <li>live изменение оборудования
+</ul>
+
+<!-- XXXrelease -->
+
+Поддерживаемые гостевые операционные системы в настоящее время ограничены OpenBSD и Linux.
+Поскольку поддержка VGA пока отсутствует, гостевая ОС должна поддерживать последовательную консоль.
+
+<h2 id="Prerequisites">Предпосылки</h2>
+
+Для использования <a href="https://man.openbsd.org/vmm">vmm(4)</a> 
+требуется процессор с поддержкой вложенных страниц (nested paging support). 
+Поддержка может быть проверена с помощью флагов функций процессора: SLAT для AMD или EPT для Intel. 
+В некоторых случаях возможности виртуализации должны быть включены вручную в BIOS системы. 
+После этого обязательно запустите команду <a href="https://man.openbsd.org/fw_update">fw_update(1)</a>, 
+чтобы получить требуемый <code>vmm-firmware</code>.
+
+<p>
+Совместимость процессора может быть проверена с помощью следующей команды:
+
+<pre class="cmdbox">
+$ <b>dmesg | egrep '(VMX/EPT|SVM/RVI)'</b>
+</pre>
+
+Прежде чем продолжить, включите и запустите службу
+<a href="https://man.openbsd.org/vmd">vmd(8)</a>.
+
+<pre class="cmdbox">
+# <b>rcctl enable vmd</b>
+# <b>rcctl start vmd</b>
+</pre>
+
+<h2 id="StartVm">Запуск VM</h2>
+
+В следующем примере будет создана виртуальная машина с 50 ГБ дискового пространства и 1 ГБ ОЗУ. 
+Онa загрузится из образа <code>installXX.iso</code> .
+
+<pre class="cmdbox">
+# <b>vmctl create disk.qcow2 -s 50G</b>
+vmctl: qcow2 imagefile created
+# <b>vmctl start example -m 1G -L -i 1 -r installXX.iso -d disk.qcow2</b>
+vmctl: started vm 1 successfully, tty /dev/ttyp8
+# <b>vmctl show</b>
+   ID   PID VCPUS  MAXMEM  CURMEM     TTY        OWNER NAME
+    1 72118     1    1.0G   88.1M   ttyp8         root example
+</pre>
+
+Чтобы просмотреть консоль недавно созданной виртуальной машины, 
+подключите ее к последовательной консоли:
+
+<pre class="cmdbox">
+# <b>vmctl console example</b>
+Connected to /dev/ttyp8 (speed 115200)
+</pre>
+
+Escape sequence <code>~.</code> необходима если требуется выйти из последовательной консоли. 
+Для получения дополнительной информации см. справочную страницу 
+<a href="https://man.openbsd.org/cu">cu(1)</a>. 
+При использовании последовательной консоли <code>vmctl</code> через SSH, символ ~ (тильда) 
+должен быть экранирован, чтобы <a href="https://man.openbsd.org/ssh">ssh(1)</a> не прервал соединение. 
+Чтобы выйти из последовательной консоли через SSH, используйте <code>~~..</code>
+
+<p>
+Виртуальная машина может быть остановлена ​​с помощью 
+<a href="https://man.openbsd.org/vmctl">vmctl(8)</a>.
+
+<pre class="cmdbox">
+# <b>vmctl stop example</b>
+stopping vm: requested to shutdown vm 1
+</pre>
+
+Виртуальные машины могут быть запущены с файлом <a href="https://man.openbsd.org/vm.conf">vm.conf(5)</a> 
+или без него. Следующий пример <code>/etc/vm.conf</code> будет дублировать вышеуказанную конфигурацию:
+
+<pre class="cmdbox">
+vm "example" {
+    memory 1G
+    enable
+    disk /home/user/disk.qcow2
+    local interface
+}
+</pre>
+
+Некоторые свойства конфигурации в <a href="https://man.openbsd.org/vm.conf">vm.conf(5)</a> 
+могут быть перезагружены <a href="https://man.openbsd.org/vmd">vmd(8)</a> на лету. 
+
+<!-- XXX specify which ones -->
+
+Другие изменения, такие как настройка объема ОЗУ или дискового пространства, 
+требуют перезагрузки виртуальной машины.
+
+<h2 id="VMMnet">Сеть</h2>
+
+Доступ к сети для гостей <a href="https://man.openbsd.org/vmm">vmm(4)</a> 
+можно настроить несколькими способами, четыре из которых подробно описаны в этом разделе.
+
+<p>
+В приведенных ниже примерах будут указаны различные диапазоны адресов IPv4 
+для разных вариантов использования:
+
+<ul>
+  <li><b>Адреса частного назначения</b>
+(<a href="https://tools.ietf.org/html/rfc1918">RFC1918</a>) 
+это адреса, зарезервированные для частных сетей, таких как <code>10.0.0.0/8</code>, 
+<code>172.16.0.0/12</code> и <code>192.168.0.0/16</code>, 
+которые не являются глобально маршрутизируемыми.<li><b>Адреса общего назначения</b>
+
+(<a href="https://tools.ietf.org/html/rfc6598">RFC6598</a>)
+аналогичны частным адресам в том смысле, что они не являются глобально маршрутизируемыми, 
+но предназначены для использования на оборудовании, которое может выполнять преобразование адресов. 
+Адресное пространство <code>100.64.0.0/10</code>.</ul>
+
+<h3>Вариант 1 - виртуальные машины должны общаться только с хостом и друг с другом</h3>
+
+Для этой настройки vmm использует <i>локальные интерфейсы</i>: интерфейсы, 
+которые используют общее адресное пространство, определенное выше.
+
+<p>
+Использование флага <code>-L</code> <a href="https://man.openbsd.org/vmctl">vmctl(8)</a> 
+создает локальный интерфейс в гостевой системе, который будет получать адрес от vmd через DHCP. 
+По сути, это создает два интерфейса: один для хоста, а другой для виртуальной машины.
+
+<h3>Вариант 2 - NAT для виртуальных машин</h3>
+
+Эта настройка основана на предыдущих и позволяет виртуальным машинам подключаться за пределами хоста. 
+<a href="https://man.openbsd.org/sysctl.2#ip.forwarding">IP forwarding</a> необходима для его работы.
+
+<p>
+Следующая строка в <code>/etc/pf.conf</code> включит 
+<a href="https://www.openbsd.org/faq/pf/nat.html">NAT</a> сетевых адресов и перенаправит 
+DNS-запросы на указанный сервер:
+
+<pre class="cmdbox">
+match out on egress from 100.64.0.0/10 to any nat-to (egress)
+pass in proto { udp tcp } from 100.64.0.0/10 to any port domain \
+	rdr-to $dns_server port domain
+</pre>
+
+Перезагрузите набор правил pf, и виртуальные машины могут подключаться к Интернету.
+
+<h3>Вариант 3 - Дополнительный контроль над конфигурацией сети VM</h3>
+
+Иногда Вам может потребоваться дополнительный контроль над виртуальной сетью для ваших виртуальных машин, 
+например, возможность устанавливать некоторые из них на свой виртуальный коммутатор. 
+Это можно сделать с помощью интерфейса <a href="https://man.openbsd.org/bridge">bridge(4)</a> 
+и <a href="https://man.openbsd.org/vether">vether(4)</a>.
+
+<p>
+Создайте интерфейс <code>vether0</code> который будет иметь частный IPv4-адрес, 
+как определено выше. В этом примере мы будем использовать подсеть <code>10.0.0.0/8</code>.
+
+<pre class="cmdbox">
+# <b>echo 'inet 10.0.0.1 255.255.255.0' > /etc/hostname.vether0</b>
+# <b>sh /etc/netstart vether0</b>
+</pre>
+
+Создайте интерфейс <code>bridge0</code> интерфейсом <code>vether0</code> в качестве порта моста:
+
+<pre class="cmdbox">
+# <b>echo 'add vether0' > /etc/hostname.bridge0</b>
+# <b>sh /etc/netstart bridge0</b>
+</pre>
+
+Убедитесь, что NAT настроен правильно, 
+если гостям в виртуальной сети нужен доступ за пределами физической машины. 
+Скорректированная строка NAT в <code>/etc/pf.conf</code> может выглядеть так:
+
+<pre class="cmdbox">
+match out on egress from vether0:network to any nat-to (egress)
+</pre>
+
+Следующие строки в <a href="https://man.openbsd.org/vm.conf">vm.conf(5)</a> 
+могут использоваться для определения виртуального коммутатора:
+
+<pre class="cmdbox">
+switch "my_switch" {
+    interface bridge0
+}
+
+vm "my_vm" {
+    ...
+    interface { switch "my_switch" }
+}
+</pre>
+
+<code>my_vm</code> гостевой системе my_vm теперь можно назначить <code>vio0</code> 
+адрес в сети <code>10.0.0.0/24</code> и установить маршрут по умолчанию <code>10.0.0.1</code>.
+
+<p>
+Для удобства вы можете настроить <a href="faq6.html#DHCP">DHCP-сервер</a> на 
+<code>vether0</code>.
+
+<h3>Вариант 4 - виртуальные машины как реальные хосты в одной сети</h3>
+
+В этом случае интерфейс виртуальной машины будет подключен к той же сети, что и хост, 
+поэтому его можно настроить так, как если бы он был физически подключен к сети хоста. 
+Эта опция работает только для устройств на основе Ethernet, так как стандарт IEEE 802.11 
+запрещает беспроводным интерфейсам участвовать в сетевых мостах.
+
+<p>
+Создайте интерфейс <code>bridge0</code> с сетевым интерфейсом хоста в качестве порта моста. 
+В этом примере сетевым интерфейсом хоста является <code>em0</code> - вам следует заменить имя интерфейса, 
+к которому вы хотите подключить виртуальную <code>em0</code>:
+
+<pre class="cmdbox">
+# <b>echo 'add em0' > /etc/hostname.bridge0</b>
+# <b>sh /etc/netstart bridge0</b>
+</pre>
+
+Как и в предыдущем примере, создайте или измените файл 
+<a href="https://man.openbsd.org/vm.conf">vm.conf(5)</a>, чтобы определить виртуальный коммутатор:
+
+<pre class="cmdbox">
+switch "my_switch" {
+    interface bridge0
+}
+
+vm "my_vm" {
+    ...
+    interface { switch "my_switch" }
+}
+</pre>
+
+Гостевая <code>my_vm</code> теперь в сети хоста, как если бы он был физически подключен.
+<p>
+
+<b>Примечание:</b>
+Если интерфейс хоста (<code>em0</code> в приведенном выше примере) также настроен с использованием DHCP, 
+<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, работающий на этом интерфейсе, 
+может блокировать запросы DHCP на получение гостевых виртуальных машин. 
+В этом случае Вам следует выбрать другой интерфейс хоста, не использующий DHCP, или прекратить любые процессы 
+<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, назначенные этому интерфейсу, 
+перед запуском виртуальных машин, или использовать статические IP-адреса для виртуальных машин.
