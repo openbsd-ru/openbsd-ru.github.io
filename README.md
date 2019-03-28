@@ -38,18 +38,26 @@ Take a look at [https://cvsweb.openbsd.org/www/](https://cvsweb.openbsd.org/www/
 Copyright law is complex, OpenBSD policy is simple - OpenBSD strives
 to provide code that can be freely used, copied, modified, and
 distributed by anyone and for any purpose.
+
 [OpenBSD's anonymous CVS](https://www.openbsd.org/anoncvs.html) is a
 method of keeping your local copy of the OpenBSD source tree up to
 date with respect to changes made to current OpenBSD sources.
+
 Thus, to get sources, use anoncvs:
 ```
 cvs -d anoncvs@mirror.osn.de:/cvs get -P www
 ```
-Use utf-8 encoding for Russian versions. Fell free to send us
-pull requests ;-)
-Don't forget to add yourself to TODO list before you start your
-contribution. Our sources can be freely used, copied, modified,
-and distributed by anyone and for any purpose.
+You can take/choose any non-translated part/page. Use utf-8 encoding
+for Russian versions. Every fixes, better wording or somethig like
+this are very welcome. Feel free to send a pull-request or just an
+issue if you have some question or ideas.
+
+Don't forget to add yourself to the TODO list before you start
+your contribution (in case you're going to translate a big or new
+part).
+
+Our sources can be freely used, copied, modified, and distributed
+by anyone and for any purpose.
 
 
 ## CONTRIBUTORS
