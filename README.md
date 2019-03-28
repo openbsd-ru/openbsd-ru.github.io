@@ -1,8 +1,8 @@
 # Russian OpenBSD web pages :blowfish:
 
 This project contains translated web pages of the OpenBSD Project.
-We respect
-[desigion](https://marc.info/?l=openbsd-cvs&m=139637003025491&w=2)
+We respect 
+[decision](https://marc.info/?l=openbsd-cvs&m=139637003025491&w=2)
 of Theo de Raadt don't support mulilanguages web pages.
 We also respect people who understand English not good enough.
 
