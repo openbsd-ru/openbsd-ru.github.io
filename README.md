@@ -85,3 +85,4 @@ Translators:
 * Alexander Symakov <xander@entropyware.info>
 * Alexey Sychev <bsd@k96.ru>
 * Roman Khimov <roman@khimov.ru>
+* Sergey Bronnikov <sergeyb@bronevichok.ru>
