@@ -47,6 +47,10 @@ Thus, to get sources, use anoncvs:
 ```
 cvs -d anoncvs@mirror.osn.de:/cvs get -P www
 ```
+or mirror on GitHub:
+```
+git clone https://github.com/openbsd/www
+```
 You can take/choose any non-translated part/page. Use utf-8 encoding
 for Russian versions. Every fixes, better wording or somethig like
 this are very welcome. Feel free to send a pull-request or just an
