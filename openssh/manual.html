@@ -90,12 +90,12 @@ authentication</a>
 RFC provides support for new authentication schemes like S/Key
 or TIS authentication.
 <li> The SFTP file transfer protocol is specified in the
-<a href="txt/draft-ietf-secsh-filexfer-02.txt">filexfer</a> draft.
+<a href="https://www.openbsd.org/openssh/txt/draft-ietf-secsh-filexfer-02.txt">filexfer</a> draft.
 OpenSSH implements a SFTP
 <a href="https://man.openbsd.org/sftp">client</a> and
 <a href="https://man.openbsd.org/sftp-server">server</a>.
 <li> A file format for public keys is specified in the 
-<a href="txt/draft-ietf-secsh-publickeyfile-02.txt">publickeyfile</a> draft.
+<a href="https://www.openbsd.org/openssh/txt/draft-ietf-secsh-publickeyfile-02.txt">publickeyfile</a> draft.
 The command
 <a href="https://man.openbsd.org/ssh-keygen">ssh-keygen(1)</a> can be used
 to convert an OpenSSH public key to this file format.
@@ -105,11 +105,11 @@ to convert an OpenSSH public key to this file format.
     starting compression until after user authentication, to eliminate the
     risk of pre-authentication attacks against the compression code. It is
     described in
-    <a href="txt/draft-miller-secsh-compression-delayed-00.txt">draft-miller-secsh-compression-delayed-00.txt</a>.
+    <a href="https://www.openbsd.org/openssh/txt/draft-miller-secsh-compression-delayed-00.txt">draft-miller-secsh-compression-delayed-00.txt</a>.
 <li>OpenSSH implements an additional MAC (Message Authentication Code) 
     "umac-64@openssh.com", which has superior performance to the ones specified
     in RFC 4253. It is described in
-    <a href="txt/draft-miller-secsh-umac-01.txt">draft-miller-secsh-umac-01.txt</a>.
+    <a href="https://www.openbsd.org/openssh/txt/draft-miller-secsh-umac-01.txt">draft-miller-secsh-umac-01.txt</a>.
 <li>The authentication agent protocol used by
     <a href="https://man.openbsd.org/ssh-agent">ssh-agent</a> is documented in the
     <a href="https://cvsweb.openbsd.org/src/usr.bin/ssh/PROTOCOL.agent?rev=HEAD">PROTOCOL.agent</a> file.
