@@ -13,7 +13,6 @@ We also respect people who understand English not good enough.
 * FAQ#1 [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ#16 [Oleg Pahl](https://github.com/oleg-pahl)
 * OpenBGPD [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenNTPD [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSMTPD [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenIKED [Alexander Naumov](https://github.com/alexander-naumov)
 * LibreSSL [Alexander Naumov](https://github.com/alexander-naumov)
@@ -68,16 +67,12 @@ by anyone and for any purpose.
 
 Maintainers:
 * Alexander Naumov <alexander_naumov@opensuse.org>
-* Oleg Pahl <deface@posteo.de>
-
 
 Translators:
 * Alexander Naumov <alexander_naumov@opensuse.org>
 * Oleg Pahl <deface@posteo.de>
-
 * Dmitry Granin <granindb@gmail.com>
 * Ruslan Gundakov <haikudjin@gmail.com>
-
 * Dmitry Alenichev <dmitri@wave.net.ru>
 * Victor Gizhevsky <victor.gizhevsky@obsd.ru>
 * Maxim Golub <manefesto@inbox.ru>
