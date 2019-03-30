@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>OpenBGPD: Goals</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>OpenBGPD: Цели проекта</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="OpenBGPD Goals">
 <meta name="copyright" content="This document copyright 1999-2016 by OpenBSD.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,23 +15,24 @@
 <h2>
 <a href="index.html">
 <font color="#0000ff"><i>Open</i></font><font color="#000084">BGPD</font></a>
-<font color="#e00000">Goals</font>
+<font color="#e00000">Цели проекта</font>
 </h2>
 <hr>
 
 <ul>
-<li>Be as secure as possible. Code carefully, do strict validity checks
-especially in the network input path, and use bounded buffer operations.
-Use privilege separation to mitigate the effects of possible security bugs.
-<li>Reliability is extremely important, as bgpd exiting usually means losing
-all routes and thus reachability.
-<li>Provide a lean implementation, sufficient for a majority.
-Don't try to support each and every obscure usage case, but cover the
-typical ones.
-<li>Provide a powerful and easy to understand configuration language.
-<li>Be very fast, and very memory efficient. As bgpd carries tables with
-hundreds of thousands of entries, these have to be designed carefully with
-regard to their memory requirements.
+<li>Быть максимально безопасной. Писать код как можно внимательней, проводя
+строгие проверки, в особенности, что касается сетевых входных данных, и
+использования операций с буферами. Использовать разграничение привелегий,
+чтобы уменьшить вред от возможных уязвимостей.
+<li>Надежность чрезвычайно важна, поскольку остановка bgpd обычно приводит к потере
+всех маршрутов и, как следствие, недоступность других сетей.
+<li>Предоставить бережную реализацию, подходящую и удовлетворяющую большинство
+пользователей. Не пытаться поддерживать все что только можно, но охватить
+основную функциональность.
+<li>Обеспечить мощный и простой для понимания язык конфигурации.
+<li>Быть быстрым и эффективно использовать память. Поскольку bgpd оперирует
+таблицами, состоящими из сотен тысяч записей, эта часть должна проектироваться
+внимательно, принимая во внимание требования по использованию памяти.
 </ul>
 
 </body>
