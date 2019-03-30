@@ -1,0 +1,544 @@
+<!-- DO NOT EDIT ANONCVS.HTML MANUALLY - IT IS GENERATED FROM TEMPLATES!
+     See comments in www/build/mirrors.dat for details -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Анонимный CVS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="How to get OpenBSD updates via Internet using Anonymous CVS">
+<meta name="copyright" content="This document copyright 1996-2018 by OpenBSD.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/anoncvs.html">
+<style type="text/css">
+  h3, h4 { color: #0000e0; }
+</style>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h2>
+<a href="index.html">
+<font color="#0000ff"><i>Open</i></font><font color="#000084">BSD</font></a>
+<font color="#e00000">Анонимный CVS</font>
+</h2>
+<hr>
+<p>
+
+Анонимный CVS позволяет поддерживать локальный репозиторий с исходниками
+OpenBSD в актуальном состоянии с учетом изменений, сделанных в
+репозитории OpenBSD. С его помощью можно так же отслеживать
+<a href="faq/faq10.html#Patches">исправления ошибок</a>, допущенных в релизе.
+
+<p>
+Анонимный CVS работает напрямую с центральным репозиторием. Это значит, что
+вам предлагается полный набор CVS-команд для обновления и объединения
+ваших изменений с другими изменениями в коде, создания diff'ов, просмотра
+истории изменений и других запросов к центральному репозиторию.
+В случае, если изменения не могут быть полностью объединены, CVS обеспечивает
+возможность "мягкого отката", отмечая изменения в локальной копии, сохраняет
+немодифицированную копию ваших изменений и продолжает обновление других
+запрошенных модулей.
+
+<p>
+Проект OpenBSD имеет четыре репозитория:
+
+<ul>
+  <li><b>src</b> - содержит исходники базового компонента системы
+  <li><b>ports</b> - содержит <a href="faq/ports">дерево портов</a>
+  <li><b>www</b> - репозиторий с web-страницами
+  <li><b>xenocara</b> - содержит исходники xenocara
+</ul>
+
+<h3 id="CVS">Что такое CVS?</h3>
+
+<a href="https://savannah.nongnu.org/projects/cvs">CVS</a> - это
+централизованная система управления версиями, используемая для
+работы с деревом исходных кодов OpenBSD. CVS использует центральный
+репозиторий для хранения исходников с их историей изменений, что
+позволяет разработчикам поддерживать свои локальные копии исходников
+с внесенными в них изменениями. 
+
+Существуют два уровня доступа к дереву исходных кодов:
+
+<ul>
+<li>Доступ с правами чтения и записи для разработчиков
+<li>Доступ только для чтения любому желающему
+</ul>
+
+<h3 id="starting">Pre-loading the source tree</h3>
+
+While you can download the entire source tree from an AnonCVS server, you can
+save time and bandwidth by pre-loading your tree with the source tarballs.
+This is particularly true if you are running
+<a href="stable.html">-stable</a>, as relatively few files change
+between the -release and -stable.
+
+<p>
+The source files for download from the <a href="ftp.html">mirrors</a> are
+separated into two files to reduce the download time for those wishing to
+work with only one part of the tree.
+The kernel sources are in <tt>sys.tar.gz</tt> and the userland sources
+are in <tt>src.tar.gz</tt>.
+
+<p>
+The following commands assume you have followed
+<a href="faq/faq5.html#wsrc">these instructions</a> to give a non-root
+user write access to the src, ports and xenocara directories.
+
+<pre class="cmdbox">
+$ <b>cd /usr/src</b>
+$ <b>tar xzf /tmp/src.tar.gz</b>
+$ <b>tar xzf /tmp/sys.tar.gz</b>
+$ <b>cd /usr</b>
+$ <b>tar xzf /tmp/ports.tar.gz</b>
+$ <b>cd /usr/xenocara</b>
+$ <b>tar xzf /tmp/xenocara.tar.gz</b>
+</pre>
+
+<h3 id="using">Using CVS to get and update your source trees</h3>
+
+<a href="https://man.openbsd.org/cvs">cvs(1)</a> was designed to be a simple way
+to retrieve and update your sources.
+You must first decide whether you want to track -current or a
+<a href="stable.html">-stable</a> branch.
+The current tree has all of the up to the minute changes, whereas the
+-stable branch contains the sources for the release plus the patches from
+the <a href="errata.html">errata</a> and lesser issues already applied.
+For more information on the flavors of OpenBSD, see 
+<a href="faq/faq5.html#Flavors">here</a>.
+
+<p>
+Choose the Anonymous CVS server you are going to use from the
+<a href="#CVSROOT">list of servers</a> below, then you can start using cvs.
+If you begin with <tt>src.tar.gz</tt> and <tt>sys.tar.gz</tt> as mentioned
+above, you can skip the initial <tt>checkout</tt> and proceed to updating.
+
+
+<p>
+<b>Warning:</b>
+When using cvs, you should take care that your current directory is either the
+root of the tree you are referencing or in a separate place such as
+<tt>/tmp</tt>.
+Some commands, such as <tt>cvs checkout</tt>, can create an arbitrary sub-tree
+in the current directory, and a subsequent update will recursively flesh out
+this sub-tree.
+
+<h4 id="getting">Getting an initial tree</h4>
+
+The following commands assume that your user is member of the <tt>wsrc</tt>
+group:
+
+<p>
+If you are following -current:
+
+<pre class="cmdbox">
+$ <b>cd /usr</b>
+$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P src</b>
+</pre>
+
+If you are following the 6.4 -stable branch:
+
+<pre class="cmdbox">
+$ <b>cd /usr</b>
+$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -rOPENBSD_6_4 -P src</b>
+</pre>
+<!-- DO NOT EDIT ANONCVS.HTML MANUALLY - IT IS GENERATED FROM TEMPLATES! -->
+
+Anonymous CVS uses passwordless SSH as a transport.
+If this is the first time you have connected to an anoncvs server,
+you will be asked to confirm the SSH fingerprint to ensure that you
+are connecting to the expected server:
+
+<pre class="cmdbox">
+$ <b>cvs -d anoncvs@anoncvs.spacehopper.org:/cvs checkout -P src</b>
+The authenticity of host 'anoncvs.spacehopper.org (2001:67c:15f4:a423::28)' can't be established.
+ED25519 key fingerprint is SHA256:oaJ7VEyjt2EHMeixzKn9zJGiV5YlWHIUls070tKdBzI.
+Are you sure you want to continue connecting (yes/no)?
+</pre>
+
+In most cases, the list below includes the fingerprints for the server,
+so you can compare it against the displayed fingerprint as additional
+verification that you are connecting to the correct server.
+Confirm this, and the fingerprint will then be saved as usual.
+
+<pre class="cmdbox">
+Are you sure you want to continue connecting (yes/no)? <b>yes</b>
+Warning: Permanently added 'anoncvs.spacehopper.org' (ED25519) to the list of known hosts.
+</pre>
+
+<h4 id="updating">Updating an existing tree</h4>
+
+If you are following -current:
+
+<pre class="cmdbox">
+$ <b>cd /usr/src</b>
+$ <b>cvs -q up -Pd -A</b>
+</pre>
+
+If you are following the 6.4 -stable branch:
+
+<pre class="cmdbox">
+$ <b>cd /usr/src</b>
+$ <b>cvs -q up -Pd -rOPENBSD_6_4</b>
+</pre>
+
+Every time you run this, cvs(1) synchronizes your <tt>/usr/src</tt> tree.
+It does not destroy any of your local changes; rather it attempts to merge
+changes in.
+
+<h4>Changing the server</h4>
+
+If you are updating a source tree that you initially fetched
+from a different server, or from a tar file, you <b>must</b>
+add the <em>-d [cvsroot]</em> option to cvs.
+
+<pre class="cmdbox">
+$ <b>cd /usr/src</b>
+$ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs -q up -Pd</b>
+</pre>
+
+<h4>Getting the ports and xenocara trees</h4>
+
+Make sure your user is member of the <tt>wsrc</tt> group and that
+<tt>/usr/ports</tt> is group writable by <tt>wsrc</tt>.
+Replace <tt>ports</tt> with <tt>xenocara</tt> throughout to get or update a
+xenocara tree.
+
+<ul><li>
+
+<p>
+If you are following -current:
+
+<pre class="cmdbox">
+$ <b>cd /usr</b>
+$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P ports</b>
+</pre>
+
+If you are following the 6.4 -stable branch:
+
+<pre class="cmdbox">
+$ <b>cd /usr</b>
+$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -rOPENBSD_6_4 -P ports</b>
+</pre>
+
+<li> Any time afterwards, to update this tree:
+
+<p>
+If you are following -current:
+
+<pre class="cmdbox">
+$ <b>cd /usr/ports</b>
+$ <b>cvs -q up -Pd -A</b>
+</pre>
+
+If you are following the 6.4 -stable branch:
+
+<pre class="cmdbox">
+$ <b>cd /usr/ports</b>
+$ <b>cvs -q up -Pd -rOPENBSD_6_4</b>
+</pre>
+
+</ul>
+
+<h4>Creating a diff</h4>
+
+To make a diff of a locally patched module (here <tt>cd.c</tt>) to include with
+a bug report:
+
+<pre class="cmdbox">
+$ <b>cd /usr/src</b>
+$ <b>cvs diff -u sys/scsi/cd.c &gt; /tmp/patch</b>
+</pre>
+
+<h3 id="EXAMPLE">Example usage for cvs(1)</h3>
+
+A sample use of an anoncvs server would be:
+
+<pre class="cmdbox">
+$ <b>cd /tmp</b>
+$ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P src/sys/arch/sparc</b>
+[copies the files from the repository to your machine]
+$ <b>cd src/sys/arch/sparc</b>
+$ <b>cvs log locore.s</b>
+[shows the commit log for the chosen file]
+$ <b>cvs diff -bc -r1.1 -r1.5 locore.s</b>
+[shows the changes between revisions 1.1 and rev 1.5]
+</pre>
+
+<h3 id="CVSROOT">Available Anonymous CVS servers</h3>
+
+<ul>
+<li><strong>CVSROOT=anoncvs@anoncvs.au.openbsd.org:/cvs</strong><br>
+Location: Brisbane, Australia.<br>
+Maintained by <a href="mailto:dlg@openbsd.org">David Gwynne</a>.<br>
+Protocols: ssh.<br>
+Updated hourly.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:pPcBY4E33vwreETbz5KJUIzZpWWzaZPhrpnLaFa7WuQ</tt>, <tt>MD5:19:4c:e2:a8:9e:42:b2:91:f3:d5:04:cf:b5:61:5e:ea</tt><br>
+(DSA) <tt>SHA256:3rmKP03KsE0j1dLc91828CCJWUL58+PxBUmIlF7sPDs</tt>, <tt>MD5:80:ff:d2:46:70:51:7d:09:a5:71:83:bb:89:98:44:b1</tt><br>
+(ECDSA) <tt>SHA256:kg2Zaqpd8ZuluPzlpFS9rEw0KR1UmxD9jSG6+2tr28A</tt>, <tt>MD5:fa:57:1c:55:7c:aa:d0:bc:4c:e2:05:3d:9b:bb:83:2d</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs1.ca.openbsd.org:/cvs</strong><br>
+Host also known as <strong>anoncvs.ca.openbsd.org, openbsd.sunsite.ualberta.ca</strong>.<br>
+Location: Alberta, Canada.<br>
+Maintained by <a href="mailto:beck@openbsd.org">Bob Beck</a>.<br>
+Protocols: ssh.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:10SgQKcgCw02RSqBZGa8eGUR0ab+YkuhqFENhOoK1L4</tt>, <tt>MD5:cf:97:03:7b:0a:32:3b:d7:e2:31:05:39:9f:9d:03:dc</tt><br>
+(DSA) <tt>SHA256:OGA64Wd24z/INmc1lSD3wSitAumYaL9vyQa89nJrrh0</tt>, <tt>MD5:89:9c:4f:78:cf:7a:ee:99:82:7c:0b:7e:0b:a3:49:c8</tt><br>
+(ECDSA) <tt>SHA256:hVx+UscX/3uhv2nxPgp2zC/omvDIBSkv6iISCn19yqQ</tt>, <tt>MD5:28:58:44:09:8e:01:c2:79:33:03:39:7a:e7:6a:bd:a4</tt><br>
+(ED25519) <tt>SHA256:WDEcVZFXagh0OXHlHVhcct6VjFjFqaNZwAhM3GnVA/c</tt>, <tt>MD5:3c:a9:4d:1e:4c:55:9d:6d:03:06:26:8f:21:ce:65:a6</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs2.ca.openbsd.org:/cvs</strong><br>
+Location: Alberta, Canada.<br>
+Maintained by <a href="mailto:beck@openbsd.org">Bob Beck</a>.<br>
+Protocols: ssh.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:VfzLrOeqzIfWiNdJ0SpHvk3JU4a+VpNzwjxzZ7lWaNY</tt>, <tt>MD5:b8:2e:c6:86:de:23:66:05:cd:bf:45:0a:02:44:d0:df</tt><br>
+(DSA) <tt>SHA256:ULyS+tDif5/dxMtzOsr1JFph3FSkeqSjVnRq1q7PHFU</tt>, <tt>MD5:7a:41:fc:ba:87:d7:f8:ba:98:af:c5:16:a0:d6:ff:49</tt><br>
+(ECDSA) <tt>SHA256:IQrHoNZPHmhnR1R3qMURVH3e83f95IZXdkNjFZCnKfw</tt>, <tt>MD5:72:b8:63:ac:91:1f:2b:f6:b2:7a:e5:20:2b:25:3f:ae</tt><br>
+(ED25519) <tt>SHA256:7grIp6jKgas/PLrVqaSwLh60k626+iaGw/BBFSfr7ck</tt>, <tt>MD5:64:a5:bb:29:7a:8b:97:fa:49:40:87:f2:7f:74:8c:0f</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.comstyle.com:/cvs</strong><br>
+Location: Toronto, Canada.<br>
+Maintained by <a href="mailto:brad@comstyle.com">Brad Smith</a>.<br>
+Protocols: ssh, ssh port 2022.<br>
+Updated hourly.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:vYSNKOoCHReBzmdJy3SiULg7YyEZVoib3X3jGJShezA</tt>, <tt>MD5:43:30:9a:c6:c4:19:80:ad:7d:58:3e:7a:a0:39:57:53</tt><br>
+(DSA) <tt>SHA256:e5aEzE3eGY5QLU1TXuFc+iD+hdRr46rM5dtBN9oH83Y</tt>, <tt>MD5:66:a1:f9:47:26:d9:15:3c:62:2b:b5:e8:0d:89:4a:6f</tt><br>
+(ECDSA) <tt>SHA256:W2WEQDka4xicJzeQY0Nm0iCv3h2xZLzfp+TT1UvtBTw</tt>, <tt>MD5:62:28:13:ea:cd:ba:68:e6:e9:82:94:ac:10:7f:80:d5</tt><br>
+(ED25519) <tt>SHA256:cqNaOU0KSmJ/S7jrV4UbZ6WkkyXWZ07rhWK8yrRZUV0</tt>, <tt>MD5:65:34:d5:69:47:38:58:01:47:5d:bd:09:9d:69:be:6b</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@obsdacvs.cs.toronto.edu:/cvs</strong><br>
+Location: University of Toronto, Toronto, ON, Canada.<br>
+Maintained by <a href="mailto:nick@holland-consulting.net">Nick Holland</a>.<br>
+Protocols: ssh.<br>
+Updated every 2 hours.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:BosSX+gUL/17cUdppQlmXht1S5GGHrHNrL6+U3hyG+o</tt>, <tt>MD5:bc:59:dc:6f:52:c9:80:2d:63:96:cd:34:e2:5a:fc:fd</tt><br>
+(DSA) <tt>SHA256:/wH3qgWOjC1iXh8PxWFl3Mv+IdgXHoPdLmFxJ0vAGgo</tt>, <tt>MD5:46:df:59:8c:e9:e3:5d:2c:1d:e3:d8:9f:61:8a:3c:ab</tt><br>
+(ECDSA) <tt>SHA256:4I5R4/tGayGG0KDEsj6CY1eCqt2sbcYtA3nqnhUaD04</tt>, <tt>MD5:9b:39:30:30:63:01:fa:ec:66:4f:63:3d:9a:7e:76:38</tt><br>
+(ED25519) <tt>SHA256:AqblfWV4KT2ptlpV3mq3gb4jNPzgYtjDvlBBcaeohxQ</tt>, <tt>MD5:e2:38:fc:a8:a0:17:ad:7b:03:8a:49:b7:94:40:a0:d5</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.fr.openbsd.org:/cvs</strong><br>
+Location: Paris, France.<br>
+Maintained by <a href="mailto:openbsd-mirror@bsdfrog.org">Landry Breuil, Antoine Jacoutot</a>.<br>
+Protocols: ssh.<br>
+Updated every 2 hours from anoncvs1.ca.openbsd.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:d3o82eY/kIfUfmhVpwFu7Do1I7+Wol/tvWmm6Ye9HZ4</tt>, <tt>MD5:af:53:c8:ea:98:20:a2:81:e1:e3:c9:cb:06:d3:56:d7</tt><br>
+(DSA) <tt>SHA256:8/EzaCXcEyuWAS2sOu5KNrozmDS2Xm60E4kd0lUwedg</tt>, <tt>MD5:5e:3a:78:5f:ef:0a:53:b4:b9:2c:91:84:4f:3e:52:dd</tt><br>
+(ECDSA) <tt>SHA256:WXN4m8NHd4vcTqxmzLMMVenSh6gp8060nv39JIiCSss</tt>, <tt>MD5:61:e1:2b:97:a4:65:4d:70:cd:23:3b:83:04:f1:2e:87</tt><br>
+(ED25519) <tt>SHA256:STeC5WGChnZjIi5Rb+XTAQSbKXQJ+B9wxhaacYNff7k</tt>, <tt>MD5:10:80:7f:b7:76:03:7a:51:10:23:fb:1e:05:5b:93:74</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@files.venture37.com:/cvs</strong><br>
+Location: Paris, France.<br>
+Maintained by <a href="mailto:mirror@venture37.com">Sevan Janiyan</a>.<br>
+Protocols: ssh, ssh port 2022.<br>
+Updated every 2 hours from anoncvs.spacehopper.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:3pG6tZMZkMSeCUrDUdp1qQ9dC5I0A+Pj1A0cXkLVoP4</tt>, <tt>MD5:b9:ff:83:1f:f4:d0:3c:20:55:3a:24:6c:5e:22:ed:ad</tt><br>
+(DSA) <tt>SHA256:dIQIvW8zh0ZtLtLp9CiMkocAtvJ6umfd1Sw10/v96Jc</tt>, <tt>MD5:02:ae:f4:0f:fb:28:10:9d:58:8c:af:73:69:ec:0b:13</tt><br>
+(ECDSA) <tt>SHA256:2InpK4FJMYTnOPgvSbQtyEIcbTNtZKsPsaa3fBBxUhY</tt>, <tt>MD5:f4:8e:83:ce:fd:a7:8d:7c:07:39:74:83:8e:6a:7c:1e</tt><br>
+(ED25519) <tt>SHA256:IL+TcuRUBiaI+EkdjLDoLkwqOEZdt8bccgVINDRMHlM</tt>, <tt>MD5:91:42:2d:be:73:62:74:48:f3:15:70:42:f2:bd:d5:93</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@mirror.osn.de:/cvs</strong><br>
+Location: N&uuml;rnberg, Germany.<br>
+Maintained by <a href="mailto:aw@osn.de">Armin Wolfermann</a>.<br>
+Protocols: ssh.<br>
+Updated every 3 hours.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:fQGY+UhLdbB3oDI4frFtSKF2BjQIkSY0lnSA6lVv8+o</tt>, <tt>MD5:f2:73:d2:f6:e3:01:ef:ca:3b:e7:6c:80:b6:bd:bb:84</tt><br>
+(DSA) <tt>SHA256:1IELSVD8Tf5HYyZNGJAKyyKd6BmihpwG5wGE96W+rV0</tt>, <tt>MD5:fb:33:05:62:96:20:cf:88:7e:10:cb:8d:91:72:57:32</tt><br>
+(ECDSA) <tt>SHA256:plj+1CPTaKi0AIId/aDMCGgZZnkxc1ow+ffBNMvYW4A</tt>, <tt>MD5:57:60:16:f7:99:b8:72:3e:27:d4:13:a2:5f:4f:72:ff</tt><br>
+(ED25519) <tt>SHA256:np+DK8xlo9A4YnYXO/22GBV8iyuL13r3g5I0/N1Mf8g</tt>, <tt>MD5:c2:a5:11:3a:5c:31:b0:3a:85:27:01:9b:a8:30:e4:e7</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@ftp.hostserver.de:/cvs</strong><br>
+Location: Frankfurt, Germany.<br>
+Maintained by <a href="mailto:mirror@hostserver.de">Sebastian Benoit, Peter Hessler</a>.<br>
+Protocols: ssh.<br>
+Updated hourly from anoncvs1.ca.openbsd.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:XrjDaKqJ6J02iSQ/eoiqII0LxJX9D/41eeC6pSQAJXs</tt>, <tt>MD5:ab:02:37:76:d9:f8:5b:3a:10:54:dc:8b:47:ef:c0:73</tt><br>
+(DSA) <tt>SHA256:GYBYarN5A31LlnSRmxoy7f8upzkTZN8x/MPsB3wElLk</tt>, <tt>MD5:d1:0f:17:ee:06:f3:a4:ed:79:a2:eb:83:40:1b:7b:63</tt><br>
+(ECDSA) <tt>SHA256:v6G11hMFfS2+zPh44hhZcpUqDEppyvGQe0vzmrtIHA8</tt>, <tt>MD5:fc:6d:06:54:ba:ed:7e:c2:d6:69:fb:c7:95:58:7b:c4</tt><br>
+(ED25519) <tt>SHA256:KeG1InAfAnQKqpCewmXw/Egb+4UZZuIMGdlYVG+uxNg</tt>, <tt>MD5:1d:16:e2:2a:f2:85:28:b6:33:43:cb:de:c5:ad:fb:e9</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.jp.openbsd.org:/cvs</strong><br>
+Host also known as <strong>kankoromochi.econ.nagasaki-u.ac.jp</strong>.<br>
+Location: Nagasaki University, Faculty of Economics, Nagasaki, Japan.<br>
+Maintained by <a href="mailto:sigh@nagasaki-u.ac.jp">SUZUKI Hitoshi</a>.<br>
+Protocols: ssh, pserver.<br>
+Updated every 3 hours.<br>
+SSH fingerprints:<br>
+(RSA) <tt>MD5:80:6d:6b:9e:2b:5e:a3:fa:cc:bb:f7:fe:46:9f:ce:be</tt><br>
+(DSA) <tt>MD5:f3:8e:b4:d0:00:26:f1:1b:5b:98:50:ad:d4:94:23:98</tt><br>
+(ECDSA) <tt>MD5:dc:8b:b9:2f:4d:20:73:62:a9:3b:f8:ce:09:10:dc:b8</tt><br>
+(ED25519) <tt>MD5:af:b8:2d:3c:0a:a0:89:15:cb:8f:c0:ad:e7:95:08:df</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@mirror.litnet.lt:/cvs</strong><br>
+Location: Kaunas, Lithuania.<br>
+Maintained by <a href="mailto:pkugrinas@gmail.com">Patrikas Kugrinas</a>.<br>
+Protocols: ssh.<br>
+Updated every 2 hours from anoncvs.eu.openbsd.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:RmbGnT7IGLvVd9tm5mAx7rz6VntYlwqW6qyT2QuritY</tt>, <tt>MD5:6f:bb:06:80:80:f3:90:1f:bf:c4:f8:d3:b1:46:40:8c</tt><br>
+(DSA) <tt>SHA256:vjqwcohyvLttulWTBWNw42XUOdrr+ogV/iTgpWOFzOU</tt>, <tt>MD5:86:a9:b4:85:26:79:c8:34:12:db:02:15:7e:45:79:bd</tt><br>
+(ECDSA) <tt>SHA256:hj1btBB8gqLdm3EumX3T3LaUZkY9fm1RFvw9DVS2oi8</tt>, <tt>MD5:37:36:56:d9:8a:4a:b2:4a:e7:0e:10:bf:83:5d:e1:84</tt><br>
+(ED25519) <tt>SHA256:EnczVm1Q8+lE+Zmue3jAPh/pA6BJhEDwL+HNMfedpXI</tt>, <tt>MD5:01:d5:99:5b:ee:04:9d:a6:09:61:02:80:19:6a:13:7b</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.obsd.si:/cvs</strong><br>
+Location: Ljubljana, Slovenia.<br>
+Maintained by <a href="mailto:mitja@kerberos.si">Mitja Mu&#382;eni&#269;</a>.<br>
+Protocols: ssh.<br>
+Updated every 2 hours from anoncvs.spacehopper.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>MD5:5b:98:6c:06:a4:1f:83:da:03:aa:ef:e4:f5:f0:99:76</tt><br>
+(DSA) <tt>MD5:2d:57:e2:9c:fd:9d:09:1c:5e:ff:3f:5d:59:78:93:cc</tt><br>
+(ECDSA) <tt>MD5:3f:50:bd:1e:e5:8a:3d:a4:16:22:1c:2d:cf:8b:22:ed</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.eu.openbsd.org:/cvs</strong><br>
+Location: Stockholm University, Stockholm, Sweden.<br>
+Maintained by <a href="mailto:jj@deadzoft.org">Janne Johansson</a>.<br>
+Protocols: ssh.<br>
+Updated every 2 hours.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:4gXNO1FcLP8Swdm759TMDI/73hCCO5kQr3vqi9o/r64</tt>, <tt>MD5:98:e6:80:5d:95:bb:e2:15:5e:19:4d:a3:e4:d0:bc:2c</tt><br>
+(DSA) <tt>SHA256:blisb6OUx83i2AEo44Y9eoAVRgRHsLtiWeZF05rsmHM</tt>, <tt>MD5:55:cd:a7:a9:e3:bc:a5:5c:81:5e:98:c0:60:a2:67:52</tt><br>
+(ECDSA) <tt>SHA256:uz1m+x471U/+3dGsDgvYI/o+pmobQhuILMcr/fZcr6E</tt>, <tt>MD5:a4:c1:8f:64:55:87:35:d6:82:8b:ba:cb:48:3f:be:96</tt><br>
+(ED25519) <tt>SHA256:txtWp19E25H1oSarwXzYTDDr46jsVeolIprB02OOfM8</tt>, <tt>MD5:05:f8:b4:39:ae:5b:55:1d:a9:9c:d4:82:2b:ec:fb:2f</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.spacehopper.org:/cvs</strong><br>
+Location: Plymouth, United Kingdom.<br>
+Maintained by <a href="mailto:sthen@openbsd.org">Stuart Henderson</a>.<br>
+Protocols: ssh, ssh port 2022, ssh port 443.<br>
+Updated hourly from anoncvs.ca.openbsd.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:orTIOu6IKP7Ndz317tyCaz8LJnJWz4jmzSuG+FK7jwM</tt>, <tt>MD5:e2:19:16:3f:a3:2e:eb:94:14:cd:5c:92:9a:6c:9a:8f</tt><br>
+(DSA) <tt>SHA256:0t4AQyR4Ci5hICZwPQ+l4b5l9evisj+wtry70ZWivZM</tt>, <tt>MD5:ff:47:13:22:83:d1:6e:df:a0:f0:4f:18:31:cb:f2:28</tt><br>
+(ECDSA) <tt>SHA256:p+VCx2KynGtiFFaaiF010SIQu6gJgmJb//yokW2sGBE</tt>, <tt>MD5:a5:b0:2a:65:ff:9a:0b:ef:7d:6f:d2:95:2e:a7:c9:2c</tt><br>
+(ED25519) <tt>SHA256:oaJ7VEyjt2EHMeixzKn9zJGiV5YlWHIUls070tKdBzI</tt>, <tt>MD5:65:ff:bc:e5:c0:a3:e2:17:fa:da:83:ce:de:29:fd:8b</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs3.usa.openbsd.org:/cvs</strong><br>
+Location: National Center for Atmospheric Research, Boulder, CO, USA.<br>
+Maintained by <a href="mailto:millert@openbsd.org">Todd C. Miller</a>.<br>
+Protocols: ssh, ssh port 2022.<br>
+Updated hourly.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:ZjlsP/GTTyMEKKkUNWTTA3p/+keRIxvp1kc6s+lQqTw</tt>, <tt>MD5:49:6f:4a:be:02:63:0d:c0:54:b0:57:f0:48:7f:ce:16</tt><br>
+(DSA) <tt>SHA256:/+o+ogn8mzH+VQ8ZC85n4lItkx92YWrPFraLMrC2r3s</tt>, <tt>MD5:f9:ab:fc:60:a3:15:8f:9c:47:24:9e:92:15:78:0d:f3</tt><br>
+(ECDSA) <tt>SHA256:UAjbt7WxQff1I2ZEp5Vgkpr0JGN5MmFX8PYMaZgIP24</tt>, <tt>MD5:99:4f:c8:23:6a:bf:75:1c:de:c9:11:bf:a4:fe:0a:51</tt><br>
+(ED25519) <tt>SHA256:OuuKkSAzHjSA4TPjY9tHZyyKDUB5cpbIiXGFla2Xd1E</tt>, <tt>MD5:7a:6c:1e:53:36:4c:06:74:9e:0c:0d:d6:ff:20:aa:03</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@mirror.planetunix.net:/cvs</strong><br>
+Location: Chicago, IL, USA.<br>
+Maintained by <a href="mailto:brian@planetunix.net">Brian Brombacher</a>.<br>
+Protocols: ssh, ssh port 2022, pserver.<br>
+Updated every 3 hours from anoncvs3.usa.openbsd.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>MD5:8f:42:bd:b0:a2:94:df:6b:af:1e:96:03:ea:68:03:d9</tt><br>
+(DSA) <tt>MD5:26:51:e8:b3:38:88:dc:a8:2a:98:59:86:ab:40:bb:a4</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs4.usa.openbsd.org:/cvs</strong><br>
+Location: New York Internet, New York, NY, USA.<br>
+Maintained by <a href="mailto:millert@openbsd.org">Todd C. Miller</a>.<br>
+Protocols: ssh, ssh port 2022.<br>
+Updated hourly.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:RT7vVXrvmKgZ7VkrVZ0lgugDFCBPVT6iSwMh+m1vZTA</tt>, <tt>MD5:b9:8a:36:b5:ce:1f:b0:81:01:ef:5c:4b:85:1d:a3:c6</tt><br>
+(DSA) <tt>SHA256:b6otnjswIwZwcMsic6cEFKBwUcwzu0mJNLRE3CrIr/Y</tt>, <tt>MD5:c1:2a:c4:35:0d:6b:45:54:14:4f:07:8a:f0:f0:74:7c </tt><br>
+(ECDSA) <tt>SHA256:JreaFNTlm2Uhlk3iaMs4Rweq27KPSVYUgj9sZUsOxCc</tt>, <tt>MD5:0a:a7:86:11:96:c2:49:37:7f:d2:41:86:e2:f3:84:92</tt><br>
+(ED25519) <tt>SHA256:iLsNcXOnluavlGUV+O4JE7TNppEwIMvsjZ7m1VVObiM</tt>, <tt>MD5:8e:bd:d0:fc:71:16:5e:d2:ff:4b:02:90:aa:0b:f0:f7</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs2.usa.openbsd.org:/cvs</strong><br>
+Host also known as <strong>openbsd.se.rit.edu</strong>.<br>
+Location: Rochester Institute of Technology, Rochester, NY, USA.<br>
+Maintained by <a href="mailto:millert@openbsd.org">Todd C. Miller</a>.<br>
+Protocols: ssh, ssh port 2022.<br>
+Updated hourly.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:O/qRkEam5QXBxAcHA8qEEHXp9D2Ad1RMS43crbP+PDE</tt>, <tt>MD5:91:12:49:07:80:ff:aa:79:49:bd:df:6d:df:d8:53:e4</tt><br>
+(DSA) <tt>SHA256:+sNBHW4fy9/cb0CJLGAe/wBkmwXI7C/vU81rdFVs3mE</tt>, <tt>MD5:ca:4f:76:39:65:92:e2:67:c4:12:41:66:22:d6:d5:0d</tt><br>
+(ECDSA) <tt>SHA256:Bt9zXfPRYnP8DDBEXhH0SwCs3fU8EX/UA1Q5ypzkRdg</tt>, <tt>MD5:6d:9c:fc:d9:d3:c0:52:69:0e:23:f9:f2:44:02:a8:5f</tt><br>
+(ED25519) <tt>SHA256:c+jgUzXaKxwtbQUy+dfpC340p4bVzFYDNIDxW3dUO3A</tt>, <tt>MD5:7d:f1:ca:80:80:99:41:c9:c6:5f:48:0d:76:f9:f3:c9</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs1.usa.openbsd.org:/cvs</strong><br>
+Host also known as <strong>anoncvs.usa.openbsd.org</strong>.<br>
+Location: Network Media, LLC, Bend, OR, USA.<br>
+Maintained by <a href="mailto:millert@openbsd.org">Todd C. Miller</a>.<br>
+Protocols: ssh, pserver.<br>
+Updated hourly.<br>
+SSH fingerprints:<br>
+(RSA) <tt>SHA256:PFKE28DFbJLmqoLkq9xfBuiYl9GN2LABsvUpzNk+LlE</tt>, <tt>MD5:49:67:9a:46:62:8a:3f:4e:b3:63:ca:d6:41:29:2a:2f</tt><br>
+(DSA) <tt>SHA256:KgFHf4YO6nVgCxEEPzgT/jT7QEqSWr56HC2P/PkOKa0</tt>, <tt>MD5:a7:75:49:77:f3:47:d1:3c:5e:65:84:84:3b:03:f1:33</tt><br>
+(ECDSA) <tt>SHA256:Ofstc7xq/W+73vBMUpb3A4ZqLNhKI3u2FdzbOkJpOHI</tt>, <tt>MD5:d3:b2:b5:68:87:3b:f6:93:21:fd:28:ea:cc:b6:e1:13</tt><br>
+(ED25519) <tt>SHA256:IYHq/zKqYnd2wy71Br6X8Q1Jk0XGjOJA4PU6CAr6pDo</tt>, <tt>MD5:0d:83:33:eb:8a:ee:f9:b0:5f:77:a8:0e:48:65:ba:e1</tt><br>
+<p>
+<li><strong>CVSROOT=anoncvs@anoncvs.obsd.esc7.net:/cvs</strong><br>
+Location: Dallas, TX, USA.<br>
+Maintained by <a href="mailto:bwarriner@esc7.net">Ben Warriner</a>.<br>
+Protocols: ssh.<br>
+Updated every 2 hours from anoncvs1.usa.openbsd.org.<br>
+SSH fingerprints:<br>
+(RSA) <tt>MD5:2a:c8:01:6f:5c:fe:78:75:84:29:c3:11:0f:65:05:07</tt><br>
+(DSA) <tt>MD5:0e:ce:de:c4:7d:a0:d1:71:0a:af:cf:ee:34:43:bc:23</tt><br>
+(ECDSA) <tt>MD5:68:f1:e8:11:94:5c:5e:15:d0:ee:54:1f:ee:57:33:4a</tt><br>
+(ED25519) <tt>MD5:ca:ea:e7:77:84:1d:64:3d:5e:9f:25:a6:60:4c:53:52</tt><br>
+<p>
+
+</ul>
+
+If your server is listed on here with inaccurate or unknown information, please
+contact <a href="mailto:beck@openbsd.org"><tt>beck@openbsd.org</tt></a>.
+
+<p>
+You may want to use 
+<a href="https://man.openbsd.org/traceroute">traceroute(8)</a>
+to find out which server is nearest you.
+Problems with a server should be reported to the <b>maintainer</b> of the
+server in question.
+
+<p>
+If local policy prevents outgoing connections to ssh's default port of 22,
+some servers permit connections on an alternative port (typically 2022).
+These are noted in the list above.
+To use a different port, reconfigure your ssh client by adding a <tt>Host</tt>
+entry to <tt>$HOME/.ssh/config</tt>, e.g.:
+<pre class="cmdbox">
+Host anoncvs.ca.openbsd.org
+    Port 2022
+</pre>
+
+<h3 id="MIRROR">Setting up an anoncvs mirror</h3>
+
+Anoncvs mirrors currently require about 6GB of disk (and it will grow!), and use
+up to 64MB of swap per anoncvs user (assuming the user does a large operation;
+while smaller operations use fewer resources, anoncvs still makes much more of
+an impact than ftp).
+Such anoncvs machines should have excellent network connectivity for the area
+they are expected to serve.
+A <a href="anoncvs.shar">document</a> which describes the setup of anoncvs
+servers is available.
+
+<h3 id="NOTES">Final notes</h3>
+
+After upgrading your source tree, you should read the comments at the top of
+<tt>/usr/src/Makefile</tt> before attempting a build.
+Also, you should build a new kernel <b>before</b> doing a <tt>make build</tt>
+if possible.
+In some cases it may be necessary to rebuild and install the <tt>config</tt>
+utility before you can build the kernel.
+If <tt>config GENERIC</tt> fails this is probably the case.
+
+<p>
+It is important to note that upgrading from a release to the current tree
+by rebuilding the sources can be rather difficult due to dependencies
+that are often not obvious.
+Therefore, it is suggested that you first install the latest snapshot before
+attempting a tree build from source.
+
+</body>
+</html>
