@@ -9,26 +9,24 @@ We also respect people who understand English not good enough.
 
 ## TODO
 
-* FAQ#1 - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ#2 - Wanna help? Be first, it's still not translated.
-* FAQ#3 - Wanna help? Be first, it's still not translated.
-* FAQ#4 - Wanna help? Be first, it's still not translated.
-* FAQ#5 - Wanna help? Be first, it's still not translated.
-* FAQ#6 - Wanna help? Be first, it's still not translated.
-* FAQ#7 - Wanna help? Be first, it's still not translated.
-* FAQ#8 - Wanna help? Be first, it's still not translated.
-* FAQ#9 - Wanna help? Be first, it's still not translated.
-* FAQ#10 - Wanna help? Be first, it's still not translated.
-* FAQ#11 - Wanna help? Be first, it's still not translated.
-* FAQ#12 - Wanna help? Be first, it's still not translated.
-* FAQ#13 - Wanna help? Be first, it's still not translated.
-* FAQ#14 - Wanna help? Be first, it's still not translated.
-* FAQ#15 - Wanna help? Be first, it's still not translated.
-* FAQ#16 - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ#17 - Wanna help? Be first, it's still not translated.
-* FAQ#PacketFilter - Wanna help? Be first, it's still not translated.
-* FAQ#Ports - Wanna help? Be first, it's still not translated.
-* FAQ#PortsTesting - Wanna help? Be first, it's still not translated.
+* FAQ#01 - Introduction to OpenBSD - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ#04 - Installation Guide - Wanna help? Be first, it's still not translated.
+* FAQ#05 - Building the System from Source - Wanna help? Be first, it's still not translated.
+* FAQ#06 - Networking - Wanna help? Be first, it's still not translated.
+* FAQ#07 - Keyboard and Display Controls - Wanna help? Be first, it's still not translated.
+* FAQ#08 - General Questions - Wanna help? Be first, it's still not translated.
+* FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
+* FAQ#11 - The X Window System - Wanna help? Be first, it's still not translated.
+* FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
+* FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
+* FAQ#15 - Package Management - Wanna help? Be first, it's still not translated.
+* FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ#17 - Virtual Private Networks (VPN) - Wanna help? Be first, it's still not translated.
+
+* FAQ - PacketFilter - Wanna help? Be first, it's still not translated.
+* FAQ - Ports - Wanna help? Be first, it's still not translated.
+* FAQ - PortsTesting - Wanna help? Be first, it's still not translated.
+
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenIKED - [Alexander Naumov](https://github.com/alexander-naumov)
