@@ -9,12 +9,30 @@ We also respect people who understand English not good enough.
 
 ## TODO
 
-* OpenSSH [Alexander Naumov](https://github.com/alexander-naumov)
-* FAQ#1 [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ#16 [Oleg Pahl](https://github.com/oleg-pahl)
-* OpenSMTPD [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenIKED [Alexander Naumov](https://github.com/alexander-naumov)
-* LibreSSL [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ#1 - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ#2 - Wanna help? Be first, it's still not translated.
+* FAQ#3 - Wanna help? Be first, it's still not translated.
+* FAQ#4 - Wanna help? Be first, it's still not translated.
+* FAQ#5 - Wanna help? Be first, it's still not translated.
+* FAQ#6 - Wanna help? Be first, it's still not translated.
+* FAQ#7 - Wanna help? Be first, it's still not translated.
+* FAQ#8 - Wanna help? Be first, it's still not translated.
+* FAQ#9 - Wanna help? Be first, it's still not translated.
+* FAQ#10 - Wanna help? Be first, it's still not translated.
+* FAQ#11 - Wanna help? Be first, it's still not translated.
+* FAQ#12 - Wanna help? Be first, it's still not translated.
+* FAQ#13 - Wanna help? Be first, it's still not translated.
+* FAQ#14 - Wanna help? Be first, it's still not translated.
+* FAQ#15 - Wanna help? Be first, it's still not translated.
+* FAQ#16 - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ#17 - Wanna help? Be first, it's still not translated.
+* FAQ#PacketFilter - Wanna help? Be first, it's still not translated.
+* FAQ#Ports - Wanna help? Be first, it's still not translated.
+* FAQ#PortsTesting - Wanna help? Be first, it's still not translated.
+* OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
+* OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
+* OpenIKED - [Alexander Naumov](https://github.com/alexander-naumov)
+* LibreSSL - [Alexander Naumov](https://github.com/alexander-naumov)
 
 
 ## TRANSLATION RULES
