@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang=en>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD FAQ: Введение в OpenBSD</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/faq1.html">
+
+<h2 id=OpenBSD>
+<a href="../index.html">
+<i>Open</i><b>BSD</b></a>
+FAQ - Введение в OpenBSD
+<small>
+<a href="index.html">[FAQ список]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#WhatIs"     >Что такое OpenBSD</a>
+  <li><a href="#Platforms"  >Поддержка аппаратного обеспечения</a>
+  <li><a href="#ManPages"   >Страницы руководства</a>
+  <li><a href="#MailLists"  >Списки рассылки</a>
+  <li><a href="#OtherUnixes">Миграция на OpenBSD</a>
+  <li><a href="#Bugs"       >Сообщения об ошибках</a>
+  <li><a href="#Support"    >Поддержка проекта</a>
+</ul>
+<hr>
+
+<h2 id="WhatIs">Об OpenBSD</h2>
+
+Проект <a href="../index.html">OpenBSD</a> разрабатывает свободнодоступную,
+кроссплатформенную 4.4BSD-based UNIX-like операционную систему.
+Нашими <a href="../goals.html">целями</a> являются акцент на корректности,
+безопасности, стандартизации и портируемости.
+
+<h3>Какие причины использовать OpenBSD?</h3>
+
+Причины, по которым мы считаем OpenBSD полезной операционной системой:
+
+<ul>
+  <li>OpenBSD запускается на множестве различных аппаратных платформ.
+  <li>Многие профессионалы в области безопасности считают,
+      что OpenBSD самая <a href="../security.html">безопасная</a>
+      UNIX-подобная операционная система; это является результатом
+      непрекрающегося тщательного аудита исходных кодов на предмет уязвимостей.
+  <li>OpenBSD это полнофункциональная UNIX-подобная операционная система,
+      доступная в исходном и двоичном виде бесплатно.
+  <li>OpenBSD интегрирует передовые технологии безопасности, подходящие для
+      <a href="pf/example1.html">построения сетевых экранов</a> и
+      частных сетевых сервисов в распределённом окружении.
+  <li>OpenBSD извлекает выгоду из сильного постоянного развития во многих
+  областях, предлагая возможности работать с появляющимися технологиями и
+  международным сообществом разработчиков и конечных пользователей.
+  OpenBSD benefits from strong ongoing development in many areas, offering
+      opportunities to work with emerging technologies and an international
+      community of developers and end users.
+  <li>OpenBSD пытается свести к минимуму необходимость настройки.
+      Для подавляющего большинства пользователей OpenBSD <b>просто работает</b> на их
+      аппаратном обеспечении для их нужд.
+</ul>
+
+<h3 id="ReallyFree">Насколько OpenBSD свободна?</h3>
+
+OpenBSD полностью свободна.
+Свободны бинарники.
+Свободны исходники.
+Все части OpenBSD имеют разумную лицензию, разрешающую свободное
+распространение.
+Больше информации об авторском праве OpenBSD можно найти
+<a href="../policy.html">здесь</a>.
+
+<p>
+Разработчики OpenBSD поддерживают проект в основном из собственных средств.
+Это включает в себя время, потраченное на непосредственно разработку проекта,
+оборудование, используемое для поддержки множества портов, сетевые ресурсы,
+используемые для распространения OpenBSD, и время на ответы на
+вопросы и изучение сообщений об ошибках пользователей.
+Разработчики OpenBSD не являются независимо богатыми, и даже небольшой
+вклад времени, оборудования и ресурсов имеет большое значение.
+
+<h3>Что входит в базовую поставку?</h3>
+
+OpenBSD распространяется с рядом сторонних программных продуктов, включая:
+
+<ul>
+  <li><a href="https://www.x.org/wiki">X.org</a>
+  <li><a href="https://clang.llvm.org">LLVM/Clang</a>
+  <li><a href="https://gcc.gnu.org">GCC</a>
+  <li><a href="https://www.perl.org">Perl</a>
+  <li><a href="https://www.nlnetlabs.nl/projects/nsd">NSD</a> and
+      <a href="https://www.nlnetlabs.nl/projects/unbound">Unbound</a>
+  <li><a href="https://www.gnu.org/software/ncurses">ncurses</a>
+  <li><a href="https://www.gnu.org/software/binutils">binutils</a>
+  <li><a href="https://www.gnu.org/software/gdb/gdb.html">gdb</a>
+</ul>
+
+Команда OpenBSD часто добавляет изменения в сторонние компоненты, как правило,
+для улучшения безопасности или качества кода.
+Много <a href="../innovations.html">инноваций</a> также включены.
+Дополнительные приложения доступны в виде <a href="faq15.html">пакетов</a>.
+
+<h3 id="HowAbout">Почему <i>продукт X</i> не включен?</h3>
+
+Люди часто спрашивают, почему тот или иной продукт включен или нет в OpenBSD.
+Ответ зависит от двух вещей: пожеланий разработчиков и совместимости с
+<a href="../goals.html">целями </a> проекта. Лицензирование также часто
+является большой проблемой: мы хотим, чтобы OpenBSD оставался пригодным для
+использования любым человеком в любой точке мира для любых целей.
+
+<h3 id="Next">Когда будет следующий релиз?</h3>
+
+Команда OpenBSD выпускает новый примерно каждые шесть месяцев с цедевыми датами
+в мае и ноябре. Больше информации о цикле разработки можно найти
+<a href="faq5.html#Flavors">здесь</a>.
+
+<h2 id="Platforms">Поддержка аппаратного обеспечения</h2>
+
+OpenBSD работает на следующих <a href="../plat.html">платформах</a>:
+<!-- XXXrelease - verify platform list is current -->
+
+<ul>
+  <li><a href="../alpha.html"   >alpha</a>
+  <li><a href="../amd64.html"   >amd64</a>
+  <li><a href="../arm64.html"   >arm64</a>
+  <li><a href="../armv7.html"   >armv7</a>
+  <li><a href="../hppa.html"    >hppa</a>
+  <li><a href="../i386.html"    >i386</a>
+  <li><a href="../landisk.html" >landisk</a>
+  <li><a href="../loongson.html">loongson</a>
+  <li><a href="../luna88k.html" >luna88k</a>
+  <li><a href="../macppc.html"  >macppc</a>
+  <li><a href="../octeon.html"  >octeon</a>
+  <li><a href="../sgi.html"     >sgi</a>
+  <li><a href="../sparc64.html" >sparc64</a>
+</ul>
+
+Specific hardware support details are on the respective platform pages.
+
+<h2 id="ManPages">Страницы руководства</h2>
+
+OpenBSD поставляется с обширной документацией в виде страниц руководства.
+Они являются авторитетным источником информации об OpenBSD и мы прикладываем значительные
+усилия, чтобы обеспечить их актуальность и точность.
+Разработчики, добавляющие изменения в систему, должны обновлять справочные страницы
+вместе с их изменением в системный код.
+Мы ожидаем, что пользователи будут в первую очередь читать справочные страницы,
+прежде чем обращаться за помощью.
+
+<p>
+Ниже приведен список наиболее полезных страниц для новых пользователей:
+
+<ul>
+  <li><a href="https://man.openbsd.org/afterboot">afterboot(8)</a>
+  - вещи, требующие внимания после первой полной загрузки.
+  <li><a href="https://man.openbsd.org/help">help(1)</a>
+  - помощь для новых пользователей и администраторов.
+  <li><a href="https://man.openbsd.org/hier">hier(7)</a>
+  - раскладка файловых системw.
+  <li><a href="https://man.openbsd.org/man">man(1)</a>
+  - отображение страниц руководства.
+  <li><a href="https://man.openbsd.org/adduser">adduser(8)</a> and
+  <a href="https://man.openbsd.org/rmuser">rmuser(8)</a>
+  - добавление или удаление новых пользователей.
+  <li><a href="https://man.openbsd.org/reboot">reboot(8), halt(8)</a> and
+  <a href="https://man.openbsd.org/shutdown">shutdown(8)</a>
+  - остановка и перезагрузки системы.
+  <li><a href="https://man.openbsd.org/syspatch">syspatch(8)</a>
+  - применение <a href="faq10.html#Patches">обновлений безопасности и надёжности</a>.
+  <li><a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
+  - повторный показ сообщений ядра в момент загрузки.
+  <li><a href="https://man.openbsd.org/doas">doas(1)</a>
+  - запуск команд от другого пользователя.
+  <li><a href="https://man.openbsd.org/tmux">tmux(1)</a>
+  - терминальный мультиплексор.
+  <li><a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>
+  - конфигурирование параметров сетевых интерфейсов.
+  <li><a href="https://man.openbsd.org/login.conf">login.conf(5)</a>
+  - формат файла конфигурации класса входа в систему.
+  <li><a href="https://man.openbsd.org/sendbug">sendbug(1)</a>
+  - отправка сообщения об ошибке.
+</ul>
+
+Также вы можете найти все страницы руководства онлайн по адресу
+<a href="https://man.openbsd.org">man.openbsd.org</a> и локально на своём компьютере,
+если был установлен <code>manXX.tgz</code>.
+
+<p>
+В общем, если вы знаете имя команды или страницы руководства, вы можете
+прочитать её, выполнив <code>man command</code>.
+Если вы не знаете имя команды
+или <code>man command</code> не находит страницу руководства,
+вы можете выполнить поиск в базе данных страниц руководства, выполнив
+<code>apropos something</code> или <code>man -k something</code>, где
+<code>something</code> - это вероятное слово, которое
+может присутствовать в заголовке страницы, которую вы ищете.
+
+<pre class="cmdbox">
+$ <b>apropos "time zone"</b>
+tzfile(5) - time zone information
+zdump(8) - time zone dumper
+zic(8) - time zone compiler
+</pre>
+
+Цифры в скобках указывают на раздел руководства, в котором можно найти эту страницу.
+В некоторых случаях вы можете найти страницы с одинаковыми именами
+в разных разделах руководства.
+Например, предположим, что вы хотите узнать формат файлов конфигурации для демона cron.
+Как только вы узнаете раздел руководства для нужной страницы, вы выполните
+<code>man n command</code>, где n - номер раздела руководства.
+
+<pre class="cmdbox">
+$ <b>man -k cron</b>
+cron(8) - clock daemon
+crontab(1) - maintain crontab files for individual users
+crontab(5) - tables for driving cron
+$ <b>man 5 crontab</b>
+</pre>
+
+<h2 id="MailLists">Списки рассылки</h2>
+
+Проект OpenBSD поддерживает несколько списков рассылки, на которые пользователи
+могут подписаться.
+Самые популярные из них:
+
+<ul>
+  <li><b>announce</b> - Анонсы и советы по безопасности.
+  <li><b>bugs</b> - Баги полученные с помощью
+      <a href="https://man.openbsd.org/sendbug">sendbug(1)</a>
+      и их обсуждение.
+  <li><b>misc</b> - Общие пользовательские вопросы и ответы.
+      Это самый активный список и он должен быть «по умолчанию»
+	  для большинства вопросов и обсуждений.
+  <li><b>ports</b> - Обсуждение
+      <a href="ports/ports.html">дерева портов</a>.
+  <li><b>source-changes</b> - Автоматическая рассылка изменений дерева исходников CVS.
+      Каждый раз, когда разработчик вносит изменения в исходный код OpenBSD, xenocara
+	  или www, CVS отправляет копию сообщения об изменении в этот список.
+  <li><b>tech</b> - Обсуждение технических тем для разработчиков OpenBSD
+      и продвинутых пользователей.
+</ul>
+
+Прежде чем задать вопрос в каком-либо списке рассылки, пожалуйста, проверьте
+архивы на предмет часто задаваемых вопросов. Хотя это может быть первый раз,
+когда вы столкнулись с проблемой или вопросом, другие пользователи в списках
+рассылки, возможно, видели один и тот же вопрос несколько раз за последнюю
+неделю, и, возможно, не будут рады видеть его снова.
+Если вы задаёте вопрос, связанный с аппаратным обеспечением, то всегда включайте полный
+вывод от команды
+<a href="https://man.openbsd.org/dmesg">dmesg(8)</a>.
+
+<p>
+Вы можете найти несколько архивов, другие рекомендаций и дополнительную
+информацию на <a href="../mail.html">странице списка рассылки</a>. Подписками
+можно легко управлять через <a href="https://lists.openbsd.org">веб-интерфейс</a>.
+
+<h2 id="OtherUnixes">Миграция на OpenBSD</h2>
+
+Если вы изучили Unix по любой <a href="../books.html">хорошей книге</a>, поняли
+философию Unix и затем расширили свои знания до конкретной платформы, вы
+обнаружите, что OpenBSD вам знакома.
+
+<p>
+Вот некоторые из часто встречающихся различий между OpenBSD и другими
+вариантами Unix.
+
+
+
+
+<ul>
+  <li>OpenBSD - это Unix в стиле BSD, следующий дизайну 4.4BSD. Linux и Solaris
+      являются системами в стиле System V. Некоторые Unix-подобные операционные
+      системы смешивают характеристики System V и BSD. Распространенным местом, где
+      это вызывает путаницу, являются <a href="faq10.html#rc">сценарии запуска</a>.
+      OpenBSD использует систему <a href="https://man.openbsd.org/rc">rc(8)</a>.
+  <li>OpenBSD - это законченная система. Это не ядро плюс утилиты, которые
+      можно обновлять отдельно друг от друга.
+  <li>OpenBSD поддерживает <a href="ports/index.html">дерево портов</a> для
+      предоставления стороннего программного обеспечения.
+	  Предварительно скомпилированные <a href="faq15.html">пакеты</a> создаются
+      и распространяются командой портов OpenBSD.
+  <li>OpenBSD использует CVS для отслеживания изменений исходного кода. OpenBSD
+      был первым проектом, в котором появился <a href="../anoncvs.html">анонимный
+      CVS</a>, который позволяет каждому в любое время извлечь полное дерево исходных
+      текстов для любой версии OpenBSD.
+      Также есть <a href="https://cvsweb.openbsd.org">веб-интерфейс</a>.
+  <li>OpenBSD проходит тщательный и непрерывный аудит безопасности для
+      обеспечения качества и безопасности кода.
+  <li>OpenBSD не поддерживает файловых систем с журналированием.
+	  Вместо этого мы используем функциональность
+      <a href="faq14.html#SoftUpdates">"мягких обновлений"</a> (soft updates)
+      Fast File System (FFS).
+  <li>OpenBSD поставляется с <a href="pf/index.html">фильтром сетевых пакетов</a>
+      (Packet Filter (PF)). Это означает, что трансляция сетевых адресов
+      (Network Address Translation), очереди и фильтрация обрабатываются с помощью
+      <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>,
+      <a href="https://man.openbsd.org/pf">pf(4)</a> и
+      <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>.
+  <li>Командной оболочкой OpenBSD по умолчанию является
+      <a href="https://man.openbsd.org/ksh">ksh</a>, основанная на общедоступной
+      оболочке Корна (Korn Shell). Оболочки, такие как bash и многие другие, могут
+      быть добавлены из <a href="faq15.html">пакетов</a>.
+  <li>Устройства именуются по имени драйвера, а не по типу.
+      Другими словами, нет устройств <code>eth0 </code> и <code>eth1</code>.
+      Это будет <code>em0</code> для карты Intel PRO/1000 Ethernet,
+      <code>bge0</code> для устройства Broadcom BCM57xx или BCM590x Ethernet,
+      <code>ral0</code> для беспроводного устройства RaLink и т. Д.
+  <li>OpenBSD/i386, amd64 и несколько других платформ используют
+      двухслойную систему разбиения диска, где первый уровень -
+      это раздел видимый в BIOS c помощью <a href="faq14.html#fdisk">fdisk</a>,
+      а второй - <a href="faq14.html#disklabel">disklabel</a>.
+  <li>Некоторые другие операционные системы рекомендуют вам настраивать ядро
+      для вашей машины. Пользователям OpenBSD рекомендуется просто использовать
+      стандартное ядро GENERIC, предоставляемое и протестированное разработчиками.
+</ul>
+
+<h2 id="Bugs">Сообщения об ошибках</h2>
+
+Сообщение об ошибках - одна из важнейших обязанностей конечных пользователей.
+Для диагностики наиболее серьезных проблем требуется очень подробная
+информация. Например, следующий текст будет подходящим сообщением об ошибке:
+
+<pre class="cmdbox">
+From: user@example.com
+To: bugs@openbsd.org
+Subject: 3.3-beta panics on a SPARCStation2
+
+OpenBSD 3.2 installed from an official CD-ROM installed and ran fine
+on this machine.
+
+After doing a clean install of 3.3-beta from a mirror, I find the
+system randomly panics after a period of use, and predictably and
+quickly when starting X.
+
+This is the dmesg output:
+
+[...]
+
+This is the panic I got when attempting to start X:
+
+panic: pool_get(mclpl): free list modified: magic=78746572; page 0xfaa93000;
+ item addr 0xfaa93000
+Stopped at      Debugger+0x4:   jmpl            [%o7 + 0x8], %g0
+https://www.openbsd.org/ddb.html describes the minimum info required in bug
+reports. Insufficient info makes it difficult to find and fix bugs.
+ddb> trace
+[...]
+
+Thank you!
+</pre>
+
+Смотрите <a href="../report.html">эту страницу</a> для получения дополнительной информации
+о создании и отправке отчетов об ошибках.
+Включите подробную информацию о том, что произошло, точную конфигурацию вашей системы
+и последовательность шагов для воспроизведения проблемы.
+Пожалуйста, используйте <a href="https://man.openbsd.org/sendbug">sendbug(1)</a>,
+чтобы сообщать об ошибках, когда это возможно.
+В противном случае, пожалуйста, включите как минимум вывод <a href="https://man.openbsd.org/dmesg">dmesg(8)</a> вашей системы.
+Для работы команды <a href="https://man.openbsd.org/sendbug">sendbug(1)</a> требуется
+возможность отправлять электронную почту в вашей системе.
+
+<p>
+Почтовый сервер OpenBSD использует
+<a href="https://man.openbsd.org/spamd">spamd(8)</a>
+для поддержки "серых" списков почтовых адресов, поэтому в получении почты могут
+возникать задержки, прежде чем сервер принимет ваше сообщение об ошибке.
+Пожалуйста, будьте терпеливы.
+
+<p>
+После отправки сообщения об ошибке разработчики могут связаться с вами для
+получения дополнительной информации или с просьбой протестировать изменения.
+Вы также можете следить за архивами рассылки
+<a href="mailto:bugs@openbsd.org">bugs@openbsd.org</a> - детали
+на странице <a href="../mail.html">почтовой рассылки</a>.
+
+<h2 id="Support">Поддержка проекта</h2>
+
+Мы очень признательны людям и организациям, которые внесли свой вклад в проект
+OpenBSD.
+
+<p>
+Проект OpenBSD постоянно нуждается в поддержке сообщества.
+Если OpenBSD приносит вам пользу, то мы настоятельно рекомендуем вам внести свой вклад.
+
+<ul>
+  <!--
+  <li><a href="https://openbsdstore.com">Buy OpenBSD products</a>.
+      A number of items are available at the
+      OpenBSD store, including <a href="../tshirts.html">shirts</a> for your
+      wearing enjoyment.
+  -->
+  <li><a href="../donations.html">Пожертвовать деньги</a>.
+      Проект постоянно нуждается в деньгах для оплаты оборудования, сетевых подключений и т.д.
+      Даже небольшие пожертвования имеют огромное значение.
+  <li><a href="../want.html">Пожертвовать аппаратуру или детали</a>.
+      Проект испытывает постоянную необходимость в аппаратном обеспечении.
+  <li><a href="faq5.html#Diff">Пожертвуйте ваше время и навыки</a>.
+	  Программисты, которым нравится писать операционные системы, всегда
+	  приветствуются, но есть много других способов, которыми люди могут быть
+	  полезны.
+  <li>Подписывайтесь на <a href="../mail.html">списки рассылки</a> и помогайте отвечать на
+      вопросы от других пользователей.
+  <li>Помогать поддерживать документацию и присылать новый материал для FAQ на адрес
+      <a href="mailto:misc@openbsd.org">misc@openbsd.org</a>.
+  <li>Организовать локальную <a href="../groups.html">группу пользователей</a> and get your friends
+      hooked on OpenBSD.
+  <li>Обратиться к работодателю с просьбой использовать OpenBSD для работы.
+      Если вы студент, то обсудить с преподавателями возможность использования OpenBSD в качестве
+      учебного инструмента для компьютерных или инженерных курсов.
+</ul>
