@@ -9,7 +9,7 @@ We also respect people who understand English not good enough.
 
 ## TODO
 
-* FAQ#01 - Introduction to OpenBSD - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ#01 - Introduction to OpenBSD - [Sergey Bronnikov](https://github.com/ligurio)
 * FAQ#04 - Installation Guide - Wanna help? Be first, it's still not translated.
 * FAQ#05 - Building the System from Source - Wanna help? Be first, it's still not translated.
 * FAQ#06 - Networking - Wanna help? Be first, it's still not translated.
