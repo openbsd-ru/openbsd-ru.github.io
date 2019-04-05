@@ -39,20 +39,21 @@ FAQ - Работа с пакетами
 <hr>
 
 <ul>
-  <li><a href="#Intro"        >Introduction</a>
-  <li><a href="#Mirror"       >Selecting a Mirror</a>
-  <li><a href="#PkgFind"      >Finding Packages</a>
-  <li><a href="#PkgInstall"   >Installing Packages</a>
-  <li><a href="#PkgUpdate"    >Updating Packages</a>
-  <li><a href="#PkgRemove"    >Removing Packages</a>
-  <li><a href="#PkgDup"       >Duplicating Installed Packages on Another
-                               Machine</a>
-  <li><a href="#PkgPartial"   >Incomplete Package Installation or Removal</a>
+  <li><a href="#Intro"        >Введение</a>
+  <li><a href="#Mirror"       >Выбор зеркала</a>
+  <li><a href="#PkgFind"      >Поиск пакетов</a>
+  <li><a href="#PkgInstall"   >Установка пакетов</a>
+  <li><a href="#PkgUpdate"    >Обновление пакетов</a>
+  <li><a href="#PkgRemove"    >Удаление пакетов</a>
+  <li><a href="#PkgDup"       >Дублирование установленных
+		               пакетов на другую машину</a>
+  <li><a href="#PkgPartial"   >Незаконченная установка или
+		               удаление пакета</a>
 </ul>
 
 <hr>
 
-<h2 id="Intro">Introduction</h2>
+<h2 id="Intro">Введение</h2>
 
 There are many applications one might want to use on an OpenBSD system.
 To make this software easier to install and manage, it is <i>ported</i>
@@ -121,7 +122,7 @@ This information is used by
       by a careless user.
 </ul>
 
-<h2 id="Mirror">Selecting a Mirror</h2>
+<h2 id="Mirror">Выбор зеркала</h2>
 
 There are two places <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
 will look for packages:
@@ -142,7 +143,7 @@ via a colon-separated list:
 While the default should work well for most people, a list of alternate
 locations can be found on the <a href="../ftp.html">mirrors page</a>.
 
-<h2 id="PkgFind">Finding Packages</h2>
+<h2 id="PkgFind">Поиск пакетов</h2>
 
 A large collection of pre-compiled packages is available for the most common
 architectures.
@@ -189,7 +190,7 @@ Not all possible packages are necessarily available on the mirror servers.
 Some applications simply don't work on all architectures.
 Some applications cannot be distributed via mirrors for licensing reasons.
 
-<h2 id="PkgInstall">Installing Packages</h2>
+<h2 id="PkgInstall">Установка пакетов</h2>
 
 The <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> utility is used
 to install packages.
@@ -276,7 +277,7 @@ out of sync.
 Wait for the mirrors to catch up and try again.
 </ul>
 
-<h2 id="PkgUpdate">Updating Packages</h2>
+<h2 id="PkgUpdate">Обновление пакетов</h2>
 
 Let's say you had an older version of unzip installed before upgrading this
 box to the latest OpenBSD release.
@@ -293,7 +294,7 @@ Invoking <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> with
 only the <code>-u</code> flag will try to update all installed packages.
 This is highly recommended over updating individual packages on their own.
 
-<h2 id="PkgRemove">Removing Packages</h2>
+<h2 id="PkgRemove">Удаление пакетов</h2>
 
 To remove a package, simply take the name of the package and use
 <a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>.
@@ -308,7 +309,7 @@ Again, modified configuration files will not be removed.
 Unneeded dependencies can be trimmed by running <code>pkg_delete -a</code>
 at any time.
 
-<h2 id="PkgDup">Duplicating Installed Packages on Another Machine</h2>
+<h2 id="PkgDup">Дублирование установленных пакетов на другую машину</h2>
 
 Installing a new OpenBSD system with the same set of packages as an older
 machine is a fairly common use case.
@@ -348,7 +349,7 @@ In this case, subsequent
 <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> commands will select
 the current python package of the <code>3.6</code> version branch.
 
-<h2 id="PkgPartial">Incomplete Package Installation or Removal</h2>
+<h2 id="PkgPartial">Незаконченная установка или удаление пакета</h2>
 
 In some odd cases, you may find a package was not added completely,
 due to conflicts with other files.
