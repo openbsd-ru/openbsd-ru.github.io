@@ -8,7 +8,6 @@ We also respect people who understand English not good enough.
 
 
 ## TODO
-
 * FAQ#01 - Introduction to OpenBSD - [Sergey Bronnikov](https://github.com/ligurio)
 * FAQ#04 - Installation Guide - Wanna help? Be first, it's still not translated.
 * FAQ#05 - Building the System from Source - Wanna help? Be first, it's still not translated.
@@ -16,17 +15,15 @@ We also respect people who understand English not good enough.
 * FAQ#07 - Keyboard and Display Controls - Wanna help? Be first, it's still not translated.
 * FAQ#08 - General Questions - Wanna help? Be first, it's still not translated.
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
-* FAQ#11 - The X Window System - Wanna help? Be first, it's still not translated.
+* FAQ#11 - The X Window System - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
-* FAQ#15 - Package Management - Wanna help? Be first, it's still not translated.
+* FAQ#15 - Package Management - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ#17 - Virtual Private Networks (VPN) - Wanna help? Be first, it's still not translated.
-
 * FAQ - PacketFilter - Wanna help? Be first, it's still not translated.
 * FAQ - Ports - Wanna help? Be first, it's still not translated.
 * FAQ - PortsTesting - Wanna help? Be first, it's still not translated.
-
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenIKED - [Alexander Naumov](https://github.com/alexander-naumov)
@@ -81,22 +78,22 @@ by anyone and for any purpose.
 ## CONTRIBUTORS
 
 Maintainers:
-* Alexander Naumov <alexander_naumov@opensuse.org>
+* Alexander Naumov <alexander_naumov () opensuse ! org>
 
 Translators:
-* Alexander Naumov <alexander_naumov@opensuse.org>
-* Oleg Pahl <deface@posteo.de>
-* Dmitry Granin <granindb@gmail.com>
-* Ruslan Gundakov <haikudjin@gmail.com>
-* Dmitry Alenichev <dmitri@wave.net.ru>
-* Victor Gizhevsky <victor.gizhevsky@obsd.ru>
-* Maxim Golub <manefesto@inbox.ru>
-* Eugeny Zaharov <eudgen@gmail.com>
-* Vasyliy Kondrashev <vasyl.kondrashov@gmail.com>
+* Alexander Naumov <alexander_naumov () opensuse ! org>
+* Oleg Pahl <deface () posteo ! de>
+* Dmitry Granin <granindb () gmail ! com>
+* Ruslan Gundakov <haikudjin () gmail ! com>
+* Dmitry Alenichev <dmitri () wave ! net ! ru>
+* Victor Gizhevsky <victor.gizhevsky () obsd  ! ru>
+* Maxim Golub <manefesto () inbox ! ru>
+* Eugeny Zaharov <eudgen () gmail ! com>
+* Vasyliy Kondrashev <vasyl.kondrashov () gmail ! com>
 * Sergey Marinchev
-* Vitaly Polygaev <pvit@hotbox.ru>
-* Roman Romanchuk <fatroom@gmail.com>
-* Alexander Symakov <xander@entropyware.info>
-* Alexey Sychev <bsd@k96.ru>
-* Roman Khimov <roman@khimov.ru>
-* Sergey Bronnikov <sergeyb@bronevichok.ru>
+* Vitaly Polygaev <pvit () hotbox ! ru>
+* Roman Romanchuk <fatroom () gmail ! com>
+* Alexander Symakov <xander () entropyware ! info>
+* Alexey Sychev <bsd () k96 ! ru>
+* Roman Khimov <roman () khimov ! ru>
+* Sergey Bronnikov <sergeyb () bronevichok ! ru>
