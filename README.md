@@ -15,7 +15,6 @@ We also respect people who understand English not good enough.
 * FAQ#07 - Keyboard and Display Controls - Wanna help? Be first, it's still not translated.
 * FAQ#08 - General Questions - Wanna help? Be first, it's still not translated.
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
-* FAQ#11 - The X Window System - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
 * FAQ#15 - Package Management - [Alexander Naumov](https://github.com/alexander-naumov)
