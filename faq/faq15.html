@@ -351,18 +351,16 @@ the current python package of the <code>3.6</code> version branch.
 
 <h2 id="PkgPartial">Незаконченная установка или удаление пакета</h2>
 
-In some odd cases, you may find a package was not added completely,
-due to conflicts with other files.
-The incomplete installation is usually marked with "partial-" prepended to
-the package name.
-This can, for instance, happen when you coincidentally press CTRL+C during
-installation.
-The installation can be later completed, and the "partial-*" package will
-disappear, or it can be removed with 
+В очень редких случаях вы можете обнаружить, что пакет не был полностью
+установлен из-за конфликта с другими файлами. Неполная установка
+обычно помечается добавлением »partial-« в название пакета. Это может
+произойти, например, если вы случайно нажмете CTRL+C в процессе установки.
+Установка может быть продолжена позднее, и "partial-*" пакет исчезнет,
+или его можно удалить при помощи
 <a href="https://man.openbsd.org/pkg_delete">pkg_delete(8)</a>.
 <p>
-More dire system failures, such as file system issues, may
-lead to <code>/var/db/pkg</code> becoming corrupted or inconsistent.
+Более серьезные сбои, такие как проблемы с файловой системой, могут
+привести к повреждению <code>/var/db/pkg</code>.
 <p>
-The <a href="https://man.openbsd.org/pkg_check">pkg_check(8)</a> utility can
-help clean things up.
+Утилита <a href="https://man.openbsd.org/pkg_check">pkg_check(8)</a>
+может проверить состояние установленных пакетов.
