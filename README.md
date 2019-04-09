@@ -17,7 +17,6 @@ We also respect people who understand English not good enough.
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
-* FAQ#15 - Package Management - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ#17 - Virtual Private Networks (VPN) - Wanna help? Be first, it's still not translated.
 * FAQ - PacketFilter - Wanna help? Be first, it's still not translated.
