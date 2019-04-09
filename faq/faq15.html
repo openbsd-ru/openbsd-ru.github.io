@@ -123,33 +123,34 @@ Y и Z. Приложение X говорит о своей зависимост
 
 <h2 id="Mirror">Выбор зеркала</h2>
 
-There are two places <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
-will look for packages:
-the <a href="https://man.openbsd.org/installurl">installurl(5)</a> file
-(<code>/etc/installurl</code>) or the <code>PKG_PATH</code> environment
-variable.
-The former is the preferred method and is configured by default on new
-installations.
+Два места, которые проверяет <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
+при поиске пакетов, это файл
+<a href="https://man.openbsd.org/installurl">installurl(5)</a>
+(<code>/etc/installurl</code>) и значение переменной окружения <code>PKG_PATH</code>.
+Предпочтительным является первый метод и именно он настроен по умолчанию после
+установки системы.
 
 <p>
-If the use of multiple mirrors is needed, <code>PKG_PATH</code> allows this
-via a colon-separated list:
+Если необходимо настроить несколько зеркал одновременно, <code>PKG_PATH</code> поймет
+это, если передать ему список, разделенный двоеточиями.
 
 <pre class="cmdbox">
 # <b>export PKG_PATH=scp://user@company-build-server/usr/ports/packages/%a/all:https://trusted-public-server/%m:installpath</b>
 </pre>
 
-While the default should work well for most people, a list of alternate
-locations can be found on the <a href="../ftp.html">mirrors page</a>.
+И хотя настроенная по умолчанию система должна отлично работать и устраивать
+большинство пользователей, на <a href="https://openbsd.org/ftp.html">странице зеркал</a>
+можно найти список альтернативных репозиторий.
 
 <h2 id="PkgFind">Поиск пакетов</h2>
 
-A large collection of pre-compiled packages is available for the most common
-architectures.
+Большая коллекция скомпилированных пакетов доступна для наиболее
+распространенных архитектур.
 
 <p>
-To search for any given package name, use the <code>-Q</code> flag of
-<a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a>.
+Чтобы найти необходимый пакет, используейте 
+<a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a> с параметром
+<code>-Q</code>.
 
 <pre class="cmdbox">
 $ <b>pkg_info -Q unzip</b>
@@ -158,8 +159,8 @@ unzip-6.0p9
 unzip-6.0p9-iconv
 </pre>
 
-Another way to find what you're looking for is with the <code>pkglocate</code>
-command, available from the <code>pkglocatedb</code> package.
+Другим способом поиска является использование команды <code>pkglocate</code>,
+доступной после установки пакета <code>pkglocatedb</code>.
 
 <pre class="cmdbox">
 $ <b>pkglocate mutool</b>
@@ -169,32 +170,31 @@ mupdf-1.11p1:textproc/mupdf:/usr/local/bin/mutool
 mupdf-1.11p1:textproc/mupdf:/usr/local/man/man1/mutool.1
 </pre>
 
-If you're looking for a specific filename, it can be used to find which
-package(s) contain that file.
+Если нужно найти какой-то конкретный файл, то этот метод поможет найти
+называние пакета, который этот файл содержит.
 
 <p>
-You will notice that certain packages are available in a few different
-varieties.
-These are called <b>flavors</b>.
-The <a href="ports/ports.html#PortsFlavors">ports FAQ</a> explains flavors
-in detail, but it basically means they're configured with different sets
-of options.
-For example, a package might have optional database support, support for
-systems without X11, etc.
-Some packages are also divided into <b>subpackages</b> that may be
-installed separately.
+Как вы видете, некоторые пакеты доступны в нескольких различных вариантах.
+Так называемых <b>»flavors«</b>. В главе,
+<a href="https://openbsd.org/faq/ports/ports.html#PortsFlavors">посвященной портам</a>,
+рассказывается об этом подробнее, но если в двух словах, то это просто
+различные конфигурации одного и того же пакета.
+Например, пакет может быть сконфигурирован с поддержкой базы данных, или
+сконфигурирован так, чтобы не быть зависимым от X11 и работать без него,
+и т.д. Некоторые пакеты разделены на так называемые <b>»subpackages«</b>,
+которы могут быть установленны отдельно.
 
 <p>
-Not all possible packages are necessarily available on the mirror servers.
-Some applications simply don't work on all architectures.
-Some applications cannot be distributed via mirrors for licensing reasons.
+Не все собранные пакеты доступны на наших серверах и их зеркалах.
+Некоторые просто не работают на всех архитектурах.
+Некоторые не могут распростаняться из-за проблем с лицензией.
 
 <h2 id="PkgInstall">Установка пакетов</h2>
 
-The <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> utility is used
-to install packages.
-If multiple flavors of a package exist, you will be prompted to choose which
-one you want to install.
+Для установки пакетов используется утилита
+<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>.
+Если пакет предлагает несколько »flavors«, надо будет выбрать какой именно
+должен быть установлен.
 
 <pre class="cmdbox">
 # <b>pkg_add rsync</b>
@@ -205,22 +205,22 @@ a       0: &lt;None&gt;
 Your choice:
 </pre>
 
-Here you would select <b>1</b> if you want the standard package or <b>2</b>
-if you need iconv support.
-You can also choose the flavor directly on the command line by using
-<code>pkg_add rsync--</code> (for the default) or
-<code>pkg_add rsync--iconv</code> (for the iconv flavor).
+В этом примере надо будет выбрать <b>1</b>, если вы хотите установить пакет
+со стандартной конфигурацией или <b>2</b>, если вам нужна поддежка iconv.
+Если вы знаете заранее о доступных »flavors«, можно сразу указать в консоли
+какой из них нужно установить
+<code>pkg_add rsync--</code> (стандартная кофигурация) или
+<code>pkg_add rsync--iconv</code> (с поддержкой iconv).
 
 <p>
-It is possible to specify multiple package names on one line, which then
-all get installed at once, along with their dependencies.
-You may also specify the absolute location of a package, be it a local
-file or remote URL.
-Supported URL prefixes are http, https, ftp and scp.
+Можно сразу указать в одной строке список имен пакетов, которые затем будут
+по очереди установленны вместе с зависимостями.
+Можно так же указать путь к пакету, который надо установить, будь это локальный
+файл или адрес URL. Поддерживаемыми URL являются http, https, ftp и scp.
 
 <p>
-For some packages, important additional information will be given about
-the configuration or use of the application.
+Для некоторых пакетов в процессе установки предоставляется дополнительная
+информация, касательно его конфигурации или специфики запуска.
 
 <pre class="cmdbox">
 # <b>pkg_add jove</b>
@@ -231,17 +231,16 @@ See /usr/local/share/jove/README about changes to /etc/rc or
 on reboot after a system crash
 </pre>
 
-Additionally, some packages provide configuration and other information
-in a file located in <code>/usr/local/share/doc/pkg-readmes</code>.
+В дополнение к этому, некоторые пакеты предоставляют дополнительную информацию
+в файле <code>/usr/local/share/doc/pkg-readmes</code>.
 
 <p>
-For your safety, if you are installing a package which you had installed
-earlier and removed, configuration files which have been modified will
-not be overwritten.
-The same is true for when you upgrade a package.
+Для надежности, если вы устанавливаете пакет, который уже устанавливали ранее
+и удалили, конфигурационные файлы, которые были изменены, не будут перезаписаны.
+Это относится и к обновлению пакетов.
 
 <p>
-Sometimes you may encounter an error like the one in the following example:
+Иногда вы можете столкнуться с ошибкой как в этом примере:
 
 <pre class="cmdbox">
 # <b>pkg_add xv</b>
@@ -256,24 +255,25 @@ Direct dependencies for xv-3.10ap15 resolve to png-1.6.31 jasper-1.900.1p5 tiff-
 Full dependency tree is png-1.6.31 tiff-4.0.8p1 jasper-1.900.1p5 jpeg-1.5.1p0v0
 </pre>
 
-The packing information bundled in the package includes information
-about shared libraries that the package expects to be installed.
-If one of the required libraries can't be found, the package is not
-installed because it would not function anyway.
+Пакет содержит информацию о своих зависимостях (библиотеках), которые
+должны быть установлены. Если одна из необходимых библиотек не может
+быть найдена, пакет не будет устанавливаться, поскольку без этой
+библиотеки он все равно не будет работать.
 
 <p>
-There are several things to check:
+Что можно проверить:
 
 <ul>
-<li>Your system may be incomplete: you did not install one of the
-<a href="faq4.html#FilesNeeded">file sets</a> that contains the required
-library.
-<li>Your system (or packages) may be outdated: you have an older version
-of the required library.
-Make sure that both the base system and any installed packages are up to date.
-<li>If you're running -current, base and package snapshots may be slightly
-out of sync.
-Wait for the mirrors to catch up and try again.
+    <li>Система установленна не полностью: вы не установили файл, содержащий
+        данную библиотеку. Просто
+        <a href="faq4.html#FilesNeeded">добавьте файл</a>, содержащий необходимую
+        библиотеку.
+    <li>Ваша система (или пакет) устарели: у вас слишком старая версия необходимой
+        библиотеки. Удостовертесь, что и система и устанавливаемый в ней пакет,
+	последней версии.
+    <li>Если вы используете -current, снапшот базовой части системы и пакет могут
+	быть не синхронизованы. Подождите, пока зеркала не синхронизируются, и
+	попробуйте снова.
 </ul>
 
 <h2 id="PkgUpdate">Обновление пакетов</h2>
@@ -310,22 +310,22 @@ Read shared items: ok
 
 <h2 id="PkgDup">Дублирование установленных пакетов на другую машину</h2>
 
-Installing a new OpenBSD system with the same set of packages as an older
-machine is a fairly common use case.
-The <code>-mz</code> flags of
-<a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a> will yield
-appropriate results to make this task easier.
+Установка новой системы OpenBSD с таким же набором программ, что и на старой
+системе, достаточно частое явление.
+Параметры <code>-mz</code> для
+<a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a> помогут нам в этом.
 
 <ul>
-  <li>The <code>-m</code> flag only selects packages that were manually
-      installed.
-      Dependencies are not recorded, as they're pulled in automatically.
-  <li>The <code>-z</code> flag excludes version information from the output.
-      Only the flavor and branch are displayed, ensuring that future package
-      installations will select the appropriate version.
+  <li>Параметр <code>-m</code> выберет только те пакеты, которые были
+      установленны вручную. Список зависимостей отдельно не сохраняется,
+      т.к. в этом нет необходимости, потому что при установке пакетов они
+      будут установленны автоматически.
+  <li>Параметр <code>-z</code> игнорирует версию установленных пакетов.
+      Будет использована информация только о flavor и branch, что гарантирует
+      что при будущих установках пакета будет выбрана соответствующая версия.
 </ul>
 
-For instance:
+Например:
 
 <pre class="cmdbox">
 $ <b>pkg_info -mz | tee list</b>
@@ -335,18 +335,19 @@ python--%3.6
 vim--no_x11
 </pre>
 
-Copy the "list" file over to the other machine and run:
+Скопирует список файлов. После чего этот список используется на другой машине:
 
 <pre class="cmdbox">
 # <b>pkg_add -l list</b>
 </pre>
 
-Every package specification has a flavor (<code>--</code> being the default)
-appended to its name, and packages that co-exist in several versions also
-have branch information.
-In this case, subsequent
-<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> commands will select
-the current python package of the <code>3.6</code> version branch.
+Спецификация каждого пакета содержит flavor (<code>--</code> соответствует
+стандартной конфигурации) добавленное к его имени, а так же пакеты, которые
+доступны в нескольких версиях, так же содержат branch информацию.
+В данном случае, 
+<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> выберет доступную
+в новом репозитории версию пакета python, но сам интерпретор будет версии
+<code>3.6</code>, т.к. эта информация о branch и она учитывается.
 
 <h2 id="PkgPartial">Незаконченная установка или удаление пакета</h2>
 
