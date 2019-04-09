@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang=en>
+
+<style>
+dt { margin-left: 40px; float: left; }
+dd { margin: 0 0 0 10em; }
+</style>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD FAQ: Installation Guide</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/faq4.html">
+
+<h2 id=OpenBSD>
+<a href="../index.html">
+<i>Open</i><b>BSD</b></a>
+FAQ - Installation Guide
+<small>
+<a href="index.html">[FAQ Index]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#bsd.rd"      >Overview of the Installation Procedure</a>
+  <li><a href="#Checklist"   >Pre-installation Checklist</a>
+  <li><a href="#Download"    >Downloading OpenBSD</a>
+  <li><a href="#MkInsMedia"  >Creating Install Media</a>
+  <li><a href="#Install"     >Performing a Simple Install</a>
+  <li><a href="#FilesNeeded" >File Sets</a>
+  <li><a href="#Partitioning">Disk Partitioning</a>
+  <li><a href="#SendDmesg"   >Sending Your dmesg After the Install</a>
+  <li><a href="#site"        >Customizing the Install Process</a>
+  <li><a href="#Multibooting">Multibooting</a>
+</ul>
+<hr>
+
+<h2 id="bsd.rd">Overview of the Installation Procedure</h2>
+
+The OpenBSD installer uses a special ramdisk kernel (<code>bsd.rd</code>)
+that spawns a live environment running entirely in memory.
+It contains the install script and a small number of utilities needed
+to perform a complete installation.
+These utilities can also be useful for disaster recovery.
+
+<p>
+The ramdisk kernel can be booted from a number of different sources:
+
+<ul>
+  <li>CD/DVD
+  <li>USB drive
+  <li>An existing partition
+  <li>Over the network
+      (<a href="faq6.html#PXE">PXE</a> or other
+       <a href="https://man.openbsd.org/diskless">network boot options</a>)
+  <li>Floppy disk
+</ul>
+
+Not every <a href="../plat.html">platform</a> supports all of these options.
+
+<p>
+If you have a running OpenBSD system, <code>bsd.rd</code> is all you need to
+reinstall or upgrade to a newer version.
+To do so,
+<a href="#Download">download and verify</a> the new <code>bsd.rd</code>,
+place it on an existing filesystem, and boot from it.
+The general method of booting <code>bsd.rd</code> is to change your boot kernel
+from <code>/bsd</code> to <code>/bsd.rd</code> through whatever means used on
+your platform.
+
+<p>
+Booting from <code>bsd.rd</code> on an amd64 system can be done like so:
+
+<pre class="cmdbox">
+Using drive 0, partition 3.
+Loading......
+probing: pc0 com0 com1 mem[638K 1918M a20=on]
+disk: hd0+ hd1+
+>> OpenBSD/amd64 BOOT 3.33
+boot> <b>bsd.rd</b>
+</pre>
+
+This will boot the kernel named <code>bsd.rd</code> from the first partition
+of the first recognized hard disk.
+
+<p>
+If you need to specify a different drive or partition, just prefix the
+kernel name with its location.
+The following example would boot from the fourth partition of the second
+hard drive:
+
+<pre class="cmdbox">
+Using drive 0, partition 3.
+Loading......
+probing: pc0 com0 com1 mem[638K 1918M a20=on]
+disk: hd0+ hd1+
+>> OpenBSD/amd64 BOOT 3.33
+boot> <b>boot hd1d:/bsd.rd</b>
+</pre>
+
+OpenBSD boot loaders are documented in the architecture-specific
+<a href="https://man.openbsd.org/boot.8">boot(8)</a> man pages.
+
+<h2 id="Checklist">Pre-installation Checklist</h2>
+
+Before you start, you should have some idea what you want to end up with.
+A few things worth considering beforehand:
+
+<ul>
+  <li>Machine name
+  <li>Hardware installed and available:
+    <ul>
+      <li>Verify compatibility with your hardware.
+          You may want to consult the platform-specific installation notes,
+          especially if you're using one of the non-x86 CPU architectures.
+          They contain detailed instructions and any possible caveats:
+          <p>
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/alpha/INSTALL.alpha">alpha</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/amd64/INSTALL.amd64">amd64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/arm64/INSTALL.arm64">arm64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/armv7/INSTALL.armv7">armv7</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/hppa/INSTALL.hppa">hppa</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/i386/INSTALL.i386">i386</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/landisk/INSTALL.landisk">landisk</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/loongson/INSTALL.loongson">loongson</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/luna88k/INSTALL.luna88k">luna88k</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/macppc/INSTALL.macppc">macppc</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/octeon/INSTALL.octeon">octeon</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/sgi/INSTALL.sgi">sgi</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.4/sparc64/INSTALL.sparc64">sparc64</a>]
+      <li>If wireless internet is your only option, does your card require
+        <a href="http://firmware.openbsd.org/firmware">additional firmware</a>?
+        If so, you'll need to manually download it to a USB drive or similar
+        device, then use the
+        <a href="https://man.openbsd.org/fw_update">fw_update(1)</a> tool to
+        enable it after OpenBSD is installed.
+    </ul>
+  <li>Install method to be used
+  <li>Desired disk layout:
+    <ul>
+      <li>Does existing data need to be saved elsewhere?
+      <li>Will OpenBSD coexist on this system with another OS?
+        If so, how will each system be booted?
+        Will you need to install a boot manager?
+      <li>Will the entire disk be used for OpenBSD, or do you want to
+        keep an existing partition/OS (or space for a future one)?
+      <li>How do you wish to sub-partition the OpenBSD part of your disk?
+      <li>Do you want <a href="faq14.html#softraidFDE">disk encryption</a>?
+    </ul>
+  <li>Network settings, if not using DHCP:
+    <ul>
+      <li>Domain name and DNS address
+      <li>IP address and subnet masks for each NIC
+      <li>Gateway address
+    </ul>
+</ul>
+
+<h2 id="Download">Downloading OpenBSD</h2>
+
+The following installation images are available:
+
+<ul>
+<li>
+<b>installXX.fs</b>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/amd64/install64.fs">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/i386/install64.fs">i386</a>]
+<br>
+A disk image that can be written to a USB flash drive or similar device.
+<br>
+Includes the <a href="#FilesNeeded">file sets</a>.
+
+<p>
+<li>
+<b>minirootXX.fs</b>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/alpha/miniroot64.fs">alpha</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/amd64/miniroot64.fs">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/arm64/miniroot64.fs">arm64</a>]
+<!-- armv7 has multiple miniroot files for different boards -->
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/armv7/">armv7</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/i386/miniroot64.fs">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/landisk/miniroot64.fs">landisk</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/loongson/miniroot64.fs">loongson</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/luna88k/miniroot64.fs">luna88k</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/octeon/miniroot64.fs">octeon</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/sparc64/miniroot64.fs">sparc64</a>]
+<br>
+The same as above, but file sets are not included.
+They can be pulled down from the internet or from a local disk.
+
+<p>
+<li>
+<b>installXX.iso</b>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/alpha/install64.iso">alpha</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/amd64/install64.iso">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/hppa/install64.iso">hppa</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/i386/install64.iso">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/macppc/install64.iso">macppc</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/sgi/install64.iso">sgi</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/sparc64/install64.iso">sparc64</a>]
+<br>
+An ISO 9660 image that can be used to create an install CD/DVD.
+<br>
+Includes the file sets.
+
+<p>
+<li>
+<b>cdXX.iso</b>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/alpha/cd64.iso">alpha</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/amd64/cd64.iso">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/hppa/cd64.iso">hppa</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/i386/cd64.iso">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/macppc/cd64.iso">macppc</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/sgi/cd64.iso">sgi</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/sparc64/cd64.iso">sparc64</a>]
+<br>
+The same as above, but file sets are not included.
+
+<p>
+<li>
+<b>floppyXX.fs</b>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/amd64/floppy64.fs">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/i386/floppy64.fs">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.4/sparc64/floppy64.fs">sparc64</a>]
+<br>
+Supports some older machines that lack other booting options.
+</ul>
+
+Images can also be downloaded from a number of alternate
+<a href="../ftp.html">mirror sites</a>.
+
+<p>
+An <code>SHA256</code> file containing checksums can be found in the same
+directory as the installation files.
+You can confirm that none of the downloaded files were mangled in transit
+using the <a href="https://man.openbsd.org/sha256">sha256(1)</a> command.
+
+<pre class="cmdbox">
+$ <b>sha256 -C SHA256 miniroot*.fs</b>
+(SHA256) minirootXX.fs: OK
+</pre>
+
+Or, if you're using an OS with the GNU coreutils:
+
+<pre class="cmdbox">
+$ <b>sha256sum -c --ignore-missing SHA256</b>
+minirootXX.fs: OK
+</pre>
+
+However, this only checks for <i>accidental</i> corruption.
+You can use <a href="https://man.openbsd.org/signify">signify(1)</a> and the
+<code>SHA256.sig</code> file to cryptographically verify the downloaded image.
+
+<pre class="cmdbox">
+$ <b>signify -Cp /etc/signify/openbsd-XX-base.pub -x SHA256.sig miniroot*.fs</b>
+Signature Verified
+minirootXX.fs: OK
+</pre>
+
+Note that the signify package on other operating systems may not include the
+required public keys, or they may be installed in another location.
+
+<p>
+The <code>installXX.iso</code> and <code>installXX.fs</code> images do not
+contain an <code>SHA256.sig</code> file,
+and the installer will complain that it can't check the signatures.
+It is not possible for the installer to verify the sets with these images.
+After all, if someone were to make a rogue installer file, they could
+certainly change the installer to say the files were legitimate.
+Thus, you must verify those installer downloads separately.
+
+<h2 id="MkInsMedia">Creating Install Media</h2>
+
+<h3 id="MkFlash">Flash Drives</h3>
+
+A bootable USB flash drive can be created by attaching the target device and
+copying over the image with <a href="https://man.openbsd.org/dd">dd(1)</a>.
+
+<p>
+Using OpenBSD, assuming the device was recognized as <code>sd6</code>:
+
+<pre class="cmdbox">
+# <b>dd if=install*.fs of=/dev/rsd6c bs=1m</b>
+</pre>
+
+Note that the <b>raw I/O device</b> is used, <code>rsd6c</code> rather than
+<code>sd6c</code>.
+
+<p>
+Details of this will vary on other platforms.
+The GNU version of <code>dd</code> will require <code>bs=1M</code>
+(note the capital M)
+instead.
+If you're using a different OS, be sure to select the appropriate device
+name: <code>/dev/sdX</code> on Linux or <code>/dev/rdiskX</code> on macOS
+for example.
+
+<h3 id="MkCD-ROM">CD-ROMs</h3>
+
+You can create a bootable CD-ROM on OpenBSD by using
+<a href="https://man.openbsd.org/cdio">cdio(1)</a>.
+
+<pre class="cmdbox">
+# <b>cdio tao cd*.iso</b>
+</pre>
+
+<h2 id="Install">Performing a Simple Install</h2>
+
+If you need instructions on booting from your preferred media, check the
+relevant <a href="../plat.html">platform page</a> of your machine.
+
+<p>
+The installer is designed to install OpenBSD in a very usable default
+configuration with a minimum of user intervention.
+In fact, you can often just hit <code>&lt;Enter&gt;</code> to get a good OpenBSD
+install, moving your hands to the rest of the keyboard only to enter the
+root password.
+
+<p>
+After the <a href="https://man.openbsd.org/dmesg">dmesg(8)</a> is shown,
+you will see the first installer question:
+
+<pre class="cmdbox">
+...
+root on rd0a swap on rd0b dump on rd0b
+erase ^?, werase ^W, kill ^U, intr ^C, status ^T
+
+Welcome to the OpenBSD/amd64 X.X installation program.
+(I)nstall, (U)pgrade, (A)utoinstall or (S)hell?
+</pre>
+
+Choose <code>(I)nstall</code> and follow the instructions.
+
+<h2 id="FilesNeeded">File Sets</h2>
+
+The complete OpenBSD installation is broken up into a number of file sets:
+
+<dl>
+  <dt><code>bsd</code>
+    <dd>The kernel <b>(required)</b>
+  <dt><code>bsd.mp</code>
+    <dd>The multi-processor kernel (only on some platforms)
+  <dt><code>bsd.rd</code>
+    <dd>The <a href="#bsd.rd">ramdisk kernel</a>
+  <dt><code>baseXX.tgz</code>
+    <dd>The base system <b>(required)</b>
+  <dt><code>compXX.tgz</code>
+    <dd>The compiler collection, headers and libraries
+  <dt><code>manXX.tgz</code>
+    <dd>Manual pages
+  <dt><code>gameXX.tgz</code>
+    <dd>Text-based games
+  <dt><code>xbaseXX.tgz</code>
+    <dd>Base libraries and utilities for X11
+        (requires <code>xshareXX.tgz</code>)
+  <dt><code>xfontXX.tgz</code>
+    <dd>Fonts used by X11
+  <dt><code>xservXX.tgz</code>
+    <dd>X11's X servers
+  <dt><code>xshareXX.tgz</code>
+    <dd>X11's man pages, locale settings and includes
+</dl>
+
+New users are recommended to install all of them.
+
+<p>
+Some libraries from <code>xbaseXX.tgz</code>, like freetype or fontconfig, can
+be used outside of X by programs that manipulate text or graphics.
+Such programs will usually need fonts, either from <code>xfontXX.tgz</code> or
+font packages.
+For the sake of simplicity, the developers decided against maintaining a minimal
+<code>xbaseXX.tgz</code> set that would allow most non-X ports to run.
+The <code>xservXX.tgz</code> set is rarely needed if you don't intend to run X.
+
+<h3>Adding a File Set After Install</h3>
+
+If you chose to skip some file sets at install time, you might realize later
+that you really do need them after all.
+Simply boot <a href="#bsd.rd">bsd.rd</a> from your root file system and choose
+<code>(U)pgrade</code>.
+When you get to the list of file sets, select the ones you need.
+
+<h2 id="Partitioning">Disk Partitioning</h2>
+
+OpenBSD can be installed in as little as 512MB, but using a device that small
+is something for advanced users.
+Until you have some experience, 8GB or more disk space is recommended.
+
+<p>
+Unlike some other operating systems, OpenBSD encourages users to split their
+disk into a number of partitions, rather than just one or two large ones.
+Some of the reasons for doing so are:
+
+<ul>
+  <li>Security:
+      Some of OpenBSD's default security features rely on filesystem
+      <a href="https://man.openbsd.org/mount#o">mount options</a> such as
+      <code>nosuid</code>, <code>nodev</code>, <code>noexec</code> or
+      <code>wxallowed</code>.
+  <li>Stability:
+      A user or a misbehaved program can fill a filesystem with garbage if they
+      have write permissions for it.
+      Your critical programs, which hopefully run on a different filesystem,
+      do not get interrupted.
+  <li><a href="https://man.openbsd.org/fsck">fsck(8)</a>:
+      You can mount partitions that you never or rarely need to write to as
+      <code>readonly</code> most of the time, which will eliminate the need for
+      a filesystem check after a crash or power interruption.
+</ul>
+
+The installer will create a partitioning plan based on the size of your
+hard disk.
+While this will not be a perfect layout for all people, it provides a
+good starting point for figuring out what you need.
+Read about disklabel's defaults for
+<a href="https://man.openbsd.org/disklabel#AUTOMATIC_DISK_ALLOCATION">
+automatic disk allocation</a> and the
+<a href="https://man.openbsd.org/hier">hier(7)</a> man page before making
+decisions about custom partitioning schemes.
+
+<ul>
+  <li>Since some <a href="faq15.html">packages</a> need to be started from a
+    <code>wxallowed</code> filesystem, it is recommended to have a separate
+    <code>/usr/local</code> partition.
+  <li>Very small partitions can become troublesome when you need to upgrade.
+  <li>A <code>/home</code> partition can be nice.
+    New version of the OS?
+    Leave your <code>/home</code> partition untouched, wipe and reload
+    everything else.
+  <li>You may also want to create an
+    <a href="faq14.html#altroot">altroot partition</a> for backing up your
+    root filesystem.
+  <li>A system exposed to the internet should have a separate <code>/var</code>
+    and maybe even a separate <code>/var/log</code>.
+  <li>
+    Compiling some <a href="ports/index.html">ports</a> from source can take
+    huge amounts of space on your <code>/usr</code> and <code>/tmp</code>
+    partitions.
+</ul>
+
+<h2 id= "SendDmesg">Sending Your dmesg After the Install</h2>
+
+A quote from <code>/usr/src/etc/root/root.mail</code>:
+
+<pre class="cmdbox">
+If you wish to ensure that OpenBSD runs better on your machines, please do us
+a favor (after you have your mail system configured!) and type something like:
+
+# <b>(dmesg; sysctl hw.sensors) | \
+   mail -s "Sony VAIO 505R laptop, apm works OK" dmesg@openbsd.org</b>
+
+so that we can see what kinds of configurations people are running.  As shown,
+including a bit of information about your machine in the subject or the body
+can help us even further.  We will use this information to improve device driver
+support in future releases.  (Please do this using the supplied GENERIC kernel,
+not for a custom compiled kernel, unless you're unable to boot the GENERIC
+kernel.  If you have a multi-processor machine, dmesg results of both GENERIC.MP
+and GENERIC kernels are appreciated.)  The device driver information we get from
+this helps us fix existing drivers. Thank you!
+</pre>
+
+Alternatively, save your dmesg output to a text file and send us its contents:
+
+<pre class="cmdbox">
+$ <b>(dmesg; sysctl hw.sensors) > ~/dmesg.txt</b>
+</pre>
+
+Please configure your email client to use plain text.
+In particular, do not use HTML formatting or forced line breaks.
+Put the dmesg into the body of the mail, not as an attachment.
+
+<h2 id="site">Customizing the Install Process</h2>
+
+<h3>The <code>siteXX.tgz</code> File Set</h3>
+
+The OpenBSD install and upgrade scripts allow the selection of a user-created
+set called <code>siteXX.tgz</code>,
+where <code>XX</code> is the release version.
+Like the official <a href="#FilesNeeded">file sets</a>, this is a
+<a href="https://man.openbsd.org/tar">tar(1)</a> archive rooted in
+<code>/</code> and untarred with the <code>-xzphf</code> options.
+It is installed last, so it can be used to complement and modify the files from
+a default install.
+Furthermore, it is possible to use hostname-dependent sets named
+<code>siteXX-$(hostname -s).tgz</code>.
+
+<b>Note:</b>
+If you intend to provide the sets over HTTP(s), place <code>siteXX.tgz</code>
+in your source directory and include it in your <code>index.txt</code>.
+It will then be an option at install time.
+
+<h3>The <code>install.site</code> and <code>upgrade.site</code> Scripts</h3>
+
+If the <code>siteXX.tgz</code> file set contains an executable file
+<code>/install.site</code>, the installer runs it with
+<a href="https://man.openbsd.org/chroot">chroot(8)</a>
+based at the freshly installed system's root.
+Similarly, the upgrade script runs <code>/upgrade.site</code>.
+The latter can be placed in the system's root directory before rebooting
+for the upgrade.
+
+<p>
+Example usage:
+
+<ul>
+  <li>Set the system time.
+  <li>Do an immediate backup/archive of the new system before you expose it to
+    the rest of the world.
+  <li>Have a set of arbitrary commands be run after the first boot.
+    This will happen if install.site is used to append any such commands to an
+    <a href="https://man.openbsd.org/rc.firsttime">rc.firsttime(8)</a>
+    file (appending to this file is necessary since the installer itself may
+    write to this file).
+    At boot time, <code>rc.firsttime</code> is executed once then deleted.
+</ul>
+
+<h2 id="Multibooting">Multibooting</h2>
+
+Multibooting is having several operating systems on one computer, with some
+means of selecting which OS is to boot.
+You may want to familiarize yourself with the
+<a href="faq14.html#BootAmd64">OpenBSD boot process</a> before you start.
+A brief introduction to <a href="https://man.openbsd.org/fdisk">fdisk(8)</a>
+is in the section on <a href="faq14.html#fdisk">using OpenBSD's fdisk</a>.
+
+<p>
+If you are adding OpenBSD to an existing system, you will probably need to
+create some free space before installing OpenBSD.
+In addition to your existing system's native tools,
+<a href="http://gparted.org/">gparted</a>
+may be useful for deleting or resizing existing partitions.
+Preferably use one of the four primary MBR partitions for booting OpenBSD.
+Extended partitions may not work.
+
+<h3>Boot Loaders</h3>
+
+On Macs, <a href="http://www.rodsbooks.com/refind/">rEFInd</a> should work out
+of the box.
+
+<p>
+You can set up dual booting with
+<a href="https://www.gnu.org/software/grub/">GRUB 2</a> as follows.
+Assuming OpenBSD is installed on the fourth MBR partition (fdisk partition 3) of
+the first hard disk <code>hd0</code>, append the following to
+<code>/etc/grub.d/40_custom</code>.
+
+<pre class="cmdbox">
+menuentry "OpenBSD" {
+	set root=(hd0,4)
+	chainloader +1
+}
+</pre>
+
+Then regenerate the GRUB 2 configuration file, <code>/boot/grub/grub.cfg</code>.
+On Debian-based distros, you should run <code>update-grub</code>.
+Otherwise, do
+
+<pre class="cmdbox">
+# <b>grub-mkconfig -o /boot/grub/grub.cfg</b>
+</pre>
+
+See the
+<a href="https://www.gnu.org/software/grub/manual/grub.html#Invoking-grub_002dmkconfig">
+GRUB 2 manual</a> or
+<a href="https://manpages.debian.org/jessie/grub2-common/update-grub2.8">
+update-grub2(8)</a>
+for more information.
+
+<h3>Windows</h3>
+
+The Boot Configuration Data (BCD) store allows multiple versions of Windows
+to be booted through <code>bcdedit</code>.
+A good introduction can be found in
+<a href="https://technet.microsoft.com/en-us/library/cc721886%28WS.10%29.aspx">
+this article</a>.
+If you want a GUI alternative, you may want to try
+<a href="https://neosmart.net/EasyBCD/">EasyBCD</a>.
+
+<p>
+You will need a copy of your OpenBSD install's
+<a href="faq14.html#BootAmd64">Partition Boot Record (PBR)</a>.
+You can copy it to a file using a process similar to:
+<pre class="cmdbox">
+# <b>dd if=/dev/rsd0a of=openbsd.pbr bs=512 count=1</b>
+</pre>
+where <code>sd0a</code> is your boot device, and you will need to get the
+file <code>openbsd.pbr</code> to your Windows system partition.
+
+<p>
+Once OpenBSD's PBR is copied to the Windows system partition, you need a shell
+with administrative privileges to run the following commands:
+
+<pre class="cmdbox">
+C:\Windows\system32> <b>bcdedit /create /d "OpenBSD/i386" /application bootsector</b>
+The entry {0154a872-3d41-11de-bd67-a7060316bbb1} was successfully created.
+C:\Windows\system32> <b>bcdedit /set {0154a872-3d41-11de-bd67-a7060316bbb1} device boot</b>
+The operation completed successfully.
+C:\Windows\system32> <b>bcdedit /set {0154a872-3d41-11de-bd67-a7060316bbb1} path \openbsd.pbr</b>
+The operation completed successfully.
+C:\Windows\system32> <b>bcdedit /set {0154a872-3d41-11de-bd67-a7060316bbb1} device partition=c:</b>
+The operation completed successfully.
+C:\Windows\system32> <b>bcdedit /displayorder {0154a872-3d41-11de-bd67-7060316bbb1} /addlast</b>
+The operation completed successfully.
+</pre>
+
+Note that OpenBSD expects the computer's real-time clock to be set to
+Coordinated Universal Time (UTC).
+See <a href="faq8.html#TimeZone">this section</a> for more info.
