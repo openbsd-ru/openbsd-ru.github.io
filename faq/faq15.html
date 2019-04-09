@@ -55,71 +55,70 @@ FAQ - Работа с пакетами
 
 <h2 id="Intro">Введение</h2>
 
-There are many applications one might want to use on an OpenBSD system.
-To make this software easier to install and manage, it is <i>ported</i>
-to OpenBSD and packaged.
-The aim of the package system is to keep track of which software gets
-installed, so that it may be easily updated or removed.
-In minutes, a large number of packages can be fetched and installed, with
-everything put in the right place.
+Существует множество программ, которые без проблем можно запустить в
+OpenBSD. Для того, чтобы их можно было легко устанавливать и работать
+с ними, их необходимо <i>портировать</i> на OpenBSD и упаковать.
+Целью создания системы пакетов является возможность отслеживания того,
+какой софт уже установлен, а также возможность его быстрого обновления
+или удаления.
+За считаные минуты можно скачать и установить необходимое количество
+пакетов, при этом все будет размещено в нужном месте.
 
 <p>
-The ports collection does <b>not</b> go through the same thorough security
-audit that is performed on the OpenBSD base system.
-Although we strive to keep the quality of the packages high, we just do not
-have enough resources to ensure the same level of robustness and security.
+Коллекция портов <b>не проходит</b> столь тщательного аудита безопасности
+как сама OpenBSD. Тем не менее, мы все же мы стремимся сохранять качество
+нашей коллекции пакетов на достаточном уровне, хотя и не имеем такого
+количества людей, чтобы гарантировать такой же уровень стабильности и
+безопасности.
 
 <p>
-The OpenBSD ports team considers packages to be the goal of their porting
-work, not the ports themselves.
-In general, you are advised to use packages over building an application
-from ports.
-<!-- XXXrelease - change if/when we get -stable package updates -->
-Security updates are the <a href="ports/ports.html#PortsSecurity">exception</a>
-to this rule, as they are only available via ports.
-<b>Binary packages for -release and -stable are not updated</b>.
+Команда, занимающееся портми OpenBSD, в основном сосредоточена на работе
+с пакетами, а не самими портами. Другими словами, вам рекомендуется
+использовать пакеты вместо того, чтобы устанавливать (собирать) программы
+из портов. Обновления безопасности
+<a href="https://openbsd.org/faq/ports/ports.html#PortsSecurity">
+являются исключением из этого правила</a>,
+поскольку они доступны только через порты.
+<b>Пакеты с бинарниками для -release и -stable не обновляются</b>.
 
 <p>
-Packages can be easily managed with the help of several utilities:
+Работать с пакетами можно при помощи следующих утилит:
 
 <ul>
   <li><a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
-  - for installing and upgrading packages
+  - для установки и обновлении пакетов
   <li><a href="https://man.openbsd.org/pkg_check">pkg_check(8)</a>
-  - for checking the consistency of installed packages
+  - для проверки целостности установленных пакетов
   <li><a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>
-  - for removing installed packages
+  - для удаления установленных пакетов
   <li><a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a>
-  - for displaying information about packages
+  - предоставляет информацию о пакетах
 </ul>
 
-In order to run properly, application X may require that other applications
-Y and Z be installed.
-Application X is said to be dependent on these other applications, which is
-why Y and Z are called <i>dependencies</i> of X.
-In turn, Y may require other applications P and Q, and Z may require
-application R to function properly.
-This way, a whole dependency tree is formed.
+Допустим, для корректного запуска приложения X требуется наличие приложений
+Y и Z. Приложение X говорит о своей зависимости от этих приложений, именно
+по этому Y и Z называют <i>зависимостями</i> X. Y может требовать наличия P
+и Q, а Z, в свою очередь, для корректной работы наличие R. Таким образом
+формируется дерево зависимостей.
 
 <p>
-Packages look like simple <code>.tgz</code> bundles.
-Basically they are just that, but there is one crucial difference:
-they contain some extra <i>packing information</i>.
-This information is used by
-<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> for several purposes:
+Пакеты выглядят как и самые обычные <tt>.tgz</tt> архивы. Но есть одно очень
+важное отличие: пакет содержит дополнительную <i>информацию для распаковки</i>.
+Эта информация используется
+<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> для следующих целей:
 
 <ul>
-  <li>Different checks: has the package already been installed, or does it
-      conflict with other installed packages or file names?
-  <li>Dependencies which are not yet present on the system are automatically
-      fetched and installed before proceeding with the installation of the
-      package.
-  <li>Information about the package(s) is recorded in a central repository,
-      located in <code>/var/db/pkg</code> by default.
-      This will, among other things, prevent the dependencies of a package
-      from being deleted before the package itself has been deleted.
-      This helps ensure that an application cannot be accidentally broken
-      by a careless user.
+  <li>Различных проверок: не установлен ли этот пакет или не конфликтует ли
+      он с уже установленными пакетами или существующими в системе файлами?
+
+  <li>Зависимости, необходимые для установки пакета, будут автоматически
+      загружены и установлены прежде, чем продолжится его установка.
+
+  <li>Информация о новом пакете будет добавленна в базу данных (central
+      repository), которая находится в <tt>/var/db/pkg/</tt>. Это гарантия
+      того, что зависимости не будут удалены раньше, чем пакет, который в них
+      нуждается. Другими словами, никакая программа не будет случайно сломана
+      неосторожными действиями пользователя.
 </ul>
 
 <h2 id="Mirror">Выбор зеркала</h2>
