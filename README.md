@@ -18,7 +18,7 @@ We also respect people who understand English not good enough.
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
 * FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ#17 - Virtual Private Networks (VPN) - Wanna help? Be first, it's still not translated.
+* FAQ#17 - Virtual Private Networks (VPN) - [Oleg Pahl](https://github.com/oleg-pahl)  
 * FAQ - PacketFilter - Wanna help? Be first, it's still not translated.
 * FAQ - Ports - Wanna help? Be first, it's still not translated.
 * FAQ - PortsTesting - Wanna help? Be first, it's still not translated.
