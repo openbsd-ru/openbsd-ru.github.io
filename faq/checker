@@ -5,7 +5,14 @@
 # INFO      : Made for OpenBSD Russian Community
 # Rev       : 1.2
 
-echo '\033[34mFAQXX.HTML: COMMUNITY / UPSTREAM'
+clear
+
+echo '\033[34mFAQXX.HTML : SCRIPT TO COMPARE COMMUNTIY -> UPSTREAM\033[39m'
+
+echo ''
+echo 'GREEN - Already up to date.'
+echo 'RED - Upstream released new version.'
+echo ''
 
 color() {
     COMMUNITY_DIG=$(printf "%8.3f" "$1")
