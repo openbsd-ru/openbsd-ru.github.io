@@ -3,17 +3,16 @@
 # Author    : Oleg Pahl (deface _at_ posteo.de)
 # LICENSE   : MIT
 # INFO      : Made for OpenBSD Russian Community
-# Rev       : 1.0
+# Rev       : 1.1
 
-echo -e "\033[34mFILE" ' \t\t ' " -> " ' \t ' "COMMUNITY" ' \t\t ' " -> " ' \t ' "UPSTREAM \033[39m"
-
+echo "\033[34mFAQ\t\t\tCOMMUNITY\t UPSTREAM\033[39m"
 color() {
     COMMUNITY_DIG=$(printf "%8.3f" "$1")
     UPSTREAM_DIG=$(printf "%8.3f" "$2")
     if [ $COMMUNITY_DIG == $UPSTREAM_DIG ];then
-        echo -e $3 ' \t ' " -> " ' \t ' "\033[32m $COMMUNITY_DIG \033[39m" ' \t\t ' " -> " ' \t ' $UPSTREAM_DIG
+        echo $3 '\t' "->" "\033[32m $COMMUNITY_DIG\033[39m" '\t' "->" " $UPSTREAM_DIG"
     else
-        echo $3 ' \t ' " -> " ' \t ' "\033[31m $COMMUNITY_DIG \033[39m" ' \t\t ' " -> " ' \t '   $UPSTREAM_DIG
+        echo $3 '\t' "->" "\033[31m $COMMUNITY_DIG\033[39m" '\t' "->" " $UPSTREAM_DIG"
     fi
 
 }
