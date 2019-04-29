@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Author    : Oleg Pahl (deface _at_ posteo.de)
+# LICENSE   : MIT
+# INFO      : Made for OpenBSD Russian Community
+# Rev       : 1.0
+
+echo -e "\033[34mFILE" ' \t\t ' " -> " ' \t ' "COMMUNITY" ' \t\t ' " -> " ' \t ' "UPSTREAM \033[39m"
+
+color() {
+    COMMUNITY_DIG=$(printf "%8.3f" "$1")
+    UPSTREAM_DIG=$(printf "%8.3f" "$2")
+    if [ $COMMUNITY_DIG == $UPSTREAM_DIG ];then
+        echo -e $3 ' \t ' " -> " ' \t ' "\033[32m $COMMUNITY_DIG \033[39m" ' \t\t ' " -> " ' \t ' $UPSTREAM_DIG
+    else
+        echo $3 ' \t ' " -> " ' \t ' "\033[31m $COMMUNITY_DIG \033[39m" ' \t\t ' " -> " ' \t '   $UPSTREAM_DIG
+    fi
+
+}
+
+for f in *.html
+do
+    #content=$(wget https://cvsweb.openbsd.org/cgi-bin/cvsweb/www/faq/$f?only_with_tag=HEAD -q -O -)
+    CONTENT=$(curl -is https://cvsweb.openbsd.org/cgi-bin/cvsweb/www/faq/$f?only_with_tag=HEAD)
+    UPSTREAM=`echo "$CONTENT"|grep 'Revision'|sed -e 's/<[^>]*>//g'|awk '{print $2}'`
+    COMMUNITY=$(git log --oneline $f | cut -d ' ' -f 2 | sed 's/[][]//g' | head -1)
+    color $COMMUNITY $UPSTREAM $f
+done
+
