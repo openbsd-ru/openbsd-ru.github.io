@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang=ru>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>PF: Пакетный фильтр OpenBSD</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/">
+
+<!--
+Copyright (c) 2003 Nick Holland <nick@openbsd.org>
+Copyright (c) 2003-2005, Joel Knight <enabled@myrealbox.com>
+Copyright (c) 2006-2019, OpenBSD
+
+Permission to use, copy, modify, and distribute this documentation for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+
+THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS DOCUMENTATION
+-->
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF: Пакетный фильтр OpenBSD
+<small>
+<a href="../index.html">[FAQ Index]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+<li>Основная настройка
+	<ul>
+	<li><a href="config.html">В начале</a>
+	<li><a href="macros.html">Списки и Макросы</a>
+	<li><a href="tables.html">Таблицы</a>
+	<li><a href="filter.html">Фильтрация пакетов</a>
+	<li><a href="nat.html">Преобразование сетевых адресов</a>
+	<li><a href="rdr.html">Перенаправление трафика (Проброс портов)</a>
+	<li><a href="shortcuts.html">Сокращения для написания правил</a>
+	</ul>
+<li>Продвинутая настройка
+	<ul>
+	<li><a href="options.html">Параметры работы фильтра</a>
+	<li><a href="anchors.html">Якоря</a>
+	<li><a href="queueing.html">Управление очередями пакетов и приоритезация</a>
+	<li><a href="pools.html">Пулы адресов и балансировка нагрузки</a>
+	<li><a href="tagging.html">Маркировка пакетов (Политика фильтрации)</a>
+	</ul>
+<li>Дополнительные темы
+	<ul>
+	<li><a href="logging.html">Запись в журнал (лог)</a>
+	<li><a href="perf.html">Производительность</a>
+	<li><a href="ftp.html">Проблемы с FTP</a>
+	<li><a href="authpf.html">Оболочка для аутентификации пользователей на шлюзах (authpf)</a>
+	<li><a href="carp.html">Создание избыточности брэндмауэра с помощью CARP и pfsync</a>
+	</ul>
+<li>Пример
+	<ul>
+	<li><a href="example1.html">Брандмауэр для дома или маленького офиса</a>
+	</ul>
+</ul>
+
+<hr>
+
+<p>
+Пакетный Фильтр (с этого места именуемый PF) это OpenBSD реализация
+для фильтрации TCP/IP трафика и преобразования сетевых адресов. PF
+также способен нормализовать и ограничивать TCP/IP трафик и
+предоставлять контроль над полосой пропускания и приоритезацией пакетов.
+PF стал частью ядра GENERIC начиная с OpenBSD 3.0.
+
+<p>
+PF был первоначально разработан Даниэлем Хартмеиером (Daniel Hartmeier),
+но сейчас поддерживается и разрабатывается всеми членами OpenBSD команды.
+
+<p>
+Это руководство задумано, как введение в PF, работающем в OpenBSD. Даже если
+оно охватывает все основные функции PF, оно предназначено только для
+использования в качестве дополнения к
+<a href="https://man.openbsd.org">страницам руководства</a>,
+а не в качестве замены им.
+
+<p>
+Для полного и всестороннего представления того, что может PF, пожалуйста прочитайте руководство
+<a href="https://man.openbsd.org/pf">pf(4)</a>.
+
+<p>
+Как и остальная часть FAQ, это руководство предназначено для на пользователей OpenBSD -current.
+Так как PF постоянно находится в разработке, существуют некоторые различия
+между версией OpenBSD -release и версией <a href="../../plus.html">OpenBSD -current</a>
+Читателю советуется ознакомиться со страницами руководств для версии OpenBSD,
+с которой он работает.
+</html>

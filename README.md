@@ -19,7 +19,7 @@ We also respect people who understand English not good enough.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
 * FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ#17 - Virtual Private Networks (VPN) - [Oleg Pahl](https://github.com/oleg-pahl)  
-* FAQ - PacketFilter - [Oleg Pahl](https://github.com/oleg-pahl)  
+* FAQ - PacketFilter - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - Ports - Wanna help? Be first, it's still not translated.
 * FAQ - PortsTesting - Wanna help? Be first, it's still not translated.
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
