@@ -77,6 +77,7 @@ by anyone and for any purpose.
 
 Maintainers:
 * Alexander Naumov <alexander_naumov () opensuse ! org>
+* Oleg Pahl <deface () posteo ! de>
 
 Translators:
 * Alexander Naumov <alexander_naumov () opensuse ! org>
