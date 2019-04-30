@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>LibreSSL: Upstream Patches</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>LibreSSL: Обновления (Upstream Patches)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="copyright" content="This document copyright 2016 by OpenBSD.">
 <link rel="canonical" href="https://www.libressl.org/patches.html">
 <style>
@@ -27,41 +27,42 @@ li{
 <h2>
 <a href="index.html">
 <font color="#0000ff"><i>Libre</i></font><font color="#000084">SSL</font></a>
-<font color="#e00000">Upstream Patches</font>
+<font color="#e00000">Обновления (Upstream Patches)</font>
 </h2>
 <hr>
 
 <p>
-When older protocols, algorithms and programming practices are deprecated,
-often upstream software is not ready for the transition. The OpenBSD project,
-along with OSes and software distributions, work to patch affected software
-locally when removals occur, as well as push those changes upstream so that the
-whole software ecosystem benefits.
+Когда устаревают протоколы, алгоритмы и методы программирования, программное
+обеспечение, использующее их, не всегда готово к обновлению. Проект OpenBSD,
+наряду с другими операционными системами и дистрибутивами, работает над
+улучшением и исправлением уязвимого ПО, и предоставляет эти изменения всем
+желающим.
 
 <p>
-The purpose of this page is to track some of the patches maintained in the
-OpenBSD ports system.  The FreeBSD project maintains a related <a
-	href="https://wiki.freebsd.org/LibreSSL">wiki</a> detailing current
-issues and porting notes.
+Цель этой страницы - отслеживать некоторые исправления, поддерживаемые в
+системе портов OpenBSD. Проект FreeBSD поддерживает соответствующую
+<a href="https://wiki.freebsd.org/LibreSSL">вики</a> с подробным описанием
+текущих проблем и другой важной информацией.
 
 <h3>SSLv3</h3>
 <p>
-A common mistake is to use SSLv3_method or TLSv1_method setting up a new
-SSL_CTX. These methods hard-code the connection to a particular protocol
-version. For example, TLSv1_method specifies that only TLS 1.0 should be used,
-preventing TLS 1.1, 1.2 or later versions. This is almost never what you want.
+Распространенной ошибкой является использование SSLv3_method или TLSv1_method
+для настройки нового SSL_CTX. Эти методы жестко кодируют версию протокола,
+используемого в соединении. Например, использование TLSv1_method означает, что
+должен использоваться только TLS 1.0, и ни в коем случае нe TLS 1.1, нe 1.2
+или более поздние версии. Это почти всегда не совсем то, что вы хотите.
 <p>
-The more future-proof and secure way is to either use SSLv23_method (for
-compatibility with older versions of LibreSSL/OpenSSL) or the newer TLS_method,
-both of which will negotiate the highest supported protocol. In spite of its
-name, SSLv23_method can actually negotiate a TLS connection with OpenSSL or
-LibreSSL. As of LibreSSL 2.3.0, SSLv23_method only negotiates TLS.
+Лучшим и более безопасным способом является использование SSLv23_method
+(для совместимости со старыми версиями LibreSSL/OpenSSL) или более новый
+TLS_method, использование которых приведет к согласованности использования
+самого последнего поддерживаемого протокола. Несмотря на название, SSLv23_method
+фактически в состоянии согласовывать TLS-соединение с OpenSSL или LibreSSL.
+Начиная с LibreSSL 2.3.0, SSLv23_method согласовывает только TLS.
 <p>
-Here are some of the programs and libraries affected by SSLv3 removal. In most
-cases, support was easily gated with OPENSSL_NO_SSLV3 checks or by switching to
-SSLv23_method/TLS_method. All OpenBSD packages now either have local patches in
-the ports tree or there is an upstream fix that has not made it into a release
-yet.
+Вот некоторые из программ и библиотек, которых затронуло удаление SSLv3.
+В большинстве случаев поддержка легко проверялась при помощи OPENSSL_NO_SSLV3
+или переключением на SSLv23_method/TLS_method. Все пакеты OpenBSD теперь либо
+имеют патчи в дереве портов, либо имеется исправление, которое еще не вошло в релиз.
 <p>
 
 <ul id="triple">
@@ -155,7 +156,10 @@ yet.
 
 <h3>SHA-0</h3>
 <p>
-SHA-0, a hashing algorithm withdrawn shortly after its publication 20 years ago, is removed in LibreSSL 2.3.0. LibreSSL provides the new macro OPENSSL_NO_SHA0 for detecting that the algorithm is disabled. The following software needs patches to cope with the removal of SHA-0 from libcrypto:
+SHA-0, алгоритм хеширования, отозванный вскоре после его публикации 20 лет назад,
+удален из LibreSSL, начиная с версии 2.3.0. LibreSSL использует новый макрос
+OPENSSL_NO_SHA0 для определения того, используется ли этот алгоритм или отключен.
+Следующее программы нуждаются в исправлениях для удаления SHA-0 из libcrypto:
 
 <ul id="triple">
 	<li>qca-ossl :
@@ -171,16 +175,17 @@ SHA-0, a hashing algorithm withdrawn shortly after its publication 20 years ago,
 
 <h3>EGD</h3>
 <p>
-EGD, or Entropy Gathering Daemon, is a tool written in perl meant to replace
-the functionality of /dev/urandom on systems without a kernel-level secure
-random number generator, or when /dev/urandom is not available, as in a
-privilege-separated chroot environment.  LibreSSL provides random data via the
-<a href="https://man.openbsd.org/arc4random.3">arc4random(3)</a>
-interface, and as such never needs EGD or other intervention by programs in
-order to provide a CSRNG to programs or for its own use. Early on, the LibreSSL
-project removed the
-RAND_egd() and RAND_egd_bytes(), guarded with OPENSSL_NO_EGD. The following
-software needs patches to avoid using EGD when it is unavailable.
+EGD, или Entropy Gathering Daemon, представляет инструмент, написанный на perl,
+предназначенный для замены функциональности /dev/urandom в системах без безопасного
+генератора случайных чисел в ядре или когда /dev/urandom недоступен в отдельной
+привилегированной среде chroot (privilege-separated chroot environment).
+LibreSSL генерирует случайные данные при помощи интерфейса
+<a href="https://man.openbsd.org/arc4random.3">arc4random(3)</a>. По этой причине
+он не нуждается ни в EGD, ни в каком-либо другом вмешательстве со стороны программ
+для предоставления CSRNG другим программам или для собственных нужд. Ранее из
+LibreSSL были удалены RAND_egd() и RAND_egd_bytes(), проверяемые с помощью OPENSSL_NO_EGD.
+Следующий список программ нуждается в исправлениях, с целью избежать использования
+EGD, когда он недоступен.
 
 <ul id="triple">
 	<li>dcmtk :
