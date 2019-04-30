@@ -19,13 +19,38 @@ We also respect people who understand English not good enough.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
 * FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ#17 - Virtual Private Networks (VPN) - [Oleg Pahl](https://github.com/oleg-pahl)  
-* FAQ - PacketFilter - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - Ports - Wanna help? Be first, it's still not translated.
-* FAQ - PortsTesting - [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ - PF/anchors.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/authpf.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/carp.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/config.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/example1.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/filter.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/ftp.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/index.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/logging.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/macros.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/nat.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/options.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/perf.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/pools.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/rdr.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/shortcuts.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/tables.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* FAQ - PF/tagging.html - [Oleg Pahl](https://github.com/oleg-pahl)
+* mail.html - Wanna help? Be first, it's still not translated.
+* report.html - Wanna help? Be first, it's still not translated.
+* anoncvs.html - Wanna help? Be first, it's still not translated.
+* plat.html - Wanna help? Be first, it's still not translated.
+* FAQ - Ports/index - [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ - Ports/differences - [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ - Ports/guide - [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ - Ports/ports - [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ - Ports/specialtopics - [Alexander Naumov](https://github.com/alexander-naumov)
+* FAQ - Ports/testing - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenIKED - [Alexander Naumov](https://github.com/alexander-naumov)
-
+* OpenSMTPD - Wanna help? Be first, it's still not translated.
+* OpenIKED - Wanna help? Be first, it's still not translated.
+* OpenRSYNC - Wanna help? Be first, it's still not translated.
 
 ## TRANSLATION RULES
 
