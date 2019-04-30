@@ -25,7 +25,6 @@ We also respect people who understand English not good enough.
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenIKED - [Alexander Naumov](https://github.com/alexander-naumov)
-* LibreSSL - [Alexander Naumov](https://github.com/alexander-naumov)
 
 
 ## TRANSLATION RULES
