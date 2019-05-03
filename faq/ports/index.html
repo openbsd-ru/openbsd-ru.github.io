@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang=en>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD Porter's Handbook</title>
+<meta name= "description"   content= "the OpenBSD Porter's Handbook">
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/ports/">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+Porter's Handbook
+<small>
+<a href="../index.html">[FAQ Index]</a>
+</small>
+</h2>
+<hr>
+
+<h3><a href="ports.html">Working with Ports</a></h3>
+<ul>
+  <li><a href="ports.html#PortsIntro"   >Introduction</a>
+  <li><a href="ports.html#PortsFetch"   >Fetching the Ports Tree</a>
+  <li><a href="ports.html#PortsConfig"  >Configuration of the Ports System</a>
+  <li><a href="ports.html#PortsSearch"  >Searching the Ports Tree</a>
+  <li><a href="ports.html#PortsInstall" >Straightforward Installation:
+                                         A Simple Example</a>
+  <li><a href="ports.html#PortsClean"   >Cleaning Up After a Build</a>
+  <li><a href="ports.html#PortsDelete"  >Uninstalling a Port's Package</a>
+  <li><a href="ports.html#PortsFlavors" >Using Flavors and Subpackages</a>
+  <li><a href="ports.html#dpb"          >Using dpb to Build Multiple Ports</a>
+  <li><a href="ports.html#PortsSecurity">Security Updates (-stable)</a>
+  <li><a href="ports.html#PkgSig"       >Package Signatures</a>
+</ul>
+
+<h3><a href="guide.html">OpenBSD Porting Guide</a></h3>
+<ul>
+  <li><a href="guide.html#Overview"         >Overview</a>
+  <li><a href="guide.html#PortsChecklist"   >Porting Checklist</a>
+  <li><a href="guide.html#PortsComplex"     >Handling Complex Situations</a>
+  <ul>
+    <li><a href="guide.html#Know"           >Know the Software</a>
+    <li><a href="guide.html#Figure"         >Figure Out Important Options</a>
+    <li><a href="guide.html#Ideal"          >The Ideal Case: MULTI_PACKAGES
+                                             and PSEUDO_FLAVORS</a>
+    <li><a href="guide.html#Inter"          >Interdependencies Between
+                                             Subpackages</a>
+    <li><a href="guide.html#True"           >True FLAVORS and PKGNAMES</a>
+  </ul>
+  <li><a href="guide.html#PortsUpdate"      >Updating Ports</a>
+  <ul>
+    <li><a href="guide.html#UpdateChecklist">Update Checklist</a>
+  </ul>
+  <li><a href="guide.html#PortsPolicy"      >OpenBSD Porting Policy</a>
+  <li><a href="guide.html#PortsSecurity"    >Security Recommendations</a>
+  <li><a href="guide.html#PortsGeneric"     >Generic Porting Hints</a>
+  <li><a href="guide.html#PortsOther"       >Other Helpful Hints</a>
+  <li><a href="guide.html#PortsAvail"       >Additional Information</a>
+</ul>
+
+<h3><a href="specialtopics.html">Special Porting Topics</a></h3>
+<ul>
+  <li><a href="specialtopics.html#SharedLibs">Shared Libraries</a>
+  <li><a href="specialtopics.html#Autoconf"  >GNU autoconf</a>
+  <li><a href="specialtopics.html#Config"    >Configuration Files</a>
+  <li><a href="specialtopics.html#Audio"     >Audio Applications</a>
+  <li><a href="specialtopics.html#Mandoc"    >Manual Pages</a>
+  <li><a href="specialtopics.html#RcScripts" >rc.d(8) Scripts</a>
+</ul>
+
+<h3><a href="testing.html">Port Testing Guide</a></h3>
+<ul>
+  <li><a href="testing.html#Introduction">Introduction</a>
+  <li><a href="testing.html#Testing"     >Testing</a>
+  <li><a href="testing.html#Commenting"  >Commenting</a>
+  <li><a href="testing.html#More"        >More Testing</a>
+</ul>
+
+<h3><a href="differences.html">Differences from Other BSD Projects</a></h3>
+<ul>
+  <li><a href="differences.html#Differences" >Important Differences from
+                                              Other BSD Projects</a>
+  <li><a href="differences.html#Extra"       >Extra Support</a>
+  <li><a href="differences.html#Generic"     >Generic Infrastructure Issues</a>
+  <li><a href="differences.html#Make"        >Using make Properly</a>
+  <li><a href="differences.html#Fetch"       >Fetching Sources</a>
+  <li><a href="differences.html#wrkdir"      >The <code>WRKDIR</code>
+                                              Infrastructure</a>
+  <li><a href="differences.html#Fake"        >Fake Port Installation</a>
+  <ul>
+  <li><a href="differences.html#Introduction">Introduction</a>
+  <li><a href="differences.html#Advantages"  >Advantages</a>
+  <li><a href="differences.html#How"         >How to do it</a>
+  <li><a href="differences.html#Pitfalls"    >Pitfalls</a>
+  </ul>
+  <li><a href="differences.html#Tools"       >Packaging Tools</a>
+  <li><a href="differences.html#Flavors"     >Flavors</a>
+</ul>
+
+<hr>
+
+The OpenBSD Porter's Handbook is supplemental documentation to the
+man pages, most notably <a href="https://man.openbsd.org/ports">ports(7)</a>.
+
+<p>
+The base OpenBSD operating system is fairly complete in its own right.
+However, there is a large amount of third party software one might want
+to use in addition to the base system.
+The OpenBSD developers have done the hard work to make many thousands of
+third party applications available as
+<a href="../faq15.html">pre-compiled binary packages</a>.
+
+<p>
+In order to create a binary package, developers will start out with a
+<code>Makefile</code> that contains the list of instructions to fetch, extract,
+patch, configure, compile and package the raw source code.
+The collection of all these <code>Makefiles</code> is collectively known as the
+ports system.
+
+<p>
+In this handbook, we will explain how the ports system works and show you
+how to create or update your own port including the guidelines for submitting
+your work back to the OpenBSD Project.
+
+<p>
+To get the most out of this handbook, you'll want to be very familiar with
+the pkg_* tools and the base system.
+To learn more about packages, see
+<a href="https://man.openbsd.org/packages">packages(7)</a>.
+
+<p>
+<b>NOTE: The ports &amp; packages collection does NOT go through the
+thorough security audit that the OpenBSD base system does.</b>
+Although we strive to keep the quality of the packages collection
+high, we just do not have enough human resources to ensure the
+same level of robustness and security as in the base OS.
