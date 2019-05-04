@@ -41,7 +41,6 @@ We also respect people who understand English not good enough.
 * report.html - Wanna help? Be first, it's still not translated.
 * anoncvs.html - Wanna help? Be first, it's still not translated.
 * plat.html - Wanna help? Be first, it's still not translated.
-* FAQ - Ports/index - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/differences - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/guide - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/ports - [Alexander Naumov](https://github.com/alexander-naumov)
