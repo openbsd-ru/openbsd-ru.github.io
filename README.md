@@ -8,7 +8,7 @@ We also respect people who understand English not good enough.
 
 
 ## TODO
-* FAQ#01 - Introduction to OpenBSD - [Sergey Bronnikov](https://github.com/ligurio)
+* [FAQ#01](https://github.com/openbsd-ru/openbsd-ru.github.io/pull/10) - Introduction to OpenBSD - [Sergey Bronnikov](https://github.com/ligurio)
 * FAQ#04 - Installation Guide - Wanna help? Be first, it's still not translated.
 * FAQ#05 - Building the System from Source - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#06 - Networking - Wanna help? Be first, it's still not translated.
@@ -38,9 +38,9 @@ We also respect people who understand English not good enough.
 * FAQ - PF/tables.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/tagging.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * mail.html - Wanna help? Be first, it's still not translated.
-* report.html - Wanna help? Be first, it's still not translated.
+* report.html - [Sergey Bronnikov](https://github.com/ligurio)
 * anoncvs.html - Wanna help? Be first, it's still not translated.
-* plat.html - Wanna help? Be first, it's still not translated.
+* plat.html - [Sergey Bronnikov](https://github.com/ligurio)
 * FAQ - Ports/differences - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/guide - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/ports - [Alexander Naumov](https://github.com/alexander-naumov)
