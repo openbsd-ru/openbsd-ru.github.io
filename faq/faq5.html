@@ -331,7 +331,7 @@ Most problems are usually one of the following:
   <li>Skipping the reboot step after building and installing a new kernel.
 </ul>
 
-<h3 id="ProbObj">I forgot to <code>make obj</code> before <code>make build</code></h3>
+<h3 id="ProbObj">Я забыл сделать <code>make obj</code> перед <code>make build</code></h3>
 
 By doing a <code>make build</code> before doing a <code>make obj</code>,
 you will end up with the object files scattered in your <code>/usr/src</code>
@@ -348,7 +348,7 @@ $ <b>rm -rf /usr/obj/*</b>
 $ <b>make obj</b>
 </pre>
 
-<h3 id="sig11">The build stopped with a "Signal 11" error</h3>
+<h3 id="sig11">Сборка останавливается из-за ошибки "Signal 11"</h3>
 
 Building OpenBSD and other programs from source is a task which pushes hardware
 harder than most others, making intensive use of CPU, disk and memory.
@@ -399,12 +399,12 @@ You may want to run <code>make links</code> as root to place a symlink to
 your architecture's kernel <code>tags</code> file in each directory and in
 <code>/var/db/</code>.
 
-<h3>How do I skip building parts of the tree?</h3>
+<h3>Как я могу пропустить сборку той или иной части дерева?</h3>
 
 Use the <code>SKIPDIR</code> option of
 <a href="https://man.openbsd.org/mk.conf">mk.conf(5)</a>.
 
-<h3>Can I cross-compile?</h3>
+<h3>Как на счет кросскомпиляции?</h3>
 
 Cross-compiling tools are in the system, for use by developers bringing
 up a new platform.
@@ -418,7 +418,7 @@ and does a very good job of testing how well the system really works.
 For this reason, OpenBSD does all the build process on the platform the build
 is being used for.
 
-<h2 id="Custom">Custom Kernels</h2>
+<h2 id="Custom">Собственное ядро</h2>
 
 There are three ways to customize a kernel:
 
@@ -433,7 +433,7 @@ There are three ways to customize a kernel:
 It is recommended that you read
 <a href="https://man.openbsd.org/config">config(8)</a> first.
 
-<h3 id="BootConfig">Boot-time Configuration</h3>
+<h3 id="BootConfig">Настройка во время загрузки</h3>
 
 Sometimes when booting your system you might notice that the kernel finds
 your device but maybe at the wrong IRQ.
@@ -457,7 +457,7 @@ boot> <b>boot hd0a:/bsd -c</b>
 Doing this will bring up a UKC prompt.
 Type <b><code>help</code></b> for a list of available commands.
 
-<h3 id="config">Using config(8) to Change Kernel Options</h3>
+<h3 id="config">Использование config(8) для изменения параметров ядра</h3>
 
 The <code>-e</code> and <code>-u</code> options of
 <a href="https://man.openbsd.org/config">config(8)</a>
@@ -478,7 +478,7 @@ For example: <code>config -e -o bsd.new /bsd</code> will write the changes to
 Kernel modification examples are given in the
 <a href="https://man.openbsd.org/config">config(8)</a> man page.
 
-<h3 id="Options">Building a Custom Kernel</h3>
+<h3 id="Options">Сборка собственного ядра</h3>
 
 Only the <code>GENERIC</code> and <code>GENERIC.MP</code> kernels are supported
 by the OpenBSD team.
@@ -505,25 +505,24 @@ $ <b>make</b>
 
 <h2 id="Diff">Подготовока Diff</h2>
 
-If you have made changes to the source code that you want to share
-with developers, follow these conventions:
+Если вы изменили что-то в коде OpenBSD и решили поделиться этими изменениями с
+разработчиками, не забывайте о следующем:
 
 <ul>
-  <li>Base your diff on a -current checkout.
-  <li>Use <code>cvs diff -uNp</code> to generate the diff.
-  <li>Send your diff inline in an email to the <a href="../mail.html">tech@</a>
-    mailing list.
-    Make sure your email client does not mangle the whitespace.
+  <li>Ваш diff должен быть создан в -current.
+  <li>Для создания diff'а используйте команду <code>cvs diff -uNp</code>.
+  <li>Отправьте ваш diff в теле письма в рассылку <a href="https://openbsd.org/mail.html">tech@</a>.
+    Убедитесь заранее, что ваш почтовый клиент не искажает пробелы, и diff будет читабельным.
 </ul>
 
-If you are using a <a href="https://github.com/openbsd">git repository</a>
-of the OpenBSD source tree, set
+Если вы используете <a href="https://github.com/openbsd">git репозиторий</a>
+с исходниками OpenBSD, нужно будет выполнить
 
 <pre class="cmdbox">
 $ <b>git config diff.noprefix true</b>
 </pre>
 
-in your repository and generate your diff like this:
+в вашем репозитории, после чего создать diff можно будет вот так:
 
 <pre class="cmdbox">
 $ <b>git diff --relative .</b>
