@@ -29,7 +29,7 @@ FAQ - Собираем систему из исходников
   <li><a href="#Xbld"       >Собираем X</a>
   <li><a href="#buildprobs" >Распростаненные проблемы при компиляции</a>
   <li><a href="#Miscellanea">Разные вопросы и советы</a>
-  <li><a href="#Custom"     >Custom Kernels</a>
+  <li><a href="#Custom"     >Собственное ядро</a>
   <li><a href="#Diff"       >Подготовка Diff</a>
 </ul>
 <hr>
@@ -407,22 +407,23 @@ your architecture's kernel <code>tags</code> file in each directory and in
 
 <h3>Как я могу пропустить сборку той или иной части дерева?</h3>
 
-Use the <code>SKIPDIR</code> option of
+Используй параметр <code>SKIPDIR</code> в
 <a href="https://man.openbsd.org/mk.conf">mk.conf(5)</a>.
 
 <h3>Как на счет кросскомпиляции?</h3>
 
-Cross-compiling tools are in the system, for use by developers bringing
-up a new platform.
-However, they are not maintained for general use.
+Инструменты для кросскомпиляции в системе есть. Но они используются главным
+образом разработчиками для портирования OpenBSD на новые платформы, и для
+общего использования не поддерживаются.
 
 <p>
-When the developers bring up support for a new platform, one of the
-first big tests is a native-build.
-Building the system from source puts considerable load on the OS and machine,
-and does a very good job of testing how well the system really works.
-For this reason, OpenBSD does all the build process on the platform the build
-is being used for.
+Когда разработчики начинают поддерживать новую платформу, одним из первых
+важнейших тестов является так называемый "native building", т.е. процесс
+сборки системы на той же платформе, для которой она собирается.
+Сборка системы из исходников значительно нагружает и саму ОС, и машину,
+что само по себе является хорошим тестом работоспособности. По этой причине
+в OpenBSD используется метод сборки всех компонентов на платформе, для которой
+она собирается и на которой планируется использоваться.
 
 <h2 id="Custom">Собственное ядро</h2>
 
