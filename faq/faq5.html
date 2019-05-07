@@ -36,27 +36,27 @@ FAQ - Собираем систему из исходников
 
 <h2 id="Flavors">OpenBSD's Flavors</h2>
 
-There are three flavors of OpenBSD:
+Существует три flavors (разновидности, ветки) OpenBSD:
 
 <ul>
-  <li><b>-release:</b> The version of OpenBSD shipped every six months.
-  <li><b>-current:</b> The development branch.
-      Every six months, -current is tagged and becomes the next -release.
-  <li><b>-stable:</b> The -release branch, plus patches found on the
-      <a href="../errata.html">errata page</a>.
-      When very important fixes are made to -current, they are backported
-      to the supported -stable branches.
+  <li><b>-release:</b> Ветка (релиз) OpenBSD, выпускаемая каждые шесть месяцев.
+  <li><b>-current:</b> Разрабатываемая ветка или версия.
+      Каждые шесть месяцев -current замораживается, и эта ветка становится следующим -release.
+  <li><b>-stable:</b> Ветка -release, плюс патчи, которые перечисленны на
+      <a href="../errata.html">странице errata</a>.
+      Самые важные исправления, сделанные для -current, так же добавляются (backported)
+      во все поддерживаемые -stable ветки.
 </ul>
 
-Only the two most recent OpenBSD releases receive security and reliability
-fixes for the base system.
-Details on applying security patches can be found in the
-<a href="faq10.html#Patches">System Management</a> section.
+Только для двух последних версий (релиза) OpenBSD доступны
+<a href="faq10.html#Patches">исправления и патчи безопасности</a>
+для базовой части ОС (base system).
 
 <p>
-New users should be running either -stable or -release.
-That being said, many people do run -current on production systems to
-help catch bugs and test new features.
+Большинству пользователей рекомендуется использовать либо -stable либо -release.
+Как уже было сказано, многие пользователи используют -current, и, что очень важно,
+некоторые делают это для обнаружения ошибок и тестирования новых возможностей и
+функциональности.
 
 <h2 id="Snapshots">Разрабатываемые Snapshot'ы</h2>
 
@@ -78,19 +78,19 @@ If you find a bug, make sure it is <a href="../report.html">reported</a>.
 
 <h2 id="Bld">Собираем OpenBSD из исходников</h2>
 
-Building OpenBSD from source involves a number of steps:
+Сборка OpenBSD из исходников включает в себя последовательность из нескольких шагов:
 
 <ul>
-  <li>Upgrading to the closest available binaries
-  <li>Fetching the source code
-  <li>Building a new kernel and userland, as explained in steps 2 and 3 of
-      <a href="https://man.openbsd.org/release">release(8)</a>
-  <li>Optionally, <a href="#Release">making a release</a> and
-      <a href="#Xbld">building X</a>
+  <li>Обновление до самых последних версий бинарников
+  <li>Загрузка исходников
+  <li>Сборка ядра (kernel) и пользовательских программ (userland), как объясняется
+      в шагах 2 и 3 руководства <a href="https://man.openbsd.org/release">release(8)</a>
+  <li>Необязательно, но можно <a href="#Release">making a release</a> и
+      <a href="#Xbld">собрать X</a>
 </ul>
 
-This FAQ section is intended to help you with the necessary preparation.
-The main reference is <a href="https://man.openbsd.org/release">release(8)</a>.
+Этот раздел FAQ расскажет и поможет в подготовке, необходимой для описанных выше шагов.
+Осовное руководство по этой находится в <a href="https://man.openbsd.org/release">release(8)</a>.
 
 <h3 id="BldBinary">Upgrading to the Closest Available Binaries</h3>
 
@@ -101,10 +101,11 @@ Make sure you have the closest available binaries installed.
 This is either OpenBSD x.y-release if you want to build OpenBSD x.y-stable,
 or the latest snapshot if you wish to build -current.
 
-<h3 id="BldGetSrc">Fetching the Source Code</h3>
+<h3 id="BldGetSrc">Загрузка исходников</h3>
 
-OpenBSD uses the <a href="https://savannah.nongnu.org/projects/cvs">CVS</a>
-version control system to manage its source.
+OpenBSD использует систему контроля версий
+<a href="https://savannah.nongnu.org/projects/cvs">CVS</a>
+для работы с исходниками.
 The <a href="https://man.openbsd.org/cvs">cvs(1)</a> program is used to pull a
 copy of the desired source to your local machine for compilation.
 You can also maintain a local CVS repository using the
