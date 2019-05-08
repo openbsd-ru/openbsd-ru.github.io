@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>OpenBSD: Problem Reports</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="OpenBSD problem report page">
+<meta name="copyright" content="This document copyright 1998-2016 by OpenBSD.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/report.html">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#23238e">
+
+<h2>
+<a href="index.html">
+<font color="#0000ff"><i>Open</i></font><font color="#000084">BSD</font></a>
+<font color="#e00000">Problem Reports</font>
+</h2>
+<hr>
+<p>
+
+<h3><font color="#0000e0">Released versions problem reports</font></h3>
+
+Before reporting bugs/problems with released versions, go through this
+checklist:
+
+<ol>
+ <li>First, check for <a href="errata.html">patches and notes regarding the
+     release</a>.
+ <li>Next, find out if there is a newer release available.
+ <li>Finally, check for <a href="plus.html">changes made between OpenBSD
+     versions</a>.
+</ol>
+
+<p>
+If nothing looks like it addresses your problem, then please become acquainted
+with <a href="https://man.openbsd.org/sendbug">sendbug(1)</a> before submitting
+a bug report.
+
+<h3><font color="#0000e0">Current version problem reports</font></h3>
+
+If your problem is with the -current source tree rather than
+-release or -stable, 
+
+<ol>
+ <li>Test the problem at least twice, with source updated a few days apart.
+ <li>Do not report source tree compilation problems, unless they persist.
+     They are almost always your mistake, or they are being worked on as you
+     encounter them.
+     People working on the project are doing
+     <a href="faq/faq5.html">make build</a> at least once per day, and usually
+     several times per day with different architectures.
+ <li>Remember that the <a href="anoncvs.html">AnonCVS</a> servers are
+     updated a few hours behind the actual working source tree.
+ <li>Check for <a href="plus.html">changes made between OpenBSD versions</a>
+     to see if the problem has been addressed.
+ <li>Much care is made in creating snapshots.
+     Sometimes mistakes are made, and our apologies are extended.
+     Reading or writing to the mailing lists is more appropriate than sending
+     in a bug report.
+</ol>
+
+<h3><font color="#0000e0">How to create a problem report</font></h3>
+
+<b>Always provide as much information as possible</b>.
+Try to pinpoint the exact problem.
+Give clear instructions on how to reproduce the problem.
+Try to describe it with as much accuracy and non-confusing terminology
+as possible, especially if it is not easy to reproduce.
+Describing problems by saying "it crashes" or "I get strange interrupt issues
+on this one box that I built" are of no use.
+Communicate with others (on the mailing lists or any other forum where
+knowledgeable users congregate) to confirm that the problem is new and
+preferably repeatable.
+Please try to make sure it is not a local problem created by using broken
+or unsupported hardware, or by using unsupported build options or software.
+
+<p>
+Please don't start fixing problems that require significant work until you
+are sure you understand them, especially during our release periods when we
+must not change major sections of code.
+If you are going to write significant amounts of code, mention it on the
+mailing lists to make sure no one else is already working on the problem
+(saving duplication of effort).
+
+<p>
+The following items should be contained in every bug report:
+
+<ol>
+ <li>The exact sequence of steps from startup necessary to reproduce
+     the problem.
+     This should be self-contained; it is not enough to send in a bare
+     command without the arguments and other data you supplied to it.
+     If a bug requires a particular sequence of events, please list those. 
+     You are encouraged to minimize the size of your example, but this is
+     not absolutely necessary.
+     If the bug is reproducible, we'll find it either way.
+<p>
+ <li>The output you got.
+     Please do not just say that it "didn't work" or "failed."
+     If there is an error message, show it, even if you don't understand it.
+     If OpenBSD panics with a particular error, say which.
+     If nothing at all happens, say so.
+     Even if the result of your test case is a program crash or otherwise
+     obvious, it might not happen in our testing.
+     The easiest thing is to copy the output from the terminal, if possible.
+<p>
+     Note: In case of fatal errors, the error message provided might not
+     contain all the information available.
+     In that case, also look at the output in the system log files, such
+     as those stored in /var/log.
+     Also, if you are dealing with an application that has its own log files,
+     such as httpd, check for errors where it keeps its logs.
+<p>
+ <li>The OpenBSD kernel output.
+     You can get this with the dmesg command, but it is possible that your
+     dmesg output does not contain all the information that is captured in
+     <tt>/var/run/dmesg.boot</tt>.
+     If this is the case, include information from both.
+     <b>Please include this in all bug reports.</b>
+<p>
+ <li>If you run third party software which has to do with your bug, say so,
+     including what version.
+     If you are talking about a snapshot, mention that, including its date
+     and time.
+<p>
+ <li>A traceback from your kernel panic.
+     If your kernel panicked and you are at a
+     <a href="https://man.openbsd.org/ddb">ddb(4)</a>
+     prompt, please provide the panic message, as well as the output of
+     the <tt>trace</tt> and <tt>ps</tt> commands in your bug report as
+     advised.
+     If the machine hangs, try enabling <tt>sysctl ddb.console=1</tt>
+     prior to the hang and getting in DDB via Ctl+Alt+Esc on the keyboard
+     (must be outside of X), or sending BREAK if using a serial console.
+     If, for some reason, the panic message is not visible, you can get it
+     again with the <tt>show panic</tt> command.
+     <b>This is essential whenever possible.
+     Panic reports without the panic message, traceback and ps output are
+     useless</b>.
+     The output of <tt>show registers</tt> might be of interest as well.
+     You might then want to reboot with <tt>boot dump</tt> so that a kernel
+     image could be saved by
+     <a href="https://man.openbsd.org/savecore">savecore(8)</a> for further
+     post-mortem debugging, as described in the
+     <a href="https://man.openbsd.org/crash">crash(8)</a> man page.
+<p>
+   <li>If you're reporting a problem with the X Window System on an
+   architecture that uses the X.Org server, please include the full 
+   <tt>/var/log/Xorg.0.log</tt> file in your report in addition
+   to the <tt>dmesg.boot</tt> information.
+</ol>
+
+<p>
+Do not be afraid if your bug report becomes rather lengthy.
+That is a fact of life.
+It's better to report everything the first time than us having to squeeze
+the facts out of you.
+On the other hand, if your input files are huge, it is fair to ask first
+whether somebody is interested in looking into it.
+
+<h3 id="bugtypes"><font color="#0000e0">Sending in bug reports</font></h3>
+
+If possible, use the <a href="https://man.openbsd.org/sendbug">sendbug(1)</a>
+command to help generate your bug report.
+It will automatically include some useful information about your hardware
+that helps diagnose many issues.
+This tool requires that your system can properly send email.
+If you cannot use sendbug on a functional OpenBSD machine, please send your
+bug report to <a href="mailto:bugs@openbsd.org">bugs@openbsd.org</a>.
+
+<p>
+Perhaps what you are sending in is a feature request, not necessarily a bug.
+New features are accepted, especially with code that implements your suggested
+new feature.
+
+<p>
+For debugging some problems, we must have the hardware that has the problem.
+Please remember that the OpenBSD project's resources are limited.
+You could <a href="want.html">donate some hardware</a>.
+
+</body>
+</html>
