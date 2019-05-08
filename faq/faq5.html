@@ -301,50 +301,46 @@ Now you can mount <code>/dest</code> before making a release:
 
 <h2 id="Xbld">Собираем X</h2>
 
-Starting with <a href="https://www.x.org/wiki/">X.Org</a> v7, X switched to a
-modular build system, splitting the X.Org source tree into more than
-three hundred more-or-less independent packages.
+Начиная с 7-ой версии, <a href="https://www.x.org/wiki/">X.Org</a>
+стал использовать модульную систему сборки, разделив исходники X.org
+на более трехсот более или менее связанных друг с другом пакетов.
 
 <p>
-To simplify life for OpenBSD users, a meta-build called
-<a href="https://xenocara.org">Xenocara</a> was developed.
-This system converts X back into one big tree to be built in one process.
-As an added bonus, this build process is much more similar to the build
-process used by the rest of OpenBSD than the previous versions were.
+Чтобы упростить жизни пользователям OpenBSD, была разработана система,
+получившая название <a href="https://xenocara.org">Xenocara</a>.
+Эта система "конвертирует" X обратно в одно общее большее дерево исходных
+кодов. В качестве дополнительного бонуса, этот процесс сборки стал похож
+на аналогичные процессы, используемые остальными компонентами OpenBSD.
 
 <p>
-The official instructions for building X exist in the
+Официальные инструкции по сборке X находятся в файле
 <a href="https://cvsweb.openbsd.org/xenocara/README">
-<code>xenocara/README</code></a> file and in step 5 of
+<code>xenocara/README</code></a>, а так же описаны в пятом шаге
 <a href="https://man.openbsd.org/release">release(8)</a>.
 
 <h2 id="buildprobs">Распростаненные проблемы при компиляции</h2>
 
-Most of the time, problems in the build process are caused by not following the
-directions carefully.
-There are occasional real problems with building -current from the most
-recent snapshot, but failures when building -release or -stable
-are almost always user error.
+Чаще всего к проблемам при сборке приводит невнимательность.
+Есть отдельные проблемы при сборке -current из-за новых изменений коде,
+но проблемы при сборке -release или -stable чаще всего вызваны ошибками
+самого пользователя.
 
 <p>
-Most problems are usually one of the following:
+Чаще всего можно столкнуться со следующими:
 
 <ul>
-  <li>Failing to start from the <a href="#BldBinary">appropriate binaries</a>.
-  <li><a href="#BldGetSrc">Checking out</a> the wrong branch of the tree.
-  <li>Forgetting to read <a href="current.html">following -current</a>
-      before building -current.
-  <li>Skipping the reboot step after building and installing a new kernel.
+  <li>Не получается собрать или запустить <a href="#BldBinary">тот или иной бинарник</a>.
+  <li><a href="#BldGetSrc">Загрузка</a> не того branch с исходниками.
+  <li>Забыли ознакомиться с <a href="current.html">докуменацией о -current</a>
+      до того как начать сборку.
+  <li>Забили пререзагрузиться после сборки и установки нового ядра.
 </ul>
 
 <h3 id="ProbObj">Я забыл сделать <code>make obj</code> перед <code>make build</code></h3>
 
-By doing a <code>make build</code> before doing a <code>make obj</code>,
-you will end up with the object files scattered in your <code>/usr/src</code>
-directory.
-This is a bad thing.
-If you wish to try to avoid re-fetching your entire src tree again, you
-can try the following to clean out obj files:
+Выполнение <code>make build</code> до <code>make obj</code> приведет к тому, что
+целая куча объектных файлов будет разбросана в <code>/usr/src</code> каталоге.
+Это плохо. Чтобы не загужать исходники (src tree) снова, удалите obj-файлы:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
