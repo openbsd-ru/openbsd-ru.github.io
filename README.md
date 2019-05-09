@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
+
 # Russian OpenBSD web pages :blowfish:
 
 This project contains translated web pages of the OpenBSD Project.
