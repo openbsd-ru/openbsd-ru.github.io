@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang=en>
+<html lang=ru>
 
 <!-- If you make edits to any FAQ documents, please start each sentence
      on a new line, and try to keep the general formatting consistent
      with the rest of the pages -->
 
-<title>OpenBSD FAQ: General Questions</title>
+<title>OpenBSD FAQ: Общие вопросы</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
@@ -14,7 +14,7 @@
 <h2 id=OpenBSD>
 <a href="../index.html">
 <i>Open</i><b>BSD</b></a>
-FAQ - General Questions
+FAQ - Общие вопросы
 <small>
 <a href="index.html">[FAQ Index]</a>
 </small>
@@ -22,32 +22,32 @@ FAQ - General Questions
 <hr>
 
 <ul>
-  <li><a href="#LostPW"    >I Forgot My Root Password</a>
-  <li><a href="#OpenNTPD"  >Using OpenNTPD</a>
-  <li><a href="#TimeZone"  >Time Zones</a>
-  <li><a href="#locales"   >Character Sets and Localization</a>
-  <li><a href="#RevDNS"    >Reverse DNS</a>
-  <li><a href="#GenNotConf">Device "not configured" in dmesg</a>
+  <li><a href="#LostPW"    >Я забыл свой пароль root</a>
+  <li><a href="#OpenNTPD"  >Использование OpenNTPD</a>
+  <li><a href="#TimeZone"  >Часовые пояса</a>
+  <li><a href="#locales"   >Набор символов (character sets) и локализация</a>
+  <li><a href="#RevDNS"    >Обратный просмотр DNS</a>
+  <li><a href="#GenNotConf">Устройсто "not configured" в dmesg</a>
 </ul>
 
 <hr>
 
-<h2 id="LostPW">I Forgot My Root Password</h2>
+<h2 id="LostPW">Я забыл свой пароль root</h2>
 
-The basic process to regain root is to boot into single user mode, mount the
-<code>/</code> and <code>/usr</code> partitions and run
-<a href="https://man.openbsd.org/passwd">passwd(1)</a> to change the root
-password:
+Процесс восстановления пароля включает следующие шаги - загрузку в
+однопользовательском режиме, монтирование разделов <code>/</code> и
+<code>/usr</code>, выполнение команды
+<a href="https://man.openbsd.org/passwd">passwd(1)</a> для смены
+пароля root:
 
 <ul>
-  <li><b>Boot into single user mode.</b>
-    This part of the process varies depending on your
-    <a href="../plat.html">platform</a>.
-    For amd64 and i386, the
-    <a href="faq14.html#BootAmd64">second stage boot loader</a>
-    pauses for a few seconds to give you a chance to provide parameters
-    to the kernel.
-    Here you can see we pass the <code>-s</code> flag to
+  <li><b>Загрузка в однопользовательском режиме.</b>
+    Эта часть процесса различается для разных
+    <a href="https://www.openbsd.org/plat.html">платформ</a>.
+    Для amd64 и i386, на
+    <a href="https://www.openbsd.org/faq/faq14.html#BootAmd64">на втором этапе загрузки</a>
+    есть пауза для введения параметров ядра.
+    В примере ниже видно как мы передали <code>-s</code> флаг для
     <a href="https://man.openbsd.org/OpenBSD-current/i386/boot">boot(8)</a>:
 
 <pre class="cmdbox">
@@ -57,27 +57,27 @@ disk: hd0+ hd1+
 boot> <b>boot -s</b>
 </pre>
 
-  <li><b>Mount the partitions.</b>
-    Both <code>/</code> and <code>/usr</code> will need to be mounted
-    read-write.
+  <li><b>Монтирование разделов.</b>
+    Оба раздела <code>/</code> и <code>/usr</code> должны быть подмонтированны
+    в режиме чтения и записи.
 
 <pre class="cmdbox">
 # <b>fsck -p / &amp;&amp; mount -uw /</b>
 # <b>fsck -p /usr &amp;&amp; mount /usr</b>
 </pre>
 
-  <li><b>Run <a href="https://man.openbsd.org/passwd">passwd(1)</a>
-    to change the root password.</b>
-    From being in single user mode, you already have root privileges, so it
-    will not ask you to provide your current password.
+  <li><b>Запустите <a href="https://man.openbsd.org/passwd">passwd(1)</a>
+    для смены пароля root.</b>
+    Поскольку вы загрузились в однопользовательском режиме, у вас уже есть
+    права root, поэтому пароль вводить не портебуется.
 
-  <li><b>Boot into multiuser mode.</b>
-    This can be done by either entering "CTRL-D" to resume the normal boot
-    process, or by entering the
-    <a href="https://man.openbsd.org/reboot">reboot(8)</a> command.
+  <li><b>Загрузка в многопользовательском режиме.</b>
+    Это можно сделав нажав "CTRL-D" для перехода в нормальный режим загрузки,
+    или выполнив команду
+    <a href="https://man.openbsd.org/reboot">reboot(8)</a>.
 </ul>
 
-<h2 id="OpenNTPD">Using OpenNTPD</h2>
+<h2 id="OpenNTPD">Использование OpenNTPD</h2>
 
 <a href="https://www.openbsd.org/openntpd">OpenNTPD</a> is a safe and simple
 NTP-compatible way to have accurate time on your computer.
@@ -103,20 +103,20 @@ is synced with a reasonable level of stability.
 Once this level is reached, a "clock now synced" message will appear in
 <code>/var/log/daemon</code>.
 
-<h2 id="TimeZone">Time Zones</h2>
+<h2 id="TimeZone">Часовые пояса</h2>
 
-By default, OpenBSD assumes your hardware clock is set to UTC (Coordinated
-Universal Time) rather than local time.
-This can cause problems when <a href="faq4.html#Multibooting">multibooting</a>.
-Many other operating systems can be configured to do the same, which avoids
-this problem altogether.
+OpenBSD предполагает, что ваши аппаратные часы настроены в соответствии с UTC
+(Universal Coordinated Time), а не по местному времени. Это может причиной проблем при
+<a href="https://www.openbsd.org/faq/faq4.html#Multibooting">мультизагрузке</a>.
+Большинство других операционных ситем могут быть настроены по тому же принципу,
+что и OpenBSD, чтобы избежать эту проблему.
 
 <p>
-If having the hardware clock set to UTC is a problem, you can change the
-default behavior of OpenBSD using
+Если испрользование UTC является причиной проблем, вы всегда можете изменить
+настройки, используя
 <a href="https://man.openbsd.org/config">config(8)</a>.
-For example, to configure OpenBSD to use a hardware clock set to
-US Eastern Standard Time (5 hours behind UTC, so 300 minutes):
+Например, чтобы сконфигурировать OpenBSD для использования аппаратные часов
+установленных на US/Eastern (5 часов или 300 минут от UTC):
 
 <pre class="cmdbox">
 # <b>config -ef /bsd</b>
@@ -128,22 +128,23 @@ ukc> <b>quit</b>
 Saving modified kernel.
 </pre>
 
-See <a href="https://man.openbsd.org/options">options(4)</a>
-and search for option "TIMEZONE=value" for more information.
+Ознакомьтесь с <a href="https://man.openbsd.org/options">options(4)</a>
+и обратите внимание на опцию "TIMEZONE=value".
 
 <p>
-Normally, the time zone is set during install.
-If you have need to change the time zone, you can create a new symbolic
-link to the appropriate time zone file in <code>/usr/share/zoneinfo</code>.
-For example, to set the machine to use EST5EDT as the new local time zone:
+Обычно, часовой пояс настраивается во время установки.
+Если вам нужно изменить часовой пояс, вы можете создать новый symbolic link
+на подходящий файл часового пояса в <code>/usr/share/zoneinfo</code>.
+Например, чтобы настроить машину для использования EST5EDT в качестве
+нового локального часового пояса:
 
 <pre class="cmdbox">
 # <b>ln -fs /usr/share/zoneinfo/EST5EDT /etc/localtime</b>
 </pre>
 
-Also see the <a href="https://man.openbsd.org/date">date(1)</a> manual.
+Смотрите также руководство по <a href="https://man.openbsd.org/date">date(1)</a>.
 
-<h2 id="locales">Character Sets and Localization</h2>
+<h2 id="locales">Набор символов (character sets) и локализация</h2>
 
 The OpenBSD base system fully supports the ASCII character set and encoding, and
 partially supports the UTF-8 encoding of the Unicode character set.
@@ -189,7 +190,7 @@ but using them or setting <code>LC_CTYPE</code> to any value other than
 <code>C</code>, <code>POSIX</code> or <code>en_US.UTF-8</code>
 is not recommended.
 
-<h2 id="RevDNS">Reverse DNS</h2>
+<h2 id="RevDNS">Обратный просмотр DNS</h2>
 
 Some new users experience a login delay when using services such as
 <a href="https://man.openbsd.org/ssh">ssh(1)</a>, or when using a proxy or
@@ -251,7 +252,7 @@ If you are using <a href="faq6.html#DHCP">DHCP</a>, you should add
 as <code>resolv.conf</code> will be overwritten by
 <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>.
 
-<h2 id="GenNotConf">Device "not configured" in dmesg</h2>
+<h2 id="GenNotConf">Устройсто "not configured" в dmesg</h2>
 
 In short, it means your device is not supported by the kernel you are using,
 so you will not be able to use it.
