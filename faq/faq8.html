@@ -148,49 +148,48 @@ Saving modified kernel.
 
 <h2 id="locales">Набор символов (character sets) и локализация</h2>
 
-The OpenBSD base system fully supports the ASCII character set and encoding, and
-partially supports the UTF-8 encoding of the Unicode character set.
-No other encodings or character sets are supported by the base system, but ports
-can be used to handle them.
-The level of UTF-8 support and the default encoding configuration vary greatly
-with the program or library.
+Базовая система OpenBSD полностью поддерживает набор символов и кодировку
+ASCII, а таже частично кодировку UTF-8 набора символов Unicode. Никакие другие
+кодировки или наборы символов не поддерживаются базовой системой, но порты
+могут использоваться для их обработки. Уровень поддержки UTF-8 и конфигурация
+кодировки по умолчанию сильно различаются в зависимости от используемой
+программы или библиотеки.
 
 <p>
-To use the Unicode character set in UTF-8 encoding whereever supported, set the
-<code>LC_CTYPE</code> environment variable to the value
-<code>en_US.UTF-8</code>:
+Чтобы использовать UTF-8 везде, где это поддерживается, установите значение
+<code>en_US.UTF-8</code> для переменной среды <code>LC_CTYPE</code>:
 
 <ul>
   <li>
-    If logging in via <a href="https://man.openbsd.org/xenodm">xenodm(1)</a>,
-    add <code>export LC_CTYPE="en_US.UTF-8"</code> to your
-    <code>~/.xsession</code>
-    before starting the window manager.
-    See <a href="faq11.html#CustomizingX">customizing X</a> for more details.
+    Если вы используете <a href="https://man.openbsd.org/xenodm">xenodm(1)</a>
+    для входа в систему, добавьте <code>export LC_CTYPE="en_US.UTF-8"</code>
+    в <code>~/.xsession</code> до запуска оконного менеджера.
+    Обратите внимание на главу <a href="faq11.html#CustomizingX">настройка X</a>,
+    если вы ищете более подробную информацию по этой теме.
   <li>
-    If logging in via the text console, add
-    <code>export LC_CTYPE="en_US.UTF-8"</code> to your <code>~/.profile</code>.
-    The text console's UTF-8 support is a work in progress, and some non-ASCII
-    characters may not display properly.
+    Если вы входите в систему через консоль, добавьте
+    <code>export LC_CTYPE="en_US.UTF-8"</code> в ваш <code>~/.profile</code>.
+    Поддержка UTF-8 в консоли находится в стадии разработки, и некоторые символы,
+    не входящие в ASCII, могут отображаться некорректно.
 </ul>
 
-When logging into remote systems with
-<a href="https://man.openbsd.org/ssh">ssh(1)</a>, the <code>LC_CTYPE</code>
-environment variable is not propagated, and you have to make sure that the local
-terminal is set to the character encoding used by the remote server before
-connecting.
-If that encoding is unknown or unsupported by OpenBSD, make sure you use the
-default <a href="https://man.openbsd.org/xterm">xterm(1)</a> configuration and
-set <code>LC_CTYPE=en_US.UTF-8</code> in the remote shell after connecting.
+При подключении к удаленным системам через
+<a href="https://man.openbsd.org/ssh">ssh(1)</a> значение переменной
+<code>LC_CTYPE</code> не будет переданно, поэтому перед подключением убедитесь,
+что на локальном терминале установлена кодировка символов, используемая на удаленном
+сервере.
+Если эта кодировка неизвестна или не поддерживается OpenBSD, убедитесь, что вы
+используете дефолтную конфигурацию
+<a href="https://man.openbsd.org/xterm">xterm(1)</a>, а после подключения
+настройте консоль (remote shell) при помощи <code>LC_CTYPE=en_US.UTF-8</code>.
 
 <p>
-The OpenBSD base system completely ignores all locale-related environment
-variables except <code>LC_CTYPE</code>; even <code>LC_ALL</code> and
-<code>LANG</code> only affect the character encoding.
-Some ports may respect other <code>LC_*</code> variables,
-but using them or setting <code>LC_CTYPE</code> to any value other than
-<code>C</code>, <code>POSIX</code> or <code>en_US.UTF-8</code>
-is not recommended.
+Базовая система OpenBSD полностью игнорирует все переменные окружения,
+связанные с локалью, кроме <code>LC_CTYPE</code>. Даже <code>LC_ALL</code>
+и <code>LANG</code> влияют только на кодировку символов. Некоторые порты могут
+учитывать другие <code>LC_*</code> переменные, но использовать их или
+устанавливать для <code>LC_CTYPE</code> любое другое значение, отличное от
+<code>C</code>, <code>POSIX</code> или <code>en_US.UTF-8</code>, не рекомендуется.
 
 <h2 id="RevDNS">Обратный просмотр DNS</h2>
 
@@ -251,7 +250,7 @@ lookup file bind
 
 Если вы используете
 <a href="https://www.openbsd.org/faq/faq6.html#DHCP">DHCP</a>,
-вы должны добавть <code>lookup file bind</code> в ваш
+вы должны добавить <code>lookup file bind</code> в ваш
 <code>/etc/resolv.conf.tail</code> файл, так как <code>resolv.conf</code>
 будет перезаписан
 <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>.
