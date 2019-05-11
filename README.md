@@ -14,7 +14,6 @@ We also respect people who understand English not good enough.
 * FAQ#05 - Building the System from Source - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#06 - Networking - Wanna help? Be first, it's still not translated.
 * FAQ#07 - Keyboard and Display Controls - Wanna help? Be first, it's still not translated.
-* FAQ#08 - General Questions - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
