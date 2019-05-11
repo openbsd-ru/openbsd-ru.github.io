@@ -171,7 +171,12 @@ OpenBSD поставляется с обширной документацией 
   <a href="https://man.openbsd.org/shutdown">shutdown(8)</a>
   - остановка и перезагрузки системы.
   <li><a href="https://man.openbsd.org/syspatch">syspatch(8)</a>
-  - применение <a href="https://www.openbsd.org/faq/faq10.html#Patches">обновлений безопасности и надёжности</a>.
+  - применение <a href="https://www.openbsd.org/faq/faq10.html#Patches">
+  обновлений безопасности и надёжности</a>.
+  <!-- XXXrelease
+  <li><a href="https://man.openbsd.org/sysupgrade">sysupgrade(8)</a>
+  - upgrade to the next OpenBSD release or a newer snapshot.
+  -->
   <li><a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
   - повторный показ сообщений ядра в момент загрузки.
   <li><a href="https://man.openbsd.org/doas">doas(1)</a>
@@ -187,8 +192,8 @@ OpenBSD поставляется с обширной документацией 
 </ul>
 
 Также вы можете найти все страницы руководства онлайн по адресу
-<a href="https://man.openbsd.org">man.openbsd.org</a> и локально на своём компьютере,
-если был установлен <code>manXX.tgz</code>.
+<a href="https://man.openbsd.org">man.openbsd.org</a> и локально
+на своём компьютере, если был установлен <code>manXX.tgz</code>.
 
 <p>
 В общем, если вы знаете имя команды или страницы руководства, вы можете
@@ -282,7 +287,7 @@ $ <b>man 5 crontab</b>
       можно обновлять отдельно друг от друга.
   <li>OpenBSD поддерживает <a href="ports/index.html">дерево портов</a> для
       предоставления стороннего программного обеспечения.
-	  Предварительно скомпилированные <a href="faq15.html">пакеты</a> создаются
+      Предварительно скомпилированные <a href="faq15.html">пакеты</a> создаются
       и распространяются командой портов OpenBSD.
   <li>OpenBSD использует CVS для отслеживания изменений исходного кода. OpenBSD
       был первым проектом, в котором появился <a href="../anoncvs.html">анонимный
@@ -292,7 +297,7 @@ $ <b>man 5 crontab</b>
   <li>OpenBSD проходит тщательный и непрерывный аудит безопасности для
       обеспечения качества и безопасности кода.
   <li>OpenBSD не поддерживает файловых систем с журналированием.
-	  Вместо этого мы используем функциональность
+      Вместо этого мы используем функциональность
       <a href="faq14.html#SoftUpdates">"мягких обновлений"</a> (soft updates)
       Fast File System (FFS).
   <li>OpenBSD поставляется с <a href="https://www.openbsd.org/faq/pf/index.html">фильтром сетевых пакетов</a>
@@ -306,7 +311,7 @@ $ <b>man 5 crontab</b>
       оболочке Корна (Korn Shell). Оболочки, такие как bash и многие другие, могут
       быть добавлены из <a href="faq15.html">пакетов</a>.
   <li>Устройства именуются по имени драйвера, а не по типу.
-      Другими словами, нет устройств <code>eth0 </code> и <code>eth1</code>.
+      Другими словами, нет устройств <code>eth0</code> и <code>eth1</code>.
       Это будет <code>em0</code> для карты Intel PRO/1000 Ethernet,
       <code>bge0</code> для устройства Broadcom BCM57xx или BCM590x Ethernet,
       <code>ral0</code> для беспроводного устройства RaLink и т. Д.
