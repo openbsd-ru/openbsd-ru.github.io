@@ -95,6 +95,19 @@ part).
 Our sources can be freely used, copied, modified, and distributed
 by anyone and for any purpose.
 
+### GET HELP - USE OUR SCRIPTS
+The two most important things for the translation process are
+implemented already.
+
+* [broken_links.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/broken_links.sh)
+is a shell script that shows all missing web pages and pages that
+need (have links to) these pages.
+* [comp_version.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/comp_version.sh)
+is another script that compare versions of local html-files and
+its versions in the [www CVS-repository](https://cvsweb.openbsd.org/www/).
+
+Since both scripts are a task for travis, they will starts after
+each new ```git push```.
 
 ## CONTRIBUTORS
 * Alexander Naumov <alexander_naumov () opensuse ! org>
