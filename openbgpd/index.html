@@ -1,48 +1,56 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
+<!doctype html>
+<html lang=en>
+    <meta charset=utf-8>
     <title>OpenBGPD</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="description" content="the main OpenBGPD page">
-    <meta name="copyright" content="This document copyright 2004-2019
-                                    by OpenBSD.">
-    <link rel="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="canonical" href="http://www.openbgpd.org/">
-</head>
-<body text="#000000" bgcolor="#ffffff" topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>
-<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="#99cced" rowspan="2" valign=top>
-<b><big>Информация</big></b><br>
-&nbsp;<a href="goals.html">Цели проекта</a><br>
-&nbsp;<a href="manual.html">Документация</a><br>
-&nbsp;<a href="papers.html">Доклады</a><br>
-&nbsp;<a href="users.html">Отзывы</a><br>
-&nbsp;<a href="mail.html">Почтовые рассылки</a><br><p>
-<b><big>Для OpenBSD</big></b><br>
-&nbsp;<a href="../anoncvs.html">AnonCVS</a><br>
-&nbsp;<a href="https://cvsweb.openbsd.org/src/usr.sbin/bgpd/">CVSWeb (bgpd)</a><br>
-&nbsp;<a href="https://cvsweb.openbsd.org/src/usr.sbin/bgpctl/">CVSWeb (bgpctl)</a><br><p>
-<b><big>Для других ОС</big></b><br>
-&nbsp;<a href="ftp.html">Релизы</a><br>
-&nbsp;<a href="https://github.com/openbgpd-portable/openbgpd-portable/issues">Нашли ошибку?</a><br>
-&nbsp;<a href="https://github.com/openbgpd-portable">GitHub</a><br>
-</td>
-    <td bgcolor="#0000cc" rowspan="2"><font size="1">&nbsp;</font></td>
-    <td bgcolor="#ffffff" valign="top"><center>
-    <img border="0" src="images/openbgpd.gif" height=210 width=599 alt="[OpenBGPD]"></center>
-    <br>
+    <link rel="stylesheet" href="openbsd.css">
+
+<table id="project-main" class="not-openbsd">
+  <tr class="align-top">
+    <td>
+
+      <h1>Информация</h1>
+      <ul>
+        <li><a href="goals.html">Цели проекта</a>
+        <li><a href="manual.html">Документация</a>
+        <li><a href="papers.html">Доклады</a>
+        <li><a href="users.html">Отзывы</a>
+        <li><a href="mail.html">Почтовые рассылки</a>
+      </ul>
+
+      <h1>Для OpenBSD</h1>
+      <ul>
+        <li><a href="../anoncvs.html">AnonCVS</a>
+        <li><a href="https://cvsweb.openbsd.org/src/usr.sbin/bgpd/">CVSWeb (bgpd)</a>
+        <li><a href="https://cvsweb.openbsd.org/src/usr.sbin/bgpctl/">CVSWeb (bgpctl)</a>
+      </ul>
+
+      <h1>Для других ОС</h1>
+      <ul>
+        <li><a href="ftp.html">Релизы</a>
+        <li><a href="https://github.com/openbgpd-portable/openbgpd-portable/issues">Нашли ошибку?</a>
+        <li><a href="https://github.com/openbgpd-portable">GitHub</a>
+      </ul>
+
+    <td>
+      <h1 class="header">
+        <img src="images/openbgpd.gif" height=210 width=599 alt="[OpenBGPD]">
+      </h1>
 <p>
-OpenBGPD это <b>СВОБОДНАЯ</b> реализация четвертой версии протокола
+OpenBGPD это <strong>СВОБОДНАЯ</strong> реализация четвертой версии протокола
 динамической маршрутизации BGP (Border Gateway Protocol).
 Она позволяет использовать обычные машины в сети в качестве маршрутизаторов, и
 обмениваться маршрутами с другими системами, используя протокол BGP.
 <p>
 
-Начатый по причине неудовлетворенности другими, существующими на тот момент,
-BGP-демонами, OpenBGPD в настоящее время является достаточно полной реализацией
+Проект родился по причине неудовлетворенности другими существующими на тот момент
+BGP-демонами. OpenBGPD в настоящее время является достаточно полной реализацией
 BGP, которую используют многие сервера.
 Пользователи часто хвалят нас за простоту использования, высокую
 производительность и надежность OpenBGPD.
+
 <p>
 Компаньоны OpenBGPD,
 <a href="https://man.openbsd.org/ospfd">ospfd(8)</a>,
@@ -52,20 +60,23 @@ BGP, которую используют многие сервера.
 поддерживают соответствующе протоколы.
 <a href="https://man.openbsd.org/ldpd">ldpd(8)</a> и 
 <a href="https://man.openbsd.org/mpe">mpe(4)</a> добавляют поддержку MPLS.
+
 <p>
 OpenBGPD разрабатывался в основном Хеннингом Брауэром (Henning Brauer),
 Петером Хасслером (Peter Hessler) и Клаудио Джекером (Claudio Jeker).
 Все эти демоны являются частью <a href="../index.html">
 проекта OpenBSD</a>.
-<p>
-Портируемая версия, поддерживаемая Клаудио Джекером (Claudio Jeker), доступна со своим циклом релизов в виде тарбола. Приветствуется любой вклад как в саму OpenBGPD, так и в её портированную версию.
-<p>
-Их исходники свободно распространаяются в соотствии с лицензией BSD.
-<p>
 
-    </td>
-</tr>
-<tr>
+<p>
+Портируемая версия, поддерживаемая Клаудио Джекером (Claudio Jeker),
+доступна со своим циклом релизов в виде тарбола. Приветствуется любой вклад
+как в саму OpenBGPD, так и в её портированную версию.
+
+<p>
+Исходники обоих версий свободно распространаяются в соотствии с лицензией BSD.
+
+<tr class="align-bottom">
+<td>
 <td>
 <hr>
 <small>
@@ -74,10 +85,5 @@ Translation project is organized by <a href="https://github.com/alexander-naumov
 and is going with the support of 
 <a href="https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/README.md#CONTRIBUTORS">
 volunteers</a>.</em>
-<br>
 </small>
-</td>
-</tr>
 </table>
-</body>
-</html>
