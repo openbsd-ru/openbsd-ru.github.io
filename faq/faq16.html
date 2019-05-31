@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=ru>
+<html lang=ru id=faq>
 
 <!-- If you make edits to any FAQ documents, please start each sentence
      on a new line, and try to keep the general formatting consistent
@@ -12,7 +12,7 @@
 <link rel="canonical" href="https://www.openbsd.org/faq/faq16.html">
 
 <!--
-Copyright (c) 2018 Oleg Pahl <deface@posteo.de>
+Copyright (c) 2018 Solene Rapenne <solene@openbsd.org>
 
 Permission to use, copy, modify, and distribute this documentation for
 any purpose with or without fee is hereby granted, provided that the
@@ -114,6 +114,14 @@ $ <b>dmesg | egrep '(VMX/EPT|SVM/RVI)'</b>
 
 В следующем примере будет создана виртуальная машина с 50 ГБ дискового пространства и 1 ГБ ОЗУ. 
 Онa загрузится из образа <code>installXX.iso</code> .
+
+<!-- XXXrelease
+<pre class="cmdbox">
+# <b>vmctl create -s 50G disk.qcow2</b>
+vmctl: qcow2 imagefile created
+# <b>vmctl start -m 1G -L -i 1 -r installXX.iso -d disk.qcow2 example</b>
+vmctl: started vm 1 successfully, tty /dev/ttyp8
+-->
 
 <pre class="cmdbox">
 # <b>vmctl create disk.qcow2 -s 50G</b>
