@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=en>
+<html lang=en id=faq>
 
 <title>Following -current and using snapshots</title>
 <meta charset=utf-8>
@@ -64,8 +64,36 @@ use a snapshot to recover.
 Most of these changes will have to be performed as root.
 
 
-<h3 id="r2019MMDD">2018/04/17 - no entries yet</h3>
+<h3 id="r20190529">2019/05/29 - vmctl(8): command line syntax changed</h3>
 
+The order of the arguments in the <code>create</code>,
+<code>start</code>, and <code>stop</code> commands of
+<a href="https://man.openbsd.org/vmctl.8">vmctl(8)</a> has been changed to
+match a commonly expected style.
+Manual usage or scripting with vmctl must be adjusted to use the new
+syntax.
+For example, the old syntax looked like this:
+<pre class="cmdbox">
+# <b>vmctl create disk.qcow2 -s 50G</b>
+</pre>
+
+The new syntax specifies the command options before the argument:
+<pre class="cmdbox">
+# <b>vmctl create -s 50G disk.qcow2</b>
+</pre>
+
+
+<h3 id="r20190607">2019/06/07 - acme-client(1): api url changed</h3>
+<a href="https://man.openbsd.org/acme-client.1">acme-client(1)<a> has
+been updated to implement the recently published RFC 8555.
+Users must change the api url in <code>/etc/acme-client.conf</code> from
+<pre class="cmdbox">
+https://acme-v01.api.letsencrypt.org/directory
+</pre>
+to
+<pre class="cmdbox">
+https://acme-v02.api.letsencrypt.org/directory
+</pre>
 
 <!--
      Two blank lines before new sections.
@@ -74,4 +102,4 @@ Most of these changes will have to be performed as root.
 -->
 
 <hr id="end">
-<small>$OpenBSD: current.html,v 1.993 2019/04/27 16:21:48 tj Exp $</small>
+<small>$OpenBSD: current.html,v 1.997 2019/06/07 08:16:17 florian Exp $</small>
