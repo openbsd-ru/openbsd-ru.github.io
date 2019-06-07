@@ -17,7 +17,6 @@ We also respect people who understand English not good enough.
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
-* FAQ#16 - Virtualization - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ#17 - Virtual Private Networks (VPN) - [Oleg Pahl](https://github.com/oleg-pahl)  
 * FAQ - PF/anchors.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/authpf.html - [Oleg Pahl](https://github.com/oleg-pahl)
@@ -47,7 +46,7 @@ We also respect people who understand English not good enough.
 * FAQ - Ports/specialtopics - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/testing - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenSMTPD - Wanna help? Be first, it's still not translated.
+* OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenIKED - Wanna help? Be first, it's still not translated.
 * OpenRSYNC - Wanna help? Be first, it's still not translated.
 
