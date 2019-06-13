@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=ru>
+<html lang=ru id=faq>
 
 <!-- If you make edits to any FAQ documents, please start each sentence
      on a new line, and try to keep the general formatting consistent
@@ -13,7 +13,6 @@
 
 <!--
 Copyright (c) 2018 Landry Breuil <landry@openbsd.org>
-Copyright (c) 2019 Oleg Pahl <postmaster@tokyo.mailbsd.org>
 
 Permission to use, copy, modify, and distribute this documentation for
 any purpose with or without fee is hereby granted, provided that the
@@ -34,7 +33,7 @@ PERFORMANCE OF THIS DOCUMENTATION
 <i>Open</i><b>BSD</b></a>
 FAQ - Виртуальные частные сети (VPN)
 <small>
-<a href="index.html">[FAQ Index]</a>
+<a href="index.html">[FAQ - На главную]</a>
 </small>
 </h2>
 <hr>
@@ -121,7 +120,7 @@ OpenBSD поставляется с <a href="https://man.openbsd.org/iked">iked(
 
 <p>
 Чтобы инициатор мог связаться с респондентом, на
-<code>isakmpd</code>
+<code>isakmp</code>
 должен быть открыт UDP-порт. Если один из одноранговых узлов находится за NAT, UDP-порт
 <code>ipsec-nat-t</code>
 также должен быть открыт на ответчике. Если оба узла имеют общедоступные IP-адреса, то протокол ESP должен быть разрешен.
@@ -251,7 +250,7 @@ ikev2 'server1_rsa' passive esp \
 
 <pre class="cmdbox">
 ikev2 'server2_rsa' active esp \
-        from 10.0.2.0/24 to 10.0.2.0/24 \
+        from 10.0.2.0/24 to 10.0.1.0/24 \
         from 10.0.2.0/24 to 192.0.2.1 \
         from 198.51.100.1 to 10.0.1.0/24 \
         peer 192.0.2.1 \
@@ -312,7 +311,7 @@ ikev2 'responder_rsa' passive esp \
 и применить к нему NAT:
 
 <pre class="cmdbox">
-pass in log on $ext_if proto udp from any to 192.0.2.1 port {isakmpd, ipsec-nat-t} tag IKED
+pass in log on $ext_if proto udp from any to 192.0.2.1 port {isakmp, ipsec-nat-t} tag IKED
 pass in log on $ext_if proto esp from any to 192.0.2.1 tag IKED
 pass log on enc0 tagged ROADW
 match out log on $ext_if inet tagged ROADW nat-to $ext_if
@@ -476,7 +475,6 @@ ikev2 'responder_eap' passive esp \
 Для этого метода сертификат создается для клиента, устанавливается в
 <code>iked ca</code>, экспортируется в виде архива, и файл .pfx 
 должен быть доступен в Интернете, чтобы клиент мог его установить. 
-
 Пакеты файлов .pfx:
 
 <ul>
@@ -587,7 +585,7 @@ ikev2 'responder_eap' passive esp \
 <p>
 На момент написания статьи в текущих версиях Windows по умолчанию используется слабое шифрование (3DES / SHA1). 
 Это можно исправить с помощью команды PowerShell 
-<tt>Set-VpnConnectionIPsecConfiguration</tt>.
+<code>Set-VpnConnectionIPsecConfiguration</code>.
 
 <h2 id="clientikev1">Подключение к IKEv1 / L2TP VPN</h2>
 
