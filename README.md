@@ -17,7 +17,6 @@ We also respect people who understand English not good enough.
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
 * FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
-* FAQ#17 - Virtual Private Networks (VPN) - [Oleg Pahl](https://github.com/oleg-pahl)  
 * FAQ - PF/anchors.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/authpf.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/carp.html - [Oleg Pahl](https://github.com/oleg-pahl)
