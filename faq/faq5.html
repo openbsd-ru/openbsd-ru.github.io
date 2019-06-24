@@ -426,18 +426,18 @@ your architecture's kernel <code>tags</code> file in each directory and in
 
 <h2 id="Custom">Собственное ядро</h2>
 
-There are three ways to customize a kernel:
+Есть три возможности настройки ядра:
 
 <ul>
-  <li>boot-time configuration using
+  <li>Настройка во время загрузки, при использовании
     <a href="https://man.openbsd.org/boot_config">boot_config(8)</a>
-  <li>permanent modification of a compiled kernel using
+  <li>Изменение настроек скомпилированного ядра, при помощи
     <a href="https://man.openbsd.org/config">config(8)</a>
-  <li>compilation of a custom kernel
+  <li>Новая компиляция собственного ядра
 </ul>
 
-It is recommended that you read
-<a href="https://man.openbsd.org/config">config(8)</a> first.
+Прежде чем вы начнете, мы настоятельно рекомендуем вам сначала ознакомиться с
+документацией о <a href="https://man.openbsd.org/config">config(8)</a>.
 
 <h3 id="BootConfig">Настройка во время загрузки</h3>
 
@@ -486,19 +486,19 @@ Kernel modification examples are given in the
 
 <h3 id="Options">Сборка собственного ядра</h3>
 
-Only the <code>GENERIC</code> and <code>GENERIC.MP</code> kernels are supported
-by the OpenBSD team.
-The <code>GENERIC</code> kernel configuration is the combination of the options
-in <code>/sys/arch/$(machine)/conf/GENERIC</code>
-and <code>/sys/conf/GENERIC</code>.
-Reporting a problem on a customized kernel will almost always result in
-you being told to try to reproduce the problem with a <code>GENERIC</code>
-kernel.
+Только <code>GENERIC</code> и <code>GENERIC.MP</code> ядра поддерживаются командой
+разработчиков.
+Конфигурация <code>GENERIC</code> ядра зависит от комбинации параметров в
+<code>/sys/arch/$(machine)/conf/GENERIC</code>
+и <code>/sys/conf/GENERIC</code>.
+Сообщение о проблеме в собственно собраном ядре практически всегда приведет к
+тому, что вам предложат попытаться воспроизвести проблему с <code>GENERIC</code>
+ядром.
 
 <p>
-Read the <a href="https://man.openbsd.org/config">config(8)</a> and the
-<a href="https://man.openbsd.org/options">options(4)</a> man pages first.
-The following steps are part of compiling a custom kernel:
+Ознакомьтесь с документацией для <a href="https://man.openbsd.org/config">config(8)</a>
+и <a href="https://man.openbsd.org/options">options(4)</a>.
+Следующие шаги являются частью процесса сборки собственного ядра:
 
 <pre class="cmdbox">
 $ <b>cd /sys/arch/$(machine)/conf</b>
