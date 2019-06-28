@@ -38,7 +38,6 @@ We also respect people who understand English not good enough.
 * mail.html - Wanna help? Be first, it's still not translated.
 * report.html - [Sergey Bronnikov](https://github.com/ligurio)
 * anoncvs.html - Wanna help? Be first, it's still not translated.
-* plat.html - [Sergey Bronnikov](https://github.com/ligurio)
 * FAQ - Ports/differences - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/guide - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/ports - [Alexander Naumov](https://github.com/alexander-naumov)
