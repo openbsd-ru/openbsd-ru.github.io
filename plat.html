@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang=ru>
+<meta charset=utf-8>
+
+<title>OpenBSD: Платформы</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/plat.html">
+
+<style>
+h3 {
+	color: var(--red);
+}
+
+table {
+	border-spacing: 0;
+}
+
+td {
+	padding: 0;
+}
+</style>
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+Платформы
+</h2>
+
+<hr>
+
+<table>
+<tr>
+<td colspan="2">
+<h3>Поддерживаемые платформы</h3>
+<p>
+OpenBSD официально поддерживается на следующих аппаратных платформах.
+Официальная поддержка означает, что релиз "хорошо знаком" с этой
+архитектурой и сможет без проблем быть на нее установлен. Для
+нее доступно большинство из основных инструментов. Новые релизы и
+<a href="https://www.openbsd.org/ftp.html">снапшоты</a> для этих
+архитектур создаются регулярно.
+</td>
+</tr>
+
+<tr><td colspan="2">&nbsp;</td></tr>
+
+<tr>
+<td><a href="https://www.openbsd.org/alpha.html"><b>alpha</b></a></td>
+<td>Системы на основе Digital Alpha</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/amd64.html"><b>amd64</b></a></td>
+<td>Системы на основе AMD64</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/arm64.html"><b>arm64</b></a></td>
+<td>Системы на основе 64-битных ARM систем</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/armv7.html"><b>armv7</b></a></td>
+<td>Устройства, основанные на ARM, такие как BeagleBone, BeagleBoard, PandaBoard ES,
+  Cubox-i, SABRE Lite, Nitrogen6x и Wandboard</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/hppa.html"><b>hppa</b></a></td>
+<td>Системы Hewlett-Packard Precision Architecture (PA-RISC)</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/i386.html"><b>i386</b></a></td>
+<td>Стандартные PC и клоны на основе архитектуры Intel i386 и совместимых с ним процессоров</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/landisk.html"><b>landisk</b></a></td>
+<td>IO-DATA Landisk systems (such as USL-5P) based on the SH4 cpu</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/loongson.html"><b>loongson</b></a></td>
+<td>Loongson 2E- and 2F-based systems, such as the Lemote Fuloong and Yeeloong,
+Gdium Liberty, etc.</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/luna88k.html"><b>luna88k</b></a></td>
+<td>Рабочие станции Omron LUNA-88K и LUNA-88K2</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/macppc.html"><b>macppc</b></a></td>
+<td>Машины Apple <i>New World</i> на основе PowerPC от iMac</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/octeon.html"><b>octeon</b></a></td>
+<td>Cavium Octeon-based MIPS64 systems</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/sgi.html"><b>sgi</b></a></td>
+<td>Рабочие станции SGI MIPS</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/sparc64.html"><b>sparc64</b></a></td>
+<td>Системы Sun UltraSPARC и Fujitsu SPARC64</td>
+</tr>
+
+<tr><td colspan="2">&nbsp;</td></tr>
+
+<!--
+<tr>
+<td colspan="2">
+<h3>Stagnant ports</h3>
+<p>
+The following platforms have been supported in the past, but releases
+are not being built for them at the moment.
+However, they are still living in the source tree, and releases might
+happen again in the future.
+</td>
+</tr>
+-->
+
+<tr>
+<td colspan="2">
+<h3>Активные усилия по портированию</h3>
+<p>
+Следующие порты официально не поддерживается, все же работа в этом
+направлении ведется, и мы надеемся, что в будущем сможем официально
+отнести их к поддерживаемым.
+</td>
+</tr>
+
+<tr><td colspan="2">&nbsp;</td></tr>
+
+<tr>
+<td>
+<td>На данный момент их нет
+</tr>
+
+<tr><td colspan="2">&nbsp;</td></tr>
+
+<tr>
+<td colspan="2">
+<h3>Оставленные платформы</h3>
+<p>
+Представленные платформы поддерживались ранее, но были оставлены по
+разным причинам.
+</td>
+</tr>
+
+<tr><td colspan="2">&nbsp;</td></tr>
+
+<tr>
+<td><a href="https://www.openbsd.org/amiga.html"><b>amiga</b></a></td>
+<td>Системы Amiga и DraCo с MMU</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/arc.html"><b>arc</b></a></td>
+<td>Системы ARC совместимые с MIPS R4k и R5k</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/armish.html"><b>armish</b></a></td>
+<td>ARM-based appliances (by Thecus, IO-DATA, and others)</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/aviion.html"><b>aviion</b></a></td>
+<td>Системы Motorola M881x0 Data General <i>AViiON</i></td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/cats.html"><b>cats</b></a></td>
+<td>StrongARM 110 Evaluation Board</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/hp300.html"><b>hp300</b></a></td>
+<td>Рабочие станции Hewlett-Packard HP 9000 серии 300 и 400</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/hppa64.html"><b>hppa64</b></a></td>
+<td>64 битные системы Hewlett-Packard Precision Architecture (PA-RISC)</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/mac68k.html"><b>mac68k</b></a></td>
+<td>Motorola 680x0-based Apple Macintosh with MMU</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/mvme68k.html"><b>mvme68k</b></a></td>
+<td>VME-cистемы, основанные на Motorola 680x0</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/mvme88k.html"><b>mvme88k</b></a></td>
+<td>VME-системы, основанные на Motorola 881x0</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/palm.html"><b>palm</b></a></td>
+<td>Palm/PXA based PDAs</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/pegasos.html"><b>pegasos</b></a></td>
+<td>Машины Pegasos от Genesi Sarl. На основе PowerPC и с VIA-чипами на материнской плате.</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/pmax.html"><b>pmax</b></a></td>
+<td>Системы на основе Digital MIPS</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/socppc.html"><b>socppc</b></a></td>
+<td>Freescale PowerPC SoC-based machines</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/solbourne.html"><b>solbourne</b></a></td>
+<td>Solbourne "IDT" <i>Sparc-like</i> S3000, S4000 and S4000DX systems</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/sparc.html"><b>sparc</b></a></td>
+<td>Sun sun4, sun4c, sun4e and sun4m class SPARC systems</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/sun3.html"><b>sun3</b></a></td>
+<td>Системы класса Sun sun3</td>
+</tr>
+<tr>
+<td><a href="https://www.openbsd.org/vax.html"><b>vax</b></a></td>
+<td>Digital VAX системы</td>
+<tr>
+<td><a href="https://www.openbsd.org/zaurus.html"><b>zaurus</b></a></td>
+<td>Sharp Zaurus C3x00 PDAs</td>
+</tr>
+
+<tr><td colspan="2">&nbsp;</td></tr>
+</table>
