@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang=ru>
+<meta charset=utf-8>
+
+<title>OpenSMTPD: Портированная версия</title>
+<meta name="description" content="OpenSMTPD Portable Release">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.opensmtpd.org/portable.html">
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>SMTPD</b></a>
+Портированная версия
+</h2>
+<hr>
+
+<p>
+OpenSMTPD представляет из себя маленькую, безопасную и простую в использовании
+версию для проекта OpenBSD. Команда портирования добавляет в неё код,
+позволяющий ей работать на других операционных системах. Тем не менее, эта
+команда не занимается созданием и поддержкой пакетов для других ОС, поэтому
+пользователям, которые хотят использовать её на своих системах, мы рекомендуем
+связаться с нами.
+
+<p>
+OpenSMTPD работает на следующих UNIX-системах:
+
+<ul>
+<li>FreeBSD <a href="http://svnweb.freebsd.org/ports/head/mail/opensmtpd/">port</a>
+<li>NetBSD / DragonFlyBSD
+<li>Linux
+(<a href="https://www.archlinux.org/packages/community/x86_64/opensmtpd/">Archlinux package</a>,
+<a href="http://packages.gentoo.org/package/mail-mta/opensmtpd">Gentoo ebuild</a>,
+<a href="http://slackbuilds.org/result/?search=opensmtpd">Slackware</a>,
+<a href="http://packages.debian.org/search?keywords=opensmtpd&searchon=names&exact=1&suite=all&section=all">Debian</a>,
+<a href="https://dl.fedoraproject.org/pub/epel/7/x86_64/repoview/opensmtpd.html">Fedora</a>,
+Ubuntu)
+<li>Mac OS X
+</ul>
+
+<p>
+OpenSMTPD собирается на всех
+<a href="../plat.html">архитектурах</a>,
+которые поддерживает OpenBSD.
+
+<p>
+Все комбинации систем / архитектур не были протестированны, но должны работать.
+Если же тут возникнут какие-то проблемы, сообщите нам - мы это исправим.
+
+<p>
+В основе портированной OpenSMTPD лежат исходники официальной версии, тем
+не менее их новые релизы выходят не синхронно. Портированные релизы по этой причине
+имеют в названии букву 'p'(например, 5.4.4p1). Официальная OpenBSD-версия никогда не
+использует 'p' в номере версии.
