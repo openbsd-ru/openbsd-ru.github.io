@@ -10,6 +10,8 @@ We also respect people who understand English not good enough.
 
 
 ## TODO
+* First of all - check [this link](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
+and SYNC allready thanlated stuff (by sending pull request). It's very important.
 * FAQ#04 - Installation Guide - Wanna help? Be first, it's still not translated.
 * FAQ#05 - Building the System from Source - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ#06 - Networking - Wanna help? Be first, it's still not translated.
