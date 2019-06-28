@@ -45,7 +45,6 @@ We also respect people who understand English not good enough.
 * FAQ - Ports/specialtopics - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/testing - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenSMTPD - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenIKED - Wanna help? Be first, it's still not translated.
 * OpenRSYNC - Wanna help? Be first, it's still not translated.
 
