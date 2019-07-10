@@ -1,14 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
+<!doctype html>
+<html lang=ru>
+<meta charset=utf-8>
+
 <title>OpenNTPD: Возможности</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="OpenNTPD Features">
-<meta name="copyright" content="This document copyright 1999-2016 by OpenBSD.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
 <link rel="canonical" href="http://www.openntpd.org/features.html">
-</head>
 
 <h2 id=OpenBSD>
 <a href="index.html">
@@ -31,65 +29,52 @@
 
 <p>
 Для достижения этих целей OpenNTPD предоставляет:
-<p>
+
 <ul>
-	<li>
-		Более 10 лет проверенной надежности.
-	</li>
-	<li>
-		Простой в понимании код.
-	</li>
-	<li>
-		Синхронизация как на стороне сервера, так и на стороне клента.
+<li>Более 10 лет проверенной надежности.
+
+<li>Простой в понимании код.
+
+<li>Синхронизация как на стороне сервера, так и на стороне клента.
     OpenNTPD подходит для всего, от синхронизации домашнего роутера
     или лептопа, и заканчивая кластером серверов, состоящим из тысячи
     нод.
-	</li>
-	<li>
-    Разделение привилегий, которое изолирует непривилегированный
+
+<li>Разделение привилегий, которое изолирует непривилегированный
     процесс, работающий с сетью, от привилегированного, использованного
     для установки времени. Демон работает в среде chroot, что еще
     больше ограничивает его возможности.
-	</li>
-	<li>
-    Поддержка DNS с разделением привилегий, которая срабатывает
+
+<li>Поддержка DNS с разделением привилегий, которая срабатывает
     динамически во время выполнения, что позволяет создавать более
     поздние запросы, даже если сеть не работает при запуске.
     Это важно для длительного использования кластера
-		<a href="http://www.pool.ntp.org/en/">пулов NTP</a>.
-	</li>
-	<li>
-    Помимо использования
+    <a href="http://www.pool.ntp.org/en/">пулов NTP</a>.
+
+<li>Помимо использования
     <a href="https://man.openbsd.org/?query=adjtime">adjtime(2)</a>
     для грубых настроек времени, OpenNTPD может выполнять детальную
     настройку времени с помощью системных вызовов
-		<a href="https://man.openbsd.org/?query=adjfreq">adjfreq(2)</a>
+    <a href="https://man.openbsd.org/?query=adjfreq">adjfreq(2)</a>
     и ntp_adjtime.
-	</li>
-	<li>
-    Интеграция с аппаратным обеспечением для синхронизации времени,
+
+<li>Интеграция с аппаратным обеспечением для синхронизации времени,
     где доступен фреймворк
-		<a href="https://man.openbsd.org/?query=sensorsd">sensorsd(8)</a>.
-	</li>
-	<li>
-    Поддержка таблиц виртуальной маршрутизации (называемых в OpenBSD
+    <a href="https://man.openbsd.org/?query=sensorsd">sensorsd(8)</a>.
+
+<li>Поддержка таблиц виртуальной маршрутизации (называемых в OpenBSD
     rdomains) для изоляции сетей, к которым может обращаться OpenNTPD.
-	</li>
-	<li>
-		Программа-клиент
+
+<li>Программа-клиент
     <a href="https://man.openbsd.org/?query=ntpctl">ntpctl(8)</a>
     для запроса статуса синхронизации в реальном времени.
-	</li>
-	<li>
-    Интеграция последних достижений secure API из OpenBSD, такие как
-		<a href="https://man.openbsd.org/?query=getentropy">getentropy(2)</a>,
-		<a href="https://man.openbsd.org/?query=arc4random">arc4random(3)</a>
+
+<li>Интеграция последних достижений secure API из OpenBSD, такие как
+    <a href="https://man.openbsd.org/?query=getentropy">getentropy(2)</a>,
+    <a href="https://man.openbsd.org/?query=arc4random">arc4random(3)</a>
     (отказоустойчивый CSRNG, который работает в chroot) и
-		<a href="https://man.openbsd.org/?query=reallocarray">reallocarray(3)</a>
+    <a href="https://man.openbsd.org/?query=reallocarray">reallocarray(3)</a>
     (целочисленная проверка на переполнение (integer overflow-checking),
     которая является заменой malloc/calloc/realloc).
-	</li>
-</ul>
 
-</body>
-</html>
+</ul>
