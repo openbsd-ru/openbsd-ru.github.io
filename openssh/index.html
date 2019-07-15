@@ -1,80 +1,88 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
+<!doctype html>
+<html lang=ru>
+    <meta charset=utf-8>
     <title>OpenSSH</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="description" content="the main OpenSSH page">
-    <meta name="copyright" content="This document copyright 1999-2019
-                                    by OpenBSD.">
-    <link rel="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" TYPE="image/x-icon">
     <link rel="canonical" href="https://www.openssh.com/">
-</head>
-<body text="#000000" bgcolor="#ffffff" topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>
-<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="#99cced" rowspan="2" valign=top style="white-space: nowrap">
-<b><big>Проект OpenSSH</big></b><br>
-&nbsp;<a href="goals.html">Цели проекта</a><br>
-&nbsp;<a href="https://www.openssh.com/releasenotes.html">Release Notes</a><br>
-&nbsp;<a href="https://www.openssh.com/history.html">История</a><br>
-&nbsp;<a href="features.html">Возможности</a><br>
-&nbsp;<a href="https://www.openssh.com/security.html">Безопасность</a><br>
-&nbsp;<a href="specs.html">Спецификации</a><br>
-&nbsp;<a href="users.html">Пользователи</a><p>
-<b><big>Информация</big></b><br>
-&nbsp;<a href="manual.html">Руководства</a><br>
-&nbsp;<a href="report.html">Сообщить об ошибке</a><br>
-&nbsp;<a href="https://www.openssh.com/list.html">Почтовая рассылка</a><br>
-&nbsp;<a href="https://marc.info/?l=openssh-unix-dev&amp;r=1&amp;w=2">Архив рассылки</a><p>
-<b><big>Для OpenBSD</big></b><br>
-&nbsp;<a href="https://www.openssh.com/openbsd.html">FTP</a>
-&nbsp;<a href="../anoncvs.html">AnonCVS</a><br>
-&nbsp;<a href="https://cvsweb.openbsd.org/src/usr.bin/ssh">CVSWeb</a><p>
-<b><big>Для других ОС</big></b><br>
-&nbsp;<a href="https://www.openssh.com/portable.html">Linux</a>
-&nbsp;<a href="https://www.openssh.com/portable.html">Solaris</a><br>
-&nbsp;<a href="https://www.openssh.com/portable.html">FreeBSD</a>
-&nbsp;<a href="https://www.openssh.com/portable.html">AIX</a><br>
-&nbsp;<a href="https://www.openssh.com/portable.html">HP-UX</a>
-&nbsp;<a href="https://www.openssh.com/portable.html">другие..</a><p>
-<br>
+    <link rel="stylesheet" href="openbsd.css">
 
-</td>
-    <td bgcolor="#0000cc" rowspan="2"><font size="1">&nbsp;</font></td>
-    <td bgcolor="#ffffff" valign="top"><center>
-    <img border="0" src="images/openssh.gif" height=191 width=578 alt="[OpenSSH]"></center>
-<p>
-    <center><font color="#0000a0">
-    Релиз <a href="https://www.openbsd.org/openssh/txt/release-8.0">OpenSSH 8.0</a> состоялся 18 апреля 2019 года.<br>
-    </font></center>
+<table id="project-main" class="not-openbsd">
+  <tr class="align-top">
+    <td>
+
+      <h1>Проект OpenSSH</h1>
+      <ul>
+        <li><a href="goals.html">Цели проекта</a>
+        <li><a href="https://www.openssh.com/releasenotes.html">Release Notes</a>
+        <li><a href="https://www.openssh.com/history.html">История</a>
+        <li><a href="features.html">Возможности</a>
+        <li><a href="https://www.openssh.com/security.html">Безопасность</a>
+        <li><a href="specs.html">Спецификации</a>
+        <li><a href="users.html">Пользователи</a>
+      </ul>
+
+      <h1>Информация</h1>
+      <ul>
+        <li><a href="manual.html">Руководства</a>
+        <li><a href="report.html">Сообщить об ошибке</a>
+        <li><a href="https://www.openssh.com/list.html">Почтовая рассылка</a>
+        <li><a href="https://marc.info/?l=openssh-unix-dev&amp;r=1&amp;w=2">Архив рассылки</a>
+      </ul>
+
+      <h1>Для OpenBSD</h1>
+      <ul>
+        <li><a href="https://www.openssh.com/openbsd.html">FTP</a>
+        <li><a href="https://www.openbsd.org/anoncvs.html">AnonCVS</a>
+        <li><a href="https://cvsweb.openbsd.org/src/usr.bin/ssh">CVSWeb</a>
+      </ul>
+
+      <h1>Для других ОС</h1>
+      <ul>
+        <li><a href="portable.html">Linux</a>
+        <li><a href="portable.html">Solaris</a>
+        <li><a href="portable.html">FreeBSD</a>
+        <li><a href="portable.html">AIX</a>
+        <li><a href="portable.html">HP-UX</a>
+        <li><a href="portable.html">другие..</a>
+      </ul>
+
+    <td>
+      <h1 class="header">
+        <img src="images/openssh.gif" height=191 width=578 alt="[OpenSSH]">
+      </h1>
+
+      <p id="callout">
+        Релиз <a href="https://www.openbsd.org/openssh/txt/release-8.0">OpenSSH 8.0</a> состоялся 18 апреля 2019 года.<br>
 <p>
 OpenSSH это основной инструмент для создания соединений по протоколу SSH.
 Он шифрует весь траффик, что исключает прослушивание, захват соединений,
 и другие атаки.
 Кроме того, OpenSSH предоставляет широкие возможности для создания безопасного
 туннелирования, несколько методов аутентификации и множество раличных настроек.
+
 <p>
 OpenSSH состоит из следующих компонентов:
 <ul>
 <li>
 Операции с удаленными системами осуществляются при помощи
-<a href="https://man.openbsd.org/?query=ssh&amp;sektion=1">ssh</a>,
-<a href="https://man.openbsd.org/?query=scp&amp;sektion=1">scp</a>,
-and
-<a href="https://man.openbsd.org/?query=sftp&amp;sektion=1">sftp</a>.
+<a href="https://man.openbsd.org/ssh.1">ssh</a>,
+<a href="https://man.openbsd.org/scp.1">scp</a>, и
+<a href="https://man.openbsd.org/sftp.1">sftp</a>.
 <li>
 Управление ключами при помощи
-<a href="https://man.openbsd.org/?query=ssh-add&amp;sektion=1">ssh-add</a>,
-<a href="https://man.openbsd.org/?query=ssh-keysign&amp;sektion=8">ssh-keysign</a>,
-<a href="https://man.openbsd.org/?query=ssh-keyscan&amp;sektion=1">ssh-keyscan</a>, and
-<a href="https://man.openbsd.org/?query=ssh-keygen&amp;sektion=1">ssh-keygen</a>.
+<a href="https://man.openbsd.org/ssh-add.1">ssh-add</a>,
+<a href="https://man.openbsd.org/ssh-keysign.8">ssh-keysign</a>,
+<a href="https://man.openbsd.org/ssh-keyscan.1">ssh-keyscan</a>, and
+<a href="https://man.openbsd.org/ssh-keygen.1">ssh-keygen</a>.
 <li>
 Серверная часть состоит из
-<a href="https://man.openbsd.org/?query=sshd&amp;sektion=8">sshd</a>,
-<a href="https://man.openbsd.org/?query=sftp-server&amp;sektion=8">sftp-server</a>, and
-<a href="https://man.openbsd.org/?query=ssh-agent&amp;sektion=1">ssh-agent</a>.
+<a href="https://man.openbsd.org/sshd.8">sshd</a>,
+<a href="https://man.openbsd.org/sftp-server.8">sftp-server</a>, and
+<a href="https://man.openbsd.org/ssh-agent.1">ssh-agent</a>.
 </ul>
-<p>
 
+<p>
 OpenSSH написан несколькими разработчиками
 <a href="../index.html">проекта OpenBSD</a> и распростаняется по лицензии BSD.
 
@@ -85,15 +93,11 @@ OpenSSH включен во многие коммерческие продукт
 <p>
 Финансовая помощь OpenSSH может быть оказана через 
 <a href="https://www.openbsd.org/donations.html">OpenBSD Foundation</a>.
-<p>
 
-    </td>
-</tr>
-<tr>
-    <td bgcolor="#ffffff" valign="bottom">
-    <table border=0 width="100%"><tr>
-    <td>
-    <hr>
+<tr class="align-bottom">
+<td>
+<td>
+<hr>
 <small>
 <em>This site is a translated version of <a href="https://www.openssh.com/">openssh.com</a>.
 Translation project is organized by <a href="https://github.com/alexander-naumov">Alexander Naumov</a>
@@ -101,11 +105,4 @@ and is going with the support of
 <a href="https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/README.md#CONTRIBUTORS">
 volunteers</a>.</em>
 </small>
-    </td>
-    </tr>
-    </table>
-</td>
-</tr>
 </table>
-</body>
-</html>
