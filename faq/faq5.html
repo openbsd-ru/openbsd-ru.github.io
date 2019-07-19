@@ -25,7 +25,7 @@ FAQ - Собираем систему из исходников
   <li><a href="#Flavors"    >OpenBSD's Flavors</a>
   <li><a href="#Snapshots"  >Разрабатываемые cнапшоты (snapshots)</a>
   <li><a href="#Bld"        >Собираем OpenBSD из исходников</a>
-  <li><a href="#Release"    >Making a Release</a>
+  <li><a href="#Release"    >Cборка релиза</a>
   <li><a href="#Xbld"       >Собираем X</a>
   <li><a href="#buildprobs" >Распростаненные проблемы при компиляции</a>
   <li><a href="#Miscellanea">Разные вопросы и советы</a>
@@ -190,17 +190,17 @@ or <code>ports</code>.
 
 <h3>Сборка OpenBSD</h3>
 
-At this point you are ready to build OpenBSD from source.
+Наконец-то вы готовы приступить к сборке OpenBSD из исходников.
 
 <p>
-If you are building -current, review changes and special build
-instructions listed on <a href="current.html">this page</a>.
+Если вы собираете -current, просмотрите изменения, а также специальные
+инструкции по сборке, перечисленные на <a href="current.html">этой странице</a>.
 
 <p>
-Follow the detailed instructions in steps 2 and 3 of
+Следуйте детальным инструкциям, описанным в шагах 2 и 3 руководства по
 <a href="https://man.openbsd.org/release">release(8)</a>.
 
-<h3>Further Reading on the Build Process</h3>
+<h3>Дополнительная информация по процессу собрки</h3>
 
 <ul>
   <li><a href="https://man.openbsd.org/mk.conf">mk.conf(5)</a>
@@ -212,35 +212,36 @@ Follow the detailed instructions in steps 2 and 3 of
   <li><a href="https://man.openbsd.org/options">options(4)</a>
 </ul>
 
-<h2 id="Release">Making a Release</h2>
+<h2 id="Release">Сборка релиза</h2>
 
-A release is the complete set of files that can be used to install or upgrade
-OpenBSD on another system.
-An example use would be to build -stable on a fast machine, then make a
-release to be installed on all your other machines.
-If you have only one computer running OpenBSD, you really don't have any reason
-to make a release, as the above build process will do everything you need.
+Релиз - это полный комплект файлов, который может быть использован для
+установки или обновлении OpenBSD на другом компьютере.
+В качестве примера необходимости сборки релиза можно рассмотреть ситуацию,
+когда вы собираете -stable на быстром компьютере, с целью последующей установки
+собранного релиза на другие машины.
+Если у вас только один компьютер с OpenBSD, у вас нет никакой необходимости
+собирать релиз, поскольку описанные выше действия уже сделали все необходимое
+для вас.
 
 <p>
-The instructions on making a release are in
+Инструкции по сборке релиза находятся в
 <a href="https://man.openbsd.org/release">release(8)</a>.
-The release process uses the binaries created in the <code>/usr/obj</code>
-directory in the building process above.
+Этот процесс использует бинарники в <code>/usr/obj</code>, процесс создания
+которых описывался выше.
 
 <p>
-Note: if you wish to distribute the resulting file sets by HTTP(s) for use by
-the upgrade or install scripts, you will need to add an <code>index.txt</code>
-file that contains the list of all the files in your newly created release.
+Замечание: если вы захотите использовать эти файлы для установки или обновлении
+через/используя HTTP(S), создайте файл <code>index.txt</code>, который будет
+содержать список всех файлов, вошедьших в новый релиз.
 
 <pre class="cmdbox">
 # <b>ls -nT > index.txt</b>
 </pre>
 
-If you'd like to cryptographically sign the sets you created, the
-<a href="https://man.openbsd.org/signify">signify(1)</a> man page has details
-on how to do so.
+Если вы хотите подписать созданные файлы, man-страница по
+<a href="https://man.openbsd.org/signify">signify(1)</a> расскажет как это сделать.
 
-<h3>Setting Up Your System</h3>
+<h3>Настройка вашей системы</h3>
 
 Making a release requires a <code>noperm</code> partition.
 This allows the build infrastructure to use the unprivileged <code>build</code>
