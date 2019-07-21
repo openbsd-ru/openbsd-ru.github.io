@@ -1,28 +1,26 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
+<!doctype html>
+<html lang=en>
+<meta charset=utf-8>
+
 <title>OpenSSH: Problem Reports</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="description" content="OpenSSH Problem Reports">
-<meta name="copyright" content="This document copyright 2000-2016 by OpenBSD.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
 <link rel="canonical" href="https://www.openssh.com/report.html">
-</head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#23238E">
-
-<h2>
-<a href="index.html">
-<font color="#0000ff"><i>Open</i></font><font color="#000084">SSH</font></a>
-<font color="#e00000">Problem Reports</font>
+<h2 id=OpenBSD>
+<a href="/">
+<i>Open</i><b>SSH</b></a>
+Problem Reports
 </h2>
 <hr>
 
-<h3><font color="#0000e0">Released versions problem reports</font></h3>
+<h3>Released versions problem reports</h3>
 
+<p>
 Before reporting bugs/problems with released OpenSSH versions,
 go through this checklist:
+
 <ol>
 <li>Check for <a href="https://www.openbsd.org/errata.html">patches
 	and notes regarding OpenSSH.</a>
@@ -37,16 +35,17 @@ bugs fixed since the last release</a> and
 href="http://bugzilla.mindrot.org/showdependencytree.cgi?id=V_7_4">
 known bugs reported since the last release</a>.
 </ol>
-<p>
 
+<p>
 If nothing looks like it addresses your problem, then use
 <a href="http://bugzilla.mindrot.org">Bugzilla</a>
 to submit a bug report (but see below for reporting security
 bugs privately).
-<p>
 
+<p>
 You can reach the OpenSSH developers by sending email to one of
 the following addresses:
+
 <ul>
 <li><a href="mailto:openssh@openssh.com">openssh@openssh.com</a>.  This
 	is a private list read only by the OpenSSH developers.<br>
@@ -55,7 +54,7 @@ the following addresses:
 	<b>Not appropriate for:</b> How-to queries, reports of problems on
 	platforms other than OpenBSD or with third-party patches, general
 	discussion.
-<li><a href="mailto:openssh-unix-dev@mindrot.org">openssh-unix-dev@mindrot.org</a> 
+<li><a href="mailto:openssh-unix-dev@mindrot.org">openssh-unix-dev@mindrot.org</a>
 	This is a public list that requires subscription before posting.
 	<!--and is open to posting from non-subscribed
 	users.-->
@@ -67,45 +66,46 @@ the following addresses:
 	can be reproduced with the vanilla OpenSSH distribution).
 </ul>
 
-<h3><font color="#0000e0">Current version problem reports</font></h3>
+<h3>Current version problem reports</h3>
 
 <ol>
 <li>Test the problem at least twice, with source updated a few days apart.
 <li>Do not report source tree compilation problems, unless they persist.
 	They are almost always your mistake or they are being worked on
-	as you encounter them. 
+	as you encounter them.
 <li>Remember that the <a href="https://www.openbsd.org/anoncvs.html">AnonCVS</a>
 	mirrors are updated behind the actual working source tree.
 <li>Check for <a href="https://www.openbsd.org/plus.html">OpenSSH changes</a>
         to see if the problem has been addressed.
 </ol>
 
-<a name="bugtypes"></a>
-<h3><font color="#0000e0">Sending in bug reports</font></h3>
+<h3 id=bugtypes>Sending in bug reports</h3>
 
+<p>
 Try to pin-point the exact problem.  Never give vague instructions,
 or detail vague problems like "it crashes."
 Talk to others on IRC or use some
 other forum such as the <a href="https://marc.info/?l=openssh-unix-dev&amp;r=1&amp;w=2">
 mailing list archives</a>
 to confirm that it is new, repeatable, etc., and make sure
-it is not a local problem.  
-<p>
+it is not a local problem.
 
+<p>
 For an excellent overview of the art of reporting bugs, see Simon
-Tatham's <a href="http://www.chiark.greenend.org.uk/~sgtatham/bugs.html">
+Tatham's <a href="https://www.chiark.greenend.org.uk/~sgtatham/bugs.html">
 How to Report Bugs Effectively</a>. Remember, the better the
 information in your report, the better the chance that your problem
 will be resolved.
-<p>
 
+<p>
 New features are accepted, especially with code that implements
 your suggested new feature.
 If someone else writes code for your new feature, the chances are that
 it will be misunderstood and created so that you will not recognize it.
-<p>
 
+<p>
 Types of bug reports in order of desirability:
+
 <ol>
 <li>Repeatable problems with source fixes are the best.
 <li>Repeatable problems that are not specific to your hardware/software
