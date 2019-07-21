@@ -8,31 +8,24 @@
 	See comments in www/build/mirrors.dat for details.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
+<!doctype html>
+<html lang=en>
+<meta charset=utf-8>
+
 <title>OpenSSH: Portable Release</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="description" content="the OpenSSH project portable version page">
-<meta name="copyright" content="This document copyright 1999-2016 by OpenBSD.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="https://www.openssh.com/portable.html">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
-<style type="text/css">
-  h3 { color: #0000e0; }
-</style>
-</head>
 
-<body bgcolor="#ffffff" text="#000000" link="#23238E">
-
-<h2>
-<a href="index.html">
-<font color="#0000ff"><i>Open</i></font><font color="#000084">SSH</font></a>
-<font color="#e00000">Portable Release</font>
+<h2 id=OpenBSD>
+<a href="/">
+<i>Open</i><b>SSH</b></a>
+Portable Release
 </h2>
 <hr>
-<p>
 
+<p>
 Normal OpenSSH development produces a very small, secure, and easy to
 maintain version for the OpenBSD project.
 <a href="history.html#portable">The OpenSSH Portability Team</a>
@@ -40,11 +33,10 @@ takes that pure version and adds portability code so that OpenSSH can
 run on many other operating systems (Unfortunately, in particular
 since OpenSSH does authentication, it runs into a <strong>*lot*</strong>
 of differences between Unix operating systems).
-<p>
 
+<p>
 The OpenSSH provided here is designed to run on the following Unix
 operating systems:
-<p>
 
 <ul>
 <li>AIX
@@ -60,8 +52,8 @@ operating systems:
 <li>Cygwin
 <li>... and more are being added all the time.
 </ul>
-<p>
 
+<p>
 The portable OpenSSH follows development of the official version, but
 releases are not synchronized. Portable releases are marked with a 'p'
 (e.g. 4.0p1). The official OpenBSD source will never use the 'p' suffix,
@@ -75,38 +67,35 @@ public key contained in the file <a
 href="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/RELEASE_KEY.asc"
 >RELEASE_KEY.asc</a> on the ftp site. This key is also available through the
 <a href="https://pgp.mit.edu/">key server network</a>.
-<p>
+
 <ul>
-<li><a href="http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/ChangeLog">
+<li><a href="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/ChangeLog">
 	Portability ChangeLog</a>
-<li><a href="http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/INSTALL">
+<li><a href="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/INSTALL">
 	Installation instructions</a>
 </ul>
 
-
-<h2 id="cvs"><a name="git">Developers</a></h2>
+<h2 id="cvs"><span id="git"></span>Developers</h2>
 <p>
 Bleeding-edge nightly snapshots are available
-<a href="http://www.mindrot.org/openssh_snap/">here</a>.
+<a href="https://www.mindrot.org/openssh_snap/">here</a>.
 Portable OpenSSH's source tree is also available by git:
-</p>
 
 <ul>
-<li><tt>git://anongit.mindrot.org/openssh.git</tt> (clone only)</li>
-<li><tt>https://anongit.mindrot.org/openssh.git</tt> (web and clone)</li>
+<li><code>git://anongit.mindrot.org/openssh.git</code> (clone only)
+<li><code>https://anongit.mindrot.org/openssh.git</code> (web and clone)
 </ul>
 
 <p>
 This repository is provided and maintained
 by <a href="mailto:djm@openbsd.org">Damien Miller</a>. It is also mirrored at
 <a href="https://github.com/openssh/openssh-portable">Github</a>.
-</p>
 
 <h2 id="building">Building</h2>
 <p>
 Once checked out, the <code>configure</code> file needs to be created by
 running <code>autoreconf</code> from the <a
-href="http://www.gnu.org/software/autoconf/"> autoconf</a> package
+href="https://www.gnu.org/software/autoconf/"> autoconf</a> package
 (the required version is listed in the INSTALL file).  It will also need to
 be run again if any changes are made to the <code>configure.ac</code> file.
 
@@ -118,24 +107,22 @@ when submitting code. Patches should be sent in unified diff format.
 <h2>
 Download
 </h2>
-<p>
 
-</p><hr>
+<hr>
 
 <strong>Index</strong><br>
 <a href="#http">HTTP mirrors</a><br>
 <a href="#ftp">FTP mirrors</a><br>
 <a href="#rsync">RSYNC mirrors</a><br>
 
-<p></p><hr>
+<hr>
 <h3 id="http">HTTP</h3>
 <p>
 In the HTTP directory you will find tarballs of the current version,
 diffs against the OpenBSD source and RPMs for RedHat Linux systems.
 Historical versions are available in the <em>old/</em> directory.
-</p>
 
-<p><table>
+<table>
 <tr>
 	<td>
 	<strong>Fastly (CDN)</strong>
@@ -177,6 +164,13 @@ Historical versions are available in the <em>old/</em> directory.
 	</td><td>
 	<a href="https://openbsd.c3sl.ufpr.br/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
 	https://openbsd.c3sl.ufpr.br/pub/OpenBSD/OpenSSH/portable/</a>
+	</td>
+    </tr><tr>
+	<td>
+	<strong>Bulgaria (Sofia)</strong>
+	</td><td>
+	<a href="https://openbsd.ipacct.com/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
+	https://openbsd.ipacct.com/pub/OpenBSD/OpenSSH/portable/</a>
 	</td>
     </tr><tr>
 	<td>
@@ -411,6 +405,13 @@ Historical versions are available in the <em>old/</em> directory.
 	</td>
     </tr><tr>
 	<td>
+	<strong>Switzerland (Linthal, GL)</strong>
+	</td><td>
+	<a href="https://mirror.ungleich.ch/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
+	https://mirror.ungleich.ch/pub/OpenBSD/OpenSSH/portable/</a>
+	</td>
+    </tr><tr>
+	<td>
 	<strong>Taiwan (Taoyuan)</strong>
 	</td><td>
 	<a href="https://ftp.yzu.edu.tw/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
@@ -490,6 +491,13 @@ Historical versions are available in the <em>old/</em> directory.
 <tr><td colspan=2><br></td></tr>
     <tr>
 	<td>
+	<strong>Australia (Adelaide)</strong>
+	</td><td>
+	<a href="http://mirror.internode.on.net/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
+	http://mirror.internode.on.net/pub/OpenBSD/OpenSSH/portable/</a>
+	</td>
+    </tr><tr>
+	<td>
 	<strong>Brazil (Brasilia)</strong>
 	</td><td>
 	<a href="http://mirrors.unb.br/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
@@ -532,7 +540,7 @@ Historical versions are available in the <em>old/</em> directory.
 	</td>
     </tr><tr>
 	<td>
-	<strong>Phillipines (Cebu)</strong>
+	<strong>Philippines (Cebu)</strong>
 	</td><td>
 	<a href="http://mirror.rise.ph/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
 	http://mirror.rise.ph/pub/OpenBSD/OpenSSH/portable/</a>
@@ -580,7 +588,7 @@ Historical versions are available in the <em>old/</em> directory.
 	http://openbsd.mirrors.pair.com/pub/OpenBSD/OpenSSH/portable/</a>
 	</td>
     </tr>
-</table></p>
+</table>
 
 <hr>
 <h3 id="ftp">FTP</h3>
@@ -588,11 +596,17 @@ Historical versions are available in the <em>old/</em> directory.
 <p>
 In the FTP directory you will find tarballs of the current version,
 diffs against the OpenBSD source and supporting documentation.
-Historical versions are available in the <em>old/</em> directory.
-</p>
+Historical versions are available in the <i>old/</i> directory.
 
-<p><table>
+<table>
     <tr>
+	<td>
+	<strong>Australia (Adelaide)</strong>
+	</td><td>
+	<a href="ftp://mirror.internode.on.net/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
+	ftp://mirror.internode.on.net/pub/OpenBSD/OpenSSH/portable/</a>
+	</td>
+    </tr><tr>
 	<td>
 	<strong>Austria (Vienna)</strong>
 	</td><td>
@@ -612,6 +626,13 @@ Historical versions are available in the <em>old/</em> directory.
 	</td><td>
 	<a href="ftp://mirrors.unb.br/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
 	ftp://mirrors.unb.br/pub/OpenBSD/OpenSSH/portable/</a>
+	</td>
+    </tr><tr>
+	<td>
+	<strong>Bulgaria (Sofia)</strong>
+	</td><td>
+	<a href="ftp://openbsd.ipacct.com/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
+	ftp://openbsd.ipacct.com/pub/OpenBSD/OpenSSH/portable/</a>
 	</td>
     </tr><tr>
 	<td>
@@ -769,7 +790,7 @@ Historical versions are available in the <em>old/</em> directory.
 	</td>
     </tr><tr>
 	<td>
-	<strong>Phillipines (Cebu)</strong>
+	<strong>Philippines (Cebu)</strong>
 	</td><td>
 	<a href="ftp://mirror.rise.ph/pub/OpenBSD/OpenSSH/portable/" rel="nofollow">
 	ftp://mirror.rise.ph/pub/OpenBSD/OpenSSH/portable/</a>
@@ -894,18 +915,27 @@ Historical versions are available in the <em>old/</em> directory.
 	ftp://mirror.esc7.net/pub/OpenBSD/OpenSSH/portable/</a>
 	</td>
     </tr>
-</table></p>
+</table>
 
 <hr>
-<h3 id="rsync">rsync</h3>
-<p>This is a list of currently known rsync mirrors:</p>
 
-<p><table>
+<h3 id="rsync">rsync</h3>
+
+<p>
+This is a list of currently known rsync mirrors:
+
+<table>
     <tr>
 	<td>
 	<strong>LeaseWeb (CDN)</strong>
 	</td><td>
 	rsync://mirror.leaseweb.com/openbsd/OpenSSH/portable/
+	</td>
+    </tr><tr>
+	<td>
+	<strong>Australia (Adelaide)</strong>
+	</td><td>
+	rsync://mirror.internode.on.net/openbsd/OpenSSH/portable/
 	</td>
     </tr><tr>
 	<td>
@@ -918,6 +948,12 @@ Historical versions are available in the <em>old/</em> directory.
 	<strong>Brazil (Curitiba)</strong>
 	</td><td>
 	rsync://openbsd.c3sl.ufpr.br/openbsd/OpenSSH/portable/
+	</td>
+    </tr><tr>
+	<td>
+	<strong>Bulgaria (Sofia)</strong>
+	</td><td>
+	rsync://openbsd.ipacct.com/OpenBSD/OpenSSH/portable/
 	</td>
     </tr><tr>
 	<td>
@@ -1130,6 +1166,4 @@ Historical versions are available in the <em>old/</em> directory.
 	rsync://mirror.esc7.net/openbsd/OpenSSH/portable/
 	</td>
     </tr>
-</table></p>
-</body>
-</html>
+</table>
