@@ -111,11 +111,11 @@ or the latest snapshot if you wish to build -current.
 OpenBSD использует систему контроля версий
 <a href="https://savannah.nongnu.org/projects/cvs">CVS</a>
 для работы с исходниками.
-The <a href="https://man.openbsd.org/cvs">cvs(1)</a> program is used to pull a
-copy of the desired source to your local machine for compilation.
-You can also maintain a local CVS repository using the
-<a href="../cvsync.html">CVSync</a> or rsync programs, available as
-<a href="faq15.html">packages</a>.
+Программа <a href="https://man.openbsd.org/cvs">cvs(1)</a>
+используется для загрузки исходников на вашу машину для дальнейшей
+компиляции. Вы также можете поддерживать свой собственный репозиторий
+при помощи <a href="../cvsync.html">CVSync</a> или программы rsync,
+доступной в виде <a href="faq15.html">пакета</a>.
 An introduction to <a href="https://man.openbsd.org/cvs">cvs(1)</a>
 and detailed instructions for fetching the source trees are on the
 <a href="../anoncvs.html">anonymous CVS</a> page.
@@ -467,20 +467,19 @@ boot> <b>boot hd0a:/bsd -c</b>
 
 <h3 id="config">Использование config(8) для изменения параметров ядра</h3>
 
-The <code>-e</code> and <code>-u</code> options of
-<a href="https://man.openbsd.org/config">config(8)</a>
-can be extremely helpful and save wasted time compiling your kernel.
-The <code>-e</code> flag allows you to enter the UKC or User Kernel Config on
-a running system.
-These changes will then take place on your next reboot.
-The <code>-u</code> flag tests to see if any changes were made to the running
-kernel during boot, meaning you used <code>boot -c</code> to enter the UKC
-while booting your system.
+Парамерты <code>-e</code> и <code>-u</code>, используемые
+<a href="https://man.openbsd.org/config">config(8)</a>,
+помогут сэкономить время, затрачиваемое на компиляцию ядра.
+Параметр <code>-e</code> позволяет войти в UKC (User Kernel Config) на
+работающей системе. Изменения вступят в силу после перезагрузки.
+Параметр <code>-u</code> проверяет, были ли внесены изменения в ядро во
+время загрузки, т.е. использовали ли вы параметр <code>boot -c</code>
+для входа в UKC во время загрузки системы.
 
 <p>
-For safety's sake, use the <code>-o</code> option which writes the changes out
-to the file specified.
-For example: <code>config -e -o bsd.new /bsd</code> will write the changes to
+Для избежания проблем лучше воспользоваться опцией <code>-o</code> для
+записи в указанный другой файл.
+К примеру: <code>config -e -o bsd.new /bsd</code> запишет изменения в
 <code>bsd.new</code>.
 
 Примеры конфигурации ядра можно найти в man-странице для
@@ -524,13 +523,13 @@ $ <b>make</b>
 </ul>
 
 Если вы используете <a href="https://github.com/openbsd">git репозиторий</a>
-с исходниками OpenBSD, нужно будет выполнить
+с исходниками OpenBSD, в вашем репозитории нужно будет выполнить
 
 <pre class="cmdbox">
 $ <b>git config diff.noprefix true</b>
 </pre>
 
-в вашем репозитории, после чего создать diff можно будет вот так:
+после чего создать diff можно будет вот так:
 
 <pre class="cmdbox">
 $ <b>git diff --relative .</b>
