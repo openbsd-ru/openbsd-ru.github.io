@@ -18,7 +18,7 @@ and SYNC allready thanlated stuff (by sending pull request). It's very important
 * FAQ#07 - Keyboard and Display Controls - Wanna help? Be first, it's still not translated.
 * FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
 * FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
-* FAQ#14 - Disk Setup - Wanna help? Be first, it's still not translated.
+* FAQ#14 - Disk Setup - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - PF/anchors.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/authpf.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/carp.html - [Oleg Pahl](https://github.com/oleg-pahl)
@@ -38,8 +38,14 @@ and SYNC allready thanlated stuff (by sending pull request). It's very important
 * FAQ - PF/tables.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/tagging.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * mail.html - Wanna help? Be first, it's still not translated.
+* policy.html - Wanna help? Be first, it's still not translated.
+* innovations.html - Wanna help? Be first, it's still not translated.
+* stable.html - Wanna help? Be first, it's still not translated.
+* arm64.html - Wanna help? Be first, it's still not translated.
+* amd64.html - Wanna help? Be first, it's still not translated.
 * report.html - [Sergey Bronnikov](https://github.com/ligurio)
 * anoncvs.html - Wanna help? Be first, it's still not translated.
+* faq/upgrade65.html - Wanna help? Be first, it's still not translated.
 * FAQ - Ports/differences - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/guide - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/ports - [Alexander Naumov](https://github.com/alexander-naumov)
