@@ -41,7 +41,8 @@ FAQ - Собираем систему из исходников
 <ul>
   <li><b>-release:</b> Ветка (релиз) OpenBSD, выпускаемая каждые шесть месяцев.
   <li><b>-current:</b> Разрабатываемая ветка или версия.
-      Каждые шесть месяцев -current замораживается, и эта ветка становится следующим -release.
+      Каждые шесть месяцев -current замораживается, и эта ветка становится
+      следующим -release.
   <li><b>-stable:</b> Ветка -release, плюс патчи, которые перечисленны на
       <a href="../errata.html">странице errata</a>.
       Самые важные исправления, сделанные для -current, так же добавляются (backported)
@@ -60,25 +61,30 @@ FAQ - Собираем систему из исходников
 
 <h2 id="Snapshots">Разрабатываемые Snapshot'ы</h2>
 
-Между официальными релизами OpenBSD выкладываются также снапшоты на основе -current
-ветки. Это просто сборки текущего в репозитории кода.
+Между официальными релизами OpenBSD выкладываются также snapshot'ы на основе
+-current ветки. Это просто сборки скомпилированного кода, который сейчас находится
+в репозитории.
 
 <p>
-A recent snapshot is usually all you need to run -current.
-If you wish to build it from source, starting from the latest snapshot is
-required.
+Последний доступный snapshot это все, что обычно необходимо для запуска -current.
+Если вы хотите собрать все из исходников, используйте только последний доступный
+snapshot.
 <!-- XXXrelease
 This can be done with the
 <a href="https://man.openbsd.org/susupgrade">sysupgrade(8)</a> utility's
 <code>-c</code> flag.
 -->
-Check the <a href="current.html">following -current and using snapshots</a>
-page for any configuration changes or extra steps needed to build from source.
+Проверьте страницу о
+<a href="current.html">последних -current и использования snapshots</a>,
+чтобы ознакомиться с последними изменениями конфигурации или дополнительными
+шагами, необходимыми для сборки из исходников.
 
 <p>
-It is possible that you may uncover bugs in snapshots.
-This is one of the reasons why they are built and distributed.
-If you find a bug, make sure it is <a href="../report.html">reported</a>.
+Не исключено, что вы обнаружите ошибки в snapshots.
+Собственно это и является причиной, почему они собираются и доступны всем для
+скачивания.
+Если вы нашли баг, не стесняйтесь <a href="../report.html">сообщить</a> о нем,
+если этого еще не сделал кто-то другой.
 
 <h2 id="Bld">Собираем OpenBSD из исходников</h2>
 
@@ -99,12 +105,14 @@ If you find a bug, make sure it is <a href="../report.html">reported</a>.
 
 <h3 id="BldBinary">Обновление бинарников до следующих доступных версий</h3>
 
-Do not attempt to go from one release to another by compiling from source.
+Не пытайтесь обновляться с одного релиза до другого путем компиляции
+исходного кода.
 
 <p>
-Make sure you have the closest available binaries installed.
-This is either OpenBSD x.y-release if you want to build OpenBSD x.y-stable,
-or the latest snapshot if you wish to build -current.
+Проверьте и убедитесь, что у вас установлена самая последняя доступная
+версия системы. Это должна быть либо OpenBSD x.y-release, если вы хотите
+обновиться до OpenBSD x.y-stable, либо последний snapshot, если вы хотите
+обновиться до -current.
 
 <h3 id="BldGetSrc">Загрузка исходников</h3>
 
@@ -116,12 +124,15 @@ OpenBSD использует систему контроля версий
 компиляции. Вы также можете поддерживать свой собственный репозиторий
 при помощи <a href="../cvsync.html">CVSync</a> или программы rsync,
 доступной в виде <a href="faq15.html">пакета</a>.
-An introduction to <a href="https://man.openbsd.org/cvs">cvs(1)</a>
-and detailed instructions for fetching the source trees are on the
-<a href="../anoncvs.html">anonymous CVS</a> page.
-First, you must <code>cvs checkout</code> the source tree.
-After that, you maintain the tree by running <code>cvs update</code> to pull
-updated files to your local tree.
+Краткую информацию по программе, введение, можно найти в
+<a href="https://man.openbsd.org/cvs">cvs(1)</a>,
+а более детальная докуменация, включающая примеры работы с деревом
+исходников, находится на специальной странице о
+<a href="../anoncvs.html">анонимных CVS</a>.
+Сначала вы должны загрузить себе содержимое репозитория при помощи
+команды <code>cvs checkout</code>. После этого, чтобы обновить уже
+существующие или дозагрузить новые файлы из того же репозитория, надо
+будет сделать <code>cvs update</code>.
 
 <h4 id="wsrc">Avoiding Root Privileges</h4>
 
