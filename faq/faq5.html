@@ -250,42 +250,42 @@ or <code>ports</code>.
 </pre>
 
 Если вы хотите подписать созданные файлы, man-страница по
-<a href="https://man.openbsd.org/signify">signify(1)</a> расскажет как это сделать.
+<a href="https://man.openbsd.org/signify">signify(1)</a> расскажет как
+это сделать.
 
 <h3>Настройка вашей системы</h3>
 
-Making a release requires a <code>noperm</code> partition.
-This allows the build infrastructure to use the unprivileged <code>build</code>
-user for much of the process.
+Создание релиза требует наличие <code>noperm</code>-раздела.
+Это позволит инфраструктуре сборки использовать непривилегированного
+пользователя <code>build</code> для большей части процесса.
 
 <p>
-Create a filesystem on <code>/dest</code> with the <code>noperm</code>
-<a href="https://man.openbsd.org/mount">mount(8)</a> option set.
-The corresponding <a href="https://man.openbsd.org/fstab">fstab(5)</a>
-line might look like this:
+Создайте ФС на <code>/dest</code> с установленной <code>noperm</code>
+<a href="https://man.openbsd.org/mount">mount(8)</a> опцией.
 
+Соответствующая <a href="https://man.openbsd.org/fstab">fstab(5)</a>
+строка должна быть похожа на эту:
 <pre class="cmdbox">
 c73d2198f83ef845.m /dest ffs rw,nosuid,noperm 1 2
 </pre>
 
-The root directory of this filesystem must be owned by <code>build</code> with
-permissions <code>700</code>:
+Хозяином (owner) этой ФС должен быть пользователь <code>build</code>,
+который имеет там права <code>700</code>:
 
 <pre class="cmdbox">
 # <b>chown build /dest</b>
 # <b>chmod 700   /dest</b>
 </pre>
 
-Create the <code>DESTDIR</code> directories for base and xenocara:
+Создайте каталог <code>DESTDIR</code> для base и xenocara:
 
 <pre class="cmdbox">
 # <b>mkdir /dest/{,x}base</b>
 </pre>
 
-Your <code>RELEASEDIR</code> does not need to be on a <code>noperm</code>
-filesystem.
-Make sure that it is owned by <code>build</code> and has at least permissions
-<code>u=rwx</code>.
+Ваша <code>RELEASEDIR</code> не обязательно должна быть на <code>noperm</code>
+ФС. Удоставерьтесь, что она пренадлежит пользователю <code>build</code> и имеет
+права <code>u=rwx</code>.
 
 <h3>Using an mfs noperm Partition</h3>
 
@@ -387,32 +387,31 @@ Signal 11 <i>обычно</i> возникает при аппаратных п�
 разработкой -- вам понадобиться добавить себя в группу <code>wobj</code>.
 Это даст вам права на запись в каталог <code>/usr/obj</code>.
 
-<h3>Tag Files</h3>
+<h3>Tag файлов</h3>
 
-Being editors for developers, <a href="https://man.openbsd.org/mg">mg(1)</a>
-and <a href="https://man.openbsd.org/vi">vi(1)</a> have built-in support for
-<a href="https://man.openbsd.org/ctags">ctags(1)</a> files, which allow you
-to navigate source trees quickly.
+Так как <a href="https://man.openbsd.org/mg">mg(1)</a>
+и <a href="https://man.openbsd.org/vi">vi(1)</a> являются редакторами
+для разработчиков, они имеют встроенную поддержку файлов
+<a href="https://man.openbsd.org/ctags">ctags(1)</a>, что позволяет
+быстро перемещаться по дереву с исходниками.
 
 <p>
-In most program or library source directories, you can create a
-<code>./tags</code>
-file by running:
-
+Для большинства программ или архивов с исходниками (library source
+directories), вы можете создать <code>./tags</code> файлы вот так:
 <pre class="cmdbox">
 $ <b>make tags</b>
 </pre>
 
-When building and installing <code>libc</code>, a
-<code>/var/db/libc.tags</code> file is also created.
+Во время сборки и установки <code>libc</code>, создается файл
+<code>/var/db/libc.tags</code>.
 
 <p>
-By default, kernel tags for each architecture are located in
+По умолчанию, tags ядра для каждой архитектуры находится в
 <code>/sys/arch/$(machine)/</code>.
-These files can be created with <code>make tags</code> from
-<code>/sys/kern</code>.
-You may want to run <code>make links</code> as root to place a symlink to
-your architecture's kernel <code>tags</code> file in each directory and in
+Эти файлы могут быть созданы при помощи <code>make tags</code>, запущенной
+в <code>/sys/kern</code>.
+Вы можете выполнить <code>make links</code> от root, чтобы создать symlink
+на <code>tags</code> файл вашего ядра в каждом каталоге и в
 <code>/var/db/</code>.
 
 <h3>Как я могу пропустить сборку той или иной части дерева?</h3>
@@ -529,8 +528,10 @@ $ <b>make</b>
 <ul>
   <li>Ваш diff должен быть создан в -current.
   <li>Для создания diff'а используйте команду <code>cvs diff -uNp</code>.
-  <li>Отправьте ваш diff в теле письма в рассылку <a href="https://openbsd.org/mail.html">tech@</a>.
-    Убедитесь заранее, что ваш почтовый клиент не искажает пробелы, и diff будет читабельным.
+  <li>Отправьте ваш diff в теле письма в рассылку
+      <a href="https://openbsd.org/mail.html">tech@</a>.
+      Убедитесь заранее, что ваш почтовый клиент не искажает пробелы,
+      и diff будет читабельным.
 </ul>
 
 Если вы используете <a href="https://github.com/openbsd">git репозиторий</a>
