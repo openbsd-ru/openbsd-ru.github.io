@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
 
-# Переведенные на русский язык web-страницы проекта OpenBSD :blowfish:
+# Переведенные web-страницы проекта OpenBSD :blowfish:
 
 Задача этого проекта - перевести и поддерживать в актуальном состоянии
 докуменатцию проекта OpenBSD, доступную на сайте https://openbsd.org.
@@ -17,31 +17,30 @@
 
 * Перво-наперво обратите внимание на автоматические проверки
 [устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
-и обновите уже переведенные страницы. Это очень важное задача.
-* FAQ#04 - Installation Guide - Хотите перевести? Отлично! :-)
-* FAQ#06 - Networking - Хотите перевести? Отлично! :-)
-* FAQ#07 - Keyboard and Display Controls -  Хотите перевести? Отлично! :-)
-* FAQ#10 - System Management -  Хотите перевести? Отлично! :-)
-* FAQ#13 - Multimedia -  Хотите перевести? Отлично! :-)
-* FAQ#14 - Disk Setup - [Alexander Naumov](https://github.com/alexander-naumov)
-* FAQ - PF/anchors.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/authpf.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/carp.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/config.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/example1.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/filter.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/ftp.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/index.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/logging.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/macros.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/nat.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/options.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/perf.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/pools.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/rdr.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/shortcuts.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/tables.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* FAQ - PF/tagging.html - [Oleg Pahl](https://github.com/oleg-pahl)
+и обновите уже переведенные страницы. Это очень важная задача.
+* [FAQ#04 - Installation Guide](https://www.openbsd.org/faq/faq4.html) - Хотите перевести? Отлично! :-)
+* [FAQ#06 - Networking](https://www.openbsd.org/faq/faq6.html) - Хотите перевести? Отлично! :-)
+* [FAQ#07 - Keyboard and Display Controls](https://www.openbsd.org/faq/faq7.html) -  Хотите перевести? Отлично! :-)
+* [FAQ#10 - System Management](https://www.openbsd.org/faq/faq10.html) -  Хотите перевести? Отлично! :-)
+* [FAQ#13 - Multimedia](https://www.openbsd.org/faq/faq13.html) -  Хотите перевести? Отлично! :-)
+* [FAQ#14 - Disk Setup](https://www.openbsd.org/faq/faq14.html) - [Alexander Naumov](https://github.com/alexander-naumov)
+* [FAQ#PF - Anchors](https://www.openbsd.org/faq/pf/anchors.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Getting Started](https://www.openbsd.org/faq/pf/config.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Building a Router](https://www.openbsd.org/faq/pf/example1.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Packet Filtering](https://www.openbsd.org/faq/pf/filter.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Logging](https://www.openbsd.org/faq/pf/logging.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Lists and Macros](https://www.openbsd.org/faq/pf/macros.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Network Address Translation](https://www.openbsd.org/faq/pf/nat.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Runtime Options](https://www.openbsd.org/faq/pf/options.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Performance](https://www.openbsd.org/faq/pf/perf.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Tables](https://www.openbsd.org/faq/pf/tables.html) - [Oleg Pahl](https://github.com/oleg-pahl)
+* [FAQ#PF - Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html) - [Oleg Pahl](https://github.com/oleg-pahl)
 * mail.html -  Хотите перевести? Отлично! :-)
 * policy.html -  Хотите перевести? Отлично! :-)
 * innovations.html -  Хотите перевести? Отлично! :-)
