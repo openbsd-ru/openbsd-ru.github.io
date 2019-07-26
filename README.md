@@ -1,22 +1,28 @@
 [![Build Status](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
 
-# Russian OpenBSD web pages :blowfish:
+# Переведенные на русский язык web-страницы проекта OpenBSD :blowfish:
 
-This project contains translated web pages of the OpenBSD Project.
-We respect 
-[decision](https://marc.info/?l=openbsd-cvs&m=139637003025491&w=2)
-of Theo de Raadt don't support mulilanguages web pages.
-We also respect people who understand English not good enough.
+Задача этого проекта - перевести и поддерживать в актуальном состоянии
+докуменатцию проекта OpenBSD, доступную на сайте https://openbsd.org.
+Мы уважаем
+[мнение](https://marc.info/?l=openbsd-cvs&m=139637003025491&w=2)
+Тео де Раадта о прекращении поддержки переведенных страниц проекта.
+Мы также с понимаем относимся к тем, кто недостаточно хорошо понимает
+английский.
 
 
 ## TODO
-* First of all - check [this link](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
-and SYNC allready thanlated stuff (by sending pull request). It's very important.
-* FAQ#04 - Installation Guide - Wanna help? Be first, it's still not translated.
-* FAQ#06 - Networking - Wanna help? Be first, it's still not translated.
-* FAQ#07 - Keyboard and Display Controls - Wanna help? Be first, it's still not translated.
-* FAQ#10 - System Management - Wanna help? Be first, it's still not translated.
-* FAQ#13 - Multimedia - Wanna help? Be first, it's still not translated.
+Итак, вы решили помочь проекту, но не знаете с чего начать? Выберете
+любой свободный пункт из списка ниже.
+
+* Перво-наперво обратите внимание на автоматические проверки
+[устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
+и обновите уже переведенные страницы. Это очень важное задача.
+* FAQ#04 - Installation Guide - Хотите перевести? Отлично! :-)
+* FAQ#06 - Networking - Хотите перевести? Отлично! :-)
+* FAQ#07 - Keyboard and Display Controls -  Хотите перевести? Отлично! :-)
+* FAQ#10 - System Management -  Хотите перевести? Отлично! :-)
+* FAQ#13 - Multimedia -  Хотите перевести? Отлично! :-)
 * FAQ#14 - Disk Setup - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - PF/anchors.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/authpf.html - [Oleg Pahl](https://github.com/oleg-pahl)
@@ -36,23 +42,23 @@ and SYNC allready thanlated stuff (by sending pull request). It's very important
 * FAQ - PF/shortcuts.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/tables.html - [Oleg Pahl](https://github.com/oleg-pahl)
 * FAQ - PF/tagging.html - [Oleg Pahl](https://github.com/oleg-pahl)
-* mail.html - Wanna help? Be first, it's still not translated.
-* policy.html - Wanna help? Be first, it's still not translated.
-* innovations.html - Wanna help? Be first, it's still not translated.
-* stable.html - Wanna help? Be first, it's still not translated.
-* arm64.html - Wanna help? Be first, it's still not translated.
-* amd64.html - Wanna help? Be first, it's still not translated.
+* mail.html -  Хотите перевести? Отлично! :-)
+* policy.html -  Хотите перевести? Отлично! :-)
+* innovations.html -  Хотите перевести? Отлично! :-)
+* stable.html -  Хотите перевести? Отлично! :-)
+* arm64.html -  Хотите перевести? Отлично! :-)
+* amd64.html -  Хотите перевести? Отлично! :-)
 * report.html - [Sergey Bronnikov](https://github.com/ligurio)
-* anoncvs.html - Wanna help? Be first, it's still not translated.
-* faq/upgrade65.html - Wanna help? Be first, it's still not translated.
+* anoncvs.html -  Хотите перевести? Отлично! :-)
+* faq/upgrade65.html -  Хотите перевести? Отлично! :-)
 * FAQ - Ports/differences - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/guide - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/ports - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/specialtopics - [Alexander Naumov](https://github.com/alexander-naumov)
 * FAQ - Ports/testing - [Alexander Naumov](https://github.com/alexander-naumov)
 * OpenSSH - [Alexander Naumov](https://github.com/alexander-naumov)
-* OpenIKED - Wanna help? Be first, it's still not translated.
-* OpenRSYNC - Wanna help? Be first, it's still not translated.
+* OpenIKED - Хотите перевести? Отлично! :-)
+* OpenRSYNC - Хотите перевести? Отлично! :-)
 
 ## TRANSLATION RULES
 
