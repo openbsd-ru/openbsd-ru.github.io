@@ -13,7 +13,8 @@
 
 ## TODO
 Итак, вы решили помочь проекту, но не знаете с чего начать? Выберете
-любой свободный пункт из списка ниже.
+любой свободный пункт из списка ниже, либо предложите другую помощь используя
+issue.
 
 * Перво-наперво обратите внимание на автоматические проверки
 [устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
@@ -61,21 +62,22 @@
 
 ## Правила перевода
 
-* Каждый git-коммит должен вносить изменения в ТОЛЬКО ОДИН файл.
+* Каждый git-коммит должен изменять ТОЛЬКО ОДИН html-файл.
 * Комментарий к каждому git-коммиту должен содержать версию
-оригинального файла (как показано ниже), который вы переводите.
+оригинального файла (как показано ниже, в квадратных скобках),
+который вы переводите.
 Без этого мы не сможем отслеживать и синхронизировать переведенный
 материал с оригинальным. К примеру, security.html:
 
 ``` 
-[1.438] added "Full Disclosure" part
-[1.439] better wording
-[1.439] sync
+[1.438] added "Full Disclosure" part - secitity.html
+[1.439] better wording - secirity.html
+[1.439] sync - security.html
 ``` 
 Обратите внимание на [CVSweb](https://cvsweb.openbsd.org/www/)
 
 
-## Как скачать исходники и начать работу
+## Как скачать исходники и приступить к работе
 
 Copyright law is complex, OpenBSD policy is simple - OpenBSD strives
 to provide code that can be freely used, copied, modified, and
@@ -110,9 +112,10 @@ by anyone and for any purpose.
 беря на себя самую рутинную работу.
 
 * [broken_links.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/broken_links.sh)
-этот shell-скрипт сканирует проект на наличие поломанных ссылок.
-Его ввыод показывает не только называния html-файлов, на котороые
-ссылаются другие, но и какие именно станицы нужнаются в них.
+этот shell-скрипт сканирует проект на наличие сломанных ссылок.
+Его ввыод содежит не только называния html-файлов, на которые
+ссылаются другие, но и какие именно станицы нуждаются в отсутствующих
+файлах.
 
 * [comp_version.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/comp_version.sh)
 второй скрипт проверяет версии html-страниц в нашем проекте и
@@ -121,7 +124,8 @@ by anyone and for any purpose.
 в противном случае.
 
 Оба скрипта привязаны к travis, так что запускаются
-после каждого ```git push``` и их вывод легко просмотреть в web.
+после каждого ```git push``` и их вывод легко просмотреть
+[в web](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io).
 
 ## CONTRIBUTORS
 * Alexander Naumov <alexander_naumov () opensuse ! org>
