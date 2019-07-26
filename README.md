@@ -18,7 +18,7 @@
 * Перво-наперво обратите внимание на автоматические проверки
 [устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
 и обновите уже переведенные страницы. Это очень важная задача.
-* [FAQ#04 - Installation Guide](https://www.openbsd.org/faq/faq4.html) - Хотите перевести? Отлично! :-)
+* **[FAQ#04 - Installation Guide](https://www.openbsd.org/faq/faq4.html)** - Хотите перевести? Отлично! :-)
 * [FAQ#06 - Networking](https://www.openbsd.org/faq/faq6.html) - Хотите перевести? Отлично! :-)
 * [FAQ#07 - Keyboard and Display Controls](https://www.openbsd.org/faq/faq7.html) -  Хотите перевести? Отлично! :-)
 * [FAQ#10 - System Management](https://www.openbsd.org/faq/faq10.html) -  Хотите перевести? Отлично! :-)
