@@ -59,18 +59,20 @@
 * [OpenIKED](https://www.openiked.org/) - Хотите перевести? Отлично! :-)
 * [OpenRSYNC](https://www.openbsd.org/openrsync/) - Хотите перевести? Отлично! :-)
 
-## TRANSLATION RULES
+## Правила перевода
 
-* Every translation git-commit should change ONLY ONE file.
-* Comment for every git-commit should contain version of the original file.
-It helps to sync changes. For example, security.html:
+* Каждый git-коммит должен вносить изменения в ТОЛЬКО ОДИН файл.
+* Комментарий к каждому git-коммиту должен содержать версию
+оригинального файла (как показано ниже), который вы переводите.
+Без этого мы не сможем отслеживать и синхронизировать переведенный
+материал с оригинальным. К примеру, security.html:
 
 ``` 
 [1.438] added "Full Disclosure" part
 [1.439] better wording
 [1.439] sync
 ``` 
-Take a look at [https://cvsweb.openbsd.org/www/](https://cvsweb.openbsd.org/www/)
+Обратите внимание на [CVSweb](https://cvsweb.openbsd.org/www/)
 
 
 ## HOW TO GET SOURCES AND START TO CONTRIBUTE
@@ -103,7 +105,7 @@ part).
 Our sources can be freely used, copied, modified, and distributed
 by anyone and for any purpose.
 
-### GET HELP - USE OUR SCRIPTS
+### Используйте наших помощников
 The two most important things for the translation process are
 implemented already.
 
