@@ -79,33 +79,39 @@ issue.
 
 ## Как скачать исходники и приступить к работе
 
-Copyright law is complex, OpenBSD policy is simple - OpenBSD strives
-to provide code that can be freely used, copied, modified, and
-distributed by anyone and for any purpose.
+Авторские права не всегда понятны, но правила OpenBSD достатовно
+просты - OpenBSD стремится предоставить код, который может быть
+свободно использоваться, копироваться, который можно изменять,
+а также распространять для любых целей и абсолютно каждым и нас.
+HTML-страницы - точно такая же часть "кода" OpenBSD как и исходники
+программ на C или скрипты, которыми пользуются разработчики для
+работы с последними. На HTML-страницы распростаняются точно такие
+же правила распространения, как и на код на C или других языках
+программирования.
 
-[OpenBSD's anonymous CVS](https://www.openbsd.org/anoncvs.html) is a
-method of keeping your local copy of the OpenBSD source tree up to
-date with respect to changes made to current OpenBSD sources.
+[Анонимный CVS](https://openbsd-ru.github.io/anoncvs.html)
+позволяет поддерживать локальный репозиторий с исходниками
+OpenBSD в актуальном состоянии с учетом изменений, сделанных
+в репозитории OpenBSD.
 
-Thus, to get sources, use anoncvs:
+Для того, чтобы скачать исходники, используйте anoncvs:
 ```
 cvs -d anoncvs@mirror.osn.de:/cvs get -P www
 ```
-or mirror on GitHub:
+Зеркало CVS также доступно на GitHub:
 ```
 git clone https://github.com/openbsd/www
 ```
-You can take/choose any non-translated part/page. Use utf-8 encoding
-for Russian versions. Every fixes, better wording or somethig like
-this are very welcome. Feel free to send a pull-request or just an
-issue if you have some question or ideas.
+Вы можете выбрать любую непереведенную часть или страницу.
+Используется кодировка utf-8. Мы рады каждому замечанию, исправлению,
+предложению лучшей формулировки и т.д. Не стесняйтесь отправлять
+pull request или просто issue, если у вас появятся какие-то вопросы.
 
-Don't forget to add yourself to the TODO list before you start
-your contribution (in case you're going to translate a big or new
-part).
+Не забудьте добавить себя в список TODO чтобы все знали, что над
+этой страницей уже ведется работа.
 
-Our sources can be freely used, copied, modified, and distributed
-by anyone and for any purpose.
+Переведенный материал распространяется на точно таких же условиях
+как и оригинал.
 
 ### Используйте наших помощников
 Мы используем два скрипта, которые сильно помогают в процессе перевода,
