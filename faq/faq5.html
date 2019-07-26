@@ -16,7 +16,7 @@
 <i>Open</i><b>BSD</b></a>
 FAQ - Собираем систему из исходников
 <small>
-<a href="index.html">[FAQ Index]</a>
+<a href="index.html">[FAQ - На главную]</a>
 </small>
 </h2>
 <hr>
@@ -134,22 +134,23 @@ OpenBSD использует систему контроля версий
 существующие или дозагрузить новые файлы из того же репозитория, надо
 будет сделать <code>cvs update</code>.
 
-<h4 id="wsrc">Avoiding Root Privileges</h4>
+<h4 id="wsrc">Избегайте Root привилегий</h4>
 
-Avoid running <a href="https://man.openbsd.org/cvs">cvs(1)</a> as root.
-The <code>/usr/src</code> directory (where your source will typically go) is
-writable by the <code>wsrc</code> group by default, so add users that need
-to use <a href="https://man.openbsd.org/cvs">cvs(1)</a> to that group.
+Избегайте использование <a href="https://man.openbsd.org/cvs">cvs(1)</a>
+от root. Каталог <code>/usr/src</code> (где обычно находятся загруженные
+исходники) открыт на запись для участников группы <code>wsrc</code> по
+умолчанию, так что добавьте пользователей, которым нужно пользоваться
+<a href="https://man.openbsd.org/cvs">cvs(1)</a>, в эту группу.
 
 <pre class="cmdbox">
 # <b>user mod -G wsrc exampleuser</b>
 </pre>
 
-This change takes effect with exampleuser's next login.
+Изменения вструпят в силу после следующего входа в систему этого пользователя.
 
 <p>
-If you want to fetch xenocara or ports as this user, you must create the
-directories and set their permissions manually.
+Если вы хотите загрузить исходники xenocara или портов от имени этого
+пользователя, потребуется создать каталог и установить права доступа вручную.
 
 <pre class="cmdbox">
 # <b>cd /usr</b>
@@ -160,44 +161,46 @@ directories and set their permissions manually.
 
 <h4>Загрузка -stable</h4>
 
-To fetch the -stable <code>src</code> tree, specify the branch you want with
-the <code>-r</code> flag:
+Для загрузки -stable <code>src</code> дерева исходников, укажите branch,
+который вам нужен, при помощи параметра <code>-r</code>:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
 $ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -rOPENBSD_6_5 -P src</b>
 </pre>
 
-Once you have the tree checked out, you can update it at a later time with:
+После того как вы загрузили исходники, вы можете обновить/синхронизировать
+дерево в любое время при помощи следующих команд:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
 $ <b>cvs -q up -Pd -rOPENBSD_6_5</b>
 </pre>
 
-Replace <code>src</code> with <code>xenocara</code> or <code>ports</code>
-as appropriate.
-As all parts of OpenBSD must be kept in sync, all the trees you use should be
-checked out and updated at the same time.
+Замените <code>src</code> на <code>xenocara</code> или <code>ports</code>
+в зависимости от того, что именно вы планируете сделать.
+Так как все части OpenBSD тесно взаимосвязаны между собой, все деревья
+с исходниками, с которыми вы работаете, должны загружаться и обновляться синхронно.
 
 <h4>Загрузка -current</h4>
 
-To fetch a -current src tree, you can use the following:
+Для загрузки -current <code>src</code> дерева исходников, воспользуйтесь
+следующими командами:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
 $ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -P src</b>
 </pre>
 
-Update the tree with:
+Обновить их можно можно вот так:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
 $ <b>cvs -q up -Pd -A</b>
 </pre>
 
-Replace <code>src</code> with the module you want, such as <code>xenocara</code>
-or <code>ports</code>.
+Замените <code>src</code> на необходимый вами модуль, такой как <code>xenocara</code>
+или <code>ports</code>.
 
 <h3>Сборка OpenBSD</h3>
 
@@ -269,7 +272,7 @@ or <code>ports</code>.
 c73d2198f83ef845.m /dest ffs rw,nosuid,noperm 1 2
 </pre>
 
-Хозяином (owner) этой ФС должен быть пользователь <code>build</code>,
+Владельцем (owner) этой ФС должен быть пользователь <code>build</code>,
 который имеет там права <code>700</code>:
 
 <pre class="cmdbox">
@@ -287,17 +290,17 @@ c73d2198f83ef845.m /dest ffs rw,nosuid,noperm 1 2
 ФС. Удоставерьтесь, что она пренадлежит пользователю <code>build</code> и имеет
 права <code>u=rwx</code>.
 
-<h3>Using an mfs noperm Partition</h3>
+<h3>Использование noperm mfs раздела</h3>
 
-You may want to use an <a href="https://man.openbsd.org/mount_mfs">mfs</a>
-partition instead of a physical disk.
-Add a line similar to this to your <code>/etc/fstab</code>:
+Вы можете использовать <a href="https://man.openbsd.org/mount_mfs">mfs</a>
+раздел вместо физического диска.
+Это можно сделать добавив похожую строчку в ваш <code>/etc/fstab</code>:
 
 <pre class="cmdbox">
 swap /dest mfs rw,nosuid,noperm,-P/var/dest,-s1.5G,noauto 0 0
 </pre>
 
-Create the prototype <code>DESTDIR</code> directories:
+Создайте прототип каталога <code>DESTDIR</code>:
 
 <pre class="cmdbox">
 # <b>mkdir -p /var/dest/{,x}base</b>
@@ -305,7 +308,8 @@ Create the prototype <code>DESTDIR</code> directories:
 # <b>chmod -R 700   /var/dest</b>
 </pre>
 
-Now you can mount <code>/dest</code> before making a release:
+Теперь вы можете подмонтировать <code>/dest</code> до того как приступили
+к сборке релиза:
 
 <pre class="cmdbox">
 # <b>mount /dest</b>
