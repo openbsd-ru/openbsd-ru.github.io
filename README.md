@@ -75,7 +75,7 @@
 Обратите внимание на [CVSweb](https://cvsweb.openbsd.org/www/)
 
 
-## HOW TO GET SOURCES AND START TO CONTRIBUTE
+## Как скачать исходники и начать работу
 
 Copyright law is complex, OpenBSD policy is simple - OpenBSD strives
 to provide code that can be freely used, copied, modified, and
@@ -106,18 +106,22 @@ Our sources can be freely used, copied, modified, and distributed
 by anyone and for any purpose.
 
 ### Используйте наших помощников
-The two most important things for the translation process are
-implemented already.
+Мы используем два скрипта, которые сильно помогают в процессе перевода,
+беря на себя самую рутинную работу.
 
 * [broken_links.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/broken_links.sh)
-is a shell script that shows all missing web pages and pages that
-need (have links to) these pages.
-* [comp_version.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/comp_version.sh)
-is another script that compare versions of local html-files and
-its versions in the [www CVS-repository](https://cvsweb.openbsd.org/www/).
+этот shell-скрипт сканирует проект на наличие поломанных ссылок.
+Его ввыод показывает не только называния html-файлов, на котороые
+ссылаются другие, но и какие именно станицы нужнаются в них.
 
-Since both scripts are a task for travis, they will starts after
-each new ```git push```.
+* [comp_version.sh](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/comp_version.sh)
+второй скрипт проверяет версии html-страниц в нашем проекте и
+сравнивает их с версиями из [www CVS репозитория](https://cvsweb.openbsd.org/www/).
+Он показыват OK, если версии одинаковые, или ссылку на web-diff
+в противном случае.
+
+Оба скрипта привязаны к travis, так что запускаются
+после каждого ```git push``` и их вывод легко просмотреть в web.
 
 ## CONTRIBUTORS
 * Alexander Naumov <alexander_naumov () opensuse ! org>
