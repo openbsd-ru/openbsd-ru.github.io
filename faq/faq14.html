@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang=en id=faq>
+<html lang=ru id=faq>
 
 <!-- If you make edits to any FAQ documents, please start each sentence
      on a new line, and try to keep the general formatting consistent
      with the rest of the pages -->
 
-<title>OpenBSD FAQ: Disk Setup</title>
+<title>OpenBSD FAQ: Работаем с дисками</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
@@ -14,35 +14,35 @@
 <h2 id=OpenBSD>
 <a href="../index.html">
 <i>Open</i><b>BSD</b></a>
-FAQ - Disk Setup
+FAQ - Работаем с дисками
 <small>
-<a href="index.html">[FAQ Index]</a>
+<a href="index.html">[FAQ - На главную]</a>
 </small>
 </h2>
 <hr>
 
 <ul>
-<li><a href="#intro"           >Disks and Partitions</a>
-<li><a href="#fdisk"           >Using fdisk</a>
-<li><a href="#disklabel"       >Disk Labels</a>
-<li><a href="#BootAmd64"       >The amd64 Boot Process</a>
-<li><a href="#SoftUpdates"     >Soft Updates</a>
-<li><a href="#altroot"         >Root Partition Backup (/altroot)</a>
-<li><a href="#DupFS"           >Duplicating Filesystems</a>
-<li><a href="#Quotas"          >Disk Quotas</a>
-<li><a href="#foreignfs"       >Accessing Other Filesystems</a>
-<li><a href="#MountImage"      >Mounting Disk Images</a>
-<li><a href="#GrowPartition"   >Growing Disk Partitions</a>
-<li><a href="#softraid"        >RAID and Disk Encryption</a>
+<li><a href="#intro"           >Диски и разделы</a>
+<li><a href="#fdisk"           >Использование fdisk</a>
+<li><a href="#disklabel"       >Использование disklabel</a>
+<li><a href="#BootAmd64"       >Процесс загрузки в amd64</a>
+<li><a href="#SoftUpdates"     >Soft-обновление</a>
+<li><a href="#altroot"         >Резервное копирование (backup) корневого раздела (/altroot)</a>
+<li><a href="#DupFS"           >Дублирование ФС</a>
+<li><a href="#Quotas"          >Дисковые квоты</a>
+<li><a href="#foreignfs"       >Доступ и работа с другими ФС</a>
+<li><a href="#MountImage"      >Монтирование дисковых образов</a>
+<li><a href="#GrowPartition"   >Расширение разделов</a>
+<li><a href="#softraid"        >RAID и шифрование дисков</a>
   <ul>
-  <li><a href="#softraidDI"    >Installing to a Mirror</a>
-  <li><a href="#softraidFDE"   >Full Disk Encryption</a>
-  <li><a href="#softraidCrypto">Encrypting External Disks</a>
+  <li><a href="#softraidDI"    >Установка на зеркальную пару дисков (RAID 1)</a>
+  <li><a href="#softraidFDE"   >Полное шифрование диска</a>
+  <li><a href="#softraidCrypto">Шифрование внешних дисков</a>
   </ul>
 </ul>
 <hr>
 
-<h2 id="intro">Disks and Partitions</h2>
+<h2 id="intro">Диски и разделы</h2>
 
 The details of setting up disks in OpenBSD vary between
 <a href="../plat.html">platforms</a>, so you should read the instructions in
@@ -148,7 +148,7 @@ your data is now on <code>wd1d</code>, as your old <code>wd2</code> is now
 <code>wd1</code>.
 However, a drive's DUID won't change after boot.
 
-<h2 id="fdisk">Using fdisk</h2>
+<h2 id="fdisk">Использование fdisk</h2>
 
 The <a href="https://man.openbsd.org/fdisk">fdisk(8)</a> utility is used on some
 platforms (i386, amd64 and macppc) to create a partition recognized by the
@@ -205,7 +205,7 @@ Note also that fdisk does not warn before saving the changes.
 If your system has a maintenance or diagnostic partition, it is recommended that
 you leave it in place or install it <b>before</b> installing OpenBSD.
 
-<h2 id="disklabel">Disk Labels</h2>
+<h2 id="disklabel">Использование disklabel</h2>
 
 Disk labels are used to manage OpenBSD filesystem partitions.
 They contain certain details about your disk, such as drive geometry and
@@ -257,7 +257,7 @@ the label to disk.
 Therefore, even if the area of the disk containing the disklabel is unreadable,
 you will be able to mount until the next reboot.
 
-<h2 id="BootAmd64">The amd64 Boot Process</h2>
+<h2 id="BootAmd64">Процесс загрузки в amd64</h2>
 
 Details on the amd64 bootstrapping procedure are given in the
 <a href="https://man.openbsd.org/boot_amd64">boot_amd64(8)</a> man page.
@@ -295,7 +295,7 @@ Copyright (c) 1982, 1986, 1989, 1991, 1993       <b>&lt;- Kernel</b>
         The Regents of the University of California.  All rights reserved.
 </pre>
 
-<h2 id="SoftUpdates">Soft Updates</h2>
+<h2 id="SoftUpdates">Soft-обновление</h2>
 
 Soft updates are based on an idea proposed by
 <a href="https://www.ece.cmu.edu/~ganger/papers/CSE-TR-254-95/">Greg Ganger
@@ -320,7 +320,7 @@ with soft updates.
 /dev/sd0a / ffs rw,softdep 1 1
 </pre>
 
-<h2 id="altroot">Root Partition Backup (/altroot)</h2>
+<h2 id="altroot">Резервное копирование (backup) корневого раздела (/altroot)</h2>
 
 OpenBSD provides an <code>/altroot</code> facility in the
 <a href="https://man.openbsd.org/daily">daily(8)</a> scripts.
@@ -359,7 +359,7 @@ Generally, you will want your <code>/altroot</code> partition to be on a
 different disk that has been configured to be fully bootable should the primary
 disk fail.
 
-<h2 id="DupFS">Duplicating Filesystems</h2>
+<h2 id="DupFS">Дублирование ФС</h2>
 
 To duplicate everything under directory <code>/SRC</code> to directory
 <code>/DST</code> with <a href="https://man.openbsd.org/dump">dump(8)</a> and
@@ -375,7 +375,7 @@ or use <a href="https://man.openbsd.org/tar">tar(1)</a>:
 # <b>cd /SRC && tar cf - . | (cd /DST && tar xpf - )</b>
 </pre>
 
-<h2 id="Quotas">Disk Quotas</h2>
+<h2 id="Quotas">Дисковые квоты</h2>
 
 Quotas are used to place limits on the amount of disk space available to certain
 users and groups.
@@ -430,7 +430,7 @@ This will scan through <a href="https://man.openbsd.org/fstab">fstab(5)</a> and
 enable quotas on the filesystems with quota options.
 View quota statistics with <a href="https://man.openbsd.org/quota">quota(1)</a>.
 
-<h2 id="foreignfs">Accessing Other Filesystems</h2>
+<h2 id="foreignfs">Доступ и работа с другими ФС</h2>
 
 Start with the <a href="https://man.openbsd.org/mount">mount(8)</a>
 manual, which contains examples explaining how to mount some of the
@@ -445,7 +445,7 @@ $ <b>man -k -s 8 mount</b>
 
 Note that support may be limited to read-only operation.
 
-<h2 id="MountImage">Mounting Disk Images</h2>
+<h2 id="MountImage">Монтирование дисковых образов</h2>
 
 To mount a disk image in OpenBSD you must configure a
 <a href="https://man.openbsd.org/vnd">vnd(4)</a> device.
@@ -473,7 +473,7 @@ For more information, refer to
 <a href="https://man.openbsd.org/vnconfig">vnconfig(8)</a>
 and <a href="https://man.openbsd.org/mount">mount(8)</a>.
 
-<h2 id="GrowPartition">Growing Disk Partitions</h2>
+<h2 id="GrowPartition">Расширение разделов</h2>
 
 If an existing partition is followed by unallocated free space, you may
 increase its size using the
@@ -495,7 +495,7 @@ with <a href="https://man.openbsd.org/fsck">fsck(8)</a>:
 # <b>fsck /dev/sd0h</b>
 </pre>
 
-<h2 id="softraid">RAID and Disk Encryption</h2>
+<h2 id="softraid">RAID и шифрование дисков</h2>
 
 The <a href="https://man.openbsd.org/softraid">softraid(4)</a> subsystem works
 by emulating a <a href="https://man.openbsd.org/scsibus">scsibus(4)</a> with
@@ -507,7 +507,7 @@ This virtual disk is treated as any other disk, first partitioned with
 <a href="#disklabel">disklabels</a> are created as usual.
 Note that only RAID0, RAID1, RAID5 and crypto are fully supported at the moment.
 
-<h3 id="softraidDI">Installing to a Mirror</h3>
+<h3 id="softraidDI">Установка на зеркальную пару дисков (RAID 1)</h3>
 
 This section covers installing OpenBSD to a mirrored pair of hard drives,
 and assumes familiarity with the <a href="faq4.html">installation process</a>.
@@ -643,7 +643,7 @@ This can also be performed in
 <a href="faq8.html#LostPW">single user mode</a>
 or from the <a href="faq4.html#bsd.rd">install kernel</a>.
 
-<h3 id="softraidFDE">Full Disk Encryption</h3>
+<h3 id="softraidFDE">Полное шифрование диска</h3>
 
 Much like RAID, full disk encryption in OpenBSD is handled by the
 <a href="https://man.openbsd.org/softraid">softraid(4)</a> subsystem and
@@ -789,7 +789,7 @@ You can backup and restore your keydisk using
 # <b>dd bs=8192 seek=1 if=backup-keydisk.img of=/dev/rsd1a</b>
 </pre>
 
-<h3 id="softraidCrypto">Encrypting External Disks</h3>
+<h3 id="softraidCrypto">Шифрование внешних дисков</h3>
 
 This section explains how you might set up a cryptographic softraid volume
 for an external USB drive.
