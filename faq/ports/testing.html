@@ -46,7 +46,7 @@
 достаточной для этого процесса квалификацией. Это не верно. Каждый может помочь
 разработчикам (тем, кто занимается портированием софта) делать свою работу лучше
 и быстрее. Тестируйте обновления или новые порты, о которых сообщается в
-<a href="../../mail.html">рассылке, посвященной портам</a>.
+<a href="https://www.openbsd.org/mail.html">рассылке, посвященной портам</a>.
 Делая это, вы уменьшаете задержку последюущих коммитов, а также увеличиваете
 количество портов, добавляемых в саму систему. Многие порты не добавленны
 лишь по причине того, что они до сих пор не протестированны.
@@ -63,7 +63,7 @@
 
 <h2 id="Testing">Тестирование</h2>
 
-В почтовых рассылках есть два типа материалов: новые порты и обвновления.
+В почтовых рассылках есть два типа материалов: новые порты и обновления.
 О новых портах как правило сообщается в письмах, к которым прикрепляются
 архив (tarball) или ссылка на него. Хорошей идеей будет распаковать его
 в каталоге <code>/usr/ports/mystuff/</code> и протестировать там.
@@ -263,37 +263,39 @@ Warnings касательно <a href="https://man.openbsd.org/tmpnam">tmpnam(3)
 
 <h2 id="Commenting">Комментирование</h2>
 
-At the end of the test comes the really important thing: comments.
-Even if the port is working fine comments must be done.
-If we have ten posts where people say that the port runs fine under different
-architectures then the commit is done faster.
-If it does not work, then some information must be given.
-There are tools that can help in this task, like portslogger(1) which is like
-an "intelligent tee" that redirects output into a log file.
+В конце теста наконец-то действительно важная вещь: комментарии.
+Даже если порт работает нормально, комментарии должны быть сделаны.
+Если у нас есть десять комментариев, в которых люди говорят, что порт
+работает нормально под разными архитектурами, то добавление порта в репозиторий
+произойдет быстрее. Если что-то не работает, то соответствующая информация
+должна быть предоставлена. Есть инструменты, которые могут помочь в на
+этом этапе, например
+<a href="https://man.openbsd.org/portslogger">portslogger(1)</a>, который
+похож на «интеллигентный tee(1)», который перенаправляет вывод в log-файл.
 
 <p>
-Example:
+Пример:
 
 <pre class="cmdbox">
 # <b>make install 2&gt;&amp;1 | /usr/ports/infrastructure/bin/portslogger .</b>
 </pre>
 
-This will redirect the output into a log file located in the current directory.
+Это перенаправит вывод в log-файл, находящийся в этом же каталоге.
 
 <p>
-Finally, once the port is found to be okay, other ports depending on it should
-also be tested, to check whether they are still working correctly.
-The <code>show-required-by</code> make target will help to find other ports
-which depend on the current one.
+Наконец, как только будет установлено, что порт исправен, следует проверить
+и другие порты, зависящие от него, чтобы убедиться, что и они по-прежнему
+работают правильно. Target <code>show-required-by</code> поможет найти другие
+порты, которые зависят от него.
 
 <h2 id="More">И снова тестирование</h2>
 
-Check the port's <code>Makefile</code> for correct dependencies, typos,
-incorrect links, useless or missing variables, correct licensing and categories.
-Those who are more skilled can help by examining patches, as well as
-providing diffs to correct bugs, add flavors, or other enhancements.
+Проверьте <code>Makefile</code> порта на правильные зависимости, опечатки,
+неправильные ссылки, бесполезные или отсутствующие переменные, правильное
+лицензирование и категорию. Те, кто более опытен, могут помочь, изучив
+патчи, а также предоставив diff для исправления ошибок или других улучшений.
 
 <p>
-These diffs should be done with the <code>-uNprx CVS</code> options.
-<code>cvs diff -uNp</code> can also be used to generate patches against the CVS
-repository.
+Эти diff(s) должны быть сделаны с опциями <code>-uNprx CVS</code>.
+<code>cvs diff -uNp</code> также можно использовать для создания патчей для
+CVS репозитория.
