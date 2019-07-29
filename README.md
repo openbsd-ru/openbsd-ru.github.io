@@ -55,7 +55,6 @@ issue.
 * **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
 * **[FAQ#Ports_Working with Ports](https://www.openbsd.org/faq/ports/ports.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
 * **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[FAQ#Ports_Testing Guide](https://www.openbsd.org/faq/ports/testing.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
 * **[OpenSSH](https://www.openssh.com/)** - [Alexander Naumov](https://github.com/alexander-naumov)
 * **[OpenIKED](https://www.openiked.org/)** - Хотите перевести? Отлично! :-)
 * **[OpenRSYNC](https://www.openbsd.org/openrsync/)** - Хотите перевести? Отлично! :-)
