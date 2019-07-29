@@ -17,7 +17,7 @@
 <i>Open</i><b>BSD</b></a>
 Порты - руководство по тестированию
 <small>
-<a href="index.html">[На главную]</a>
+<a href="index.html">[Порты - На главную]</a>
 </small>
 </h2>
 <hr>
@@ -39,7 +39,7 @@
 необходимых изменений (с целью запустить программы именно в среде OpenBSD),
 конфигурацию и установку.
 Вся эта работа проделывается группой волонтеров, кто тратит время и силы на
-портирование и тестирование приложений именно в среде OpenBSD.
+портирование и тестирование приложений в OpenBSD.
 
 <p>
 Многие думают, что они не могут помочь по причине того, что не обладают
@@ -63,37 +63,39 @@
 
 <h2 id="Testing">Тестирование</h2>
 
-There are two types of submissions on the mailing lists: new ports and updates.
-New ports are generally posted as tarball attachments or URLs.
-A good idea is to extract them into the <code>/usr/ports/mystuff/</code>
-directory and test from there.
-Updates are generally a diff against the -current ports tree, so it is best
-to copy the port to <code>mystuff/</code> and apply the diff to prevent tree
-breakage.
-If the previous version of the port is installed, it is a good idea to remove
-it before building the newer version to avoid side effects, like symbols
-missing from the older version of a library.
+В почтовых рассылках есть два типа материалов: новые порты и обвновления.
+О новых портах как правило сообщается в письмах, к которым прикрепляются
+архив (tarball) или ссылка на него. Хорошей идеей будет распаковать его
+в каталоге <code>/usr/ports/mystuff/</code> и протестировать там.
+Обновления как правило представляют из себя diff для дерева портов в -current.
+Лучше всего скопировать порт в <code>mystuff/</code> и использовать diff,
+чтобы предотвратить поломку всего дерева.
+Если установлена предыдущая версия порта, рекомендуется удалить ее перед
+сборкой более новой версии, чтобы избежать побочных эффектов, таких как
+символы, отсутствующие в более старой версии библиотеки.
 
 <p>
-Step-by-step building is needed to verify that every target, see
-<a href="https://man.openbsd.org/ports">ports(7)</a>, is achieved correctly:
+Необходим процесс пошаговой сборки, чтобы быть уверенным, что каждый target,
+смотри <a href="https://man.openbsd.org/ports">ports(7)</a>, правильно собран
+(achieved correctly):
 
 <ul><li>
 <i>fetch</i>
 <ul><li>
-Needed to verify that distfile(s) are correctly downloaded.
-Try to test all of the <code>MASTER_SITES</code> specified to make sure they
-are all valid sources.
+Необходим, чтобы удостовериться, что все необходимые для порта файлы
+(distfile(s)) могут быть корректно загруженны.
+Попробуйте протестировать все указанные <code>MASTER_SITES</code>, чтобы
+убедиться, что все они являются рабочими (valid sources).
 </ul>
 
 <li>
 <i>checksum</i>
 <ul><li>
-Verify that downloaded distfiles match the checksums recorded in the
-<code>distinfo</code> file.
-To download the distfiles from all defined sources and to check their
-checksum you can run this command line from within the directory of
-the port:
+Проверьте, что у всех загруженных distfiles совпадают checksums,
+с теми, которые находятся в <code>distinfo</code> файле.
+Чтобы загрузить distfiles со всех указанных источников и проверить их
+checksum, воспользуйтесь этой командой (её следует запустить из
+каталога порта):
 
 <pre class="cmdbox">
 $ <b>for ms in $(make show=MASTER_SITES); do make clean=dist; make fetch checksum MASTER_SITES=$ms; done</b>
@@ -103,46 +105,49 @@ $ <b>for ms in $(make show=MASTER_SITES); do make clean=dist; make fetch checksu
 <li>
 <i>extract</i>
 <ul><li>
-The <code>prepare</code> target is automatically invoked
-before <code>extract</code>
-and should install all <code>{BUILD,LIB}_DEPENDS</code> for this port (such as
-bzip2).
+Target <code>prepare</code> запускается автоматически до <code>extract</code>.
+Его задача - установить все <code>{BUILD,LIB}_DEPENDS</code> для этого порта
+(такие как bzip2).
 </ul>
 
 <li>
 <i>patch</i>
 <ul><li>
-Patches should apply cleanly without any warnings.
+При использовании патчей не должно быть никаких warnings. Процесс должен
+проходить гладко, без каких-либо проблем.
 
 <li>
-There shouldn't be any ".orig" files left behind in the <code>patches/</code>
-directory.
+В каталоге <code>patches/</code> не должно оставаться никаких ".orig" файлов.
 
 <li>
-Another common mistake is to include RCS tags in a patch; this will break when
-the port is checked into the repository and the RCS tag expanded.
+Другой распространенной ошибкой является включение в патч тегов RCS;
+это сломает порт, когда он будет добавлен в репозиторий, а тег RCS будет
+развернут.
 </ul>
 
 <li>
 <i>configure</i>
 <ul><li>
-Check that configure scripts correctly detect features on your platform.
+Проверьте, что скрипт configure правильно определяет окружение (features)
+на вашей платформе.
 
 <li>
-The configure script should not detect stray applications already installed
-on your system without explicit dependencies being set in the port.
+Скрипт configure не должен обнаруживать случайных приложений, уже
+установленных в вашей системе, без явных настроек зависимостей, заданных
+в порту.
 
 <li>
-If the port does not build with the libtool from base, you can try setting
-<code>USE_LIBTOOL=gnu</code> which uses a patched version from ports.
-GNU libtool is notorious for undesired 'features' on OpenBSD, so
-if the port does not build with the libtool from base, that should
-be fixed and there should be a XXX comment about why in the ports
+Если порт не собирается с помощью libtool из base, вы можете попробовать
+установить <code>USE_LIBTOOL=gnu</code>, которая использует исправленную
+версию (patched version) из портов. GNU libtool печально известен своими
+нежелательными «возможностями» в OpenBSD, поэтому, если порт не собирается
+с помощью libtool из base, это должно быть исправлено, а в исходниках
+порта должен быть комментарий о том, почему в порте используется
 <code>Makefile</code>.
 
 <li>
-If the port uses CMake and you see undesired results of configure stage,
-make sure to check or send the following files additionally:
+Если порт использует CMake, и вы видите нежелательные результаты на этом
+этапе, обязательно проверьте или отправьте следующие файлы дополнительно:
 
 <ul>
 <li>
@@ -158,100 +163,103 @@ make sure to check or send the following files additionally:
 <li>
 <i>build</i>
 <ul><li>
-Check for build errors and suspicious warnings.
+Не должно быть никаких ошибок сборки (build errors) и подозрительных
+warnings.
 
 <li>
-Warnings about <a href="https://man.openbsd.org/tmpnam">tmpnam(3)</a> issues
-should be resolved by using
+Warnings касательно <a href="https://man.openbsd.org/tmpnam">tmpnam(3)</a>
+должны решаться при помощи
 <a href="https://man.openbsd.org/mkstemp">mkstemp(3)</a>.
 
 <li>
-Try to set the <code>SEPARATE_BUILD</code> variable to 'Yes'
-and test if the build still works.
+Установите для переменной <code>SEPARATE_BUILD</code> значение 'Yes'
+и попробуйте после этого пересобрать порт снова. Все должно работать.
 
 <li>
-Make sure dependencies on GNU make are really necessary.
+Удостоверьтесь, что зависимости от GNU make действительно необходимы.
 </ul>
 
 <li>
 <i>test</i>
 <ul><li>
-Check for errors (empty tests means okay).
+Проверьте на наличие ошибок (empty tests means okay).
  
 <li>
-If the tests have dependencies other than specified in
-<code>{BUILD,RUN}_DEPENDS</code>, check that <code>TEST_DEPENDS</code> is
-defined correctly.
+Если у тестов есть зависимости, отличные от указанных в
+<code>{BUILD,RUN}_DEPENDS</code>, убедитесь, что <code>TEST_DEPENDS</code>
+определен правильно.
 </ul>
 
 
 <li>
 <i>fake</i>
 <ul><li>
-This target installs the application into a fake working directory, to ensure
-that all files can be easily packaged up without affecting the base system.
+Эта target устанавливает приложение в поддельный (fake) рабочий каталог,
+чтобы гарантировать, что все файлы могут быть легко упакованы без влияния/эффектов
+на базовую часть системы.
 
 <li>
-The port should <b>never</b> install files outside of the fake directory 
-such as into <code>/usr/local</code>.
+Порт <b>никогда</b> не должен устанавливать свои файлы вне fake-каталога,
+например  в <code>/usr/local</code>.
 
 <li>
-GNU libtool occasionally has trouble relinking libraries during the fake
-process on some architectures.
+При использовании GNU libtool иногда возникают проблемы с перекомпоновкой
+библиотек во время fake-процесса на некоторых архитектурах.
 
-<li>Check whether all files get installed with correct ownerships and
-permissions.
+<li>
+Проверьте, что все файлы после установки имеют правильного владельца (ownerships) и
+и правильные права доступа (permissions).
 </ul>
 
 <li>
 <i>port-lib-depends-check</i>
 <ul><li>
-This will check whether all libraries on which the port depends can be reached
-through either <code>LIB_DEPENDS</code> or <code>WANTLIB</code>.
-The result should be empty.
-The above variables should be inspected when you see lines starting "Extra"
-or "Missing."
+Это проверит, все ли библиотеки, от которых зависит порт, могут быть
+найдены/доступны через <code>LIB_DEPENDS</code> или <code>WANTLIB</code>.
+Результат должен быть пустым.
+Перечисленные выше переменные следует проверять, когда вы видите строки,
+начинающиеся с «Extra» или «Missing».
 </ul>
 
 <li>
 <i>package</i>
 <ul><li>
-Package creation can break if <code>pkg/PLIST*</code> and/or
-<code>pkg/PFRAG*</code>
-are wrong.
+Собрка пакета может быть поломана, если <code>pkg/PLIST*</code> и/или
+<code>pkg/PFRAG*</code> неправильны.
 </ul>
 
 <li>
 <i>install</i>
 <ul><li>
-Packages should install all of the files from their packaging lists
-successfully and with the correct permissions.
-Be especially careful of files with the setuid bits set.
+Пакеты должны установить все файлы из своих списков успешно и с правильными
+правами доступа. Будьте особенно осторожны с файлами, у которых установлен
+бит setuid.
 
 <li>
-Make sure that the package <code>INSTALL</code> script works correctly, and does
-not overwrite any files in <code>/etc</code>.
+Убедитесь, что скрипт <code>INSTALL</code>, принадлежащий пакету,
+делает именно то, что должен, и ни в коем случае ничего (ни одного файла)
+не перезаписывает в <code>/etc</code>.
 </ul>
 
 <li>
 <i>deinstall</i>
 <ul><li>
-This should remove all files installed by the package, except those in
-<code>/etc</code>.
+Это должно удалять все файлы, установленные пакетом, за исключением тех, что
+в <code>/etc</code>.
 
 <li>
-System files created by the package at runtime should be marked with
-<code>@extra</code> and/or
-<code>@extraunexec</code> annotations in <code>pkg/PLIST*</code>.
+Системные файлы, созданные пакетом во время выполнения, должны быть помечены
+как <code>@extra</code> и/или
+<code>@extraunexec</code> в <code>pkg/PLIST*</code>.
 </ul>
 
 </ul>
 
 <p>
-Remaining <code>pkg/</code> files like <code>DESCR</code> and
-<code>MESSAGE</code> should be checked for grammar and typos.
-Paragraphs should be formatted using
-<a href="https://man.openbsd.org/fmt">fmt(1)</a> and wrapped at 80 characters.
+Оставшиеся <code>pkg/</code> файлы, такие как <code>DESCR</code> и
+<code>MESSAGE</code>, должны быть проверены на грамматику и опечатки.
+Абзацы должны быть отформатированы с использованием
+<a href="https://man.openbsd.org/fmt">fmt(1)</a> по 80 символов на строку.
 
 <h2 id="Commenting">Комментирование</h2>
 
