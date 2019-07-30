@@ -16,48 +16,51 @@
 любой свободный пункт из списка ниже, либо предложите другую помощь используя
 issue.
 
-* Перво-наперво обратите внимание на автоматические проверки
+Обратите внимание на автоматические проверки
 [устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
 и обновите уже переведенные страницы. Это очень важная задача.
-* **[FAQ#04_Installation Guide](https://www.openbsd.org/faq/faq4.html)** - Хотите перевести? Отлично! :-)
-* **[FAQ#06_Networking](https://www.openbsd.org/faq/faq6.html)** - Хотите перевести? Отлично! :-)
-* **[FAQ#07_Keyboard and Display Controls](https://www.openbsd.org/faq/faq7.html)** -  Хотите перевести? Отлично! :-)
-* **[FAQ#10_System Management](https://www.openbsd.org/faq/faq10.html)** -  Хотите перевести? Отлично! :-)
-* **[FAQ#13_Multimedia](https://www.openbsd.org/faq/faq13.html)** -  Хотите перевести? Отлично! :-)
-* **[FAQ#14_Disk Setup](https://www.openbsd.org/faq/faq14.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Getting Started](https://www.openbsd.org/faq/pf/config.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Logging](https://www.openbsd.org/faq/pf/logging.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Lists and Macros](https://www.openbsd.org/faq/pf/macros.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Runtime Options](https://www.openbsd.org/faq/pf/options.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Performance](https://www.openbsd.org/faq/pf/perf.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Tables](https://www.openbsd.org/faq/pf/tables.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[FAQ#PF_Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html)** - [Oleg Pahl](https://github.com/oleg-pahl)
-* **[Mailing Lists](https://www.openbsd.org/mail.html)** -  Хотите перевести? Отлично! :-)
-* **[Copyright Policy](https://www.openbsd.org/policy.html)** -  Хотите перевести? Отлично! :-)
-* **[Innovations](https://www.openbsd.org/innovations.html)** -  Хотите перевести? Отлично! :-)
-* **[-stable](https://www.openbsd.org/stable.html)** -  Хотите перевести? Отлично! :-)
-* **[arm64](https://www.openbsd.org/arm64.html)** -  Хотите перевести? Отлично! :-)
-* **[amd64](https://www.openbsd.org/amd64.html)** -  Хотите перевести? Отлично! :-)
-* **[Problem Reports](https://www.openbsd.org/report.html)** - [Sergey Bronnikov](https://github.com/ligurio)
-* **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** -  Хотите перевести? Отлично! :-)
-* **[FAQ_Upgrade Guide: 6.4 to 6.5](https://www.openbsd.org/faq/upgrade65.html)** -  Хотите перевести? Отлично! :-)
-* **[FAQ#Ports_Differences from Other BSD Projects](https://www.openbsd.org/faq/ports/differences.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[FAQ#Ports_Working with Ports](https://www.openbsd.org/faq/ports/ports.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[OpenSSH](https://www.openssh.com/)** - [Alexander Naumov](https://github.com/alexander-naumov)
-* **[OpenIKED](https://www.openiked.org/)** - Хотите перевести? Отлично! :-)
-* **[OpenRSYNC](https://www.openbsd.org/openrsync/)** - Хотите перевести? Отлично! :-)
+
+| Материал к переводу | Ответственный | Комментарий |
+| --- | --- | --- |
+| **[FAQ#04_Installation Guide](https://www.openbsd.org/faq/faq4.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/faq4.html)|
+| **[FAQ#06_Networking](https://www.openbsd.org/faq/faq6.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/faq6.html)|
+| **[FAQ#07_Keyboard and Display Controls](https://www.openbsd.org/faq/faq7.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/faq7.html)|
+| **[FAQ#10_System Management](https://www.openbsd.org/faq/faq10.html)** |  Хотите перевести? | |
+| **[FAQ#13_Multimedia](https://www.openbsd.org/faq/faq13.html)** |  Хотите перевести? | |
+| **[FAQ#14_Disk Setup](https://www.openbsd.org/faq/faq14.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
+| **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
+| **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Getting Started](https://www.openbsd.org/faq/pf/config.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Logging](https://www.openbsd.org/faq/pf/logging.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/logging.html)|
+| **[FAQ#PF_Lists and Macros](https://www.openbsd.org/faq/pf/macros.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Runtime Options](https://www.openbsd.org/faq/pf/options.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/options.html)|
+| **[FAQ#PF_Performance](https://www.openbsd.org/faq/pf/perf.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/pools.html)|
+| **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Tables](https://www.openbsd.org/faq/pf/tables.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
+| **[FAQ#PF_Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/tagging.html)|
+| **[Mailing Lists](https://www.openbsd.org/mail.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/mail.html)|
+| **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
+| **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
+| **[-stable](https://www.openbsd.org/stable.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/stable.html)|
+| **[arm64](https://www.openbsd.org/arm64.html)** |  Хотите перевести? | |
+| **[amd64](https://www.openbsd.org/amd64.html)** |  Хотите перевести? | |
+| **[Problem Reports](https://www.openbsd.org/report.html)** | [Sergey Bronnikov](https://github.com/ligurio) | |
+| **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
+| **[FAQ_Upgrade Guide: 6.4 to 6.5](https://www.openbsd.org/faq/upgrade65.html)** |  Хотите перевести? | |
+| **[FAQ#Ports_Differences from Other BSD Projects](https://www.openbsd.org/faq/ports/differences.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
+| **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
+| **[FAQ#Ports_Working with Ports](https://www.openbsd.org/faq/ports/ports.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
+| **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
+| **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
+| **[OpenIKED](https://www.openiked.org/)** | Хотите перевести? | страниц нет в CVS |
+| **[OpenRSYNC](https://www.openbsd.org/openrsync/)** | Хотите перевести? | в CVS пока только index |
 
 ## Правила перевода
 
