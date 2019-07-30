@@ -84,7 +84,8 @@ The new syntax specifies the command options before the argument:
 
 
 <h3 id="r20190607">2019/06/07 - acme-client(1): api url changed</h3>
-<a href="https://man.openbsd.org/acme-client.1">acme-client(1)<a> has
+
+<a href="https://man.openbsd.org/acme-client.1">acme-client(1)</a> has
 been updated to implement the recently published RFC 8555.
 Users must change the api url in <code>/etc/acme-client.conf</code> from
 <pre class="cmdbox">
@@ -95,6 +96,54 @@ to
 https://acme-v02.api.letsencrypt.org/directory
 </pre>
 
+
+<h3 id="r20190607a">2019/06/07 - [ports] MariaDB upgrade</h3>
+
+MariaDB was upgraded to the 10.3 branch.
+Due to changes in redo logs, <b>ensure that your previous version was
+shut down cleanly before upgrading</b>.
+The <code>/etc/my.cnf</code> option <code>innodb_additional_mem_pool_size</code>,
+found in some old default configurations, is no longer supported - remove it if present.
+If the new version fails to start, review <code>/var/mysql/(hostname).err</code>.
+As usual, run mysql_upgrade(1) after the update.
+
+
+<h3 id="r20190611">2019/06/11 - acme-client(1): command line flags retired</h3>
+
+The -A and -D flags have been removed from
+<a href="https://man.openbsd.org/acme-client.1">acme-client(1)</a>.
+The private keys are now created automatically if missing.
+If you were using either of these flags on your regular command lines,
+remove them.
+
+
+<h3 id="r20190617">2019/06/18 - doas(1): altered environment variables</h3>
+
+The environment variable handling in
+<a href="https://man.openbsd.org/doas.1">doas(1)</a>
+has been changed.
+In particular HOME and PATH are now reset to the target user.
+
+
+<h3 id="r20190619">2019/06/19 - [ports] courier-imap utf-8 support</h3>
+
+In courier-imap full utf-8 support has been enabled,
+if you are using imap folders with utf8 names you should check and/or
+convert them using maildirmake(1) <code>--checkutf8</code> and <code>--convutf8</code> options.
+
+
+<h3 id="r20190625">2019/06/25 - bgpctl(8) removal of irrfilter</h3>
+
+The bgpctl(8) irrfilter command has been removed. People interested in
+generating prefix- and as-sets from IRR data should use bgpq3 from ports.
+
+
+<h3 id="r20190626">2019/06/26 - [ports] gzdoom incompatibles with old saves</h3>
+
+gzdoom was updated to 4.1.2 which makes it incompatible with previously saved games.
+There is no upstream solution.
+
+
 <!--
      Two blank lines before new sections.
      New sentences start on new lines.
@@ -102,4 +151,4 @@ https://acme-v02.api.letsencrypt.org/directory
 -->
 
 <hr id="end">
-<small>$OpenBSD: current.html,v 1.997 2019/06/07 08:16:17 florian Exp $</small>
+<small>$OpenBSD: current.html,v 1.1005 2019/07/20 11:00:29 jasper Exp $</small>
