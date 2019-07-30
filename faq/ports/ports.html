@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang=en id=faq>
+<html lang=ru id=faq>
 
 <!-- If you make edits to any FAQ documents, please start each sentence
      on a new line, and try to keep the general formatting consistent
      with the rest of the pages -->
 
-<title>OpenBSD Ports: Working with Ports</title>
+<title>Порты OpenBSD: работаем с портами</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../../openbsd.css">
@@ -43,33 +43,32 @@ PERFORMANCE OF THIS DOCUMENTATION
 <h2 id=OpenBSD>
 <a href="../../index.html">
 <i>Open</i><b>BSD</b></a>
-Ports - Working with Ports
+Порты - работаем с портами
 <small>
-<a href="index.html">[Handbook Index]</a>
+<a href="index.html">[Порты - на главную]</a>
 </small>
 </h2>
 <hr>
 
 <ul>
-  <li><a href="#PortsIntro"   >Introduction</a>
-  <li><a href="#PortsFetch"   >Fetching the Ports Tree</a>
-  <li><a href="#PortsConfig"  >Configuration of the Ports System</a>
-  <li><a href="#PortsSearch"  >Searching the Ports Tree</a>
-  <li><a href="#PortsInstall" >Straightforward Installation:
-                               A Simple Example</a>
-  <li><a href="#PortsClean"   >Cleaning Up After a Build</a>
-  <li><a href="#PortsDelete"  >Uninstalling a Port's Package</a>
-  <li><a href="#PortsFlavors" >Using Flavors and Subpackages</a>
-  <li><a href="#dpb"          >Using dpb to Build Multiple Ports</a>
-  <li><a href="#PortsSecurity">Security Updates (-stable)</a>
-  <li><a href="#PkgSig"       >Package Signatures</a>
-  <li><a href="#Problems"     >Reporting Problems</a>
-  <li><a href="#Helping"      >Helping Us</a>
+  <li><a href="#PortsIntro"   >Введение</a>
+  <li><a href="#PortsFetch"   >Скачиваем дерево портов</a>
+  <li><a href="#PortsConfig"  >Настройка системы портов</a>
+  <li><a href="#PortsSearch"  >Поиск дерева портов</a>
+  <li><a href="#PortsInstall" >Установка: простой пример</a>
+  <li><a href="#PortsClean"   >Отчистка после собрки</a>
+  <li><a href="#PortsDelete"  >Удаление пакета портов</a>
+  <li><a href="#PortsFlavors" >Использование Flavors и Subpackages</a>
+  <li><a href="#dpb"          >Использование dpb для сборки Multiple портов</a>
+  <li><a href="#PortsSecurity">Обновление безопасности (-stable)</a>
+  <li><a href="#PkgSig"       >Сигнатуры пакетов</a>
+  <li><a href="#Problems"     >Сообщить об ошибке</a>
+  <li><a href="#Helping"      >Как нам помочь</a>
 </ul>
 
 <hr>
 
-<h2 id="PortsIntro">Introduction</h2>
+<h2 id="PortsIntro">Введение</h2>
 
 The ports tree is meant for advanced users.
 <b>Everyone is encouraged to use the pre-compiled binary packages.</b>
@@ -159,7 +158,7 @@ More information about the ports system may be found in these man pages:
   (installation directory) framework, etc.
 </ul>
 
-<h2 id="PortsFetch">Fetching the Ports Tree</h2>
+<h2 id="PortsFetch">Скачиваем дерево портов</h2>
 
 Once you have decided which flavor of the ports tree you want, you can
 get it from different sources.
@@ -227,7 +226,7 @@ For more information about obtaining the ports tree via CVS, read the
 <a href="../../anoncvs.html">AnonCVS page</a>, which contains a list of
 available servers and a number of examples.
 
-<h2 id="PortsConfig">Configuration of the Ports System</h2>
+<h2 id="PortsConfig">Настройка системы портов</h2>
 
 This section introduces some additional global settings for building ports.
 You can skip it, but then you will be required to perform many of the
@@ -273,7 +272,7 @@ working directories as a regular user.
 Again, ports can be <i>built</i> as a user, but must be <i>installed</i>
 by root or with <a href="https://man.openbsd.org/doas">doas(1)</a>.
 
-<h2 id="PortsSearch">Searching the Ports Tree</h2>
+<h2 id="PortsSearch">Поиск дерева портов</h2>
 
 Once you have the ports tree and the portslist package in place on your 
 system, it becomes very easy to search for software.
@@ -345,7 +344,7 @@ The above is still a very basic search.
 With SQL, just about anything can be searched for, including dependencies,
 configure flags, shared libraries, etc.
 
-<h2 id="PortsInstall">Straightforward Installation: A Simple Example</h2>
+<h2 id="PortsInstall">Установка: простой пример</h2>
 
 For clarity's sake, let's consider a simple example: rsnapshot.
 This application has several build dependencies: devel/autoconf/2.69
@@ -428,7 +427,7 @@ this usually has one of two causes:
   <li>You simply don't have enough RAM.
 </ul>
 
-<h2 id="PortsClean">Cleaning Up After a Build</h2>
+<h2 id="PortsClean">Отчистка после собрки</h2>
 
 You probably want to clean the port's default working directory after
 you have built the package and installed it.
@@ -473,7 +472,7 @@ from <code>auto</code> to <code>Yes</code>.
 $ <b>make package BULK=Yes</b>
 </pre>
 
-<h2 id="PortsDelete">Uninstalling a Port's Package</h2>
+<h2 id="PortsDelete">Удаление пакета портов</h2>
 
 It is very easy to uninstall a port:
 
@@ -496,7 +495,7 @@ $ <b>make clean=packages</b>
 rm -f /usr/ports/packages/amd64/all/rsnapshot-1.4.2.tgz
 </pre>
 
-<h2 id="PortsFlavors">Using Flavors and Subpackages</h2>
+<h2 id="PortsFlavors">Использование Flavors и Subpackages</h2>
 
 Please read the <a href="https://man.openbsd.org/ports">ports(7)</a>
 man page, which gives a good overview of this topic.
@@ -589,7 +588,7 @@ The subpackages mechanism only handles packages.
 It does not modify any configuration options before building the port.
 You must use flavors for that purpose.
 
-<h2 id="dpb">Using dpb to Build Multiple Ports</h2>
+<h2 id="dpb">Использование dpb для сборки Multiple портов</h2>
 
 When you need to build more than one or two ports at a time, you can
 use the <code>/usr/ports/infrastructure/bin/dpb</code> tool.
@@ -627,7 +626,7 @@ This is the recommended way to use it, but it can also run as a regular user.
 Additionally, the <a href="https://man.openbsd.org/proot">proot(1)</a> utility
 can be used to further isolate building operations.
 
-<h2 id="PortsSecurity">Security Updates (-stable)</h2>
+<h2 id="PortsSecurity">Обновление безопасности (-stable)</h2>
 
 When serious bugs or security flaws are discovered in third party software,
 they are fixed in the -stable branch of the ports tree.
@@ -641,7 +640,7 @@ You can keep your tree up to date with <a href="../../anoncvs.html">CVS</a>
 and subscribe to the ports-changes <a href="../../mail.html">mailing list</a>
 to receive security announcements related to software in the ports tree.
 
-<h2 id="PkgSig">Package Signatures</h2>
+<h2 id="PkgSig">Сигнатуры пакетов</h2>
 
 Signatures are a good way to make sure packages are legitimate and not
 corrupted.
@@ -673,7 +672,7 @@ In order to install the package on another machine,
 the public key <code>my-pkg.pub</code> should be put into
 the <code>/etc/signify</code> directory on that machine.
 
-<h2 id="Problems">Reporting Problems</h2>
+<h2 id="Problems">Сообщить об ошибке</h2>
 
 If you have trouble with an existing port, please send an email to the
 port maintainer.
@@ -739,7 +738,7 @@ Alternatively, you can:
   the various files produced by <code>gcc -save-temps</code>.
 </ul>
 
-<h2 id="Helping">Helping Us</h2>
+<h2 id="Helping">Как нам помочь</h2>
 
 There are many ways you can help.
 They are listed below, by increasing order of difficulty.
