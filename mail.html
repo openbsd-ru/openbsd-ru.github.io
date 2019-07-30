@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang=en>
+<meta charset=utf-8>
+
+<title>OpenBSD: Mailing Lists</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/mail.html">
+<style>
+h2 {
+	color: var(--red);
+}
+</style>
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+Mailing Lists
+</h2>
+
+<hr>
+
+<p>
+Mailing lists are an important means of communication among users and
+developers of OpenBSD.
+With the exception of <b>announce</b>, the lists are not moderated.
+We deliberately restrict the number of different mailing lists.
+This helps reduce the amount of cross-posting and makes sure that
+the information gets distributed to a wide audience.
+
+<h2 id="Netiquette">Netiquette</h2>
+
+<p>
+Be considerate of other subscribers on the mailing lists.
+
+<dl>
+<dt><b>Plain text, 72 characters per line</b>
+<dd>Many subscribers and developers read their mail on text-based mailers
+like <a href="https://man.openbsd.org/mail">mail(1)</a>,
+emacs or mutt, and they often find HTML-formatted messages (or lines that
+stretch beyond 72 characters) unreadable.
+Most OpenBSD mailing lists strip messages of MIME content before sending
+them out to the rest of the list.
+If you don't use plain text, your messages will be reformatted.
+If they cannot be reformatted, they will be summarily rejected.
+The only mailing lists that allow file attachments are the <b>bugs</b>,
+<b>ports</b> and <b>tech</b> lists.
+They will be removed from messages on the others.
+<p>
+
+<dt><b>Do your homework before you post</b>
+<dd>If you have an installation question, make sure that you have read
+the relevant documents, such as the <code>INSTALL.*</code> text files in the
+installation directories, the <a href="faq/index.html">FAQ</a> and the
+relevant man pages (start with
+<a href= "https://man.openbsd.org/afterboot">afterboot(8)</a>).
+Also check the mailing list archives.
+We want to help, but we wouldn't want to deprive you of a valuable
+learning experience, and no one wants to see the same question on the
+lists for the fifth time in a month.
+<p>
+
+<dt><b>Include a useful Subject line</b>
+<dd>Messages with an empty Subject will get bounced to the list manager and
+will take longer to show up.
+Including a relevant Subject in the message will ensure that more people
+actually read what you've written.
+Also, avoid Subject lines with excessive capitalization.
+"Help!" or "I can't get it to work!" are not useful subject lines.
+Do not change the subject line while on the same topic.
+YOU may know what it is regarding, the rest of us who get several hundred
+messages a day will have no idea.
+<p>
+
+<dt><b>Trim your signature</b>
+<dd>Keep the signature lines at the bottom of your mail to a reasonable length.
+PGP signatures and those automatic address cards are merely annoying and
+are stripped out.
+Legal disclaimers and advisories are also very annoying, and inappropriate
+for public mailing lists.
+<p>
+
+<dt><b>Stay on topic</b>
+<dd>Please keep the subject of the post relevant to users of OpenBSD.
+<p>
+
+<dt><b>Include important information</b>
+<dd>Don't waste everyone's time with a hopelessly incomplete question.
+No one other than you has the information needed to resolve your
+problem, it is better to provide more information than needed than not
+enough detail.
+All questions should include at least the <a href="faq/faq5.html#Flavors">
+version</a> of OpenBSD.
+Any hardware-related questions should mention the platform (i386, amd64,
+etc.) and provide a full <a href="https://man.openbsd.org/dmesg">dmesg(8)</a>.
+Hardware model numbers, unfortunately, don't indicate much about the
+actual content of a particular machine or accessory, and are useless to
+anyone who doesn't have that exact machine sitting where they can easily
+recognize it.
+The dmesg output tells us exactly what is IN your machine, not what
+stickers are on the outside.
+<p>
+
+<dt><b>Respect differences in opinion and philosophy</b>
+<dd>Intelligent people may look at the same set of facts and come to very
+different conclusions.
+Repeating the same points that didn't convince someone previously rarely
+changes their mind, and irritates all the other readers.
+</dl>
+
+<h2 id="spam">Spam</h2>
+
+<p>
+The OpenBSD lists use <a href="https://man.openbsd.org/spamd">spamd(8)</a>
+and <a href="https://spamassassin.apache.org">SpamAssassin</a> to keep down the
+spam volume, but things do sneak through from time to time &mdash; deal with it.
+In addition, the list server also has regex-based rules to reject emails
+based on some common spam and virus telltales.
+If you get spam through one of the OpenBSD mailing lists, you don't need to
+send a copy to the list owner &mdash; chances are he's already seen it.
+Also, please do <b>not</b> submit spam received through the
+mailing lists to <a href="http://spamcop.net">spamcop</a>,
+as this will result in the list server being added to their RBL.
+Complaining about and commenting upon spam on the list proper is
+counter-productive, as it generates more traffic than the spam itself.
+
+<p>
+Note that if you are sending mail from a dynamic IP address, you
+will probably <b>not</b> be able to post to the mailing lists.
+In this case, you should use a <em>smart host</em> mail configuration
+that utilizes your ISP's mail server.
+See the examples in
+<a href="https://man.openbsd.org/smtpd.conf">smtpd.conf(5)</a> for how
+to do this.
+
+<h2 id="Lists">General interest lists</h2>
+
+<p>
+These lists are of interest to most users of OpenBSD.
+
+<dl>
+<dt><b>announce@openbsd.org</b>
+<dd>Announcements and security advisories.
+<br>
+(<a href="https://marc.info/?l=openbsd-announce">Archive</a>)
+<p>
+
+<dt><b>misc@openbsd.org</b>
+<dd>User questions and answers, general questions.
+This is the most active list.
+Please read <a href="faq/index.html">the FAQ</a> and the installation
+documents, and see <a href="report.html">how to report a problem</a>
+before posting.
+<br>
+(<a href="https://marc.info/?l=openbsd-misc">Archive</a>)
+<p>
+
+<dt><b>advocacy@openbsd.org</b>
+<dd>Promoting the use of OpenBSD.
+<br>
+(<a href="https://marc.info/?l=openbsd-advocacy">Archive</a>)
+<p>
+
+<dt><b>ports@openbsd.org</b>
+<dd>Discussions about using and contributing to the ports tree.
+<br>
+(<a href="https://marc.info/?l=openbsd-ports">Archive</a>)
+<p>
+
+<dt><b>misc@opensmtpd.org</b>
+<dd>General discussions, issues and ideas about native and portable OpenSMTPD.
+Patches for the portable bits should be pull requests on
+<a href="https://github.com/OpenSMTPD/OpenSMTPD">Github</a>.
+<br>
+(<a href="https://www.mail-archive.com/misc@opensmtpd.org">Archive</a>)
+<p>
+
+<dt><b>users@openbgpd.org</b>
+<!-- XXX need archive link -->
+<dd>General discussions, issues and ideas about native and portable OpenBGPD.
+Patches for the portable bits should be pull requests on
+<a href="https://github.com/openbgpd-portable/openbgpd-portable">Github</a>.
+</dl>
+
+<h3>Developer lists</h3>
+
+<p>
+These lists are for technical discussions of aspects of OpenBSD.
+They are NOT for beginners or average users, they are not for problem
+reporting (unless you are including a good fix) and they are not for
+installation problems.
+If you have any question about if a message should be posted to any of
+these lists, it probably should not.
+Use <b>misc</b> instead.
+
+<dl>
+<dt><b>bugs@openbsd.org</b>
+<dd>Bug reports as sent in via
+<a href="https://man.openbsd.org/sendbug">sendbug(1)</a> and follow-up discussion.
+<br>
+(<a href="https://marc.info/?l=openbsd-bugs">Archive</a>)
+<p>
+
+<dt><b>tech@openbsd.org</b>
+<dd>Discussion of technical topics for OpenBSD developers and advanced users.
+This is <b>not</b> a "tech support" forum &mdash; do not use it as such.
+OpenBSD developers will often make patches to implement new features
+and other important changes available for public testing through this list.
+<br>
+(<a href="https://marc.info/?l=openbsd-tech">Archive</a>)
+<p>
+
+<dt><b>libressl@openbsd.org</b>
+<dd>Technical discussion about native and portable LibreSSL.
+Patches for the portable bits should be pull requests on
+<a href="https://github.com/libressl-portable/portable">Github</a>.
+<br>
+(<a href="https://marc.info/?l=libressl">Archive</a>)
+</dl>
+
+<h3>Reporting security issues</h3>
+
+These private addresses are for reporting vulnerabilities to the OpenBSD team.
+
+<dl>
+<dt><b>security@openbsd.org</b>
+<dd>Report vulnerabilities related to OpenBSD.
+<p>
+<dt><b>openssh@openssh.com</b>
+<dd>Report vulnerabilities related to OpenSSH.
+<p>
+<dt><b>libressl-security@openbsd.org</b>
+<dd>Report vulnerabilities related to LibreSSL.
+<p>
+<dt><b>security@opensmtpd.org</b>
+<dd>Report vulnerabilities related to OpenSMTPD.
+</dl>
+
+<h3>Platform-specific lists</h3>
+
+<p>
+These lists are focused on user issues and development on individual
+platforms.
+
+<dl>
+<dt><b>alpha@openbsd.org</b>
+<dd>OpenBSD/alpha port.
+<br>
+(<a href="https://marc.info/?l=openbsd-alpha">Archive</a>)
+<p>
+
+<dt><b>arm@openbsd.org</b>
+<dd>OpenBSD/armv7 and OpenBSD/arm64 ports.
+<br>
+(<a href="https://marc.info/?l=openbsd-arm">Archive</a>)
+<p>
+
+<dt><b>hppa@openbsd.org</b>
+<dd>OpenBSD/hppa port.
+<br>
+(<a href="https://marc.info/?l=openbsd-hppa">Archive</a>)
+<p>
+
+<dt><b>m88k@openbsd.org</b>
+<dd>OpenBSD/luna88k port.
+<br>
+(<a href="https://marc.info/?l=openbsd-m88k">Archive</a>)
+<p>
+
+<dt><b>ppc@openbsd.org</b>
+<dd>OpenBSD/macppc and other PowerPC porting efforts.
+<br>
+(<a href="https://marc.info/?l=openbsd-ppc">Archive</a>)
+<p>
+
+<dt><b>sgi@openbsd.org</b>
+<dd>OpenBSD/sgi port.
+<br>
+(<a href="https://marc.info/?l=openbsd-sgi">Archive</a>)
+<p>
+
+<dt><b>sparc@openbsd.org</b>
+<dd>OpenBSD/sparc64 port.
+<br>
+(<a href="https://marc.info/?l=openbsd-sparc">Archive</a>)
+
+</dl>
+
+<h2>CVS changes mailing lists</h2>
+
+Every time a developer commits a change to the OpenBSD CVS tree, a message
+is mailed out to all the subscribers of these lists, containing the commit
+comments.
+
+<dl>
+<dt><b>source-changes@openbsd.org</b>
+<dd>Automated mail of CVS source tree changes in the src, xenocara and www
+repositories.
+<br>
+(<a href="https://marc.info/?l=openbsd-cvs">Archive</a>)
+<p>
+
+<dt><b>ports-changes@openbsd.org</b>
+<dd>Automated mail of CVS source tree changes in the ports repository.
+<br>
+(<a href="https://marc.info/?l=openbsd-ports-cvs">Archive</a>)
+
+</dl>
+
+<h2 id="Mirrors">Mirror-related lists</h2>
+
+Announcements and discussion relating to <a href="ftp.html">mirrors</a>
+of OpenBSD.
+
+<dl>
+<dt><b>mirrors-announce@openbsd.org</b>
+<dd>This is a moderated list used solely for important announcements
+to operators of OpenBSD mirrors.
+<!-- XXX need archive link -->
+<p>
+
+<dt><b>mirrors-discuss@openbsd.org</b>
+<dd>Discussion relating to OpenBSD mirrors.
+<!-- XXX need archive link -->
+
+</dl>
+
+<h2 id="Majordomo">Managing list membership via Majordomo</h2>
+
+<p>
+If you want to be sent a complete list with all mailing lists available
+at openbsd.org, send the command <code>lists</code> in the body of
+a message to
+<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>.
+
+<p>
+To subscribe to a given list, send mail to
+<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>
+with a message body of "subscribe <code>mailing-list-name</code>" (where
+<code>mailing-list-name</code> is the name of your preferred list).
+
+<p>
+For further assistance, send a message body of "help" to
+<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>
+and you will receive a reply outlining all your options.
+Your domain <b>must</b> resolve properly or the mail will not go through!
+
+<h2 id="Web">Managing list membership via the web</h2>
+
+<p>
+Your membership to the OpenBSD mailing lists can also be managed via
+a web interface at <a href="https://lists.openbsd.org">lists.openbsd.org</a>.
+
+<h2 id="Tricks">Mailing list tricks</h2>
+
+<p>
+There are a number of very useful options that can be selected, either
+by the <a href="https://lists.openbsd.org">web interface</a> or through
+<a href="mailto:majordomo@openbsd.org">Majordomo</a>.
+You can change your email address without having to unsubscribe and
+resubscribe, temporarily disable your message delivery for a few days
+while you go on vacation, and much more.
+The user is invited to spend some time reading through the options, available
+by sending <a href="mailto:majordomo@openbsd.org">Majordomo</a> a message
+containing "help" as the body text, or through the "Help" tab of the
+<a href="https://lists.openbsd.org">web interface</a>.
+
+<p>
+As an example, if you were going on vacation for two weeks and didn't
+wish to come back to several thousand emails, you can disable message
+delivery by the mail server for the time of your vacation and have
+delivery automatically resume upon your scheduled return using the command:
+
+<blockquote><kbd>
+set ALL nomail-14d
+</kbd></blockquote>
+
+<p>
+This will suspend your subscription to all mailing lists for 14 days
+(<code>-14d</code>).
+More details and options can be seen on the
+<a href="http://lists.openbsd.org/cgi-bin/mj_wwwusr?&amp;user=&amp;passw=&amp;list=GLOBAL&amp;func=help&amp;extra=overview">
+Majordomo overview page</a>.
+
+<h3>Digests</h3>
+
+<p>
+If you would prefer to see a "digest" (a consolidated listing of all the
+messages for a time period), rather than getting messages individually
+in "real-time" form, you can use the commands:
+
+<blockquote><kbd>
+set misc digest-daily<br>
+set source-changes digest-weekly
+</kbd></blockquote>
+
+for daily digests of the <b>misc</b> list, and weekly digests of the
+<b>source-changes</b> list.
+Yes, multiple commands can be placed in one Majordomo email.
+
+<h2 id="OtherLists">Other mailing lists</h2>
+
+<p>
+The fine folks at <a href="http://www.squish.net/openbsd/">squish.net</a> run
+mailing lists with daily and weekly digests of the OpenBSD <b>source-changes</b>
+and <b>ports-changes</b> mailing list.
+This is handy for those who don't like the typically high volume of these lists.
+
+<p>
+The insomniac at <a href="https://www.benzedrine.ch/mailinglist.html">
+benzedrine.ch</a> maintains the <b>pf</b> list for people using the
+OpenBSD packet filter.
+To subscribe, send an email with the message body of "subscribe" to
+<a href="mailto:pf-request@benzedrine.ch">pf-request@benzedrine.ch</a>.
+
+<h2 id="nonEnglish">Non-English lists</h2>
+
+<p>
+Several non-English speaking mailing lists related to OpenBSD are available
+separately.
+Here is a list of the currently known mailing lists:
+
+<!--
+ PLEASE KEEP THIS LIST SORTED, EXCEPT FOR TRANSLATIONS, WHERE YOU SHOULD PUT
+ THE LIST IN YOUR LANGUAGE, IF ONE EXISTS, HEAD OF LIST.
+ -->
+
+<p>
+Japanese:
+<b>openbsd-japan@googlegroups.com</b>
+<br>To subscribe, visit the URL at:
+<a href="https://groups.google.com/group/openbsd-japan">
+https://groups.google.com/group/openbsd-japan</a>
+
+<p>
+Spanish:
+<b>OpenBSD-Mexico@googlegroups.com</b>
+<br>To subscribe, visit the URL at:
+<a href="https://groups.google.com/group/OpenBSD-Mexico">
+https://groups.google.com/group/OpenBSD-Mexico</a>
+
+<p>
+Ukrainian:
+<b>openbsd@uaoug.org.ua</b>
+<br>To subscribe, send an empty message to
+<a href="mailto:openbsd+subscribe@uaoug.org.ua">
+openbsd+subscribe@uaoug.org.ua</a>
