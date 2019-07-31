@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang=en>
+<html lang=ru>
 <meta charset=utf-8>
 
-<title>OpenBSD: Mailing Lists</title>
+<title>OpenBSD: Почтовые рассылки</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
 <link rel="canonical" href="https://www.openbsd.org/mail.html">
@@ -15,76 +15,74 @@ h2 {
 <h2 id=OpenBSD>
 <a href="index.html">
 <i>Open</i><b>BSD</b></a>
-Mailing Lists
+Почтовые рассылки
 </h2>
 
 <hr>
 
 <p>
-Mailing lists are an important means of communication among users and
-developers of OpenBSD.
-With the exception of <b>announce</b>, the lists are not moderated.
-We deliberately restrict the number of different mailing lists.
-This helps reduce the amount of cross-posting and makes sure that
-the information gets distributed to a wide audience.
+Списки рассылки являются важным средством общения пользователей и
+разработчиков OpenBSD. За исключением <b>announce</b>, почтовые рассылки
+не модерируются. Мы сознательно ограничиваем количество рассылок.
+Это помогает снизить объем перекрестных публикаций (cross-posting) и
+обеспечивает удобное распространение информации среди широкой аудитории.
 
-<h2 id="Netiquette">Netiquette</h2>
+<h2 id="Netiquette">Нетикет (Netiquette)</h2>
 
 <p>
-Be considerate of other subscribers on the mailing lists.
+Думайте и будьте внимательны к другим подписчикам.
 
 <dl>
-<dt><b>Plain text, 72 characters per line</b>
-<dd>Many subscribers and developers read their mail on text-based mailers
-like <a href="https://man.openbsd.org/mail">mail(1)</a>,
-emacs or mutt, and they often find HTML-formatted messages (or lines that
-stretch beyond 72 characters) unreadable.
-Most OpenBSD mailing lists strip messages of MIME content before sending
-them out to the rest of the list.
-If you don't use plain text, your messages will be reformatted.
-If they cannot be reformatted, they will be summarily rejected.
-The only mailing lists that allow file attachments are the <b>bugs</b>,
-<b>ports</b> and <b>tech</b> lists.
-They will be removed from messages on the others.
+<dt><b>Plain text, 72 символа в строке</b>
+<dd>Многие подписчики и разработчики читают свою почту такими консольными
+почтовыми клиентами как <a href="https://man.openbsd.org/mail">mail(1)</a>,
+emacs или mutt, для которых сообщения в формате HTML (или просто строки
+длиной более 72 символов) могут быть неудобными для чтения.
+
+Большинство почтовых рассылок OpenBSD обрезают сообщения в формате MIME
+прежде чем послать их подписчикам.
+Если вы не используете plain text, ваше сообщение будет переформатировано.
+Если этого сделать не удалось, это письмо будет отброшено.
+Единственными почтовыми рассылками, в которых разрешается испрользовать
+вложения (attachments), являются <b>bugs</b>, <b>ports</b> и <b>tech</b>.
+В других рассылках прикрепленные файлы будут удалены.
 <p>
 
-<dt><b>Do your homework before you post</b>
-<dd>If you have an installation question, make sure that you have read
-the relevant documents, such as the <code>INSTALL.*</code> text files in the
-installation directories, the <a href="faq/index.html">FAQ</a> and the
-relevant man pages (start with
-<a href= "https://man.openbsd.org/afterboot">afterboot(8)</a>).
-Also check the mailing list archives.
-We want to help, but we wouldn't want to deprive you of a valuable
-learning experience, and no one wants to see the same question on the
-lists for the fifth time in a month.
+<dt><b>Прежде чем задать вопрос, попытайтесь самим найти ответ</b>
+<dd>
+Если у вас вопрос касательно установки, убедитесь, что вы ознакомились
+с документацией - прочитали файлы <code>INSTALL.*</code> в соответствующих
+каталогах, поискали ответ в <a href="faq/index.html">FAQ</a> и man-страницах
+(начиная с <a href= "https://man.openbsd.org/afterboot">afterboot(8)</a>).
+Помимо этого, проверьте архивы почтовых рассылок.
+Мы хотим вам помочь, но мы не хотели бы лишать вас ценного опыта обучения,
+да и никто не хочет видеть один и тот же вопрос по 15 раз за месяц.
 <p>
 
-<dt><b>Include a useful Subject line</b>
-<dd>Messages with an empty Subject will get bounced to the list manager and
-will take longer to show up.
-Including a relevant Subject in the message will ensure that more people
-actually read what you've written.
-Also, avoid Subject lines with excessive capitalization.
-"Help!" or "I can't get it to work!" are not useful subject lines.
-Do not change the subject line while on the same topic.
-YOU may know what it is regarding, the rest of us who get several hundred
-messages a day will have no idea.
+<dt><b>Используйте осмысленную тему сообщения</b>
+<dd>Письма с пустой темой (Subject) не будут отправлены в рассылку.
+Использование правильно придуманной темы гарантирует, что ваше сообщение
+прочитает больше людей.
+Избегайте чрезмерного количества заглавных букв в теме.
+"Help!" или "I can't get it to work!" далеко не самые лучшие варианты.
+Ни в коем случае не меняйте название темы, когда учавствуете в том же самом
+обсуждении, теме.
+Помните, что только ВЫ знаете о чем именно идет речь. Остальные из нас, кто
+читает по сотни писем в день, понятия не имеют об этом.
 <p>
 
-<dt><b>Trim your signature</b>
-<dd>Keep the signature lines at the bottom of your mail to a reasonable length.
-PGP signatures and those automatic address cards are merely annoying and
-are stripped out.
-Legal disclaimers and advisories are also very annoying, and inappropriate
-for public mailing lists.
+<dt><b>Ограничьте размер подписи</b>
+<dd>Используйте подпись разумных размеров.
+PGP сигнатуры и эти автоматические адресные подписи раздражают и удаляются.
+Правовые оговорки и рекомендации также очень раздражают и только захламляют
+информационное поле, поэтому не подходят для почтовых рассылок.
 <p>
 
-<dt><b>Stay on topic</b>
-<dd>Please keep the subject of the post relevant to users of OpenBSD.
+<dt><b>Придерживайтесь темы</b>
+<dd>Пожалуйста, старайтесь придерживаться тем, относящихся к OpenBSD.
 <p>
 
-<dt><b>Include important information</b>
+<dt><b>Указывайие важные детали</b>
 <dd>Don't waste everyone's time with a hopelessly incomplete question.
 No one other than you has the information needed to resolve your
 problem, it is better to provide more information than needed than not
@@ -101,56 +99,59 @@ The dmesg output tells us exactly what is IN your machine, not what
 stickers are on the outside.
 <p>
 
-<dt><b>Respect differences in opinion and philosophy</b>
-<dd>Intelligent people may look at the same set of facts and come to very
-different conclusions.
-Repeating the same points that didn't convince someone previously rarely
-changes their mind, and irritates all the other readers.
+<dt><b>Уважайте другие философии и мнения, отличные от ваших</b>
+<dd>Интеллигентные люди могут смотреть на один и тот же набор фактов и
+при этом делать совершенно разные выводы.
+Повторение того, о чем уже говорилось в теме, пунктов, которые ранее не
+убеждали кого-то, редко меняет их мнение и раздражает всех остальных
+читателей.
 </dl>
 
-<h2 id="spam">Spam</h2>
+<h2 id="spam">Спам</h2>
 
 <p>
-The OpenBSD lists use <a href="https://man.openbsd.org/spamd">spamd(8)</a>
-and <a href="https://spamassassin.apache.org">SpamAssassin</a> to keep down the
-spam volume, but things do sneak through from time to time &mdash; deal with it.
-In addition, the list server also has regex-based rules to reject emails
-based on some common spam and virus telltales.
-If you get spam through one of the OpenBSD mailing lists, you don't need to
-send a copy to the list owner &mdash; chances are he's already seen it.
-Also, please do <b>not</b> submit spam received through the
-mailing lists to <a href="http://spamcop.net">spamcop</a>,
-as this will result in the list server being added to their RBL.
-Complaining about and commenting upon spam on the list proper is
-counter-productive, as it generates more traffic than the spam itself.
+Почтовые рассылки OpenBSD используют
+<a href="https://man.openbsd.org/spamd">spamd(8)</a> и
+<a href="https://spamassassin.apache.org">SpamAssassin</a>, чтобы уменьшить
+количество спама, но иногда он все же проскакивает &mdash; смиритесь с этим.
+В добавок к этому, на сервере также имеется regex-правила для выявления
+писем, содержащих выражения, часто используемые спамом и другой нечести.
+Если вы все же получили спам из какой-либо рассылки OpenBSD, совсем не
+обязательно пересылать его копию владельцу рассылки &mdash; скорее всего
+он уже его видел.
+Также, пожалуйста, не отправляйте спам, полученный из рассылки, в
+<a href="http://spamcop.net">spamcop</a>, так как это приведет к
+добавлению нашего сервера в список их RBL.
+Жаловаться на спам и комментировать случившееся нежелательно,
+так как это создаст больше трафика, чем сам спам.
 
 <p>
-Note that if you are sending mail from a dynamic IP address, you
-will probably <b>not</b> be able to post to the mailing lists.
-In this case, you should use a <em>smart host</em> mail configuration
-that utilizes your ISP's mail server.
-See the examples in
-<a href="https://man.openbsd.org/smtpd.conf">smtpd.conf(5)</a> for how
-to do this.
+Не забудьте, что если вы шлете письма с динамических IP адресов, у вас
+<b>не получится</b> добавить свои письма в рассылку.
+В этом случае вам следует использовать почтовую конфигурацию
+<em>промежуточного узла</em>, которая использует почтовый сервер
+вашего провайдера. Смотрите примеры в
+<a href="https://man.openbsd.org/smtpd.conf">smtpd.conf(5)</a>, чтобы
+узнать, как это сделать.
 
-<h2 id="Lists">General interest lists</h2>
+<h2 id="Lists">Списки общих интересов</h2>
 
 <p>
-These lists are of interest to most users of OpenBSD.
+Эти почтовые рассылки интересны большинству пользователей OpenBSD.
 
 <dl>
 <dt><b>announce@openbsd.org</b>
-<dd>Announcements and security advisories.
+<dd>Важные объявления, в том числе касающиеся безопасности.
 <br>
 (<a href="https://marc.info/?l=openbsd-announce">Archive</a>)
 <p>
 
 <dt><b>misc@openbsd.org</b>
-<dd>User questions and answers, general questions.
-This is the most active list.
-Please read <a href="faq/index.html">the FAQ</a> and the installation
-documents, and see <a href="report.html">how to report a problem</a>
-before posting.
+<dd>Вопросы и ответы пользователей, общие вопросы. Это самая активная
+рассылка. Прежде чем спросить что-то, пожалуйста,
+<a href="faq/index.html">прочитайте FAQ</a> и документы по установке,
+а также ознакомьтесь с
+<a href="report.html">правилами по отправке bugreport'ов</a>.
 <br>
 (<a href="https://marc.info/?l=openbsd-misc">Archive</a>)
 <p>
@@ -162,14 +163,14 @@ before posting.
 <p>
 
 <dt><b>ports@openbsd.org</b>
-<dd>Discussions about using and contributing to the ports tree.
+<dd>Обсуждения, касающиеся использования, улучшения и вообще работы над портами.
 <br>
 (<a href="https://marc.info/?l=openbsd-ports">Archive</a>)
 <p>
 
 <dt><b>misc@opensmtpd.org</b>
-<dd>General discussions, issues and ideas about native and portable OpenSMTPD.
-Patches for the portable bits should be pull requests on
+<dd>Обсуждения, вопросы и идеи, касательно обоих версий OpenSMTPD.
+Патчи для портированной версии мы ожидаем в виде pull request'ов в
 <a href="https://github.com/OpenSMTPD/OpenSMTPD">Github</a>.
 <br>
 (<a href="https://www.mail-archive.com/misc@opensmtpd.org">Archive</a>)
@@ -177,70 +178,74 @@ Patches for the portable bits should be pull requests on
 
 <dt><b>users@openbgpd.org</b>
 <!-- XXX need archive link -->
-<dd>General discussions, issues and ideas about native and portable OpenBGPD.
-Patches for the portable bits should be pull requests on
+<dd>Обсуждения, вопросы и идеи, касательно обоих версий OpenBGPD.
+Патчи для портированной версии мы ожидаем в виде pull request'ов в
 <a href="https://github.com/openbgpd-portable/openbgpd-portable">Github</a>.
 </dl>
 
-<h3>Developer lists</h3>
+<h3>Рассылки разработчиков</h3>
 
 <p>
-These lists are for technical discussions of aspects of OpenBSD.
-They are NOT for beginners or average users, they are not for problem
-reporting (unless you are including a good fix) and they are not for
-installation problems.
-If you have any question about if a message should be posted to any of
-these lists, it probably should not.
-Use <b>misc</b> instead.
+Перечисленные ниже рассылки для обсуждений технических аспектов OpenBSD.
+Они НЕ для новичков или продвинутых пользователей, они не для сообщений
+о проблемах (по крайней мере, если у вас нет хорошего патча, которым вы
+хотели бы поделиться) и они не для обсуждений проблем, связанных с установкой.
+Если вы задаетесь вопросом, должны ли вы отправить письмо именно сюда или
+в какую-то другую рассылку, знайте &mdash; в другую рассылку.
+Пишите в <b>misc</b>.
 
 <dl>
 <dt><b>bugs@openbsd.org</b>
-<dd>Bug reports as sent in via
-<a href="https://man.openbsd.org/sendbug">sendbug(1)</a> and follow-up discussion.
+<dd>Отчеты о проблемах (bug reports) генерируемые при помощи
+<a href="https://man.openbsd.org/sendbug">sendbug(1)</a> и последующие их
+обсуждения.
 <br>
 (<a href="https://marc.info/?l=openbsd-bugs">Archive</a>)
 <p>
 
 <dt><b>tech@openbsd.org</b>
-<dd>Discussion of technical topics for OpenBSD developers and advanced users.
-This is <b>not</b> a "tech support" forum &mdash; do not use it as such.
-OpenBSD developers will often make patches to implement new features
-and other important changes available for public testing through this list.
+<dd>Технические обсуждения для разработчиков OpenBSD и опытных пользователей.
+Это <b>не</b> "tech support" портал &mdash; не пишите сюда, если нужна
+помощь. Разработчики OpenBSD используют эту рассылку для опубликовывания
+и обсуждения патчей, разработки новых версий программ и других важных
+изменений, доступных всем желающим с целью их тестирования.
 <br>
 (<a href="https://marc.info/?l=openbsd-tech">Archive</a>)
 <p>
 
 <dt><b>libressl@openbsd.org</b>
-<dd>Technical discussion about native and portable LibreSSL.
-Patches for the portable bits should be pull requests on
+<dd>Рассылка для разработчиков (технических разговоров, обсуждений) обоих версий
+LibreSSL.
+Патчи для портированной версии мы ожидаем в виде pull request'ов в
 <a href="https://github.com/libressl-portable/portable">Github</a>.
 <br>
 (<a href="https://marc.info/?l=libressl">Archive</a>)
 </dl>
 
-<h3>Reporting security issues</h3>
+<h3>Срочные сообщения о проблемах безопасности</h3>
 
-These private addresses are for reporting vulnerabilities to the OpenBSD team.
+Это закрытые от посторонних глаз рассылки для сообщений об
+уязвимостях для команды разработчиков OpenBSD.
 
 <dl>
 <dt><b>security@openbsd.org</b>
-<dd>Report vulnerabilities related to OpenBSD.
+<dd>Сообщения об уязвимостях в OpenBSD.
 <p>
 <dt><b>openssh@openssh.com</b>
-<dd>Report vulnerabilities related to OpenSSH.
+<dd>Сообщения об уязвимостях в OpenSSH.
 <p>
 <dt><b>libressl-security@openbsd.org</b>
-<dd>Report vulnerabilities related to LibreSSL.
+<dd>Сообщения об уязвимостях в LibreSSL.
 <p>
 <dt><b>security@opensmtpd.org</b>
-<dd>Report vulnerabilities related to OpenSMTPD.
+<dd>Сообщения об уязвимостях в OpenSMTPD.
 </dl>
 
-<h3>Platform-specific lists</h3>
+<h3>Рассылки по архитектурно-зависимым темам</h3>
 
 <p>
-These lists are focused on user issues and development on individual
-platforms.
+Обсуждения в этих почтовых рассылках сосредаточенны на пользовательских
+проблемах и разработке для конкретных аппаратных архитектур (платформ).
 
 <dl>
 <dt><b>alpha@openbsd.org</b>
