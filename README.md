@@ -45,7 +45,6 @@ issue.
 | **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
 | **[FAQ#PF_Tables](https://www.openbsd.org/faq/pf/tables.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
 | **[FAQ#PF_Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/tagging.html)|
-| **[Mailing Lists](https://www.openbsd.org/mail.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/mail.html)|
 | **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[-stable](https://www.openbsd.org/stable.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/stable.html)|
