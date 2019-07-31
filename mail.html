@@ -291,72 +291,74 @@ LibreSSL.
 
 </dl>
 
-<h2>CVS changes mailing lists</h2>
+<h2>Рассылка, связанная с изменениями в CVS</h2>
 
-Every time a developer commits a change to the OpenBSD CVS tree, a message
-is mailed out to all the subscribers of these lists, containing the commit
-comments.
+Каждый раз, когда разработчик коммитит что-то в OpenBSD CVS-репозиторий,
+генерируется письмо, содержащее diff, которое отправляется в соответствующую
+рассылку.
 
 <dl>
 <dt><b>source-changes@openbsd.org</b>
-<dd>Automated mail of CVS source tree changes in the src, xenocara and www
-repositories.
+<dd>На этот адреc приходят письма после коммитов в src, xenocara и
+www репозитории.
 <br>
 (<a href="https://marc.info/?l=openbsd-cvs">Архив</a>)
 <p>
 
 <dt><b>ports-changes@openbsd.org</b>
-<dd>Automated mail of CVS source tree changes in the ports repository.
+<dd>На этот адреc приходят письма после коммитов в ports репозиторий.
 <br>
 (<a href="https://marc.info/?l=openbsd-ports-cvs">Архив</a>)
 
 </dl>
 
-<h2 id="Mirrors">Mirror-related lists</h2>
+<h2 id="Mirrors">Рассылка, связанная с темой зеркал (mirrors)</h2>
 
-Announcements and discussion relating to <a href="ftp.html">mirrors</a>
-of OpenBSD.
+Сообщения о новых OpenBSD <a href="ftp.html">зеркалах</a>, а также любые
+обсуждения, связанные с этой темой.
+
 
 <dl>
 <dt><b>mirrors-announce@openbsd.org</b>
-<dd>This is a moderated list used solely for important announcements
-to operators of OpenBSD mirrors.
+<dd>Это модерируемая рассылка, используемая исключительно для важных
+сообщений операторам зеркал OpenBSD.
 <!-- XXX need archive link -->
 <p>
 
 <dt><b>mirrors-discuss@openbsd.org</b>
-<dd>Discussion relating to OpenBSD mirrors.
+<dd>Обсуждения, связанные с зеркалами OpenBSD.
 <!-- XXX need archive link -->
 
 </dl>
 
-<h2 id="Majordomo">Managing list membership via Majordomo</h2>
+<h2 id="Majordomo">Управление рассылками при помощи Majordomo</h2>
 
 <p>
-If you want to be sent a complete list with all mailing lists available
-at openbsd.org, send the command <code>lists</code> in the body of
-a message to
-<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>.
+Если вы хотите получить полный спиcок всех почтовых рассылок, доступных
+на openbsd.org, отправьте команду <code>lists</code> в теле письма
+на <a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>.
 
 <p>
-To subscribe to a given list, send mail to
+Чтобы подписаться на какую-то рассылку, отправьте письмо на адрес
 <a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>
-with a message body of "subscribe <code>mailing-list-name</code>" (where
-<code>mailing-list-name</code> is the name of your preferred list).
+с сообщением "subscribe <code>mailing-list-name</code>" в теле письма
+(где <code>mailing-list-name</code> это имя нужной рассылки).
 
 <p>
-For further assistance, send a message body of "help" to
-<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>
-and you will receive a reply outlining all your options.
-Your domain <b>must</b> resolve properly or the mail will not go through!
+Чтобы получить дополнительную информацию, отправьте письмо с текстом
+"help" на адрес
+<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>,
+и вы получите ответное письмо с описанием всех возможностей.
+Ваш домен <b>ДОЛЖЕН</b> резолвиться без проблем, иначе вы ничего
+не получите!
 
-<h2 id="Web">Managing list membership via the web</h2>
+<h2 id="Web">Управление рассылками через web</h2>
 
 <p>
-Your membership to the OpenBSD mailing lists can also be managed via
-a web interface at <a href="https://lists.openbsd.org">lists.openbsd.org</a>.
+Вашими личными настройками почтовых OpenBSD рассылок можно управлять через
+web-интерфейс на <a href="https://lists.openbsd.org">lists.openbsd.org</a>.
 
-<h2 id="Tricks">Mailing list tricks</h2>
+<h2 id="Tricks">Некоторые трюки</h2>
 
 <p>
 There are a number of very useful options that can be selected, either
@@ -403,27 +405,26 @@ for daily digests of the <b>misc</b> list, and weekly digests of the
 <b>source-changes</b> list.
 Yes, multiple commands can be placed in one Majordomo email.
 
-<h2 id="OtherLists">Other mailing lists</h2>
+<h2 id="OtherLists">Другие почтовые рассылки</h2>
 
 <p>
-The fine folks at <a href="http://www.squish.net/openbsd/">squish.net</a> run
-mailing lists with daily and weekly digests of the OpenBSD <b>source-changes</b>
-and <b>ports-changes</b> mailing list.
-This is handy for those who don't like the typically high volume of these lists.
+Чуваки с <a href="http://www.squish.net/openbsd/">squish.net</a>
+запустили свою рассылку с ежедневными и еженедельными обзорами изменений,
+опубликованных в <b>source-changes</b> и <b>ports-changes</b>.
+Это удобно для тех, кто не хочет получать большой объем писем из этих рассылок.
 
 <p>
-The insomniac at <a href="https://www.benzedrine.ch/mailinglist.html">
-benzedrine.ch</a> maintains the <b>pf</b> list for people using the
-OpenBSD packet filter.
-To subscribe, send an email with the message body of "subscribe" to
+На <a href="https://www.benzedrine.ch/mailinglist.html">benzedrine.cx</a>
+есть почтовая рассылка, посвященная <b>pf</b>, для пользователей, использующих
+packet filter в OpenBSD.
+Чтобы подписаться, отправте письмо с текстом "subscribe" в теле письма на адрес
 <a href="mailto:pf-request@benzedrine.ch">pf-request@benzedrine.ch</a>.
 
-<h2 id="nonEnglish">Non-English lists</h2>
+<h2 id="nonEnglish">Non-English рассылки</h2>
 
 <p>
-Several non-English speaking mailing lists related to OpenBSD are available
-separately.
-Here is a list of the currently known mailing lists:
+Есть несколько неофициальных Non-English почтовых OpenBSD рассылок.
+Вот список некоторых известных нам:
 
 <!--
  PLEASE KEEP THIS LIST SORTED, EXCEPT FOR TRANSLATIONS, WHERE YOU SHOULD PUT
@@ -431,22 +432,22 @@ Here is a list of the currently known mailing lists:
  -->
 
 <p>
-Japanese:
+Японская рассылка:
 <b>openbsd-japan@googlegroups.com</b>
-<br>To subscribe, visit the URL at:
+<br>Чтобы подписаться, загляните на URL адрес:
 <a href="https://groups.google.com/group/openbsd-japan">
 https://groups.google.com/group/openbsd-japan</a>
 
 <p>
-Spanish:
+Испанская рассылка:
 <b>OpenBSD-Mexico@googlegroups.com</b>
-<br>To subscribe, visit the URL at:
+<br>Чтобы подписаться, загляние на URL адрес:
 <a href="https://groups.google.com/group/OpenBSD-Mexico">
 https://groups.google.com/group/OpenBSD-Mexico</a>
 
 <p>
-Ukrainian:
+Украинская рассылка:
 <b>openbsd@uaoug.org.ua</b>
-<br>To subscribe, send an empty message to
+<br>Чтобы подписаться, отправьте пустое письмо на адрес
 <a href="mailto:openbsd+subscribe@uaoug.org.ua">
 openbsd+subscribe@uaoug.org.ua</a>
