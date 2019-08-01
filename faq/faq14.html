@@ -44,109 +44,103 @@ FAQ - Работаем с дисками
 
 <h2 id="intro">Диски и разделы</h2>
 
-The details of setting up disks in OpenBSD vary between
-<a href="../plat.html">platforms</a>, so you should read the instructions in
-your platform's <code>INSTALL.&lt;arch&gt;</code> file.
+Руководство по настройке дисков в OpenBSD варьируется в зависимости
+от используемой <a href="../plat.html">платформы</a>, поэтому вы
+должны ознакомиться с инструкцией в файле <code>INSTALL.&lt;arch&gt;</code>
+в вашей системе.
 
-<h3>Drive Identification</h3>
+<h3>Определение дисков</h3>
 
-On most platforms, OpenBSD handles mass storage with two drivers:
+На большинстве платформ OpenBSD использует два драйвера для работы с почти
+всеми жесткими дисками:
 
 <ul>
   <li><a href="https://man.openbsd.org/wd">wd(4)</a>:
-    IDE-like disks: IDE, SATA, MFM or ESDI disks, or a flash device, attached to
-    a <a href="https://man.openbsd.org/wdc">wdc(4)</a> or a
-    <a href="https://man.openbsd.org/pciide">pciide(4)</a> interface.
+    IDE диски: IDE, SATA, MFM или ESDI диски, или флешки, подключенные
+    к <a href="https://man.openbsd.org/wdc">wdc(4)</a> или
+    <a href="https://man.openbsd.org/pciide">pciide(4)</a> интерфейсу.
   <li><a href="https://man.openbsd.org/sd">sd(4)</a>:
-    SCSI-like disks: Devices that utilize SCSI commands, USB disks, SATA disks
-    attached to an <a href="https://man.openbsd.org/ahci">ahci(4)</a> interface,
-    and disk arrays attached to a RAID controller.
+    SCSI диски: устройства, использующие SCSI комманды, USB диски, SATA диски
+    подключенные к <a href="https://man.openbsd.org/ahci">ahci(4)</a> интерфейсу,
+    и группы дисков (disk arrays), подключенные к RAID контроллеру.
 </ul>
 
-The devices are numbered by the order in which they are detected at boot time,
-starting at zero.
-So, the first IDE-like disk will be <code>wd0</code> and the third SCSI-like
-disk will be <code>sd2</code>.
-Note that OpenBSD will not necessarily number drives in the same order as your
-boot ROM.
+Устройства нумеруются в порядке их обнаружения во время загрузки, начиная с нуля.
+Первый IDE-подобный диск будет <code>wd0</code>, а третий SCSI-подобный диск будет
+<code>sd2</code>. Обратите внимание, что OpenBSD не обязательно нумерует диски в
+том же порядке, что и ваш boot ROM.
 
-<h3>Partitions and Filesystems</h3>
+<h3>Разделы и файловые системы (ФС)</h3>
 
-The term "partition" can mean two different things in OpenBSD:
+Понятие "раздел" (partition) имеют два разных значения в OpenBSD:
 
 <ul>
   <li>
-    <a href="https://man.openbsd.org/disklabel">disklabel(8)</a> partitions,
-    also called filesystem partitions.
+    <a href="https://man.openbsd.org/disklabel">disklabel(8)</a> раздел,
+    который также называют разедом со своей ФС(filesystem partitions).
   <li>
-    <a href="https://man.openbsd.org/fdisk">fdisk(8)</a> partitions, sometimes
-    called Master Boot Record (MBR) partitions.
+    <a href="https://man.openbsd.org/fdisk">fdisk(8)</a> раздел, иногда
+    называемый Master Boot Record (MBR) разделом.
 </ul>
 
-All OpenBSD platforms use the disklabel program as the primary way to manage
-filesystem partitions.
-On the platforms that use fdisk, one MBR partition is used to hold all of the
-OpenBSD filesystems.
-This partition can be sliced into 16 disklabel partitions, labeled
-<code>a</code> through <code>p</code>.
-A few labels are special:
+На всех поддерживаемых платформах OpenBSD использует программу disklabel как
+основной метод управления ФС разделами.
+На платформах, использующих fdisk, один раздел MBR используется для хранения
+всех файловых систем OpenBSD. Этот раздел можно разбить на 16 disklabel
+разделов, обозначенных от <code>a</code> до <code>p</code>.
+Несколько label являются особенными:
 
 <ul>
   <li><code>a</code>:
-    The boot disk's <code>a</code> partition is your root partition.
+    Раздел <code>a</code> загрузочного диска является вашим root разделом.
   <li><code>b</code>:
-    The boot disk's <code>b</code> partition is usually a swap partition.
+    Раздел <code>b</code> загрузочного диска является вашим swap разделом.
   <li><code>c</code>:
-    The <code>c</code> partition is always the entire disk.
+    Раздел <code>c</code> всегда весь диск (entire disk).
 </ul>
 
-To create a new filesystem on a disklabel partition, use the
-<a href="https://man.openbsd.org/newfs">newfs(8)</a> command:
+Чтобы создать новую ФС на disklabel разделе, используйте команду
+<a href="https://man.openbsd.org/newfs">newfs(8)</a>:
 
 <pre class="cmdbox">
 # <b>newfs sd2a</b>
 </pre>
 
-Thus, a device name plus a disklabel identify an OpenBSD filesystem.
-For example, the identifier <code>sd2a</code> refers to the filesystem on the
-<code>a</code> partition of the third <code>sd</code> device.
-Its device files would be <code>/dev/sd2a</code> for the block device and
-<code>/dev/rsd2a</code> for the raw (character) device.
-Remembering whether a rarely used command needs a block or a character device
-is difficult.
-Therefore, many commands make use of the
-<a href="https://man.openbsd.org/opendev">opendev(3)</a> function, which
-automatically expands <code>sd0</code> to <code>/dev/rsd0c</code> or
-<code>/dev/sd0c</code> as appropriate.
+Таким образом, имя устройства плюс disklabel идентифицируют файловую систему
+OpenBSD. Например, идентификатор <code>sd2a</code> относится к файловой системе
+в разделе <code>a</code> третьего устройства <code>sd</code>.
+Его файлы устройства будут <code>/dev/sd2a</code> для блочного устройства и
+<code>/dev/rsd2a</code> для raw (character) устройства.
+Для того, чтобы определить какое устройство необходимо использовать
+(block или character), многие команды используют функцию
+<a href="https://man.openbsd.org/opendev">opendev(3)</a>, которая автоматически
+расширяет <code>sd0</code> до <code>/dev/rsd0c</code> или <code>/dev/sd0c</code>
+в зависимости от ситуации.
 
-<h3 id="DUID">Disklabel Unique Identifiers</h3>
+<h3 id="DUID">Уникальные disklabel идентификаторы (DUID)</h3>
 
-Disks are identified by Disklabel Unique Identifiers (DUIDs) in the
-<a href="https://man.openbsd.org/fstab">fstab(5)</a> file by default.
-DUIDs are 16 hex digit random numbers that are generated when a disklabel is
-first created.
-They are managed by the
-<a href="https://man.openbsd.org/diskmap">diskmap(4)</a> device.
-To display the DUIDs of all disks, do:
+По умолчанию диски идентифицируются по так называемым уникальным
+идентификаторам диска (Disklabel Unique Identifiers, DUID) в файле
+<a href="https://man.openbsd.org/fstab">fstab(5)</a>.
+DUID представляет из себя 16 шестнадцатеричных случайных чисел, которые
+генерируются при первом создании метки диска. Они управляются устройством
+<a href="https://man.openbsd.org/diskmap">diskmap(4)</a>.
+Просмотреть DUID всех дисков можно вот так:
 
 <pre class="cmdbox">
 $ <b>sysctl hw.disknames</b>
 hw.disknames=wd0:bfb4775bb8397569,cd0:,wd1:56845c8da732ee7b,wd2:f18e359c8fa2522b
 </pre>
 
-You can specify partitions on the disk by appending a period and the partition
-letter.
-For example, <code>f18e359c8fa2522b.d</code> is the <code>d</code> partition of
-the disk
-<code>f18e359c8fa2522b</code>
-and will always refer to the same chunk of storage, no
-matter what order the devices attached to the system, or what kind of interface
-it is attached to.
-If you put data on <code>wd2d</code>,
-then later remove <code>wd1</code> from the system and reboot,
-your data is now on <code>wd1d</code>, as your old <code>wd2</code> is now
-<code>wd1</code>.
-However, a drive's DUID won't change after boot.
+Вы можете указать разделы на диске, добавив точку и букву раздела.
+Например, <code>f18e359c8fa2522b.d</code> является разделом <code>d</code> диска
+<code>f18e359c8fa2522b</code> и всегда будет ссылаться на одну и ту же область диска
+(refer to the same chunk of storage), независимо от того, в какой
+последовательности или к какому интерфейсу был подключен.
+Если вы поместите данные на <code>wd2d</code>, а затем удалите <code>wd1</code>
+из системы и перезагрузитесь, ваши данные будут на <code>wd1d</code>, так как ваш
+старый <code>wd2</code> теперь стал <code>wd1</code>.
+Тем не менее, DUID диска не изменится после загрузки.
 
 <h2 id="fdisk">Использование fdisk</h2>
 
