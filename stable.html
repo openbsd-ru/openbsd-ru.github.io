@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang=ru>
+<meta charset=utf-8>
+
+<title>OpenBSD: -stable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/stable.html">
+<style>
+h3, h4 {
+	color: var(--blue);
+}
+</style>
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+-stable
+</h2>
+
+<hr>
+
+<h3 id="whatis">Что такое -stable branch?</h3>
+
+<p>
+Стабильная ветка OpenBSD или -stable branch это одна из трех
+<a href="faq/faq5.html#Flavors">flavors</a>.
+Она состоит из исходников release и патчей для
+<a href="https://www.openbsd.org/errata.html">errata</a>.
+Более детально:
+
+<ul>
+  <li>Errata-исправления сделаны для багов, которые затрагивают многих людей.
+  <li>Другие патчи могут быть добавленны в -stable, если они касаются нескольких
+      людей, но исправляют серьезные проблемы.
+  <li>Новые или измененные возможности (functionality), API или поддержка
+      оборудования <i>не добавляются</i>.
+</ul>
+
+<p>
+На этой странице рассказывается, как загрусить себе исходники -stable
+branch из CVS и пересобрать систему.
+Если вы используете -release на amd64, i386 или arm64, вы также можете
+использовать утилиту <a href="https://man.openbsd.org/syspatch">syspatch(8)</a>
+для обновления любых файлов, нуждающихся в исправлениях безопасности или
+надежности (security or reliability fixes), при помощи обновлений бинарников.
+Более подробную информацию можно найти
+<a href="https://www.openbsd.org/faq/faq10.html#Patches">здесь</a>.
+
+<h3 id="getting">Загрузка исходников -stable</h3>
+
+<p>
+Для загрузки себе дерева с исходниками -stable для того или иного релиза
+OpenBSD, вы можете просто <a href="anoncvs.html#updating">дозагрузить</a>
+исходники поверх уже существующих у вас или
+<a href="anoncvs.html#getting">загрузить</a> свежее дерево исходников с
+сервера <a href="anoncvs.html">AnonCVS</a>.
+
+<p>
+Не пытайтесь обновляться с одного релиза к другому при помощи компиляции
+исходников. Вместо этого, пожалуйста, следуйте инструкциям из
+<a href="https://www.openbsd.org/faq/upgrade65.html">руководства (upgrade guide)</a>
+для release, прежде чем компилировать -stable.
+
+<h3 id="building">Сборка OpenBSD -stable</h3>
+
+<p>
+Подробное руководство по сборке OpenBSD из исходников приведена в шагах
+2 и 3 руководства <a href="https://man.openbsd.org/release">release(8)</a>.
+Также есть FAQ по <a href="faq/faq5.html">сборке системы</a>.
+Если у вас есть несколько машин со -stable, вы можете
+<a href="faq/faq5.html#Release">сделать релиз</a>.
+
+<h4>Пересборка ядра и перезагрузка</h4>
+
+<p>
+Замените <code>GENERIC.MP</code> на <code>GENERIC</code> для
+однопроцессорных (single-core processor) систем.
+
+<pre class="cmdbox">
+# <b>cd /sys/arch/$(machine)/compile/GENERIC.MP</b>
+# <b>make obj</b>
+# <b>make config</b>
+# <b>make && make install</b>
+# <b>reboot</b>
+</pre>
+
+<p>
+Если в вашей системе возникают проблемы с загрузкой нового ядра, вы можете
+легко вернуться и загрузиться снова со старого ядра, которое теперь
+называется <code>obsd</code>.
+
+<h4>Пересборка userland</h4>
+
+<pre class="cmdbox">
+# <b>rm -rf /usr/obj/*</b>
+# <b>cd /usr/src</b>
+# <b>make obj && make build</b>
+</pre>
