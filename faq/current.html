@@ -144,6 +144,12 @@ generating prefix- and as-sets from IRR data should use bgpq3 from ports.
 gzdoom was updated to 4.1.2 which makes it incompatible with previously saved games.
 There is no upstream solution.
 
+<h3 id="r20190807">2019/08/07 - Removal of route-collector mode in bgpd(8)</h3>
+
+The config keyword <code>route-collector</code> is deprecated and will cause
+bgpd(8) to fail parsing the config.
+Instead disable the route evaluation process on the Loc-RIB with
+<code>rde rib Loc-RIB no evaluate</code>.
 
 <!--
      Two blank lines before new sections.
@@ -152,4 +158,4 @@ There is no upstream solution.
 -->
 
 <hr id="end">
-<small>$OpenBSD: current.html,v 1.1005 2019/07/20 11:00:29 jasper Exp $</small>
+<small>$OpenBSD: current.html,v 1.1006 2019/08/07 10:34:25 claudio Exp $</small>
