@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang=en>
+<html lang=ru>
 <meta charset=utf-8>
 
-<title>OpenSSH: Features</title>
+<title>OpenSSH: Возможности</title>
 <meta name="description" content="OpenSSH Features">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
@@ -15,37 +15,41 @@ dt, dd {
 </style>
 
 <h2 id=OpenBSD>
-<a href="/">
+<a href="index.html">
 <i>Open</i><b>SSH</b></a>
-Features
+Возможности
 </h2>
 <hr>
 
 <p>
-OpenSSH is a free SSH protocol suite providing encryption for
-network services like remote login or remote file transfers.
+OpenSSH это набор свободных программ, позволяющих создавать
+зашифрованные каналы связи через компьюрные сети при помощи
+протокола SSH.
 
 <p>
-The following is a list of OpenSSH features:
+Список возможностей OpenSSH:
 
 <ul>
-<li><p>Completely open source project with
-<a href="https://www.openbsd.org/policy.html">free licensing</a>
+<li><p>Полностью открытый проект (open source) со
+<a href="https://www.openbsd.org/policy.html">свободной лицензией</a>
 <p>
-The OpenSSH source code is available free to everyone via the Internet.
-This encourages code reuse and code auditing. Code review ensures the bugs
-can be found and corrected by anyone. This results in secure code. OpenSSH
-is not covered by any restrictive license. It can be used for any and all
-purposes, and that explicitly includes commercial use.
+Исходники OpenSSH открыты, и каждый кто хочет может скачать их из Интернет.
+Это позволяет копировать код в свои продукты, т.е. использовать его повторно,
+а также способствует аудиту кода. Проверка кода гарантирует, что ошибки могут
+быть найдены и исправлены любым пользователем. Это делает код более безопасным.
+OpenSSH не распространяется в соответствии с какими-то ограничивающими свободу
+лицензиями. OpenSSH может быть использован для любых целей, в том числе для
+коммерческих.
 <a href="https://cvsweb.openbsd.org/src/usr.bin/ssh/LICENCE?rev=HEAD">
-The license</a> is included in the distribution. We feel that the world would
-be better if routers, network appliances, operating systems, and all other
-network devices had ssh integrated into them. All components of a restrictive
-nature (i.e. patents) have been removed from the source code. Any licensed or
-patented components are chosen from external libraries (e.g.
-<a href="https://www.libressl.org">LibreSSL</a>).
+Лицензия</a> находится в самом дистрибутиве. Мы считаем, что мир был бы
+лучше, если бы в маршрутизаторах, сетевых appliances, операционных системах
+и во всех других сетевых устройствах был бы встроен SSH. Весь код, на который
+распространялись патенты или какие-то другие компоненты ограничительного
+характера, был удален из проекта. Любые лицензированные или запатентованные
+компоненты подключаются/используются из внешних библиотек (например,
+<a href="https://openbsd-ru.github.io/libressl/index.html">LibreSSL</a>).
 
-<li><p>Strong cryptography (AES, ChaCha20, RSA, ECDSA, Ed25519...)
+<li><p>Поддержка стойкого шифрования (AES, ChaCha20, RSA, ECDSA, Ed25519...)
 <p>
 Encryption is started before authentication, and no passwords or other
 information is transmitted in the clear. Encryption is also used to protect
@@ -53,7 +57,7 @@ against spoofed packets. A number of different ciphers and key types are
 available, and legacy options are usually phased out in a reasonable amount
 of time.
 
-<li><p>X11 forwarding (which also encrypts X Window System traffic)
+<li><p>X11 forwarding (шифрование трафика X Window System)
 <p>
 X11 forwarding allows the encryption of remote X windows traffic, so
 that nobody can snoop on your remote xterms or insert malicious
@@ -64,13 +68,13 @@ to the remote machine; the local client automatically examines
 incoming X11 connections and replaces the fake authorization data with
 the real data (never telling the remote machine the real information).
 
-<li><p>Port forwarding (encrypted channels for legacy protocols)
+<li><p>Port forwarding (шифрованные каналы для традиционных протоколов)
 <p>
 Port forwarding allows forwarding of TCP/IP connections to a remote
 machine over an encrypted channel. Insecure internet applications
 like POP can be secured with this.
 
-<li><p>Strong authentication (public keys, one-time passwords)
+<li><p>Strong authentication (public keys, одноразовые пароли)
 <p>
 Strong authentication protects against several security problems:
 IP spoofing, fakes routes and DNS spoofing. Some authentication methods
@@ -88,21 +92,21 @@ never reveal the keys; they can only be used to verify that the user's agent
 has a certain key. Eventually the agent could rely on a smart card to perform
 all authentication computations.
 
-<li><p>Interoperability
+<li><p>Совместимость
 <p>
 Interoperability between implementations is a goal, but not a promise.
 As OpenSSH development progresses, older protocols, ciphers, key types
 and other options that have known weaknesses are routinely disabled.
 Some examples can be found on the <a href="legacy.html">legacy</a> page.
 
-<li><p>SFTP client and server support.
+<li><p>Поддержка SFTP-клиента и -сервера
 <p>
 Complete SFTP support is included, using the
 <a href="https://man.openbsd.org/sftp">sftp(1)</a> command as a client and
 <a href="https://man.openbsd.org/sftp-server">sftp-server(8)</a>
 subsystem as a server.
 
-<li><p>Optional data compression
+<li><p>Сжатие данных при передаче
 <p>
 Data compression before encryption improves the performance
 for slow network links.
