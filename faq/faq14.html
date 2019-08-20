@@ -252,26 +252,26 @@ the disklabel).
 
 <h2 id="BootAmd64">Процесс загрузки в amd64</h2>
 
-Details on the amd64 bootstrapping procedure are given in the
-<a href="https://man.openbsd.org/boot_amd64">boot_amd64(8)</a> man page.
-The boot process is as follows:
+О процедуре загрузки bootstrapping для amd64 можно найти в
+<a href="https://man.openbsd.org/boot_amd64">boot_amd64(8)</a>.
+Процесс загрузки выглядит следующим образом:
 
 <ol>
-  <li>Master Boot Record (MBR) and GUID Partition Table (GPT).
-    The <a href="https://man.openbsd.org/fdisk">fdisk(8)</a> man page contains
-    the details.
+  <li>Master Boot Record (MBR) и GUID Partition Table (GPT).
+    Подробную информацию можно найти в
+    <a href="https://man.openbsd.org/fdisk">fdisk(8)</a>.
   <li>Partition Boot Record (PBR).
-    The first 512 bytes of the boot disk's OpenBSD partition contain the first
+    Первые 512 байт OpenBSD раздела на загрузочном диске содержат first
     stage boot loader
     <a href="https://man.openbsd.org/biosboot">biosboot(8)</a>.
-    It is installed by the
-    <a href="https://man.openbsd.org/installboot">installboot(8)</a> utility.
+    Он устанавливается при помощи утилиты
+    <a href="https://man.openbsd.org/installboot">installboot(8)</a>.
   <li>Second stage boot loader <code>/boot</code>.
-    The PBR loads the <a href="https://man.openbsd.org/boot.8">boot(8)</a>
-    program which has the task of locating and loading the kernel.
+    PBR запускает программу <a href="https://man.openbsd.org/boot.8">boot(8)</a>,
+    задача которой - поиск и загрука ядра.
 </ol>
 
-So, the very start of the boot process could look like this:
+Самое начало загрузки выглядит следующим образом:
 
 <pre class="cmdbox">
 Using drive 0, partition 3.                      <b>&lt;- MBR</b>
