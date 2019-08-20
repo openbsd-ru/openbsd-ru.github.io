@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang=en>
+<html lang=ru>
 <meta charset=utf-8>
 
-<title>OpenSSH: Problem Reports</title>
+<title>OpenSSH: Сообщить об ошибке</title>
 <meta name="description" content="OpenSSH Problem Reports">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
@@ -11,105 +11,109 @@
 <h2 id=OpenBSD>
 <a href="/">
 <i>Open</i><b>SSH</b></a>
-Problem Reports
+Сообщить об ошибке
 </h2>
 <hr>
 
-<h3>Released versions problem reports</h3>
+<h3>Как сообщить о проблеме в официальной версии (released versions)</h3>
 
 <p>
-Before reporting bugs/problems with released OpenSSH versions,
-go through this checklist:
+
+Перед тем как сообщить об ошибке/проблеме в официальных версиях OpenSSH,
+проверьте следующее:
 
 <ol>
-<li>Check for <a href="https://www.openbsd.org/errata.html">patches
-	and notes regarding OpenSSH.</a>
-<li>Find out if there is a newer version available for
-<a href="openbsd.html">OpenBSD</a>
-or for the <a href="portable.html">portable release</a>,
-depending upon your platform.
-<li>Check the list of <a
+<li>Имеются ли <a href="https://www.openbsd.org/errata.html">
+		патчи и исправления для OpenSSH.</a>
+<li>Имеется ли более новая версия для <a href="openbsd.html">OpenBSD</a>
+    или <a href="portable.html">портированная версия</a>, для вашей системы.
+<li>Список <a
 href="http://bugzilla.mindrot.org/buglist.cgi?product=Portable+OpenSSH&amp;bug_status=RESOLVED">
-bugs fixed since the last release</a> and
+исправленных ошибок</a> и
 <a
 href="http://bugzilla.mindrot.org/showdependencytree.cgi?id=V_7_4">
-known bugs reported since the last release</a>.
+известных ошибок для прошлого релиза</a>.
 </ol>
 
 <p>
-If nothing looks like it addresses your problem, then use
+Если вы так и не нашли ничего схожего с вашей проблемой, используйте
 <a href="http://bugzilla.mindrot.org">Bugzilla</a>
-to submit a bug report (but see below for reporting security
-bugs privately).
+для написания отчёта об ошибке (багрепорта). Обратите внимание, что
+проблемы в безопасности стоит скрыть от посторонних глаз, как об этом
+рассказывается ниже.
 
 <p>
-You can reach the OpenSSH developers by sending email to one of
-the following addresses:
+Почтовые рассылки, используя которые вы можете связаться с разработчиками
+OpenSSH:
 
 <ul>
-<li><a href="mailto:openssh@openssh.com">openssh@openssh.com</a>.  This
-	is a private list read only by the OpenSSH developers.<br>
-	<b>Appropriate for:</b> reports of problems with OpenBSD's OpenSSH,
-	reports of security problems in OpenSSH on any platform.<br>
-	<b>Not appropriate for:</b> How-to queries, reports of problems on
-	platforms other than OpenBSD or with third-party patches, general
-	discussion.
+<li><a href="mailto:openssh@openssh.com">openssh@openssh.com</a>. Это закрытая
+	от посторонних рассылка доступна только для разработчиков OpenSSH.<br>
+	<b>Предназначена для:</b> отчётов о проблемах безопасности и любых других
+	проблемах в OpenSSH для OpenBSD на различных платформах.<br>
+	<b>Не стоит использовать для:</b> how-to вопросов, обсуждений и багрепортов
+        для других операционных систем. Не пишите сюда, если пропатчили OpenSSH
+	какими-то не нашими патчами, а потом у вас все поломалось.
 <li><a href="mailto:openssh-unix-dev@mindrot.org">openssh-unix-dev@mindrot.org</a>
-	This is a public list that requires subscription before posting.
+	Это открытая для всех рассылка. Требуется subscription до того как отправить
+	сюда письмо.
 	<!--and is open to posting from non-subscribed
 	users.-->
 	<br>
-	<b>Appropriate for:</b> bug reports, how-to questions and discussion
-	of OpenSSH on any platform (including OpenBSD).<br>
-	<b>Not appropriate for:</b> reports of security problems,
-	bug reports for binaries not supplied by the OpenSSH team (unless they
-	can be reproduced with the vanilla OpenSSH distribution).
+	<b>Предназначена для:</b> багрепортов, how-to вопросов и любых обсуждений
+	OpenSSH вне зависимости от используемой платформы и операционной системы,
+	(включая OpenBSD).<br>
+	<b>Не стоит использовать для:</b> отчётов о проблемах безопасности,
+	отчётов о проблемах в бинарных файлах, поставляемых не от
+	команды OpenSSH (если только они не могут быть воспроизведены
+        при использовании последней версии OpenSSH от команды разработчиков).
 </ul>
 
-<h3>Current version problem reports</h3>
+<h3>Как сообщить о проблеме в текущей версии (current version)</h3>
 
 <ol>
-<li>Test the problem at least twice, with source updated a few days apart.
-<li>Do not report source tree compilation problems, unless they persist.
-	They are almost always your mistake or they are being worked on
-	as you encounter them.
-<li>Remember that the <a href="https://www.openbsd.org/anoncvs.html">AnonCVS</a>
-	mirrors are updated behind the actual working source tree.
-<li>Check for <a href="https://www.openbsd.org/plus.html">OpenSSH changes</a>
-        to see if the problem has been addressed.
+<li>Постарайтесь воспроизвести баг по крайней мере дважды, используя последению
+    официальную версию, а так же последнию доступную версию исходных кодов.
+<li>Не сообщайте об ошибках, возникающих при сборке/компиляции OpenSSH при
+    использовании последних версий исходных кодов. Как правило, это либо ваши
+    собственные ошибки, либо вы просто загрузили версию, над которой мы сейчас
+    работаем.
+<li>Помните, что <a href="https://openbsd-ru.github.io/anoncvs.html">AnonCVS</a>
+    зеркала обновляются значительно позже рабочего дерева исходных кодов.
+<li>Проверьте <a href="https://www.openbsd.org/plus.html">изменения в OpenSSH</a>
+    чтобы удостовериться, что проблема не была решена.
 </ol>
 
-<h3 id=bugtypes>Sending in bug reports</h3>
+<h3 id=bugtypes>Отправка отчётов об ошибке</h3>
 
 <p>
-Try to pin-point the exact problem.  Never give vague instructions,
-or detail vague problems like "it crashes."
-Talk to others on IRC or use some
-other forum such as the <a href="https://marc.info/?l=openssh-unix-dev&amp;r=1&amp;w=2">
-mailing list archives</a>
-to confirm that it is new, repeatable, etc., and make sure
-it is not a local problem.
+Попробуйте точно определить проблему. Никогда не давайте расплывчатых инструкций
+и не указывайте расплывчатые проблемы, такие как например "it crashes."
+Спросите в IRC или загляните в архив
+<a href="https://marc.info/?l=openssh-unix-dev&amp;r=1&amp;w=2">
+почтовой рассылки</a>, чтобы убедиться, что найденная ошибка новая и
+воспроизводимая. Убедитесь, что это не локальная проблема, связанная именно с
+вашей системой.
 
 <p>
-For an excellent overview of the art of reporting bugs, see Simon
-Tatham's <a href="https://www.chiark.greenend.org.uk/~sgtatham/bugs.html">
-How to Report Bugs Effectively</a>. Remember, the better the
-information in your report, the better the chance that your problem
-will be resolved.
+Отличная статья об искусстве написания отчётов об ошибках Саймона Тэтхема,
+<a href="https://www.chiark.greenend.org.uk/~sgtatham/bugs-ru.html">
+"Как эффективно сообщать об ошибках"</a>. Помните, чем лучше
+составлен отчёт, тем больше вероятность, что проблема будет решена.
 
 <p>
-New features are accepted, especially with code that implements
-your suggested new feature.
-If someone else writes code for your new feature, the chances are that
-it will be misunderstood and created so that you will not recognize it.
+Не стесняйтесь предлагать новые возможности и, если возможно, исходной код
+для реализации этих возможностей.
+Если кто-то еще напишет код для вашей новой функции, есть вероятность, что
+идея будет неправильно понята и реализована так, что вы ее не узнаете.
 
 <p>
-Types of bug reports in order of desirability:
+Типы отчётов об ошибках в "порядке желательности":
 
 <ol>
-<li>Repeatable problems with source fixes are the best.
-<li>Repeatable problems that are not specific to your hardware/software
-     layout.
-<li>Repeatable problems specific to your software layout.
-<li>Repeatable problems specific to your hardware layout.
+<li>Повторяющиеся проблемы с готовым решением. Желательней всего.
+<li>Повторяющиеся проблемы, которые не относятся к используемым
+    вами аппаратным или даже программным окружением (hardware/software layout).
+<li>Повторяющиеся проблемы в вашем программном окружении.
+<li>Повторяющиеся проблемы в вашем аппаратном окружении.
 </ol>
