@@ -290,24 +290,24 @@ Copyright (c) 1982, 1986, 1989, 1991, 1993       <b>&lt;- Kernel</b>
 
 <h2 id="SoftUpdates">Soft-обновление</h2>
 
-Soft updates are based on an idea proposed by
+Soft-обновление основано на идее, предложенной
 <a href="https://www.ece.cmu.edu/~ganger/papers/CSE-TR-254-95/">Greg Ganger
-and Yale Patt</a> and developed for FreeBSD by
+и Yale Patt</a> и разработанное для FreeBSD
 <a href="https://www.mckusick.com/softdep/">Kirk McKusick</a>.
-Soft updates imposes a partial ordering on the buffer cache
-operations which permits the requirement for synchronous writing of
-directory entries to be removed from the FFS code.
-A large disk writing performance increase is seen as a result.
+При soft-обновлениях имеет место частичный порядок операций с буферным
+кешем, что позволяет удалить требование к синхронной записи каталогов
+из кода FFS. В результате заметно значительное увеличение производительности
+записи на диск.
 
 <p>
-Enabling soft updates must be done with a mount-time option.
-When mounting a partition with the
+Активация или включение soft-updates происходит во время подключения раздела.
+При монтировании раздела при помощи утилиты
 <a href="https://man.openbsd.org/mount">mount(8)</a>
-utility, you can specify that you wish to have soft updates enabled on
-that partition.
-Below is a sample <a href="https://man.openbsd.org/fstab">fstab(5)</a>
-entry that has one partition <code>sd0a</code> that we wish to have mounted
-with soft updates.
+вы можете указать, что вы хотите, чтобы в этом разделе были включены
+soft updates.
+Ниже приведен пример <a href="https://man.openbsd.org/fstab">fstab(5)</a>,
+в котором есть раздел <code>sd0a</code>, который мы монтируем таким образом,
+чтобы активировать там soft updates.
 
 <pre class="cmdbox">
 /dev/sd0a / ffs rw,softdep 1 1
@@ -315,54 +315,55 @@ with soft updates.
 
 <h2 id="altroot">Резервное копирование (backup) корневого раздела (/altroot)</h2>
 
-OpenBSD provides an <code>/altroot</code> facility in the
-<a href="https://man.openbsd.org/daily">daily(8)</a> scripts.
-If the environment variable <code>ROOTBACKUP=1</code> is set in either
-<code>/etc/daily.local</code> or root's
-<a href="https://man.openbsd.org/crontab.5">crontab(5)</a>,
-and a partition is specified in
-<a href="https://man.openbsd.org/fstab">fstab(5)</a>
-as mounting to <code>/altroot</code> with the mount options of <code>xx</code>,
-every night the entire contents of the root partition will be duplicated to the
-<code>/altroot</code> partition.
+OpenBSD предоставляет возможность резервного копирования в <code>/altroot</code>
+при помощи <a href="https://man.openbsd.org/daily">daily(8)</a> скриптов.
+Если переменная окружения (environment variable) установлена в <code>ROOTBACKUP=1</code>
+в <code>/etc/daily.local</code> или root'овском
+<a href="https://man.openbsd.org/crontab.5">crontab(5)</a>, и соответствующий
+раздел сконфигурирован в <a href="https://man.openbsd.org/fstab">fstab(5)</a>
+на монтирование в <code>/altroot</code> и имеет mount options <code>xx</code>,
+то каждую ночь содержимое корневого раздела (contents of the root partition)
+будет скопированно в раздел <code>/altroot</code>.
 
 <p>
-Assuming you want to back up your root partition to the partition specified
-by the <a href="faq14.html#DUID">DUID</a> <code>bfb4775bb8397569.a</code>,
-add the following to <code>/etc/fstab</code>
+Предположим, вы хотите сделать резервную копию своего корневого раздела в раздел
+с <a href="faq14.html#DUID">DUID</a> <code>bfb4775bb8397569.a</code>. Для этого
+добавьте следующее в <code>/etc/fstab</code>
 
 <pre class="cmdbox">
 bfb4775bb8397569.a /altroot ffs xx 0 0
 </pre>
 
-and set the appropriate environment variable in <code>/etc/daily.local</code>:
+и установите соответствующее значение переменной окружения в
+<code>/etc/daily.local</code>:
 
 <pre class="cmdbox">
 # <b>echo ROOTBACKUP=1 >>/etc/daily.local</b>
 </pre>
 
-As the <code>/altroot</code> process will capture your <code>/etc</code>
-directory,
-this will make sure any configuration changes there are updated daily.
-This is a "disk image" copy done with
-<a href="https://man.openbsd.org/dd">dd(1)</a>
-not a file-by-file copy, so your <code>/altroot</code> partition should be at
-least the same size as your root partition.
-Generally, you will want your <code>/altroot</code> partition to be on a
-different disk that has been configured to be fully bootable should the primary
-disk fail.
+Так как данные, регулярно копирующиеся в <code>/altroot</code>, будую включать и
+ваш <code>/etc</code>, это гарантирует, что копии любых изменений в конфигурации
+системы будут обновляться ежедневно.
+
+Это "disk image" копия, созданная при помощи
+<a href="https://man.openbsd.org/dd">dd(1)</a>, а не копия file-by-file,
+поэтому размер вашего <code>/altroot</code> должен быть как минимум того же
+размера, что и корневой раздел.
+Как правило, имеет смысл размещать <code>/altroot</code> раздел на отдельном
+диске, который настроен таким образом, чтобы в случае сбоя основного диска,
+загружаться с него.
 
 <h2 id="DupFS">Дублирование ФС</h2>
 
-To duplicate everything under directory <code>/SRC</code> to directory
-<code>/DST</code> with <a href="https://man.openbsd.org/dump">dump(8)</a> and
-<a href="https://man.openbsd.org/restore">restore(8)</a>, do:
+Вот так можно сделать дубликат содержимого каталога <code>/SRC</code> в каталог
+<code>/DST</code> при помощи <a href="https://man.openbsd.org/dump">dump(8)</a> и
+<a href="https://man.openbsd.org/restore">restore(8)</a>:
 
 <pre class="cmdbox">
 # <b>cd /SRC && dump 0f - . | (cd /DST && restore -rf - )</b>
 </pre>
 
-or use <a href="https://man.openbsd.org/tar">tar(1)</a>:
+или при помощи <a href="https://man.openbsd.org/tar">tar(1)</a>:
 
 <pre class="cmdbox">
 # <b>cd /SRC && tar cf - . | (cd /DST && tar xpf - )</b>
@@ -370,30 +371,30 @@ or use <a href="https://man.openbsd.org/tar">tar(1)</a>:
 
 <h2 id="Quotas">Дисковые квоты</h2>
 
-Quotas are used to place limits on the amount of disk space available to certain
-users and groups.
+Квоты (quotas) используются для ограничения количества места на диске,
+доступного для определенных пользователей и групп.
 
 <p>
-Use the keywords <code>userquota</code> and <code>groupquota</code> to mark each
-filesystem in <a href="https://man.openbsd.org/fstab">fstab(5)</a> on which you
-want to enforce quotas.
-By default, the files <code>quota.user</code> and <code>quota.group</code> will
-be created at the root of those filesystems.
-Here is an example <code>/etc/fstab</code> line:
+Используйте keywords <code>userquota</code> и <code>groupquota</code>
+для настройки каждой ФС в <a href="https://man.openbsd.org/fstab">fstab(5)</a>,
+для которой вы хотите использовать квоты.
+По умолчанию файлы <code>quota.user</code> и <code>quota.group</code> будут
+создаваться в корне этих файловых систем.
+Вот пример из <code>/etc/fstab</code>:
 
 <pre class="cmdbox">
 0123456789abcdef.k /home ffs rw,nodev,nosuid,userquota 1 2
 </pre>
 
-To set the users' quotas, use
+Чтобы установить квоты для пользователей, используйте
 <a href="https://man.openbsd.org/edquota">edquota(8)</a>.
-For example, issue
+Например, вот так:
 
 <pre class="cmdbox">
 # <b>edquota ericj</b>
 </pre>
 
-and edit the soft and hard limits:
+и установите soft и hard limits:
 
 <pre class="cmdbox">
 Quotas for user ericj:
@@ -401,27 +402,28 @@ Quotas for user ericj:
         inodes in use: 25, limits (soft = <b>0</b>, hard = <b>0</b>)
 </pre>
 
-In this example, the soft limit is set to 1000000k, and the hard limit is set to
+В этом примере soft limit установлен в 1000000k, а hard limit установлен в
 1500000k.
-No limits on the number of inodes will be enforced, since the corresponding soft
-and hard limits are set to 0.
-Users who exceed their soft limit are warned and are given a grace period to get
-their disk usage below their limits.
-Grace periods can be set by using the <code>-t</code> option on
+Ограничения на количество inodes не будут применяться, поскольку соответствующие
+soft и hard limits установлены на 0. Пользователи, превышающие свои soft limits,
+получают предупреждение, и им предоставляется время, так называемый grace period,
+чтобы использование ими места на диске снова было ниже их пределов.
+Grace periods можно установить с помощью опции <code>-t</code> в
 <a href="https://man.openbsd.org/edquota">edquota(8)</a>.
-After the grace period is over, the soft limit is handled as a hard limit.
-This usually results in an allocation failure.
+По истечении grace period soft limit обрабатывается как hard limit.
+Это обычно приводит к ошибке allocation failure.
 
 <p>
-Use <a href="https://man.openbsd.org/quotaon">quotaon(8)</a> to enable quotas:
+Используйте <a href="https://man.openbsd.org/quotaon">quotaon(8)</a> для
+включения квот:
 
 <pre class="cmdbox">
 # <b>quotaon -a</b>
 </pre>
 
-This will scan through <a href="https://man.openbsd.org/fstab">fstab(5)</a> and
-enable quotas on the filesystems with quota options.
-View quota statistics with <a href="https://man.openbsd.org/quota">quota(1)</a>.
+Это проверит <a href="https://man.openbsd.org/fstab">fstab(5)</a> и включит
+квоты для ФС с опциями квот. Просмотр статистики квот осуществляется при помощи
+<a href="https://man.openbsd.org/quota">quota(1)</a>.
 
 <h2 id="foreignfs">Доступ и работа с другими ФС</h2>
 
