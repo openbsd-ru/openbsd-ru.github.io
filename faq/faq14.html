@@ -427,64 +427,66 @@ Grace periods можно установить с помощью опции <code
 
 <h2 id="foreignfs">Доступ и работа с другими ФС</h2>
 
-Start with the <a href="https://man.openbsd.org/mount">mount(8)</a>
-manual, which contains examples explaining how to mount some of the
-most commonly used filesystems.
-A partial list of
+Материал по этой теме можно найти в руководстве по
+<a href="https://man.openbsd.org/mount">mount(8)</a>,
+где содержатся примеры, разъясняющие как подключать наиболее используемые ФС.
+
+Список
 <a href="https://man.openbsd.org/?query=mount_&amp;sec=8&amp;apropos=1">
-supported filesystems</a> and related commands can be obtained with:
+поддерживаемых ФС</a> и соответствующие для этого комманды можно посмотреть
+при помощи:
 
 <pre class="cmdbox">
 $ <b>man -k -s 8 mount</b>
 </pre>
 
-Note that support may be limited to read-only operation.
+Не забывайте, что поддержка может быть ограничена лишь read-only операциями.
 
 <h2 id="MountImage">Монтирование дисковых образов</h2>
 
-To mount a disk image in OpenBSD you must configure a
-<a href="https://man.openbsd.org/vnd">vnd(4)</a> device.
-For example, if you have an ISO image located at <code>/tmp/ISO.image</code>,
-you would take the following steps to mount the image.
+Чтобы смонтировать образ диска (disk image) в OpenBSD, надо сконфигурировать
+устройство <a href="https://man.openbsd.org/vnd">vnd(4)</a>. К примеру, вот так
+можно смонтировать ISO-образ, который находится в <code>/tmp/ISO.image</code>:
 
 <pre class="cmdbox">
 # <b>vnconfig vnd0 /tmp/ISO.image</b>
 # <b>mount -t cd9660 /dev/vnd0c /mnt</b>
 </pre>
 
-Since this is an ISO 9660 image, as used by CDs and DVDs, you must specify
-type of <code>cd9660</code> when mounting it.
+Поскольку это ISO 9660 образ, который используется на CD- и DVD-дисках,
+вы должны указать тип <code>cd9660</code> при его монтировании.
 
 <p>
-To unmount the image and unconfigure the
-<a href="https://man.openbsd.org/vnd">vnd(4)</a> device, do:
+Вот так можно размонтировать образ и отключить (unconfigure) устройство
+<a href="https://man.openbsd.org/vnd">vnd(4)</a>:
 
 <pre class="cmdbox">
 # <b>umount /mnt</b>
 # <b>vnconfig -u vnd0</b>
 </pre>
 
-For more information, refer to
+Больше информации можно найти в руководствах
 <a href="https://man.openbsd.org/vnconfig">vnconfig(8)</a>
-and <a href="https://man.openbsd.org/mount">mount(8)</a>.
+и <a href="https://man.openbsd.org/mount">mount(8)</a>.
 
 <h2 id="GrowPartition">Расширение разделов</h2>
 
-If an existing partition is followed by unallocated free space, you may
-increase its size using the
-<a href="https://man.openbsd.org/growfs">growfs(8)</a> utility.
-Make sure the partition is not currently mounted.
-Edit your partition table interactively with <code>disklabel -E sd0</code>
-and modify the size of the partition using the <code>m</code> command.
-Adjust the filesystem to use the entire partition with
-<a href="https://man.openbsd.org/growfs">growfs(8)</a>:
+Если за существующим разделом на диске следует неиспользованное
+(unallocated) свободное место, вы можете увеличить его размер при
+помощи утилиты <a href="https://man.openbsd.org/growfs">growfs(8)</a>.
+Убедитесь, что раздел в данный момент не смонтирован.
+Отредактируйте таблицу разделов в интерактивном режиме при помощи
+<code>disklabel -E sd0</code> и изменяйте размер раздела при помощи
+команды <code>m</code>.
+Переконфигурировать файловую систему для использования всего раздела
+можно при помощи <a href="https://man.openbsd.org/growfs">growfs(8)</a>:
 
 <pre class="cmdbox">
 # <b>growfs sd0h</b>
 </pre>
 
-Before the partition can be mounted again, its integrity must be checked
-with <a href="https://man.openbsd.org/fsck">fsck(8)</a>:
+Прежде чем раздел будет смонтирован снова, его целостность должна быть
+проверена при помощи <a href="https://man.openbsd.org/fsck">fsck(8)</a>:
 
 <pre class="cmdbox">
 # <b>fsck /dev/sd0h</b>
