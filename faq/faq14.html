@@ -622,28 +622,31 @@ sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 (это не-RAID диски).
 
 <p>
-Используйте следующую команду, чтобы проверить состояние (status) вашего "зеркала":
+Используйте следующую команду, чтобы проверить состояние (status) вашего
+"зеркала":
 
 <pre class="cmdbox">
 # <b>bioctl sd2</b>
 </pre>
 
-Хорошей идеей может быть создание cron job, с целью проверки состояния "зеркала".
+Хорошей идеей может быть создание cron job, с целью проверки состояния
+"зеркала".
 
-<h4>Rebuilding a Mirror</h4>
+<h4>Пересборка зеркала</h4>
 
-When a drive failure happens, you will replace the failed drive, create the
-RAID and other disklabel partitions, then rebuild the mirror.
-Assuming your RAID volume is <code>sd2</code> and you are replacing the
-failed device with <code>sd1m</code>, the following commands should work:
+В случае проблем с диском, вы замените его, создадите разделы RAID и другие
+метки диска (disklabel partitions), а затем восстановите зеркало.
+Предполагая, что вашим RAID volume является <code>sd2</code>, и вы заменяете
+поломанный диск на <code>sd1m</code>, следующие команды должны быть
+выполнены:
 
 <pre class="cmdbox">
 # <b>bioctl -R /dev/sd1m sd2</b>
 </pre>
 
-This can also be performed in
-<a href="faq8.html#LostPW">single user mode</a>
-or from the <a href="faq4.html#bsd.rd">install kernel</a>.
+Это также может быть сделано в
+<a href="faq8.html#LostPW">однопользовательском режиме</a>
+или при помощи процедуры <a href="faq4.html#bsd.rd">установки ядра</a>.
 
 <h3 id="softraidFDE">Полное шифрование диска</h3>
 
