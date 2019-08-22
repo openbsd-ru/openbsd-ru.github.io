@@ -494,38 +494,42 @@ $ <b>man -k -s 8 mount</b>
 
 <h2 id="softraid">RAID и шифрование дисков</h2>
 
-The <a href="https://man.openbsd.org/softraid">softraid(4)</a> subsystem works
-by emulating a <a href="https://man.openbsd.org/scsibus">scsibus(4)</a> with
-<a href="https://man.openbsd.org/sd">sd(4)</a> devices made by combining a
-number of OpenBSD <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>
-partitions into a virtual disk with the desired RAID level.
-This virtual disk is treated as any other disk, first partitioned with
-<a href="#fdisk">fdisk</a> (on fdisk platforms) and then
-<a href="#disklabel">disklabels</a> are created as usual.
-Note that only RAID0, RAID1, RAID5 and crypto are fully supported at the moment.
+Подсистема <a href="https://man.openbsd.org/softraid">softraid(4)</a>
+работает, эмулируя <a href="https://man.openbsd.org/scsibus">scsibus(4)</a>,
+с устройствами <a href="https://man.openbsd.org/sd">sd(4)</a>, созданными путем
+объединения нескольких <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>
+разделов OpenBSD в виртуальный диск с требуемым типом RAID.
+С этим виртуальным диском мы работаем как и с любым другим в системе. Сначала
+он разбивается на разделы при помощи <a href="#fdisk">fdisk</a> (на платформах,
+поддерживаемых fdisk), а затем, как и обычно, создаются
+<a href="#disklabel">disklabels</a>.
+Обратите внимание, что на данный момент полностью поддерживаются только
+RAID0, RAID1, RAID5 и crypto.
+
 
 <h3 id="softraidDI">Установка на зеркальную пару дисков (RAID 1)</h3>
 
-This section covers installing OpenBSD to a mirrored pair of hard drives,
-and assumes familiarity with the <a href="faq4.html">installation process</a>.
-Disk setup may vary from platform to platform, and
-<b>booting from softraid devices isn't supported on all of them</b>.
-It's currently only possible to boot from RAID1 and crypto volumes
-on i386, amd64, sparc64, and arm64.
+В этом разделе описан процесс установки OpenBSD на зеркальную пару жестких дисков,
+и предполагается, что вы знакомы с <a href="faq4.html">процессом установки</a>.
+Настройка диска может варьироваться от платформы к платформе, и <b>загрузка с
+устройств softraid поддерживается не на всех из них</b>.
+В настоящее время можно загружаться только с RAID1 и crypto томов на i386,
+amd64, sparc64 и arm64.
 
 <p>
-Before using the install script, you will drop to a shell and set up a
-<a href="https://man.openbsd.org/softraid">softraid(4)</a> device.
+Перед использованием install скрипта перейдете в shell и настройте
+устройство <a href="https://man.openbsd.org/softraid">softraid(4)</a>.
 
 <p>
-The install kernel only has the <code>/dev</code> entries for one
-<a href="https://man.openbsd.org/wd">wd(4)</a> device and one
-<a href="https://man.openbsd.org/sd">sd(4)</a> device on boot, so you will need
-to manually create more disk devices if your desired softraid setup requires
-them.
-For example, if you need to support a second and third
-<a href="https://man.openbsd.org/sd">sd(4)</a> device for a mirrored setup, you
-could do the following from the shell prompt:
+Ядро, используемое во время установки, содержит только <code>/dev</code>
+записи для одного устройства
+<a href="https://man.openbsd.org/wd">wd(4)</a> и одного устройства
+<a href="https://man.openbsd.org/sd">sd(4)</a>, поэтому вам нужно будет
+вручную создать еще пару таких устройств, если они требуются для желаемой
+настройки softraid.
+Например, если вам потребуется второе и третье устройство
+<a href="https://man.openbsd.org/sd">sd(4)</a> для создания "зеркала",
+сделайте следующее в консоли:
 
 <pre class="cmdbox">
 Welcome to the OpenBSD/amd64 X.X installation program.
@@ -534,30 +538,30 @@ Welcome to the OpenBSD/amd64 X.X installation program.
 # <b>sh MAKEDEV sd1 sd2</b>
 </pre>
 
-You now have full support for the <code>sd0</code>, <code>sd1</code> and
-<code>sd2</code> devices.
+Теперь у вас есть полностью поддерживаемые <code>sd0</code>, <code>sd1</code> и
+<code>sd2</code> устройства.
 
 <p>
-Next, we'll initialize the disks with
-<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> and create RAID partitions
-with <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
+Далее, мы инициализируем диски при помощи
+<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создаем RAID разделы
+при помощи <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
 
 <p>
-If you're booting from MBR, do:
+Если вы загружаетесь из MBR, сделайте следующее:
 
 <pre class="cmdbox">
 # <b>fdisk -iy sd0</b>
 # <b>fdisk -iy sd1</b>
 </pre>
 
-If you use GPT for UEFI booting, do:
+Если же вы используете GPT для UEFI загрузки, сделайте следующее:
 
 <pre class="cmdbox">
 # <b>fdisk -iy -g -b 960 sd0</b>
 # <b>fdisk -iy -g -b 960 sd1</b>
 </pre>
 
-Create the partition layout on the first device:
+Создайте таблицу разделов (partition layout) на первом устройстве:
 
 <pre class="cmdbox">
 # <b>disklabel -E sd0</b>
@@ -571,7 +575,7 @@ sd0> <b>q</b>
 No label changes.
 </pre>
 
-Copy the partition layout to the second device:
+Скопируйте созданную таблицу разделов (partition layout) на второе устройство:
 
 <pre class="cmdbox">
 # <b>disklabel sd0 > layout</b>
@@ -579,8 +583,8 @@ Copy the partition layout to the second device:
 # <b>rm layout</b>
 </pre>
 
-Assemble the mirror with the
-<a href="https://man.openbsd.org/bioctl">bioctl(8)</a> command:
+Создайте (assemble) зеркало при помощи комманды
+<a href="https://man.openbsd.org/bioctl">bioctl(8)</a>:
 
 <pre class="cmdbox">
 # <b>bioctl -c 1 -l sd0a,sd1a softraid0</b>
@@ -589,41 +593,42 @@ sd2 at scsibus2 targ 0 lun 0: &lt;OPENBSD, SR RAID 1, 005&gt; SCSI2 0/direct fix
 sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 </pre>
 
-This shows that we now have a new SCSI bus and a new disk, <code>sd2</code>.
-This volume will be automatically detected and assembled when the system boots.
+Вывод команды показывает, что теперь у нас есть новая SCSI bus и новый
+диск <code>sd2</code>. Этот том (volume) будет автоматически обнаружен
+и собран (assemble) во время загрузке системы.
 
 <p>
-Even if you create multiple RAID arrays, the device name will always be
+Даже если вы создадите несколько RAID-массивов, имя устройства всегда будет
 <code>softraid0</code>.
-There won't be a <code>softraid1</code> or anything else.
+Там не будет <code>softraid1</code> или что-нибудь еще.
 
 <p>
-Because the new device probably has a lot of garbage where you expect
-a master boot record and disklabel, zeroing the first chunk of it is
-highly recommended.
-Be <b>very careful</b> with this command; issuing it on the wrong device
-could lead to a very bad day.
-This assumes that the new softraid device was created as <code>sd2</code>.
+Поскольку новое устройство, где вы планируете создать основную загрузочную
+запись (master boot record) и метку диска (disklabel), скорее всего содержит
+много мусора, настоятельно рекомендуется обнуление первого фрагмента (chunk).
+Будьте <b>очень осторожны</b> с этой командой; использование его не с тем
+устройством может сильно испортить ваш день.
+Использование команды ниже подразумевает, что созданным новым softraid
+устройством является <code>sd2</code>.
 
 <pre class="cmdbox">
 # <b>dd if=/dev/zero of=/dev/rsd2c bs=1m count=1</b>
 </pre>
 
-You are now ready to install OpenBSD on your system.
-Perform the install as normal by invoking "install" or "exit" at the boot
-media console.
-Create all the partitions on your new softraid disk (<code>sd2</code> in our
-example here) that should be there, rather than on <code>sd0</code> or
-<code>sd1</code> (the non-RAID disks).
+Теперь вы готовы начать установку OpenBSD.
+К процессу установки пререходим как обычно, выбрав «install» или «exit» в консоли.
+Создайте все разделы на вашем новом softraid диске (<code>sd2</code> в нашем примере
+здесь), который должен быть там, а не на <code>sd0</code> или <code>sd1</code>
+(это не-RAID диски).
 
 <p>
-To check on the status of your mirror, issue the following command:
+Используйте следующую команду, чтобы проверить состояние (status) вашего "зеркала":
 
 <pre class="cmdbox">
 # <b>bioctl sd2</b>
 </pre>
 
-A nightly cron job to check the status might be a good idea.
+Хорошей идеей может быть создание cron job, с целью проверки состояния "зеркала".
 
 <h4>Rebuilding a Mirror</h4>
 
