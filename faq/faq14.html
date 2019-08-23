@@ -650,57 +650,58 @@ sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 
 <h3 id="softraidFDE">Полное шифрование диска</h3>
 
-Much like RAID, full disk encryption in OpenBSD is handled by the
-<a href="https://man.openbsd.org/softraid">softraid(4)</a> subsystem and
-<a href="https://man.openbsd.org/bioctl">bioctl(8)</a> command.
-This section covers installing OpenBSD to a single encrypted disk, and is a
-very similar process to the previous one.
-Note that "stacking" softraid modes (mirrored drives and encryption, for
-example) is <b>not supported</b> at this time.
+Как и в случае с RAID, для шифрования дисков (full disk encryption) в OpenBSD
+используется подсистема
+<a href="https://man.openbsd.org/softraid">softraid(4)</a> и программа
+<a href="https://man.openbsd.org/bioctl">bioctl(8)</a>.
+В этом разделе описан пример установки OpenBSD на один зашифрованный диск. Этот
+процесс очень похож на предыдущий. Обратите внимание, что в настоящее время
+«стекирование» режимов softraid (например, создание зеркала и параллельное
+шифрование) <b>не поддерживается</b>.
 
 <p>
-Select (S)hell at the initial prompt.
+Выберете <code>(S)hell</code> во время установки чтобы перейти в консоль.
 
 <pre class="cmdbox">
 Welcome to the OpenBSD/amd64 X.X installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell? <b>s</b>
 </pre>
 
-From here, you'll be given a shell within the live environment to manipulate
-the disks.
-For this example, we will install to the <code>sd0</code> SATA drive, erasing
-all of its previous contents.
-You may want to write random data to the drive first with something like the
-following:
+Далее, после этого, вам будет предоставлен shell, из которого вы сможете
+манипулировать дисками. В этом примере мы установим <code>sd0</code> SATA
+диск, удалив все его предыдущее содержимое.
+Неплохой идеей будет запись случайных данных на диск. Это делается следующим
+образом:
 
 <pre class="cmdbox">
 # <b>dd if=/dev/urandom of=/dev/rsd0c bs=1m</b>
 </pre>
 
-This can be a very time-consuming process, depending on the speed of your
-CPU and disk, as well as the size of the disk.
-If you don't write random data to the whole device, it may be possible for an
-adversary to deduce how much space is actually being used.
+Это может быть очень долгим (time-consuming) процессом, в зависимости от
+скорости вашего процессора, а также скорости и размера диска. Если вы не
+запишите случайные данные на весь диск, злоумышленник может определить,
+сколько используется места на диске.
 
 <p>
-Next, we'll initialize the disk with
-<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> and create the softraid
-partition with <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
+Далее, мы инициализируем диск при помощи
+<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создаем softraid
+раздел при помощи
+<a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
 
 <p>
-If you're booting from MBR, do:
+Если вы загружаетесь с MBR, сделайте:
 
 <pre class="cmdbox">
 # <b>fdisk -iy sd0</b>
 </pre>
 
-If you use GPT for UEFI booting, do:
+Если же вы используете GPT для UEFI, сделайте:
 
 <pre class="cmdbox">
 # <b>fdisk -iy -g -b 960 sd0</b>
 </pre>
 
-Next, create the partition layout:
+Далее, создайте таблицу разделов:
 
 <pre class="cmdbox">
 # <b>disklabel -E sd0</b>
@@ -714,11 +715,11 @@ sd0> <b>q</b>
 No label changes.
 </pre>
 
-We'll use the entire disk, but note that the encrypted device can be
-split up into multiple partitions as if it were a regular hard drive.
+В этом примере мы будем использовать весь диск. Помните, что зашифрованный
+диск можно разбить на несколько разделов, как и обычный жесткий диск.
 
 <p>
-Now we can build the encrypted device on our "a" partition.
+Теперь мы можем создать зашифрованное устройство на нашем разделе «а».
 
 <pre class="cmdbox">
 # <b>bioctl -c C -l sd0a softraid0</b>
@@ -729,29 +730,31 @@ sd1: 19445MB, 512 bytes/sector, 39824607 sectors
 softraid0: CRYPTO volume attached as sd1
 </pre>
 
-Instead of a passphrase, you may want to
-<a href="#softraidFDEkeydisk">use a keydisk</a>.
+Вместо passphrase вы можете
+<a href="#softraidFDEkeydisk">использовать и keydisk</a>.
 
 <p>
-Since the installer does not have many device nodes by default, we'll make
-sure the <code>/dev/sd1</code> device is accounted for.
+Поскольку в установщике по умолчанию не так много устройств, на которых
+он предлагает развернуть систему, нам надо позаботиться о том, чтобы устройство
+<code>/dev/sd1</code> было в их числе.
 
 <pre class="cmdbox">
 # <b>cd /dev && sh MAKEDEV sd1</b>
 </pre>
 
-All data written to <code>sd1</code> will now be encrypted with AES in XTS mode.
+Все данные, записанные на <code>sd1</code>, теперь будут зашифрованы при
+помощьи AES в режиме XTS.
 
 <p>
-As in the previous example, we'll overwrite the first megabyte of our new
-pseudo-device.
+Как и в предыдущем примере, мы перезапишем первый мегабайт нашего нового
+псевдо-устройства.
 
 <pre class="cmdbox">
 # <b>dd if=/dev/zero of=/dev/rsd1c bs=1m count=1</b>
 </pre>
 
-Type <code>exit</code> to return to the main installer, then choose this new
-device as the one for your installation.
+Введите команду <code>exit</code>, чтобы вернуться в программу-установщик,
+затем выберите это новое устройство для установки.
 
 <pre class="cmdbox">
 [...]
@@ -759,21 +762,21 @@ Available disks are: sd0 sd1.
 Which disk is the root disk? ('?' for details) [sd0] <b>sd1</b>
 </pre>
 
-You will be prompted for the passphrase on startup, but all other operations
-should be handled transparently.
+Во время загрузки вам будет предложено ввести passphrase, в остальном процесс
+загрузки проходит как и обычно.
 
-<h4 id="softraidFDEkeydisk">Using a Keydisk</h4>
+<h4 id="softraidFDEkeydisk">Использование keydisk</h4>
 
-As an alternative to using a passphrase, it's possible to use a key stored on a
-separate device (e.g. a USB stick) to unlock your encrypted disk.
+В качестве альтернативы использованию passphrase можно использовать ключ,
+хранящийся на другом отдельном устройстве (например, на USB-накопителе).
 
 <p>
-Initialize your keydisk with
-<a href="https://man.openbsd.org/fdisk">fdisk(8)</a>, then use
-<a href="https://man.openbsd.org/disklabel">disklabel(8)</a>
-to create a 1 MB RAID partition for the key data.
-If your keydisk is <code>sd1</code> and the drive you want to encrypt is
-<code>sd0</code>, the output will look something like this:
+Инициализируйте ваш keydisk при помощи
+<a href="https://man.openbsd.org/fdisk">fdisk(8)</a>, затем используйте
+<a href="https://man.openbsd.org/disklabel">disklabel(8)</a>, чтобы создать
+раздел RAID объемом 1 МБ для ключа.
+Если ваш keydisk - <code>sd1</code>, а диск, который вы хотите зашифровать,
+- <code>sd0</code>, вывод будет выглядеть примерно так:
 
 <pre class="cmdbox">
 # <b>bioctl -c C -k sd1a -l sd0a softraid0</b>
@@ -782,11 +785,11 @@ sd2: 19445MB, 512 bytes/sector, 39824607 sectors
 softraid0: CRYPTO volume attached as sd2
 </pre>
 
-You won't be prompted to enter a passphrase because you used a keydisk instead.
-The keydisk must be inserted at startup time.
+Вам не будет предложено ввести passphrase, потому что вместо этого вы
+использовали keydisk. Keydisk должен быть вставлен во время загрузки.
 
 <p>
-You can backup and restore your keydisk using
+Вы можете создать backup и восстановить ваш keydisk при помощи
 <a href="https://man.openbsd.org/dd">dd(1)</a>:
 
 <pre class="cmdbox">
@@ -796,29 +799,27 @@ You can backup and restore your keydisk using
 
 <h3 id="softraidCrypto">Шифрование внешних дисков</h3>
 
-This section explains how you might set up a cryptographic softraid volume
-for an external USB drive.
-If you already read the section on full disk encryption, this should be very
-familiar.
-An outline of the steps is as follows:
+В этом разделе объясняется, как вы можете настроить зашифрованный softraid
+для внешнего USB-накопителя. Если вы уже прочитали раздел о шифровании диска,
+то согласитесь, что разница тут совсем не большая.
+Схема шагов выглядит следующим образом:
 
 <ul>
-  <li>Overwrite the drive's contents with random data
-  <li>Create the desired RAID-type partition with
+  <li>Перезаписать содержимое диска случайными данными
+  <li>Создайте нужный RAID раздел при помощи
       <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>
-  <li>Encrypt the drive with
+  <li>Зашифруйте необходимое усторйство при помощи
       <a href="https://man.openbsd.org/bioctl">bioctl(8)</a>
-  <li>Zero the first megabyte of the new pseudo-partition
-  <li>Create a filesystem on the pseudo-device with
+  <li>Заполните нулями первый мегабайт нового псевдо-устройства
+  <li>Создайте ФС на псево-устройстве при помощи
       <a href="https://man.openbsd.org/newfs">newfs(8)</a>
-  <li>Unlock and <a href="https://man.openbsd.org/mount">mount(8)</a> the new
-      pseudo-device
-  <li>Access the files as needed
-  <li>Unmount the drive and detach the encrypted container
+  <li>Разблокируйте и подключите новое псевдо-устройство при помощи
+      <a href="https://man.openbsd.org/mount">mount(8)</a>
+  <li>Работайте с файлами
+  <li>Отключите устройство и отсоедините зашифрованный контейнер
 </ul>
 
-A quick example runthrough of the steps follows, with <code>sd3</code> being
-the USB drive.
+Ниже приведен краткий пример шагов, где <code>sd3</code> - USB-накопитель.
 
 <pre class="cmdbox">
 # <b>dd if=/dev/urandom of=/dev/rsd3c bs=1m</b>
@@ -839,5 +840,6 @@ softraid0: CRYPTO volume attached as sd4
 # <b>bioctl -d sd4</b>
 </pre>
 
-The same <a href="https://man.openbsd.org/bioctl">bioctl(8)</a> command used
-to create the volume can be used to attach it later on.
+Та же программа <a href="https://man.openbsd.org/bioctl">bioctl(8)</a>,
+использованная для создания тома, может быть использована для его подключения
+позже.
