@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang=en id=faq>
+<html lang=ru id=faq>
 
 <!-- If you make edits to any FAQ documents, please start each sentence
      on a new line, and try to keep the general formatting consistent
      with the rest of the pages -->
 
-<title>OpenBSD FAQ: Networking</title>
+<title>OpenBSD FAQ: Сеть</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
@@ -14,57 +14,57 @@
 <h2 id=OpenBSD>
 <a href="../index.html">
 <i>Open</i><b>BSD</b></a>
-FAQ - Networking
+FAQ - Сеть
 <small>
-<a href="index.html">[FAQ Index]</a>
+<a href="index.html">[FAQ - На главную]</a>
 </small>
 </h2>
 <hr>
 
 <ul>
-<li><a href="#Setup"           >Network Configuration</a>
+<li><a href="#Setup"           >Настройка сети</a>
 <ul>
-  <li><a href="#Setup.if"      >Identifying and Setting Up Your
-                                Network Interfaces</a>
-  <li><a href="#Setup.gateway" >Default Hostname and Gateway</a>
+  <li><a href="#Setup.if"      >Поиск и настройка сетевых интерфейсов</a>
+  <li><a href="#Setup.gateway" >Имя машины (Hostname) и шлюз (Gateway)</a>
   <li><a href="#Setup.resolver">DNS Resolution</a>
-  <li><a href="#Setup.activate">Activating the Changes</a>
-  <li><a href="#Setup.chkroute">Checking Routes</a>
-  <li><a href="#Setup.aliases" >Setting Up Aliases on Interfaces</a>
+  <li><a href="#Setup.activate">Применение изменений настроек</a>
+  <li><a href="#Setup.chkroute">Проверка маршрутизации (Routes)</a>
+  <li><a href="#Setup.aliases" >Настройка Aliases для сетевых интерфейсов</a>
 </ul>
 <li><a href="#DHCP"            >Dynamic Host Configuration Protocol</a>
-<li><a href="#Wireless"        >Wireless Networking</a>
-<li><a href="#Bridge"          >Setting Up a Network Bridge</a>
+<li><a href="#Wireless"        >Беспроводные сети (Wireless Networking)</a>
+<li><a href="#Bridge"          >Настройка сетевого моста (bridge)</a>
 <li><a href="#Multipath"       >Equal-cost Multipath Routing</a>
-<li><a href="#NFS"             >Using NFS</a>
+<li><a href="#NFS"             >Использование NFS</a>
 </ul>
 
 <hr>
 
-<h2 id="Setup">Network Configuration</h2>
+<h2 id="Setup">Настройка сети</h2>
 
-Network configuration in OpenBSD is done with text files in <code>/etc</code>.
-Typically, these settings are initially configured during the
-<a href="faq4.html">installation process</a>.
+Сеть в OpenBSD настраивается при помощи конфигурационных файлов в
+<code>/etc</code>. Как правило, процесс настройки проходит
+<a href="faq4.html">во время установки</a> операционной системы.
 
-<h3 id="Setup.if">Identifying and Setting Up Your Network Interfaces</h3>
+<h3 id="Setup.if">Поиск и настройка сетевых интерфейсов</h3>
 
-Interfaces are named by the type of card, not the type of connection.
-For example, here's a <a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
-snippet for an Intel Fast Ethernet network card:
+Сетевые интерфейсы называются по имени типа карты (используемого им
+драйвера), а не по типу соединения.
+Вот пример, вывода команды <a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
+для сетевой карты Intel Fast Ethernet:
 
 <pre class="cmdbox">
 fxp0 at pci0 dev 10 function 0 "Intel 82557" rev 0x0c: irq 5, address 00:02:b3:2b:10:f7
 inphy0 at fxp0 phy 1: i82555 10/100 media interface, rev. 4
 </pre>
 
-This device uses the <a href="https://man.openbsd.org/fxp">fxp(4)</a> driver
-and is assigned the number 0 here.
+Это устройство использует драйвер <a href="https://man.openbsd.org/fxp">fxp(4)</a>,
+а соответствующий номер устройства тут 0.
 
 <p>
-You can find out what network interfaces have been identified by using the
-<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a> utility.
-The following command will show all network interfaces on a system.
+Вы можете увидеть список всех найденных сетевых карт при помощи утилиты
+<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
+Эта комманда показывает все сетевые интрефейсы в системе.
 
 <pre class="cmdbox">
 $ <b>ifconfig</b>
@@ -87,10 +87,11 @@ pflog0: flags=141&lt;UP,RUNNING,PROMISC&gt; mtu 33200
         groups: pflog
 </pre>
 
-This sample shows only one physical Ethernet interface: <code>fxp0</code>.
-An IP is configured on it, hence the values
+Приведенный выше пример показывает, что в системе найден только один
+Ethernet интерфейс: <code>fxp0</code>. Он уже настроен и ему присвоен IP,
+поэтому мы видим строчку
 <code>inet 10.0.0.38 netmask 0xffffff00 broadcast 10.0.0.255</code>.
-The <code>UP</code> and <code>RUNNING</code> flags are also set on it.
+Флаги <code>UP</code> и <code>RUNNING</code> так же для него установленны.
 
 <p>
 The <a href="https://man.openbsd.org/netstart">netstart(8)</a> script configures
@@ -127,7 +128,7 @@ Other virtual interfaces can be added with
 <a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>'s <code>create</code>
 subcommand.
 
-<h3 id="Setup.gateway">Default Hostname and Gateway</h3>
+<h3 id="Setup.gateway">Имя машины (Hostname) и шлюз (Gateway)</h3>
 
 The <code>/etc/myname</code> and <code>/etc/mygate</code> files are read by the
 <a href="https://man.openbsd.org/netstart">netstart(8)</a> script.
@@ -155,7 +156,7 @@ there will be two DNS resolvers,
 <a href="https://man.openbsd.org/hosts">hosts(5)</a> file will be consulted
 before the DNS resolvers are.
 
-<h3 id="Setup.activate">Activating the Changes</h3>
+<h3 id="Setup.activate">Применение изменений настроек</h3>
 
 From here, you can either reboot or run the
 <a href="https://man.openbsd.org/netstart">netstart(8)</a> script:
@@ -173,7 +174,7 @@ your interfaces were set up correctly.
 Even though you can completely reconfigure networking on a running OpenBSD
 system, a reboot is recommended after any significant reconfiguration.
 
-<h3 id="Setup.chkroute">Checking Routes</h3>
+<h3 id="Setup.chkroute">Проверка маршрутизации (Routes)</h3>
 
 You can check your routes via
 <a href="https://man.openbsd.org/netstat">netstat(1)</a> or
@@ -207,7 +208,7 @@ localhost          localhost          UH          2       15  32768     1 lo0
 10.0.0.38          localhost          UGHS        0        0      -     1 lo0
 </pre>
 
-<h3 id="Setup.aliases">Setting Up Aliases on an Interface</h3>
+<h3 id="Setup.aliases">Настройка Aliases для интерфейсов</h3>
 
 To set up an IP alias on an interface, simply edit its
 <a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> file.
@@ -245,7 +246,7 @@ interfaces automatically.
 OpenBSD can be a DHCP server that configures other machines, or a DHCP client
 that is configured by a DHCP server.
 
-<h3 id="DHCPclient">DHCP Client</h3>
+<h3 id="DHCPclient">DHCP клиент</h3>
 
 To use <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, edit the
 <a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> file of your
@@ -289,7 +290,7 @@ Additionally, the file <code>/etc/resolv.conf.tail</code> can be used to
 append information if <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>
 does write <code>resolv.conf</code>.
 
-<h3 id="DHCPserver">DHCP Server</h3>
+<h3 id="DHCPserver">DHCP сервер</h3>
 
 If you want to use OpenBSD as a DHCP server, enable the
 <a href="https://man.openbsd.org/dhcpd">dhcpd(8)</a> daemon at startup.
@@ -331,7 +332,7 @@ and DNS servers you specify.
 See <a href="https://man.openbsd.org/dhcp-options">dhcp-options(5)</a> for more
 options.
 
-<h3 id="PXE">PXE Booting (i386, amd64)</h3>
+<h3 id="PXE">Загрузка при помощи PXE (i386, amd64)</h3>
 
 The Preboot Execution Environment (PXE) is a standard method of booting systems
 using only the network.
@@ -342,7 +343,7 @@ On OpenBSD, this file is known as
 <a href="https://man.openbsd.org/pxeboot">pxeboot(8)</a>, and is typically
 served by <a href="https://man.openbsd.org/tftpd">tftpd(8)</a>.
 
-<h2 id="Wireless">Wireless Networking</h2>
+<h2 id="Wireless">Беспроводные сети (Wireless Networking)</h2>
 
 OpenBSD has support for
 <a href="https://man.openbsd.org/?query=wireless&amp;apropos=1">a number of
@@ -398,7 +399,7 @@ wireless access point for your OpenBSD-based firewall.
 This has the added advantage of letting you easily position the antenna where it
 is most effective, which is often not directly on the back of your firewall.
 
-<h3>Configuring Your Wireless Adapter</h3>
+<h3>Настройка вашего беспроводного адаптера (Wireless Adapter)</h3>
 
 Adapters based on supported chips can be used like any other network interface.
 To connect an OpenBSD system to an existing wireless network, use the
@@ -466,7 +467,7 @@ so either interface can be used.
 If both are available, it will prefer the <code>bge0</code> port,
 since that is the first one added to the trunk device.
 
-<h2 id="Bridge">Setting Up a Network Bridge</h2>
+<h2 id="Bridge">Настройка сетевого моста (bridge)</h2>
 
 A <a href="https://man.openbsd.org/bridge">bridge(4)</a> is a link between two
 or more separate networks.
@@ -545,7 +546,7 @@ interface:
 
 Reboot, and voil&agrave;!
 
-<h3>Filtering on a Bridge</h3>
+<h3>Фильтрация пакетов при помощи моста</h3>
 
 While there are certainly uses for a simple bridge like this, it is likely you
 might want to DO something with the packets as they go through your bridge.
@@ -554,7 +555,7 @@ restrict what traffic goes through your bridge.
 Keep in mind, by the nature of a bridge, the same data flows through both
 interfaces, so you only need to filter on one interface.
 
-<h3>Tips on Bridging</h3>
+<h3>Пара советов</h3>
 
 <ul>
   <li>By using the <code>blocknonip</code> option of
@@ -661,7 +662,7 @@ It's highly recommended to use
 <a href="https://man.openbsd.org/ifstated">ifstated(8)</a> to check for
 unavailable interfaces and adjust the routing table accordingly.
 
-<h2 id="NFS">Using NFS</h2>
+<h2 id="NFS">Использование NFS</h2>
 
 The Network File System, NFS, is used to share a filesystem over the network.
 
@@ -672,7 +673,7 @@ It does not cover securing NFS.
 We presume you have already set up packet filtering or other firewalling
 protection to prevent outside access.
 
-<h3>Setting Up an NFS Server</h3>
+<h3>Настройка NFS сервера</h3>
 
 First, enable the <a href="https://man.openbsd.org/portmap">portmap(8)</a>,
 <a href="https://man.openbsd.org/mountd">mountd(8)</a> and
@@ -719,7 +720,7 @@ you need to make mountd aware of this:
 # <b>rcctl reload mountd</b>
 </pre>
 
-<h3>Mounting NFS Filesystems</h3>
+<h3>Подключение ФС через NFS</h3>
 
 NFS filesystems should be mounted via
 <a href="https://man.openbsd.org/mount_nfs">mount(8)</a>, or more specifically,
@@ -761,7 +762,7 @@ from the NFS client, access would be denied.
 The user and group that root are mapped to are configurable via the
 <a href="https://man.openbsd.org/exports">exports(5)</a> file on the NFS server.
 
-<h3>Checking Stats on NFS</h3>
+<h3>Проверка состояния NFS</h3>
 
 One thing to check to ensure NFS is operating properly is that all the daemons
 have properly registered with RPC.
