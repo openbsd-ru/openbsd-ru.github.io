@@ -157,26 +157,29 @@ lookup file bind
 
 <h3 id="Setup.activate">Применение изменений настроек</h3>
 
-From here, you can either reboot or run the
-<a href="https://man.openbsd.org/netstart">netstart(8)</a> script:
+Для того, чтобы применить новые настройки (или, как ещё говорят, чтобы они
+"вошли в силу"), вы можете или перезагрузиться или запустить скрипт
+<a href="https://man.openbsd.org/netstart">netstart(8)</a>. Это можно сделать
+просто выполнив от root:
 
 <pre class="cmdbox">
 # <b>sh /etc/netstart</b>
 </pre>
 
-Note that a few warnings may be produced when running this script if you are
-reconfiguring interfaces that have already been configured.
-Use <a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a> to make sure that
-your interfaces were set up correctly.
+Обратите внимание, при запуске этого скрипта могут появиться предупреждения
+(warnings), если его запуск подразумевает переконфигурацию уже сконфигурированных
+интерфейсов. Убедитесь, что ваш интерфейс был сконфигурирован правильно при помощи
+<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
 
 <p>
-Even though you can completely reconfigure networking on a running OpenBSD
-system, a reboot is recommended after any significant reconfiguration.
+Хотя в OpenBSD возможна полная переконфигурация сетевых настроек системы без
+перезагрузки, рестарт системы НАСТОЯТЕЛЬНО рекомендуется после значительного
+изменения конфигурации.
 
 <h3 id="Setup.chkroute">Проверка маршрутизации (Routes)</h3>
 
-You can check your routes via
-<a href="https://man.openbsd.org/netstat">netstat(1)</a> or
+Настройку маршрутизации можно проверить при помощи
+<a href="https://man.openbsd.org/netstat">netstat(1)</a> или
 <a href="https://man.openbsd.org/route">route(8)</a>.
 
 <pre class="cmdbox">
@@ -209,23 +212,22 @@ localhost          localhost          UH          2       15  32768     1 lo0
 
 <h3 id="Setup.aliases">Настройка Aliases для интерфейсов</h3>
 
-To set up an IP alias on an interface, simply edit its
-<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> file.
+OpenBSD имеет простой механизм для установки IP псевдонимов (алиасов) для
+сетевых интерфейсов. Чтобы сделать это, просто отредактируйте файл
+<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a>.
 
 <p>
-Suppose you have a <code>dc0</code> interface.
-You are on the network <code>192.168.0.0</code>,
-the IP address for <code>dc0</code> is
-<code>192.168.0.2</code> and the netmask is <code>255.255.255.0</code>.
+Предположим, что у вас есть интерфейс <b>dc0</b>.
+Вы находитесь в сети <code>192.168.0.0</code>, и IP-адрес <code>dc0</code>
+<code>192.168.0.2</code>, а маска сети <code>255.255.255.0</code>.
 
 <p>
-Assuming you are using multiple IP addresses which are in the same subnet
-with aliases, your netmask setting for each alias becomes
+Допустим, вы используете несколько IP-адресов, которые находятся в одной
+подсети с псевдонимами, ваша маска сети для каждого псевдонима станет
 <code>255.255.255.255</code>.
-They do not need to follow the netmask of the first IP bound to the interface.
-In this example,
-two aliases are added to the interface <code>dc0</code>, which was configured as
-<code>192.168.0.2</code> with a netmask of <code>255.255.255.0</code>.
+Им не нужно следовать сетевой маске первого IP-адреса, привязанного к интерфейсу.
+В этом примере два псевдонима добавляются к интерфейсу <code>dc0</code>, который
+был настроен как <code>192.168.0.2</code> с маской сети <code>255.255.255.0</code>.
 
 <pre class="cmdbox">
 $ <b>cat /etc/hostname.dc0</b>
@@ -234,9 +236,9 @@ inet alias 192.168.0.3 255.255.255.255
 inet alias 192.168.0.4 255.255.255.255
 </pre>
 
-Once you've created this file, <a href="#Setup.activate">run netstart</a> or
-reboot.
-To view all aliases, use <code>ifconfig -A</code>.
+Как только вы создали этот файл, <a href="#Setup.activate">запустите netstart</a>
+или просто перезагрузитесь, чтобы изменения вступили в силу.
+Чтобы просмотреть все псевдонимы в системе, используйте <code>ifconfig -A</code>.
 
 <h2 id="DHCP">Dynamic Host Configuration Protocol</h2>
 
