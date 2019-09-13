@@ -50,7 +50,7 @@ FAQ - Сеть
 
 Сетевые интерфейсы называются по имени типа карты (используемого им
 драйвера), а не по типу соединения.
-Вот пример, вывода команды <a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
+Вот пример вывода команды <a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
 для сетевой карты Intel Fast Ethernet:
 
 <pre class="cmdbox">
@@ -94,26 +94,26 @@ Ethernet интерфейс: <code>fxp0</code>. Он уже настроен и 
 Флаги <code>UP</code> и <code>RUNNING</code> так же для него установленны.
 
 <p>
-The <a href="https://man.openbsd.org/netstart">netstart(8)</a> script configures
-network interfaces at boot time using
-<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> files, where
-"if" is replaced by the full name of each interface.
-The example above would use the file <code>/etc/hostname.fxp0</code>, containing
-the following options:
+Скрипт <a href="https://man.openbsd.org/netstart">netstart(8)</a> настраивает
+сетевые интерфейсы во время загрузки. Для этого он использует
+<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> конфигурационные
+файлы, где "if" соответствует полному имени интерфеса, необходимого для настройки.
+Для примера выше использовался бы файл <code>/etc/hostname.fxp0</code>,
+содержащий следующее:
 
 <pre class="cmdbox">
 inet 10.0.0.38 255.255.255.0
 </pre>
 
-This <code>hostname.fxp0</code> file also has an interactive equivalent:
+Того же результата, который мы получим при помощи файла
+<code>hostname.fxp0</code>, можно добиться и в интерактивном режиме:
 
 <pre class="cmdbox">
 # <b>ifconfig fxp0 10.0.0.38 255.255.255.0</b>
 </pre>
 
-Finally, you will notice several other interfaces come enabled by default.
-These are virtual interfaces that serve various functions.
-The following manual pages describe them:
+Обратите внимание, что несколько других виртуальных интерфейсов включены по
+умолчанию. Информацию о них вы можете найти в man-страницах:
 
 <ul>
   <li><a href="https://man.openbsd.org/enc">enc</a>
@@ -124,22 +124,22 @@ The following manual pages describe them:
     - Packet Filter logging interface
 </ul>
 
-Other virtual interfaces can be added with
-<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>'s <code>create</code>
-subcommand.
+Другие виртуальные интерфейсы могут быть добавленны при помощи команды
+<code>create</code> <a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
 
 <h3 id="Setup.gateway">Имя машины (Hostname) и шлюз (Gateway)</h3>
 
-The <code>/etc/myname</code> and <code>/etc/mygate</code> files are read by the
-<a href="https://man.openbsd.org/netstart">netstart(8)</a> script.
-Both of these files consist of a single line, specifying the fully qualified
-domain name of the system and the address of the gateway host, respectively.
-The <code>/etc/mygate</code> file need not exist on all systems.
-See <a href="https://man.openbsd.org/myname">myname(5)</a> for more details.
+Файлы <code>/etc/myname</code> и <code>/etc/mygate</code> используются
+<a href="https://man.openbsd.org/netstart">netstart(8)</a> скриптом.
+Оба из них содержат единственную строчку, в которой указывается полное доменное
+имя системы (domain name) и адрес хоста шлюза (address of the gateway host)
+соответственно. Файл <code>/etc/mygate</code> не обязательно должен
+существовать в системе. Более подробную информацю можно найти в
+<a href="https://man.openbsd.org/myname">myname(5)</a>.
 
-<h3 id="Setup.resolver">DNS Resolution</h3>
+<h3 id="Setup.resolver">Информация о DNS</h3>
 
-DNS resolution is controlled by
+Информация об используемых DNS серверах находится в файле
 <a href="https://man.openbsd.org/resolv.conf">resolv.conf(5)</a>.
 
 <pre class="cmdbox">
@@ -150,11 +150,10 @@ nameserver 125.2.3.5
 lookup file bind
 </pre>
 
-Here, the default domain name will be <code>example.com</code>,
-there will be two DNS resolvers,
-<code>125.2.3.4</code> and <code>125.2.3.5</code>, and the
-<a href="https://man.openbsd.org/hosts">hosts(5)</a> file will be consulted
-before the DNS resolvers are.
+В этом примере доменное имя по умолчанию <code>example.com</code>,
+имеются два сервера DNS с адресами <code>125.2.3.4</code> и <code>125.2.3.5</code>,
+файл <a href="https://man.openbsd.org/hosts">hosts(5)</a> будет использован
+до получения информации от DNS-серверов.
 
 <h3 id="Setup.activate">Применение изменений настроек</h3>
 
