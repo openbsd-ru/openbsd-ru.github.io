@@ -242,74 +242,78 @@ inet alias 192.168.0.4 255.255.255.255
 
 <h2 id="DHCP">Dynamic Host Configuration Protocol</h2>
 
-The Dynamic Host Configuration Protocol (DHCP) is a way to configure network
-interfaces automatically.
-OpenBSD can be a DHCP server that configures other machines, or a DHCP client
-that is configured by a DHCP server.
+Dynamic Host Configuration Protocol или Динамический Протокол Конфигурации Хостов
+- способ "автоматической" конфигурации сетевых интерфейсов.
+OpenBSD может быть сервером DHCP (конфигурируя другие машины), клиентом DHCP
+(сконфигурированный другой машиной), а также может сочетать оба случая.
 
 <h3 id="DHCPclient">DHCP клиент</h3>
 
-To use <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, edit the
-<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> file of your
-interface.
-The <a href="#Wireless">wireless networking</a> section explains how to
-set up wireless interfaces.
-For ethernet interfaces, one line is enough:
+Для того, чтобы использовать включенный в OpenBSD клиент DHCP
+<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, отредактируйте файл
+<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> вашего сетевого
+интерфейса.
+Часть этой главы, посвященная <a href="#Wireless">беспроводным сетям</a>,
+рассажет как настроить беспроводный интерфейс.
+Для ethernet интерфейса достаточно добавить в этот файл всего одну строчку:
 
 <pre class="cmdbox">
 dhcp
 </pre>
 
-OpenBSD will gather its IP address, default gateway and DNS servers from
-the DHCP server at startup time.
+OpenBSD получит свои IP-адрес, имя шлюза, а также адреса DNS серверов
+от DHCP сервера во время загрузки системы.
 
 <p>
-If you want to get an IP via DHCP from the command line, simply run:
+Eсли вы хотите получить IP от DHCP сервера в интерактивном режиме, просто
+запустите клиент в консоли:
 
 <pre class="cmdbox">
 # <b>dhclient xl0</b>
 </pre>
 
-Replace <code>xl0</code> with your interface name.
+Замените <code>xl0</code> названием своего интерфейса.
 
 <p>
-The <code>resolv.conf</code> file will be overwritten by
-<a href="https://man.openbsd.org/dhclient">dhclient(8)</a> if the DHCP
-server provides the domain-name, domain-search or domain-name-servers
-options.
-Any of these can be ignored, overridden or modified with appropriate
-statements in
+Файл <code>resolv.conf</code> будет перезаписан клиентом
+<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, если ответ DHCP
+сервера будет включать в себя информацию о domain-name, domain-search или
+domain-name-servers.
+Каждый пераметр может быть проигнорирован, переопределен или изменен в
+соответствии с настройками в
 <a href="https://man.openbsd.org/dhclient.conf">dhclient.conf(5)</a>.
-For example, if you wanted to use the DNS server at 1.2.3.4 rather than
-the one(s) the DHCP server provided, add the following:
+Например, если вы хотите использовать DNS сервер 1.2.3.4, а не тот, который
+предоставлен DHCP сервером, добавьте следующее:
 
 <pre class="cmdbox">
 supersede domain-name-servers 1.2.3.4;
 </pre>
 
-Additionally, the file <code>/etc/resolv.conf.tail</code> can be used to
-append information if <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>
-does write <code>resolv.conf</code>.
+Кроме того, файл <code>/etc/resolv.conf.tail</code> может быть использован
+для добавления информации, если
+<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>
+перезаписывает <code>resolv.conf</code>.
 
 <h3 id="DHCPserver">DHCP сервер</h3>
 
-If you want to use OpenBSD as a DHCP server, enable the
-<a href="https://man.openbsd.org/dhcpd">dhcpd(8)</a> daemon at startup.
+Если вы хотите использовать OpenBSD в качестве DHCP сервера, добавьте демон
+<a href="https://man.openbsd.org/dhcpd">dhcpd(8)</a> в автозагрузку.
 
 <pre class="cmdbox">
 # <b>rcctl enable dhcpd</b>
 </pre>
 
-On the next boot, dhcpd will run and attach to all NICs that have valid
-configurations in
+Во время следующей загрузки, dhcpd будет запущен и им будут испрользоваться
+все сетевые карты, в соответствии с конфигурацией в
 <a href="https://man.openbsd.org/dhcpd.conf">dhcpd.conf(5)</a>.
-You may specify individual interfaces instead by naming them explicitly.
+Вместо этого вы также можете указать лишь определенные интерфейсы, задав их
+имена явно.
 
 <pre class="cmdbox">
 # <b>rcctl set dhcpd flags em1 em2</b>
 </pre>
 
-An example <code>/etc/dhcpd.conf</code> file might look like this:
+Ниже приведен пример файла <code>/etc/dhcpd.conf</code>:
 
 <pre class="cmdbox">
 # Home
@@ -327,22 +331,21 @@ subnet 172.16.0.0 netmask 255.255.255.0 {
 }
 </pre>
 
-There are two subnets in this example: a home network and a guest network.
-Clients will automatically be given an IP address and pointed to the gateway
-and DNS servers you specify.
-See <a href="https://man.openbsd.org/dhcp-options">dhcp-options(5)</a> for more
-options.
+В этом примере рассматривается конфигурация с двумя подсетями: домашняя сеть и гостевая.
+Клиенты будут автоматически получать IP-адрес, шлюз и DNS-серверы, указанные вами.
+Ознакомьтесь с <a href="https://man.openbsd.org/dhcp-options">dhcp-options(5)</a>,
+где описаны остальные поддерживаемые параметры.
 
 <h3 id="PXE">Загрузка при помощи PXE (i386, amd64)</h3>
 
-The Preboot Execution Environment (PXE) is a standard method of booting systems
-using only the network.
-A client's PXE-capable NIC broadcasts a DHCP request at the start of the
-<a href="faq14.html#BootAmd64">boot process</a> and, rather than only receiving
-basic IP/DNS information, is also given a file to boot from.
-On OpenBSD, this file is known as
-<a href="https://man.openbsd.org/pxeboot">pxeboot(8)</a>, and is typically
-served by <a href="https://man.openbsd.org/tftpd">tftpd(8)</a>.
+PXE (Preboot Execution Environment) представляет из себя стандартный метод загрузки
+системы, используя для этого только сеть.
+Сетевая карта клиента с поддержкой PXE транслирует запрос DHCP в самом начале
+<a href="faq14.html#BootAmd64">процесса загрузки</a>, и вместо получения только
+основной информации об использовании IP/DNS, клиенту также предоставляется файл
+для загрузки.
+В OpenBSD этим файлом является <a href="https://man.openbsd.org/pxeboot">pxeboot(8)</a>,
+и предоставляется он обычно <a href="https://man.openbsd.org/tftpd">tftpd(8)</a>.
 
 <h2 id="Wireless">Беспроводные сети (Wireless Networking)</h2>
 
