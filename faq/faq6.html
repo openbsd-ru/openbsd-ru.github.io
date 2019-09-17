@@ -579,24 +579,26 @@ interfaces, so you only need to filter on one interface.
 
 <h2 id="Multipath">Equal-cost Multipath Routing</h2>
 
-Equal-cost multipath routing refers to having multiple routes in the routing
-table for the same network, such as the default route, <code>0.0.0.0/0</code>.
-When the kernel is doing a route lookup to determine where to send packets
-destined to that network, it can choose from any of the equal-cost routes.
-In most scenarios, multipath routing is used to provide redundant uplink
-connections, e.g., redundant connections to the internet.
+"Equal-cost multipath routing" означает, что имеется несколько маршрутов в
+таблице маршрутизации к данной сети, например маршрут по умолчанию (default
+route) <code>0.0.0.0/0</code>.
+Когда ядро определяет, каким маршрутом отправить пакет для данной сети,
+оно может выбрать любой из equal-cost маршрутов. В большинстве случаев такая
+маршрутизация используется для создания резервированного соединения с сетью
+логически более "корневого" уровня, например, подключения к сети Интернет.
 
 <p>
-The <a href="https://man.openbsd.org/route">route(8)</a> command is used to
-add/change/delete routes in the routing table.
-The <code>-mpath</code> argument is used when adding multipath routes.
+Команда <a href="https://man.openbsd.org/route">route(8)</a> используется
+для добавления/удаления/изменения маршрутов в таблице маршрутизации (routing
+table). Аргумент <code>-mpath</code> используется при добавлении multipath
+маршрутов.
 
 <pre class="cmdbox">
 # <b>route add -mpath default 10.130.128.1</b>
 # <b>route add -mpath default 10.132.0.1</b>
 </pre>
 
-Verify the routes:
+Проверим маршрутизацию:
 
 <pre class="cmdbox">
 # <b>netstat -rnf inet | grep default</b>
@@ -604,17 +606,17 @@ default     10.130.128.1      UGS       2      134      -     fxp1
 default     10.132.0.1        UGS       0      172      -     fxp2
 </pre>
 
-In this example we can see that one default route points to
-<code>10.130.128.1</code>, which is accessible via the <code>fxp1</code>
-interface, and the other points to <code>10.132.0.1</code>, which is accessible
-via <code>fxp2</code>.
+В этом примере мы видим, что маршрут по умолчанию достижим, используя
+<code>10.130.128.1</code> через интерфейс <code>fxp1</code>, а другой
+использует <code>10.132.0.1</code> и <code>fxp2</code>.
 
 <p>
-Since the <a href="https://man.openbsd.org/mygate">mygate(5)</a> file does not
-yet support multipath default routes, the above commands should be added to the
-bottom of the <a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a>
-files for the <code>fxp1</code> and <code>fxp2</code> interfaces.
-The <code>/etc/mygate</code> file should then be deleted.
+Так как <a href="https://man.openbsd.org/mygate">mygate(5)</a> до сих пор
+не поддерживает multipath маршрутизацию по умолчанию, вышеуказанные команды
+должны быть добавленны в конец
+<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> файлов для
+<code>fxp1</code> и <code>fxp2</code> интерфейсов.
+Файл <code>/etc/mygate</code> должен быть после этого удален.
 
 <pre class="cmdbox">
 $ <b>tail -1 /etc/hostname.fxp1</b>
@@ -623,20 +625,23 @@ $ <b>tail -1 /etc/hostname.fxp2</b>
 !route add -mpath default 10.132.0.1
 </pre>
 
-Lastly, don't forget to activate the use of multipath routes by enabling the
-proper <a href="https://man.openbsd.org/sysctl.8">sysctl(8)</a> variable.
+Наконец, не забудьте активировать multipath маршрутизацию, при помощи
+соответствующих параметров
+<a href="https://man.openbsd.org/sysctl.8">sysctl(8)</a>.
 
 <pre class="cmdbox">
 # <b>sysctl net.inet.ip.multipath=1</b>
 # <b>sysctl net.inet6.ip6.multipath=1</b>
 </pre>
 
-Be sure to edit <a href="https://man.openbsd.org/sysctl.conf">sysctl.conf(5)</a>
-to make the changes permanent.
+Не забудьте отредактировать
+<a href="https://man.openbsd.org/sysctl.conf">sysctl.conf(5)</a>,
+чтобы сохранить изменения.
 
 <p>
-Now try a traceroute to different destinations.
-The kernel will load balance the traffic over each multipath route.
+А теперь попробуем проверить работу разных маршрутов.
+Ядро будет распределять трафик в режиме балансировки (load balance)
+для каждого multipath маршрута.
 
 <pre class="cmdbox">
 # <b>traceroute -n 154.11.0.4</b>
@@ -654,18 +659,19 @@ traceroute to 154.11.0.5 (154.11.0.5), 64 hops max, 60 byte packets
  4  154.11.0.5  30.177 ms  30.95 ms  30.593 ms
 </pre>
 
-For more information about how the route is chosen, please refer to
-<a href="https://www.ietf.org/rfc/rfc2992.txt">RFC2992</a>, "Analysis of an
-Equal-Cost Multi-Path Algorithm".
+Для дополнительной информации о том, как выбирается тот или иной маршрут,
+читайте <a href="https://www.ietf.org/rfc/rfc2992.txt">RFC2992</a>,
+"Analysis of an Equal-Cost Multi-Path Algorithm".
 
 <p>
-It's worth noting that if an interface used by a multipath route goes down
-(i.e., loses carrier), the kernel will still try to forward packets using the
-route that points to that interface.
-This traffic will of course be blackholed and end up going nowhere.
-It's highly recommended to use
-<a href="https://man.openbsd.org/ifstated">ifstated(8)</a> to check for
-unavailable interfaces and adjust the routing table accordingly.
+Стоит заметить, если интерфейс, используемый при multipath маршрутизации,
+потеряет соединение (например, нет carrier), ядро тем не менее все
+равно будет пытаться отправить пакеты маршрутом, сконфигурированным для
+этого интерфейса. Конечно, этот трафик никуда не попадет.
+Очень рекомендуется использовать
+<a href="https://man.openbsd.org/ifstated">ifstated(8)</a> для проверки
+доступности интерфейса и коррекции таблицы маршрутизации.
+
 
 <h2 id="NFS">Использование NFS</h2>
 
@@ -729,7 +735,7 @@ $ <b>cat /etc/exports</b>
 <h3>Подключение ФС через NFS</h3>
 
 Файловые системы через NFS монтируются при помощи
-<a href="https://man.openbsd.org/mount_nfs">mount(8)</a>, или более специфичной
+<a href="https://man.openbsd.org/mount_nfs">mount(8)</a>, или, точнее,
 <a href="https://man.openbsd.org/mount_nfs">mount_nfs(8)</a>.
 
 <p>
