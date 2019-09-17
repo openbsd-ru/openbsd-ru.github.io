@@ -669,57 +669,58 @@ unavailable interfaces and adjust the routing table accordingly.
 
 <h2 id="NFS">Использование NFS</h2>
 
-The Network File System, NFS, is used to share a filesystem over the network.
+Network File System (NFS или Сетевая Файловая Система) используется
+для совместного использования файловой системы по сети.
 
 <p>
-This section will go through the steps for a simple NFS setup.
-The example details a server on a LAN, with clients accessing NFS on the LAN.
-It does not cover securing NFS.
-We presume you have already set up packet filtering or other firewalling
-protection to prevent outside access.
+В этом разделе приводятся шаги по простой установке NFS.
+В этом примере описывается NFS-сервер в LAN с клиентами из LAN.
+Здесь не обсуждаются вопросы безопасности NFS. Мы считаем, что вы уже установили
+фильтрацию пакетов или другую защиту с помощью фаервола для предотвращения
+доступа извне.
 
 <h3>Настройка NFS сервера</h3>
 
-First, enable the <a href="https://man.openbsd.org/portmap">portmap(8)</a>,
-<a href="https://man.openbsd.org/mountd">mountd(8)</a> and
-<a href="https://man.openbsd.org/nfsd">nfsd(8)</a> services on the server:
+Во-первых, включите <a href="https://man.openbsd.org/portmap">portmap(8)</a>,
+<a href="https://man.openbsd.org/mountd">mountd(8)</a> и
+<a href="https://man.openbsd.org/nfsd">nfsd(8)</a> сервисы на сервере:
 
 <pre class="cmdbox">
 # <b>rcctl enable portmap mountd nfsd</b>
 </pre>
 
-Then configure the list of filesystems that will be made available.
+Следующим шагом мы настроим список файловых систем, чтобы сделать
+доступным для клиентов монтирование.
 
 <p>
-In this example, we have a server with IP address <code>10.0.0.1</code>.
-This server will be serving NFS only to clients within its own subnet.
-This is configured in the following
-<a href="https://man.openbsd.org/exports">exports(5)</a> file:
+В этом примере наш сервер имеет адреc <code>10.0.0.1</code>.
+Этот NFS-сервер обслуживает только клиентов из своей сети.
+Первый шаг в установке NFS - настройка файла
+<a href="https://man.openbsd.org/exports">exports(5)</a>:
+
 
 <pre class="cmdbox">
 $ <b>cat /etc/exports</b>
 /docs -alldirs -ro -network=10.0.0 -mask=255.255.255.0
 </pre>
 
-The local filesystem <code>/docs</code> will be made available via NFS.
-The <code>-alldirs</code> option specifies that clients will be able to mount at
-any point under <code>/docs</code> as well as <code>/docs</code> itself.
-The <code>-ro</code> option specifies that clients will only be granted
-read-only access.
-The last two arguments specify that only clients within the
-<code>10.0.0.0</code>
-network using a netmask of <code>255.255.255.0</code>
-will be authorized to mount this filesystem.
+ФС <code>/docs</code> будет доступна через NFS.
+Параметр <code>-alldirs</code> указывает, что клиенты смогут монтировать
+полностью либо лишь часть каталога <code>/docs</code>. Опция <code>-ro</code>
+указывает, что клиентам будет предоставлен доступ только для чтения.
+Последние два аргумента указывают, что только клиенты в сети <code>10.0.0.0</code>
+и использующие маску сети <code>255.255.255.0</code>, будут авторизованы для
+монтирования этой файловой системы.
 
 <p>
-Now you can start the server services.
+Теперь можно запустить сервисы на сервере.
 
 <pre class="cmdbox">
 # <b>rcctl start portmap mountd nfsd</b>
 </pre>
 
-If you make changes to <code>/etc/exports</code> while NFS is already running,
-you need to make mountd aware of this:
+Если вы вносите изменения в <code>/etc/exports</code> когда NFS уже
+запущен, вам необходимо перезагрузить mountd:
 
 <pre class="cmdbox">
 # <b>rcctl reload mountd</b>
@@ -727,51 +728,51 @@ you need to make mountd aware of this:
 
 <h3>Подключение ФС через NFS</h3>
 
-NFS filesystems should be mounted via
-<a href="https://man.openbsd.org/mount_nfs">mount(8)</a>, or more specifically,
+Файловые системы через NFS монтируются при помощи
+<a href="https://man.openbsd.org/mount_nfs">mount(8)</a>, или более специфичной
 <a href="https://man.openbsd.org/mount_nfs">mount_nfs(8)</a>.
 
 <p>
-To mount the <code>/docs</code> filesystem on host <code>10.0.0.1</code>
-to local filesystem <code>/mnt</code>, run:
+Для монтирования ФС <code>/docs</code>, которая находится на машине <code>10.0.0.1</code>,
+к себе в <code>/mnt</code>, сделайте:
 
 <pre class="cmdbox">
 # <b>mount -t nfs 10.0.0.1:/docs /mnt</b>
 </pre>
 
-To have that filesystem mounted at boot, append a line to your
-<a href="https://man.openbsd.org/fstab">fstab(5)</a>:
+Чтобы это происходило автоматически во время загрузки системы, добавьте следующую
+строку в ваш <a href="https://man.openbsd.org/fstab">fstab(5)</a>:
 
 <pre class="cmdbox">
 # <b>echo '10.0.0.1:/docs /mnt nfs ro,nodev,nosuid 0 0' >> /etc/fstab</b>
 </pre>
 
-It is important that you use <code>0 0</code> at the end of this line so that
-your computer does not try to <a href="https://man.openbsd.org/fsck">fsck(8)</a>
-the NFS filesystem on boot.
+Не забывайте использовать <code>0 0</code> в конце данной строки для
+файловой системы NFS, чтобы ваш компьютер не пытался запустить на ней
+<a href="https://man.openbsd.org/fsck">fsck(8)</a> во время загрузки.
 
 <p>
-When accessing an NFS mount as the root user, the server automatically maps
-root's access to username <code>nobody</code> and group <code>nobody</code>.
-This is important to know when considering file permissions.
-For example, take a file with these permissions:
+При обращении к монтируемому каталогу от пользователя root, сервер
+автоматически отображает root доступ к имени пользователя <code>nobody</code>
+и группе <code>nobody</code>. Это важно знать при рассмотрении прав доступа
+к файлам. Например, возьмем файл с таким набором прав:
 
 <pre class="cmdbox">
 -rw-------    1 root     wheel           0 Dec 31 03:00 _daily.B20143
 </pre>
 
-If this file was on an NFS share and the root user tried to access this file
-from the NFS client, access would be denied.
+Если этот файл находится в NFS, и пользователь root пытается получить доступ
+к этому файлу через тот или иной NFS-клиент, доступ будет запрещен.
 
 <p>
-The user and group that root are mapped to are configurable via the
-<a href="https://man.openbsd.org/exports">exports(5)</a> file on the NFS server.
+Пользователи и группы, которые должны иметь root-доступ, настраиваются при помощи
+файла <a href="https://man.openbsd.org/exports">exports(5)</a> на стороне сервера.
 
 <h3>Проверка состояния NFS</h3>
 
-One thing to check to ensure NFS is operating properly is that all the daemons
-have properly registered with RPC.
-To do this, use <a href="https://man.openbsd.org/rpcinfo">rpcinfo(8)</a>.
+Для проверки, что сервис NFS работает должным образом, можно поверить RPC,
+которая регистрирует все запущенные демоны. Для этого используется
+<a href="https://man.openbsd.org/rpcinfo">rpcinfo(8)</a>.
 
 <pre class="cmdbox">
 $ <b>rpcinfo -p 10.0.0.1</b>
@@ -788,8 +789,8 @@ $ <b>rpcinfo -p 10.0.0.1</b>
     100003    3   tcp   2049  nfs
 </pre>
 
-There are a few utilities that allow you to see what is happening with NFS.
-<a href="https://man.openbsd.org/showmount">showmount(8)</a> allows you to view
-what is currently mounted by whom.
-There is also <a href="https://man.openbsd.org/nfsstat">nfsstat(1)</a>, which
-shows much more verbose statistics.
+Есть несколько утилит для просмотра происходящего с NFS.
+Одна из них <a href="https://man.openbsd.org/showmount">showmount(8)</a>,
+которая показывает, какие файловые системы смонтированы и кем.
+Есть также <a href="https://man.openbsd.org/nfsstat">nfsstat(1)</a>, которая
+покажет более подробную статистику.
