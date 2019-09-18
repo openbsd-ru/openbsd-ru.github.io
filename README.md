@@ -22,7 +22,7 @@ issue.
 
 | Материал к переводу | Ответственный | Комментарий |
 | --- | --- | --- |
-| **[FAQ#04_Installation Guide](https://www.openbsd.org/faq/faq4.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/faq4.html)|
+| **[FAQ#04_Installation Guide](https://www.openbsd.org/faq/faq4.html)** | [Alexander Naumov](https://github.com/alexander-naumov)| [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/faq4.html)|
 | **[FAQ#07_Keyboard and Display Controls](https://www.openbsd.org/faq/faq7.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/faq7.html)|
 | **[FAQ#10_System Management](https://www.openbsd.org/faq/faq10.html)** |  Хотите перевести? | |
 | **[FAQ#13_Multimedia](https://www.openbsd.org/faq/faq13.html)** |  Хотите перевести? | |
