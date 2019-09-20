@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=en id=faq>
+<html lang=ru id=faq>
 
 <style>
 dt { margin-left: 40px; float: left; }
@@ -10,7 +10,7 @@ dd { margin: 0 0 0 10em; }
      on a new line, and try to keep the general formatting consistent
      with the rest of the pages -->
 
-<title>OpenBSD FAQ: Installation Guide</title>
+<title>OpenBSD FAQ: Руководство по установке</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
@@ -19,28 +19,28 @@ dd { margin: 0 0 0 10em; }
 <h2 id=OpenBSD>
 <a href="../index.html">
 <i>Open</i><b>BSD</b></a>
-FAQ - Installation Guide
+FAQ - Руководство по установке
 <small>
-<a href="index.html">[FAQ Index]</a>
+<a href="index.html">[FAQ - На главную]</a>
 </small>
 </h2>
 <hr>
 
 <ul>
-  <li><a href="#bsd.rd"      >Overview of the Installation Procedure</a>
-  <li><a href="#Checklist"   >Pre-installation Checklist</a>
-  <li><a href="#Download"    >Downloading OpenBSD</a>
-  <li><a href="#MkInsMedia"  >Creating Install Media</a>
-  <li><a href="#Install"     >Performing a Simple Install</a>
-  <li><a href="#FilesNeeded" >File Sets</a>
-  <li><a href="#Partitioning">Disk Partitioning</a>
-  <li><a href="#SendDmesg"   >Sending Your dmesg After the Install</a>
-  <li><a href="#site"        >Customizing the Install Process</a>
-  <li><a href="#Multibooting">Multibooting</a>
+  <li><a href="#bsd.rd"      >Обзор процесса установки</a>
+  <li><a href="#Checklist"   >Предварительная подготовка</a>
+  <li><a href="#Download"    >Загрузка OpenBSD из Интернет</a>
+  <li><a href="#MkInsMedia"  >Создание установочного носителя</a>
+  <li><a href="#Install"     >Выполнение простой установки</a>
+  <li><a href="#FilesNeeded" >Набор устанавливаемых компонентов</a>
+  <li><a href="#Partitioning">Разметка диска</a>
+  <li><a href="#SendDmesg"   >Отправка вашего dmesg после установки</a>
+  <li><a href="#site"        >Настройка процесса установки</a>
+  <li><a href="#Multibooting">Мультизагрузка</a>
 </ul>
 <hr>
 
-<h2 id="bsd.rd">Overview of the Installation Procedure</h2>
+<h2 id="bsd.rd">Обзор процесса установки</h2>
 
 The OpenBSD installer uses a special ramdisk kernel (<code>bsd.rd</code>)
 that spawns a live environment running entirely in memory.
@@ -106,7 +106,7 @@ boot> <b>boot hd1d:/bsd.rd</b>
 OpenBSD boot loaders are documented in the architecture-specific
 <a href="https://man.openbsd.org/boot.8">boot(8)</a> man pages.
 
-<h2 id="Checklist">Pre-installation Checklist</h2>
+<h2 id="Checklist">Предварительная подготовка</h2>
 
 Before you start, you should have some idea what you want to end up with.
 A few things worth considering beforehand:
@@ -160,7 +160,7 @@ A few things worth considering beforehand:
     </ul>
 </ul>
 
-<h2 id="Download">Downloading OpenBSD</h2>
+<h2 id="Download">Загрузка OpenBSD из Интернет</h2>
 
 The following installation images are available:
 
@@ -280,7 +280,7 @@ change the installer to say the files were legitimate.
 If the image's signature has been verified beforehand, it is safe to answer
 "yes" at that prompt.
 
-<h2 id="MkInsMedia">Creating Install Media</h2>
+<h2 id="MkInsMedia">Создание установочного носителя</h2>
 
 <h3 id="MkFlash">Flash Drives</h3>
 
@@ -315,7 +315,7 @@ You can create a bootable CD-ROM on OpenBSD by using
 # <b>cdio tao cd*.iso</b>
 </pre>
 
-<h2 id="Install">Performing a Simple Install</h2>
+<h2 id="Install">Выполнение простой установки</h2>
 
 If you need instructions on booting from your preferred media, check the
 relevant <a href="../plat.html">platform page</a> of your machine.
@@ -342,7 +342,7 @@ Welcome to the OpenBSD/amd64 X.X installation program.
 
 Choose <code>(I)nstall</code> and follow the instructions.
 
-<h2 id="FilesNeeded">File Sets</h2>
+<h2 id="FilesNeeded">Набор устанавливаемых компонентов</h2>
 
 The complete OpenBSD installation is broken up into a number of file sets:
 
@@ -391,7 +391,7 @@ Simply boot <a href="#bsd.rd">bsd.rd</a> from your root file system and choose
 <code>(U)pgrade</code>.
 When you get to the list of file sets, select the ones you need.
 
-<h2 id="Partitioning">Disk Partitioning</h2>
+<h2 id="Partitioning">Разметка диска</h2>
 
 OpenBSD can be installed in as little as 512MB, but using a device that small
 is something for advanced users.
@@ -449,7 +449,7 @@ decisions about custom partitioning schemes.
     partitions.
 </ul>
 
-<h2 id= "SendDmesg">Sending Your dmesg After the Install</h2>
+<h2 id= "SendDmesg">Отправка вашего dmesg после установки</h2>
 
 A quote from <code>/usr/src/etc/root/root.mail</code>:
 
@@ -480,7 +480,7 @@ Please configure your email client to use plain text.
 In particular, do not use HTML formatting or forced line breaks.
 Put the dmesg into the body of the mail, not as an attachment.
 
-<h2 id="site">Customizing the Install Process</h2>
+<h2 id="site">Настройка процесса установки</h2>
 
 <h3>The <code>siteXX.tgz</code> File Set</h3>
 
@@ -525,7 +525,7 @@ Example usage:
     At boot time, <code>rc.firsttime</code> is executed once then deleted.
 </ul>
 
-<h2 id="Multibooting">Multibooting</h2>
+<h2 id="Multibooting">Мультизагрузка</h2>
 
 Multibooting is having several operating systems on one computer, with some
 means of selecting which OS is to boot.
