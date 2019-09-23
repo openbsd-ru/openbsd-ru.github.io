@@ -42,39 +42,39 @@ FAQ - Руководство по установке
 
 <h2 id="bsd.rd">Обзор процесса установки</h2>
 
-The OpenBSD installer uses a special ramdisk kernel (<code>bsd.rd</code>)
-that spawns a live environment running entirely in memory.
-It contains the install script and a small number of utilities needed
-to perform a complete installation.
-These utilities can also be useful for disaster recovery.
+Установщик OpenBSD использует специальное ramdisk ядро
+(<code>bsd.rd</code>), которое создает live среду, полностью загружаемую
+в память. Эта среда содержит установочные скрипты и небольшое количество утилит,
+необходимых для процесса установки. Они могут использоваться и для
+востановления (disaster recovery) системы.
 
 <p>
-The ramdisk kernel can be booted from a number of different sources:
+Есть несколько способов загрузить установочное ramdisk ядро:
 
 <ul>
   <li>CD/DVD
-  <li>USB drive
-  <li>An existing partition
-  <li>Over the network
-      (<a href="faq6.html#PXE">PXE</a> or other
-       <a href="https://man.openbsd.org/diskless">network boot options</a>)
-  <li>Floppy disk
+  <li>USB флешка
+  <li>Существующий раздел на диске
+  <li>При помощи сети
+      (<a href="faq6.html#PXE">PXE</a> или другая разновидность
+       <a href="https://man.openbsd.org/diskless">сетевой загрузки</a>)
+  <li>Дискета
 </ul>
 
-Not every <a href="../plat.html">platform</a> supports all of these options.
+Не каждая <a href="../plat.html">платформа</a> поддерживает все перечисленные
+выше способы.
 
 <p>
-If you have a running OpenBSD system, <code>bsd.rd</code> is all you need to
-reinstall or upgrade to a newer version.
-To do so,
-<a href="#Download">download and verify</a> the new <code>bsd.rd</code>,
-place it on an existing filesystem, and boot from it.
-The general method of booting <code>bsd.rd</code> is to change your boot kernel
-from <code>/bsd</code> to <code>/bsd.rd</code> through whatever means used on
-your platform.
+Если у вас есть рабочая OpenBSD система, <code>bsd.rd</code> - это все, что
+вам нужно для переустановки или обновления её до более новой версии. Для этого
+<a href="#Download">скачайте и проверьте</a> новый <code>bsd.rd</code> файл,
+поместите его в существующую файловую систему и загрузитесь с него.
+Чтобы загрузиться с <code>bsd.rd</code> - замените загрузочное ядро с
+<code>/bsd</code> на <code>/bsd.rd</code>.
+
 
 <p>
-Booting from <code>bsd.rd</code> on an amd64 system can be done like so:
+Загрузиться с <code>bsd.rd</code> на платформе amd64 можно вот так:
 
 <pre class="cmdbox">
 Using drive 0, partition 3.
@@ -85,14 +85,13 @@ disk: hd0+ hd1+
 boot> <b>bsd.rd</b>
 </pre>
 
-This will boot the kernel named <code>bsd.rd</code> from the first partition
-of the first recognized hard disk.
+Это загрузит ядро <code>bsd.rd</code>  из первого раздела первого
+найденного жесткого диска.
 
 <p>
-If you need to specify a different drive or partition, just prefix the
-kernel name with its location.
-The following example would boot from the fourth partition of the second
-hard drive:
+Если вам нужно указать другой диск или раздел, просто подставьте перед
+именем ядра его местоположение. В следующем примере загрузка происходит с
+четвертого раздела второго диска:
 
 <pre class="cmdbox">
 Using drive 0, partition 3.
@@ -103,8 +102,8 @@ disk: hd0+ hd1+
 boot> <b>boot hd1d:/bsd.rd</b>
 </pre>
 
-OpenBSD boot loaders are documented in the architecture-specific
-<a href="https://man.openbsd.org/boot.8">boot(8)</a> man pages.
+Загрузчики OpenBSD описаны в архитектурно-зависимых
+<a href="https://man.openbsd.org/boot.8">boot(8)</a> man-страницах.
 
 <h2 id="Checklist">Предварительная подготовка</h2>
 
