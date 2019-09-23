@@ -107,17 +107,17 @@ boot> <b>boot hd1d:/bsd.rd</b>
 
 <h2 id="Checklist">Предварительная подготовка</h2>
 
-Before you start, you should have some idea what you want to end up with.
-A few things worth considering beforehand:
+Прежде чем начать, вы должны иметь представление о том, что вы хотите в итоге
+получить. Вот несколько вещей, которые стоит рассмотреть заранее:
 
 <ul>
-  <li>Machine name
-  <li>Hardware installed and available:
+  <li>Имя машины
+  <li>Установленное и доступное железо:
     <ul>
-      <li>Verify compatibility with your hardware.
-          You may want to consult the platform-specific installation notes,
-          especially if you're using one of the non-x86 CPU architectures.
-          They contain detailed instructions and any possible caveats:
+      <li>Проверьте совместимость с вашим оборудованием. Ознакомтесь с
+	  особенностями процесса установки для конкретной платформы, особенно
+	  если вы используете одну из архитектур, отличных от x86. Они содержат
+	  подробные инструкции и предостережения:
           <p>
 [<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/alpha/INSTALL.alpha">alpha</a>]
 [<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/amd64/INSTALL.amd64">amd64</a>]
@@ -132,30 +132,31 @@ A few things worth considering beforehand:
 [<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/octeon/INSTALL.octeon">octeon</a>]
 [<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/sgi/INSTALL.sgi">sgi</a>]
 [<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/sparc64/INSTALL.sparc64">sparc64</a>]
-      <li>If wireless internet is your only option, does your card require
-        <a href="http://firmware.openbsd.org/firmware">additional firmware</a>?
-        If so, you'll need to manually download it to a USB drive or similar
-        device, then use the
-        <a href="https://man.openbsd.org/fw_update">fw_update(1)</a> tool to
-        enable it after OpenBSD is installed.
+      <li>Если досуп к сети в вашем случае возможен только через wireless, узнайте
+	  заранее, требует ли ваша карта
+	  <a href="http://firmware.openbsd.org/firmware">дополнительной прошивки</a>?
+	  Если это так, вам нужно будет заранее вручную загрузить её на USB флешку или
+	  подобное устройство, а затем использовать
+	  <a href="https://man.openbsd.org/fw_update">fw_update(1)</a>, чтобы установить
+	  прошивку и включить/ативировть устройство после установки OpenBSD.
     </ul>
-  <li>Install method to be used
-  <li>Desired disk layout:
+  <li>Какой метод установки будет испрользоваться
+  <li>Желаемая разметка диска:
     <ul>
-      <li>Does existing data need to be saved elsewhere?
-      <li>Will OpenBSD coexist on this system with another OS?
-        If so, how will each system be booted?
-        Will you need to install a boot manager?
-      <li>Will the entire disk be used for OpenBSD, or do you want to
-        keep an existing partition/OS (or space for a future one)?
-      <li>How do you wish to sub-partition the OpenBSD part of your disk?
-      <li>Do you want <a href="faq14.html#softraidFDE">disk encryption</a>?
+      <li>Нужно ли будет сохранять где-то какие-то данные, существующие в системе?
+      <li>Установленна (или будет ли установленна в будущем) на машине какая-то другая ОС?
+        Если да, то как именно они должны загружаться?
+        Понадобиться ли установка boot manager?
+      <li>Будет ли использоваться весь диск для OpenBSD, или вы хотите использовать
+        существующую разметку и использовать один из доступных разделов?
+      <li>Как вы хотите разметить часть диска, предназначенного для OpenBSD?
+      <li>Хотите ли <a href="faq14.html#softraidFDE">зашифровать диск</a>?
     </ul>
-  <li>Network settings, if not using DHCP:
+  <li>Настройка сети, если не используется DHCP:
     <ul>
-      <li>Domain name and DNS address
-      <li>IP address and subnet masks for each NIC
-      <li>Gateway address
+      <li>Доменное имя и адрес DNS
+      <li>IP адрес и маска сети для каждого NIC
+      <li>Адрес шлюза (gateway)
     </ul>
 </ul>
 
