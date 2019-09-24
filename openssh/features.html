@@ -51,63 +51,67 @@ OpenSSH не распространяется в соответствии с к�
 
 <li><p>Поддержка стойкого шифрования (AES, ChaCha20, RSA, ECDSA, Ed25519...)
 <p>
-Encryption is started before authentication, and no passwords or other
-information is transmitted in the clear. Encryption is also used to protect
-against spoofed packets. A number of different ciphers and key types are
-available, and legacy options are usually phased out in a reasonable amount
-of time.
+Процесс шифрования трафика начинается еще перед процессом аутентификации.
+Ни пароли, ни какая-то другая информация не передаётся в открытом виде.
+Шифрование также используется для защиты от поддельных (spoofed) пакетов.
+Доступно несколько различных шифров и типов ключей, а устаревшие варианты
+обычно со временем удаляются.
 
 <li><p>X11 forwarding (шифрование трафика X Window System)
 <p>
-X11 forwarding allows the encryption of remote X windows traffic, so
-that nobody can snoop on your remote xterms or insert malicious
-commands. The program automatically sets DISPLAY on the server
-machine, and forwards any X11 connections over the secure channel.
-Fake Xauthority information is automatically generated and forwarded
-to the remote machine; the local client automatically examines
-incoming X11 connections and replaces the fake authorization data with
-the real data (never telling the remote machine the real information).
+X11 Fowarding позволяет шифровать трафик X Window System таким образом,
+чтобы никто не смог отследить ваши удалённые соединения xterm или
+вставить вредоносные комманды. Программа автоматически устанавливает
+DISPLAY на стороне сервера и перенаправляет весь X11 трафик через
+зашифрованный канал. Автоматически генерируется много ложного Xauthority
+трафика и отправляется на удаленную машину; клиент автоматически проверяет
+входящее X11 соединение и заменяет поддельные данные на реальные
+(при этом никогда не говорит удаленной стороне реальные данные).
 
 <li><p>Port forwarding (шифрованные каналы для традиционных протоколов)
 <p>
-Port forwarding allows forwarding of TCP/IP connections to a remote
-machine over an encrypted channel. Insecure internet applications
-like POP can be secured with this.
+Port Forwarding (иногда называемый "пробросом портов") позволяет создавать
+зашифрованный канал для каждого нового устанавливаемого TCP/IP соединения
+с удаленной машиной. Стандартные интернет приложения, например POP, могут
+быть обезопасены таким образом.
 
-<li><p>Strong authentication (public keys, одноразовые пароли)
+<li><p>Строгая аутентификация (асимметричне шифрование, одноразовые пароли)
 <p>
-Strong authentication protects against several security problems:
-IP spoofing, fakes routes and DNS spoofing. Some authentication methods
-include public key authentication, one-time passwords with s/key and
-authentication using Kerberos (only in -portable).
+Строгая аутентификация позволяет избавиться от нескольких проблем
+безопасности: подмена IP (IP spoofing), подмена или манипуляция с
+маршрутами (fakes routes) и подмена DNS (DNS spoofing).
+Методы аутентификации включают в себя поддержку крито-систем с открытым
+ключом, одноразовые пароли s/key и аутентификацию при помощи Kerberos
+(только в -portable версии).
 
 <li><p>Agent forwarding
 <p>
-An authentication agent, running in the user's laptop or local workstation,
-can be used to hold the user's authentication keys. OpenSSH automatically
-forwards the connection to the authentication agent over any connections,
-and there is no need to store the authentication keys on any machine in the
-network (except the user's own local machine). The authentication protocols
-never reveal the keys; they can only be used to verify that the user's agent
-has a certain key. Eventually the agent could rely on a smart card to perform
-all authentication computations.
+Агент аутентификации (authentication agent), запущенный на лептопе или
+другом компьютере пользователя, может использоваться для хранения
+пользоватьских ключей. OpenSSH автоматически определяет агента через любое
+соединение, поэтому нет необходимости в хранении ключей на всех машинах
+в сети (за исключением компьютера пользователя). Протокол аутентификации
+никогда не пересылает ключи; они могут используются лишь для проверки того,
+что агент содержит необходимый ключ. В конечном счёте, агент может
+использовать smart карту для обеспечения всех аутентификационных вычислений.
 
 <li><p>Совместимость
 <p>
-Interoperability between implementations is a goal, but not a promise.
-As OpenSSH development progresses, older protocols, ciphers, key types
-and other options that have known weaknesses are routinely disabled.
-Some examples can be found on the <a href="legacy.html">legacy</a> page.
+Совместимость с другими реализациями является целью, но не обещанием.
+В процессе разработки OpenSSH, старые протоколы, шифры, типы ключей, а
+также поддержка других возможностей, которые имеют известные недостатки,
+обычно отключаются. Некоторые примеры можно найти на странице
+<a href="legacy.html">legacy</a>.
 
 <li><p>Поддержка SFTP-клиента и -сервера
 <p>
-Complete SFTP support is included, using the
-<a href="https://man.openbsd.org/sftp">sftp(1)</a> command as a client and
+Полная поддержка SFTP, при помощи клиента
+<a href="https://man.openbsd.org/sftp">sftp(1)</a> и подсистемы
 <a href="https://man.openbsd.org/sftp-server">sftp-server(8)</a>
-subsystem as a server.
+в качестве сервера.
 
 <li><p>Сжатие данных при передаче
 <p>
-Data compression before encryption improves the performance
-for slow network links.
+Сжатие данных перед шифрованием увеличивает скорость передачи данных,
+которая особенно заметна и важна при медленных сетевых соединениях.
 </ul>
