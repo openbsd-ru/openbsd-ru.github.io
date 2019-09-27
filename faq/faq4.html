@@ -283,34 +283,34 @@ Directory does not contain SHA256.sig. Continue without verification? [no]
 
 <h2 id="MkInsMedia">Создание установочного носителя</h2>
 
-<h3 id="MkFlash">Flash Drives</h3>
+<h3 id="MkFlash">Флеш устройства (Flash Drives)</h3>
 
-A bootable USB flash drive can be created by attaching the target device and
-copying over the image with <a href="https://man.openbsd.org/dd">dd(1)</a>.
+Загрузочную USB флешку можно создать записав не нее образ при помощи
+<a href="https://man.openbsd.org/dd">dd(1)</a>.
 
 <p>
-Using OpenBSD, assuming the device was recognized as <code>sd6</code>:
+Используя OpenBSD и предполагая, что устройство было распознано как
+<code>sd6</code>:
 
 <pre class="cmdbox">
 # <b>dd if=install*.fs of=/dev/rsd6c bs=1m</b>
 </pre>
 
-Note that the <b>raw I/O device</b> is used, <code>rsd6c</code> rather than
-<code>sd6c</code>.
+Обратите внимание, что используется <b>raw I/O device</b> <code>rsd6c</code>,
+а не <code>sd6c</code>.
 
 <p>
-Details of this will vary on other platforms.
-The GNU version of <code>dd</code> will require <code>bs=1M</code>
-(note the capital M)
-instead.
-If you're using a different OS, be sure to select the appropriate device
-name: <code>/dev/sdX</code> on Linux or <code>/dev/rdiskX</code> on macOS
-for example.
+Некоторые детали могут отличаться в разных системах.
+GNU версия <code>dd</code> потребует <code>bs=1M</code> (обратите внимание
+на заглавную M).
+Если вы используете другую ОС, не забудьте о правильном имени устройства:
+<code>/dev/sdX</code> в Linux или <code>/dev/rdiskX</code> в macOS, например.
 
-<h3 id="MkCD-ROM">CD-ROMs</h3>
+<h3 id="MkCD-ROM">CD-ROM</h3>
 
-You can create a bootable CD-ROM on OpenBSD by using
-<a href="https://man.openbsd.org/cdio">cdio(1)</a>.
+При помощи
+<a href="https://man.openbsd.org/cdio">cdio(1)</a>
+вы можете создать загружаемый CD-ROM.
 
 <pre class="cmdbox">
 # <b>cdio tao cd*.iso</b>
@@ -318,19 +318,20 @@ You can create a bootable CD-ROM on OpenBSD by using
 
 <h2 id="Install">Выполнение простой установки</h2>
 
-If you need instructions on booting from your preferred media, check the
-relevant <a href="../plat.html">platform page</a> of your machine.
+Если вы ищете иструкции и другую информцию о процессе загрузки с того или
+иного устройства, загляните на страницу <a href="../plat.html">платформы</a>,
+где можно ознакомиться с возможностями для вашей машины.
 
 <p>
-The installer is designed to install OpenBSD in a very usable default
-configuration with a minimum of user intervention.
-In fact, you can often just hit <code>&lt;Enter&gt;</code> to get a good OpenBSD
-install, moving your hands to the rest of the keyboard only to enter the
-root password.
+Установщик OpenBSD предназначен для установки системы с очень удобной
+конфигурацией по умолчанию при минимальным вмешательством пользователя.
+Вы можете просто нажимать <code>&lt;Enter&gt;</code>, чтобы получить правильно
+установленную OpenBSD, пробежавшиь пальцами по клавиатуре только для ввода
+пароля root.
 
 <p>
-After the <a href="https://man.openbsd.org/dmesg">dmesg(8)</a> is shown,
-you will see the first installer question:
+После вывода <a href="https://man.openbsd.org/dmesg">dmesg(8)</a> вы
+увидете первый вопрос установщика:
 
 <pre class="cmdbox">
 ...
@@ -341,7 +342,7 @@ Welcome to the OpenBSD/amd64 X.X installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell?
 </pre>
 
-Choose <code>(I)nstall</code> and follow the instructions.
+Выберете <code>(I)nstall</code> для начала процесса установки.
 
 <h2 id="FilesNeeded">Набор устанавливаемых компонентов</h2>
 
