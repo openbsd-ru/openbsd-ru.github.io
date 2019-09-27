@@ -162,7 +162,7 @@ boot> <b>boot hd1d:/bsd.rd</b>
 
 <h2 id="Download">Загрузка OpenBSD из Интернет</h2>
 
-The following installation images are available:
+Следующие установочные образы доступны для скачивания:
 
 <ul>
 <li>
@@ -170,9 +170,9 @@ The following installation images are available:
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/amd64/install65.fs">amd64</a>]
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/i386/install65.fs">i386</a>]
 <br>
-A disk image that can be written to a USB flash drive or similar device.
+Образ диска, который может быть записан на USB флешку или подобное устройство.
 <br>
-Includes the <a href="#FilesNeeded">file sets</a>.
+Содержит <a href="#FilesNeeded">установочные компоненты</a>.
 
 <p>
 <li>
@@ -189,8 +189,9 @@ Includes the <a href="#FilesNeeded">file sets</a>.
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/octeon/miniroot65.fs">octeon</a>]
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/sparc64/miniroot65.fs">sparc64</a>]
 <br>
-The same as above, but file sets are not included.
-They can be pulled down from the internet or from a local disk.
+Это такой же образ, как и образ выше, но файлов, содержащих установочные компоненты,
+там нет. Они могут быть во время установки системы загруженны из сети или найдены на
+диске.
 
 <p>
 <li>
@@ -203,9 +204,9 @@ They can be pulled down from the internet or from a local disk.
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/sgi/install65.iso">sgi</a>]
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/sparc64/install65.iso">sparc64</a>]
 <br>
-An ISO 9660 image that can be used to create an install CD/DVD.
+ISO 9660 образш. Используется для создания установочных CD/DVD.
 <br>
-Includes the file sets.
+Содержит файлы с установочными компонентами.
 
 <p>
 <li>
@@ -218,7 +219,7 @@ Includes the file sets.
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/sgi/cd65.iso">sgi</a>]
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/sparc64/cd65.iso">sparc64</a>]
 <br>
-The same as above, but file sets are not included.
+Такой же образ как и образ выше, но без файлов с установочными компонентами.
 
 <p>
 <li>
@@ -227,33 +228,32 @@ The same as above, but file sets are not included.
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/i386/floppy65.fs">i386</a>]
 [<a href="https://cdn.openbsd.org/pub/OpenBSD/6.5/sparc64/floppy65.fs">sparc64</a>]
 <br>
-Supports some older machines that lack other booting options.
+Поддерживает некоторые старые машины, где отсутствуют другие возможности для загрузки.
 </ul>
 
-Images can also be downloaded from a number of alternate
-<a href="../ftp.html">mirror sites</a>.
+Образы могут быть загружены с альтернативных <a href="../ftp.html">зеркал</a>.
 
 <p>
-An <code>SHA256</code> file containing checksums can be found in the same
-directory as the installation files.
-You can confirm that none of the downloaded files were mangled in transit
-using the <a href="https://man.openbsd.org/sha256">sha256(1)</a> command.
+Файл <code>SHA256</code>, содержащий checksums, находится в том же каталоге,
+что и установочные файлы, перечисленные выше. Вы можете проверить, что ни один из
+загруженных файлов не был искажен при скачивании, используя команду
+<a href="https://man.openbsd.org/sha256">sha256(1)</a>.
 
 <pre class="cmdbox">
 $ <b>sha256 -C SHA256 miniroot*.fs</b>
 (SHA256) minirootXX.fs: OK
 </pre>
 
-Or, if you're using an OS with the GNU coreutils:
+Если же вы используете ОС с GNU coreutils:
 
 <pre class="cmdbox">
 $ <b>sha256sum -c --ignore-missing SHA256</b>
 minirootXX.fs: OK
 </pre>
 
-However, this only checks for <i>accidental</i> corruption.
-You can use <a href="https://man.openbsd.org/signify">signify(1)</a> and the
-<code>SHA256.sig</code> file to cryptographically verify the downloaded image.
+Однако это используется лишь для проверки <i>правильной загрузки</i> файлов по сети.
+Вы можете использовать <a href="https://man.openbsd.org/signify">signify(1)</a>
+и файл <code>SHA256.sig</code> для криптографической проверки загруженного файла.
 
 <pre class="cmdbox">
 $ <b>signify -Cp /etc/signify/openbsd-XX-base.pub -x SHA256.sig miniroot*.fs</b>
@@ -261,24 +261,25 @@ Signature Verified
 minirootXX.fs: OK
 </pre>
 
-Note that the signify package on other operating systems may not include the
-required <a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/openbsd-65-base.pub">
-public key</a>, or it may be installed in another location.
+Обратите внимание, что пакет signify в других операционных системах может не
+содержать требуемого
+<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/openbsd-65-base.pub">открытого ключа</a>
+или может быть установлен в другом месте.
 
 <p>
-The <code>installXX.iso</code> and <code>installXX.fs</code> images do not
-contain an <code>SHA256.sig</code> file, so the installer will complain that
-it can't check the signature of the included sets:
+Образы <code>installXX.iso</code> и <code>installXX.fs</code> не содержат файл
+<code>SHA256.sig</code>, поэтому установщик пожалуется, что не может проверить
+подпись включенных файлов, которые содержат установочные компоненты:
 
 <pre class="cmdbox">
 Directory does not contain SHA256.sig. Continue without verification? [no]
 </pre>
 
-This is because it would make no sense for the installer to verify them.
-If someone were to make a rogue installation image, they could certainly
-change the installer to say the files were legitimate.
-If the image's signature has been verified beforehand, it is safe to answer
-"yes" at that prompt.
+Это происходит из-за того, что мы не стали включать этот файл, потому что
+установщику нет смысла проверять их. Если кто-то создаст мошеннический
+установочный образ, он конечно же сможет изменить установщик так, чтобы файлы
+были легитимными. Если подпись установочного образа была проверена заранее,
+можно с уверенностью ответить «да».
 
 <h2 id="MkInsMedia">Создание установочного носителя</h2>
 
