@@ -343,90 +343,92 @@ Welcome to the OpenBSD/amd64 X.X installation program.
 
 <h2 id="FilesNeeded">Набор устанавливаемых компонентов</h2>
 
-The complete OpenBSD installation is broken up into a number of file sets:
+Для полная установка OpenBSD состоит из нескольких компонентов.
+Вот краткое их описание:
 
 <dl>
   <dt><code>bsd</code>
-    <dd>The kernel <b>(required)</b>
+    <dd>Ядро <b>(обязательно для установки)</b>
   <dt><code>bsd.mp</code>
-    <dd>The multi-processor kernel (only on some platforms)
+    <dd>Ядро с поддержкой мультипроцессорных систем (SMP) (доступно не для всех платформ).
   <dt><code>bsd.rd</code>
-    <dd>The <a href="#bsd.rd">ramdisk kernel</a>
+    <dd><a href="#bsd.rd">ramdisk ядро</a>
   <dt><code>baseXX.tgz</code>
-    <dd>The base system <b>(required)</b>
+    <dd>Базовая система <b>(обязательно для установки)</b>
   <dt><code>compXX.tgz</code>
-    <dd>The compiler collection, headers and libraries
+    <dd>Компиляторы, заголовочные файлы (headers) и библиотеки
   <dt><code>manXX.tgz</code>
-    <dd>Manual pages
+    <dd>Справочные man-страницы
   <dt><code>gameXX.tgz</code>
-    <dd>Text-based games
+    <dd>Консольные игры (Text-based games)
   <dt><code>xbaseXX.tgz</code>
-    <dd>Base libraries and utilities for X11
-        (requires <code>xshareXX.tgz</code>)
+    <dd>Основные библиотеки и утилиты для X11
+        (требует <code>xshareXX.tgz</code>)
   <dt><code>xfontXX.tgz</code>
-    <dd>Fonts used by X11
+    <dd>Шрифты, используемые X11
   <dt><code>xservXX.tgz</code>
-    <dd>X11's X servers
+    <dd>X серверы
   <dt><code>xshareXX.tgz</code>
-    <dd>X11's man pages, locale settings and includes
+    <dd>Справочные man-страницы и настройки для X11
 </dl>
 
-New users are recommended to install all of them.
+Новым пользователям рекомендуется установить все эти компоненты.
 
 <p>
-Some libraries from <code>xbaseXX.tgz</code>, like freetype or fontconfig, can
-be used outside of X by programs that manipulate text or graphics.
-Such programs will usually need fonts, either from <code>xfontXX.tgz</code> or
-font packages.
-For the sake of simplicity, the developers decided against maintaining a minimal
-<code>xbaseXX.tgz</code> set that would allow most non-X ports to run.
-The <code>xservXX.tgz</code> set is rarely needed if you don't intend to run X.
+Некоторые библиотеки из <code>xbaseXX.tgz</code>, такие как freetype или
+fontconfig, могут использоваться без X программами, которые работают с текстом
+или графикой. Такие программы обычно нуждаются в шрифтах, либо из
+<code>xfontXX.tgz</code>, либо из пакетов со шрифтами.
+Для простоты разработчики решили не поддерживать минимальный компонент
+<code>xbaseXX.tgz</code>, который позволял бы работать большинству не-X портов.
+Компонент <code>xservXX.tgz</code> редко требуется, если вы не собираетесь
+запускать X.
 
-<h3>Adding a File Set After Install</h3>
+<h3>Добавление компонента после устновки</h3>
 
-If you chose to skip some file sets at install time, you might realize later
-that you really do need them after all.
-Simply boot <a href="#bsd.rd">bsd.rd</a> from your root file system and choose
-<code>(U)pgrade</code>.
-When you get to the list of file sets, select the ones you need.
+Если вы решили пропустить некоторые установочные компоненты во время установки
+системы, вы, возможно, позже все же передумаете. Для этого просто загрузитесь с
+<a href="#bsd.rd">bsd.rd</a> и выберите <code>(U)pgrade</code>.
+Когда вы, ответив предворительно на несколько вопросов, наконец перейдете к выбору
+установочных компонентов, выберите те, которые вы хотите доустановить.
 
 <h2 id="Partitioning">Разметка диска</h2>
 
-OpenBSD can be installed in as little as 512MB, but using a device that small
-is something for advanced users.
-Until you have some experience, 8GB or more disk space is recommended.
+Для установки OpenBSD требуется всего 512 Мб свободного места на диске, но
+подобная установка подойдет по большей части опытным пользователям. Если же у вас
+нет большого опыта в работе с OpenBSD, мы рекомендуем использовать 8 Гб или даже
+больше.
 
 <p>
-Unlike some other operating systems, OpenBSD encourages users to split their
-disk into a number of partitions, rather than just one or two large ones.
-Some of the reasons for doing so are:
+В отличие от других операционных систем, OpenBSD советует пользователям разбивать
+свои разделы на несколько подразделов, а не на один или два больших.
+Некоторые из причин для этого:
 
 <ul>
-  <li>Security:
-      Some of OpenBSD's default security features rely on filesystem
-      <a href="https://man.openbsd.org/mount#o">mount options</a> such as
-      <code>nosuid</code>, <code>nodev</code>, <code>noexec</code> or
-      <code>wxallowed</code>.
-  <li>Stability:
-      A user or a misbehaved program can fill a filesystem with garbage if they
-      have write permissions for it.
-      Your critical programs, which hopefully run on a different filesystem,
-      do not get interrupted.
+  <li>Безопасность:
+      Некоторые возможности безопасности OpenBSD по умолчанию используют
+      <a href="https://man.openbsd.org/mount#o">параметры монтирования</a> ФС,
+      такие как <code>nosuid</code>, <code>nodev</code>, <code>noexec</code>
+      или <code>wxallowed</code>.
+  <li>Стабильность:
+      Пользователь или программа, если они имеют право на запись в файловую
+      систему, могут заполнить ее мусором.
+      На ваши важные программы, которые, как мы надеемся, работают в другой
+      файловой системе, это никак не повлияет.
   <li><a href="https://man.openbsd.org/fsck">fsck(8)</a>:
       You can mount partitions that you never or rarely need to write to as
       <code>readonly</code> most of the time, which will eliminate the need for
       a filesystem check after a crash or power interruption.
 </ul>
 
-The installer will create a partitioning plan based on the size of your
-hard disk.
-While this will not be a perfect layout for all people, it provides a
-good starting point for figuring out what you need.
-Read about disklabel's defaults for
+Установщик OpenBSD предложит свой вариант разбиения на основе размера вашего
+жесткого диска. Хотя порой это и не является идеальным вариантом, для всех
+пользователей, он, тем не менее, гарантирует правильный старт с целью понять,
+что вам нужно. Прочтите информацию о настройках, используемых по умолчанию,
 <a href="https://man.openbsd.org/disklabel#AUTOMATIC_DISK_ALLOCATION">
-automatic disk allocation</a> and the
-<a href="https://man.openbsd.org/hier">hier(7)</a> man page before making
-decisions about custom partitioning schemes.
+для автоматического disk allocation</a> и man-страницу
+<a href="https://man.openbsd.org/hier">hier(7)</a>, прежде чем принимать
+решение о создании своей схемы разметки.
 
 <ul>
   <li>Since some <a href="faq15.html">packages</a> need to be started from a
