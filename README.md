@@ -46,7 +46,6 @@ issue.
 | **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
-| **[arm64](https://www.openbsd.org/arm64.html)** |  Хотите перевести? | |
 | **[amd64](https://www.openbsd.org/amd64.html)** |  Хотите перевести? | |
 | **[Problem Reports](https://www.openbsd.org/report.html)** | [Sergey Bronnikov](https://github.com/ligurio) | |
 | **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
