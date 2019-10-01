@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang=ru id=platform>
+<meta charset=utf-8>
+
+<title>OpenBSD/arm64</title>
+<meta name="description" content="the OpenBSD/arm64 page">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/arm64.html">
+
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+arm64
+</h2>
+<hr>
+
+<table><tr><td>
+<p>
+OpenBSD/arm64 это порт OpenBSD для различных 64-битных ARM-систем.
+
+<p>
+Почтовая рассылка, посвященная теме ARM, доступна по адресу
+<a href="mailto:arm@openbsd.org">arm@openbsd.org</a>.
+Для того чтобы подписаться на эту почтовую рассылку, отправьте
+email с текстом в теле письма <b>"subscribe arm"</b> на адрес
+<a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>.
+Пожалуйста ознакомтесь с нашими <a href="mail.html">mailing list правилами</a>
+прежде, чем подписаться на рассылку.
+</table>
+
+<hr>
+
+<h3 id="status"><strong>Текущее состояние</strong></h3>
+
+<p>
+В настоящее время работа ведется над платформами  Allwinner A64/H5, Amlogic G12A/B,
+AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 7K/8K, Rockchip RK3328/RK3399,
+Broadcom BCM2837 (Raspberry Pi 3) и Socionext SCA11.
+
+<p>
+Устновочный образ включает в себя firmware, необходимый для загрузки Pine 64/64+
+и Raspberry Pi.
+
+<p>
+Raspberry Pi 3 требует закрытых, но свободно распространяемых (redistributable)
+файлов на диске для загрузки графического процессора VC4, который уже и запускает
+сами ядра ARM. По умолчанию загрузочный ROM пытается загрузить эти файлы только с
+SD-карты. Эти файлы присутствуют на установочном образе, но пока нет драйвера для
+SD/MMC, поэтому требуется USB-диск и пара дополнительных шагов, которые надо будет
+сделать.
+Чтобы загрузить firmware с SD-карты и иметь возможность работать с корневой ФС на
+USB после установки OpenBSD, перезагрузите компьютер и во время загрузки, до
+истечения времени ожидания, перейдите в U-Boot и скажите, чтобы тот грузился с
+USB, а не с SD-карты:
+
+<pre class="cmdbox">
+Hit any key to stop autoboot:  0
+U-Boot&gt; setenv boot_targets usb0 mmc0 pxe dhcp
+U-Boot&gt; saveenv
+U-Boot&gt; boot
+</pre>
+
+<p>
+Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
+загружаться с SATA или USB без специальных загрузочных файлов на системном диске.
+
+<p>
+Большинство других машин загружают свои firmware с загрузочного диска и требуют
+дополнительных шагов для создания загрузочного установочного носителя.
+См. <a href="https://ftp.openbsd.org/pub/OpenBSD/snapshots/arm64/INSTALL.arm64">
+инструкции по установке снапшотов OpenBSD/arm64</a>, если нужна более подробная
+информация.
+
+<h3 id="hardware"><strong>Поддерживаемые машины</strong></h3>
+
+<p>
+OpenBSD/arm64 работает на следующем железе:
+
+<ul>
+	<li>Allwinner A64/H5
+	<ul>
+		<li>Pine64 Pine 64/64+
+		<li>NanoPi A64
+		<li>Orange Pi PC2
+	</ul>
+	<li>AMD Opteron A1100 (Seattle)
+	<ul>
+		<li>AMD Seattle Development Board
+		<li>SoftIron OverDrive 1000
+		<li>SoftIron OverDrive 3000
+	</ul>
+	<li>Amlogic G12A/B
+	<ul>
+		<li>Hardkernel ODROID-N2
+	</ul>
+	<li>Ampere eMAG
+	<ul>
+		<li>Lenovo ThinkSystem HR330A
+		<li>Lenovo ThinkSystem HR350A
+	</ul>
+	<li>Broadcom BCM2837
+	<ul>
+		<li>Raspberry Pi 3
+	</ul>
+	<li>Marvell ARMADA 7K/8K
+	<ul>
+		<li>SolidRun/Marvell MACCHIATObin
+	</ul>
+	<li>Rockchip RK3328/RK3399
+	<ul>
+		<li>Pine64 ROCK64
+		<li>Pine64 ROCKPro64
+		<li>Firefly-RK3399
+		<li>Theobroma Systems RK3399-Q7
+	</ul>
+	<li>Socionext SC2A11
+	<ul>
+		<li>Socionext SynQuacer-E Developerbox
+	</ul>
+</ul>
+
+<p>
+В целом, другие платы/машины, которые используют одну из перечисленных выше SoC,
+также будут работать, пока доступно UEFI firmware (например, U-Boot или EDK II
+firmware). Обе группы устройств и ACPI поддерживаются.
+Возможно, потребуется обновить дерево поддерживаемых устройств, чтобы использовать
+OpenBSD на этих машинах.
+
+<p>
+Поддержка Amlogic G12A/B и Ampere eMAG была добавленна уже после релиза OpenBSD 6.5.
+
+<h4>Ethernet</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/arm64/dwge.4">dwge(4)</a>
+	  для встроенной Synopsys DesignWare GMAC 10/100/Gigabit Ethernet на Rockchip RK3399
+	<li><a href="https://man.openbsd.org/arm64/dwxe.4">dwxe(4)</a>
+	  для встроенной Allwinner EMAC 10/100/Gigabit Ethernet на Allwinner A64/H5
+	<li><a href="https://man.openbsd.org/arm64/msk.4">msk(4)</a>
+	  для встроенной Marvell Yukon-2 10/100/Gigabit Ethernet на OverDrive 1000
+	<li><a href="https://man.openbsd.org/arm64/smsc.4">smsc(4)</a>
+	  для встроенной SMSC LAN95xx 10/100 USB Ethernet на Raspberry Pi 3
+</ul>
+
+<h4>Storage</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/arm64/ahci.4">ahci(4)</a>
+	  на AMD Opteron A1100, Ampere eMAG, Marvell 7K/8K и SynQuacer-E
+	<li><a href="https://man.openbsd.org/arm64/dwmmc.4">dwmmc(4)</a>
+	  на Rockchip RK3328/RK3399
+	<li><a href="https://man.openbsd.org/arm64/sdhc.4">sdhc(4)</a>
+	  на Rockchip RK3399
+	<li><a href="https://man.openbsd.org/arm64/sximmc.4">sximmc(4)</a>
+	  на Allwinner A64/H5
+</ul>
+
+<h4>USB</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/arm64/dwctwo.4">dwctwo(4)</a>
+	  на Raspberry Pi 3
+	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
+	  на Allwinner A64/H5 and Rockchip RK3328/RK3399
+	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
+	  на Amlogic G12A/B, Ampere eMAG, Rockchip RK3399, OverDrive 1000
+	  и SynQuacer-E
+</ul>
+
+<strong>Нет real time clock:</strong> Многие arm64 устройства не имеют real
+time clock с питанием от батарейки. По этой причине
+<a href="faq/faq8.html#OpenNTPD">OpenNTPD</a> необходимо использовать
+с параметром <code>-s</code>.
+
+<h3 id="install">
+<strong>Загрузка и установка OpenBSD/arm64:</strong>
+</h3>
+
+<p>
+Последний поддерживаемая версия OpenBSD/arm64
+<a href="65.html">OpenBSD 6.5</a>.
+Здесь вы можете найти
+<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/arm64/INSTALL.arm64">
+инструкции по установке OpenBSD/arm64</a>.
+
+<p>
+Новые снапшоты выкладываются время от времени на
+<a href="https://cdn.openbsd.org/pub/OpenBSD/snapshots/arm64">нашем сервере</a>
+и на нескольких
+<a href="ftp.html">зеркалах</a>.
+Тут описан процесс
+<a href="https://ftp.openbsd.org/pub/OpenBSD/snapshots/arm64/INSTALL.arm64">
+установки снапшота OpenBSD/arm64</a>.
+
