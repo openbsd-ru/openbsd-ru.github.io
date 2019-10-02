@@ -485,77 +485,82 @@ $ <b>(dmesg; sysctl hw.sensors) > ~/dmesg.txt</b>
 
 <h2 id="site">Настройка процесса установки</h2>
 
-<h3>The <code>siteXX.tgz</code> File Set</h3>
+<h3>Компонент <code>siteXX.tgz</code></h3>
 
-The OpenBSD install and upgrade scripts allow the selection of a user-created
-set called <code>siteXX.tgz</code>,
-where <code>XX</code> is the release version.
-Like the official <a href="#FilesNeeded">file sets</a>, this is a
-<a href="https://man.openbsd.org/tar">tar(1)</a> archive rooted in
-<code>/</code> and untarred with the <code>-xzphf</code> options.
-It is installed last, so it can be used to complement and modify the files from
-a default install.
-Furthermore, it is possible to use hostname-dependent sets named
-<code>siteXX-$(hostname -s).tgz</code>.
-
-<b>Note:</b>
-If you intend to provide the sets over HTTP(s), place <code>siteXX.tgz</code>
-in your source directory and include it in your <code>index.txt</code>.
-It will then be an option at install time.
-
-<h3>The <code>install.site</code> and <code>upgrade.site</code> Scripts</h3>
-
-If the <code>siteXX.tgz</code> file set contains an executable file
-<code>/install.site</code>, the installer runs it with
-<a href="https://man.openbsd.org/chroot">chroot(8)</a>
-based at the freshly installed system's root.
-Similarly, the upgrade script runs <code>/upgrade.site</code>.
-The latter can be placed in the system's root directory before rebooting
-for the upgrade.
+Скрипты установки и обновления OpenBSD позволяют выбирать установленные
+пользователем настройки, называемые <code>siteXX.tgz</code>, где <code>XX</code>
+- версия релиза.
+Как и официальные <a href="#FilesNeeded">копоненты установки</a>, это
+<a href="https://man.openbsd.org/tar">tar(1)</a> архив, распаковывапющийся в
+корень ФС <code>/</code> и при помощи опций <code>-xzphf</code>.
+Он распаковается последним, поэтому отлично подходит для изменения файлов,
+которые присутствуют в системе после установки.
+Кроме того, можно использовать компоненты, зависящие лишь от имени хоста,
+при использовании имени <code>siteXX-$(hostname -s).tgz</code>.
 
 <p>
-Example usage:
+<b>Заметка:</b>
+Если вы хотите использовать установочные компоненты, загружая их через HTTP(s),
+поместите <code>siteXX.tgz</code> в каталог, откуда будете загружать архив,
+и добавьте его имя в ваш  <code>index.txt</code>.
+Этот компонент будет доступен во время установки системы.
+
+<h3>Скрипты <code>install.site</code> и <code>upgrade.site</code></h3>
+
+Если компонент <code>siteXX.tgz</code> содержит файл <code>/install.site</code>,
+установщик запустит его при помощи
+<a href="https://man.openbsd.org/chroot">chroot(8)</a>, в только что созданный
+для установки корень ФС.
+Аналогично, upgrade-скрипт запустит <code>/upgrade.site</code>.
+Последний может быть помещен в корневой каталог системы и использован для
+обновления перед перезагрузкой.
+
+<p>
+Пример использования:
 
 <ul>
-  <li>Set the system time.
-  <li>Do an immediate backup/archive of the new system before you expose it to
-    the rest of the world.
-  <li>Have a set of arbitrary commands be run after the first boot.
-    This will happen if install.site is used to append any such commands to an
-    <a href="https://man.openbsd.org/rc.firsttime">rc.firsttime(8)</a>
-    file (appending to this file is necessary since the installer itself may
-    write to this file).
-    At boot time, <code>rc.firsttime</code> is executed once then deleted.
+  <li>Настройка времени в системе.
+  <li>Сделать немедленный backup/архив новой системы, прежде чем открыть
+      доступ к машине всему остальному миру.
+  <li>Добавить набор своих команд, которые надо будет выполнить после
+      первой загрузки. Это произойдет, если install.site будет использоваться
+      для добавления команд в файл
+      <a href="https://man.openbsd.org/rc.firsttime">rc.firsttime(8)</a>
+      (добавление в этот файл необходимо, так как сам установщик может
+      записать что-то в этот файл).
+      Во время загрузки <code>rc.firsttime</code> выполняется один раз,
+      а затем удаляется.
 </ul>
 
 <h2 id="Multibooting">Мультизагрузка</h2>
 
-Multibooting is having several operating systems on one computer, with some
-means of selecting which OS is to boot.
-You may want to familiarize yourself with the
-<a href="faq14.html#BootAmd64">OpenBSD boot process</a> before you start.
-A brief introduction to <a href="https://man.openbsd.org/fdisk">fdisk(8)</a>
-is in the section on <a href="faq14.html#fdisk">using OpenBSD's fdisk</a>.
+Мультизагрузка подразумевает использование на одном компьютере нескольких ОС,
+а также средства выбора нужной из них при загрузке.
+Ознакомтесь с <a href="faq14.html#BootAmd64">процессом загрузки OpenBSD</a>
+перед тем так начать.
+Краткое введение в возможности <a href="https://man.openbsd.org/fdisk">fdisk(8)</a>
+можно найти в разделе <a href="faq14.html#fdisk">использование fdisk</a>.
 
 <p>
-If you are adding OpenBSD to an existing system, you will probably need to
-create some free space before installing OpenBSD.
-In addition to your existing system's native tools,
-<a href="http://gparted.org/">gparted</a>
-may be useful for deleting or resizing existing partitions.
-Preferably use one of the four primary MBR partitions for booting OpenBSD.
-Extended partitions may not work.
+Если вы собираетесь установить OpenBSD на машину, где она не будет первой,
+вам, возможно, потребуется освободить место перед установкой OpenBSD.
+В дополнение к встроенным инструментам вашей существующей системы,
+<a href="http://gparted.org/">gparted</a> может быть полезен для удаления
+или изменения размера существующих разделов. Предпочтительно использовать
+один из четырех основных разделов MBR для загрузки OpenBSD.
+Расширенные разделы могут не работать.
 
-<h3>Boot Loaders</h3>
 
-On Macs, <a href="http://www.rodsbooks.com/refind/">rEFInd</a> should work out
-of the box.
+<h3>Загрузчики (Boot Loaders)</h3>
+
+На Mac должен работать без проблем
+<a href="http://www.rodsbooks.com/refind/">rEFInd</a>.
 
 <p>
-You can set up dual booting with
-<a href="https://www.gnu.org/software/grub/">GRUB 2</a> as follows.
-Assuming OpenBSD is installed on the fourth MBR partition (fdisk partition 3) of
-the first hard disk <code>hd0</code>, append the following to
+Вы можете настроить загрузку обоих систем при помощи
+<a href="https://www.gnu.org/software/grub/">GRUB 2</a>.
+Предполагая, что OpenBSD установлен в четвертом разделе MBR (раздел 3 fdisk)
+первого жесткого диска <code>hd0</code>, добавьте следующее в
 <code>/etc/grub.d/40_custom</code>.
 
 <pre class="cmdbox">
@@ -565,44 +570,43 @@ menuentry "OpenBSD" {
 }
 </pre>
 
-Then regenerate the GRUB 2 configuration file, <code>/boot/grub/grub.cfg</code>.
-On Debian-based distros, you should run <code>update-grub</code>.
-Otherwise, do
+Затем сгенерируйте (regenerate) файл конфигурации GRUB2,
+<code>/boot/grub/grub.cfg</code>. В дистрибутивах на основе Debian вы
+должны запустить <code>update-grub</code>. В противном случае, сделать
 
 <pre class="cmdbox">
 # <b>grub-mkconfig -o /boot/grub/grub.cfg</b>
 </pre>
 
-See the
+Больше информации можно найти в
 <a href="https://www.gnu.org/software/grub/manual/grub.html#Invoking-grub_002dmkconfig">
-GRUB 2 manual</a> or
+Руководстве по GRUB 2</a> или
 <a href="https://manpages.debian.org/jessie/grub2-common/update-grub2.8">
-update-grub2(8)</a>
-for more information.
+update-grub2(8)</a>.
 
 <h3>Windows</h3>
 
-The Boot Configuration Data (BCD) store allows multiple versions of Windows
-to be booted through <code>bcdedit</code>.
-A good introduction can be found in
+Boot Configuration Data (BCD) позволяет загружать несколько версий Windows
+при помощи <code>bcdedit</code>. Описание этой программы можно найти в
 <a href="https://technet.microsoft.com/en-us/library/cc721886%28WS.10%29.aspx">
-this article</a>.
-If you want a GUI alternative, you may want to try
+этой статье</a>.
+Если вам нужна альтернатива с графическим интерфейсом, вы можете попробовать
 <a href="https://neosmart.net/EasyBCD/">EasyBCD</a>.
 
 <p>
-You will need a copy of your OpenBSD install's
-<a href="faq14.html#BootAmd64">Partition Boot Record (PBR)</a>.
-You can copy it to a file using a process similar to:
+Вам понадобится скопировать
+<a href="faq14.html#BootAmd64">Partition Boot Record (PBR)</a> вашей OpenBSD.
+Вы можете скопировать его в файл:
+
 <pre class="cmdbox">
 # <b>dd if=/dev/rsd0a of=openbsd.pbr bs=512 count=1</b>
 </pre>
-where <code>sd0a</code> is your boot device, and you will need to get the
-file <code>openbsd.pbr</code> to your Windows system partition.
+где <code>sd0a</code> - ваше загрузочное устройство.
+Вам нужно будет загрузить файл <code>openbsd.pbr</code> в системный раздел Windows.
 
 <p>
-Once OpenBSD's PBR is copied to the Windows system partition, you need a shell
-with administrative privileges to run the following commands:
+После копирования PBR OpenBSD в системный раздел Windows вам
+понадобится shell с правами администратора для запуска следующих команд:
 
 <pre class="cmdbox">
 C:\Windows\system32> <b>bcdedit /create /d "OpenBSD/i386" /application bootsector</b>
@@ -617,6 +621,6 @@ C:\Windows\system32> <b>bcdedit /displayorder {0154a872-3d41-11de-bd67-7060316bb
 The operation completed successfully.
 </pre>
 
-Note that OpenBSD expects the computer's real-time clock to be set to
-Coordinated Universal Time (UTC).
-See <a href="faq8.html#TimeZone">this section</a> for more info.
+Обратите внимание, что OpenBSD ожидает, что real-time clock компьютера будут
+установлены на Coordinated Universal Time (UTC).
+Подробную информацию можно найти в <a href="faq8.html#TimeZone">этом разделе</a>.
