@@ -1086,12 +1086,12 @@ OpenBSD можно скачать через HTTP(s) или FTP.
 
 <ul>
 <li><b>/pub/OpenBSD/</b><br>
-	Absolute path for mirrors where the OpenBSD FTP collection
-	<strong>must</strong> be available. This location can be a link,
-	if necessary.
+	Абсолютный PATH для зеркал, где <strong>должна быть</strong>
+	доступна коллекция FTP OpenBSD. Это может быть ссылкой, если
+	это необходимо.
 	<p>
 <li><b>/pub/OpenBSD/6.5/</b><br>
-	Where you find our most recent release.
+	Где можно найти последний релиз.
   <ul>
   <li><b>alpha/</b>
   <li><b>amd64/</b>
@@ -1105,30 +1105,30 @@ OpenBSD можно скачать через HTTP(s) или FTP.
   <li><b>macppc/</b>
   <li><b>octeon/</b>
   <li><b>packages/</b><br>
-	Binary packages (pre-compiled ports) to install on your -release
-	or -stable system.
+	Бинарные пакеты (скомпилированные порты) для установки в
+	-release или -stable системах.
   <li><b>sgi/</b>
   <li><b>sparc64/</b>
   <li><b>src.tar.gz</b><br>
-	Userland sources, to be placed in <code>/usr/src</code>.
+	Userland исходники, которые находятся в <code>/usr/src</code>.
   <li><b>sys.tar.gz</b><br>
-	Kernel sources, to be placed in <code>/usr/src/sys</code>.
+	Kernel исходники, которые находятся в <code>/usr/src/sys</code>.
   <li><b>ports.tar.gz</b><br>
-	The ports tree, to be placed in <code>/usr/ports</code>.
+	Дерево портов, которое находится в <code>/usr/ports</code>.
   <li><b>xenocara.tar.gz</b><br>
-	X window system sources, to be placed in <code>/usr/xenocara</code>.
+	Исходники X window system, которые находятся в <code>/usr/xenocara</code>.
   </ul>
 <p>
 <li><b>/pub/OpenBSD/snapshots/</b><br>
-	For our major architectures, we frequently build releases
-	and binary packages from our development code.
-	This is where we place those test releases.
+	Для наших основных архитектур мы часто собираем релизы и бинарные
+	пакеты из нашего репозитория.
+	Здесь мы размещаем эти тестовые релизы, которые зовутся снапшотами.
 <p>
 <li><b>/pub/OpenBSD/tools/</b><br>
-	Various other little bits.
+	Другое различные маленькие вещи.
 <p>
 <li><b>/pub/OpenBSD/6.4/</b><br>
-	Layout is similar to the 6.5 release described above.
+	Такая же структура каталогов как и для релиза 6.5, описанного выше.
 </ul>
 
 <h3 id="prospective">Информация для планируемых/поддерживаемых зеркал</h3>
@@ -1139,7 +1139,7 @@ OpenBSD можно скачать через HTTP(s) или FTP.
 и не имели никаких проблем с сетевым подключением.
 
 <p>
-В дополнее к вышесказанному, зеркала должны предоставлять:
+Зеркала должны предоставлять:
 
 <ul>
   <li>ОС и пакеты для <strong>всех архитектур</strong>
@@ -1151,33 +1151,37 @@ OpenBSD можно скачать через HTTP(s) или FTP.
 </ul>
 
 <p>
-In addition, mirrors must use a second-level mirror as their upstream.
+В дополнее к вышесказанному, зеркала должны использовать second-level
+зеркала в качестве upstream.
 
 <p>
-As of 6.5, the minimum space required is approximately 700GB.
-However, to reduce problems when snapshot packages are updated, it is
-recommended to use the rsync options <kbd>--delete-delay --delay-updates</kbd>
-which will use additional space.
-<kbd>--fuzzy</kbd> may also be helpful to reduce the amount of data transferred
-when updating snapshot packages.
-Depending on the disk space available, mirrors may provide more contents,
-such as older releases, current source tree, etc.
+Начиная с 6.5 минимальное требуемое место на диске составляет приблизительно
+700 Гб. Однако для уменьшения проблем при обновлении пакетов для снапшотов
+рекомендуется использовать rsync параметры <kbd>--delete-delay --delay-updates</kbd>,
+которые будут использовать лишь дополнительное место.
+<kbd>--fuzzy</kbd> также может быть полезен для уменьшения объема данных,
+передаваемых при обновлении пакетов для снапшотов.
+В зависимости от свободного места, зеркала могут предоставлять больше.
+Например, репозитории для старых релизов, репозиторий с исходниками и т.д.
 
 <p>
-A suggested <a href="https://man.openbsd.org/httpd.conf">httpd.conf(5)</a>
-configuration for <a href="https://man.openbsd.org/httpd">httpd(8)</a>
-that is suitable for being www and ftp space mirror is <a href="httpd.conf">here</a>.
+Предлагаемая конфигурация
+<a href="https://man.openbsd.org/httpd.conf">httpd.conf(5)</a> для
+<a href="https://man.openbsd.org/httpd">httpd(8)</a>, которая подходит для
+www- и ftp-зеркал, <a href="https://www.openbsd.org/httpd.conf">здесь</a>.
 
 <p>
-Operators of mirrors who are interested in having their site added to
-the list on this page should contact <a
-href="mailto:mirrors-discuss@openbsd.org">mirrors-discuss@openbsd.org</a>
-with further details about their site, including network connectivity,
-geographic location, and general information.
-We will suggest a suitable second-level mirror to sync from;
-<strong>do not</strong> mirror from ftp.openbsd.org.
+Операторы зеркал, которые заинтересованы в том, чтобы их машина
+была добавлена в список на этой странице, должны сообщить об этом
+в рассылку
+<a href="mailto:mirrors-discuss@openbsd.org">mirrors-discuss@openbsd.org</a>,
+где нужно сообщить подробную информацию о своем зеркале, включая
+характеристики сетевого подключения, географическое местоположение
+и общую информацию. Мы предложим подходящее зеркало второго уровня
+(second-level) для синхронизации;
+<strong>не зеркальте</strong> с ftp.openbsd.org.
 
 <p>
-Mirror operators should subscribe to the low-volume
+Все операторы зеркал должны быть подписанны на почтовую рассылку
 <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&extra=mirrors-announce">mirrors-announce</a>
-mailing list.
+(трафик низкий).
