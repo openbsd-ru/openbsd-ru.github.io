@@ -46,6 +46,9 @@ issue.
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
 | **[amd64](https://www.openbsd.org/amd64.html)** |  Хотите перевести? | |
+| **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
+| **[6.5](https://www.openbsd.org/65.html)** |  Хотите перевести? | |
+| **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
 | **[Problem Reports](https://www.openbsd.org/report.html)** | [Sergey Bronnikov](https://github.com/ligurio) | |
 | **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
 | **[FAQ_Upgrade Guide: 6.4 to 6.5](https://www.openbsd.org/faq/upgrade65.html)** |  Хотите перевести? | |
