@@ -133,21 +133,3 @@ pull request или просто issue, если у вас появятся ка
 Оба скрипта привязаны к travis, так что запускаются
 после каждого ```git push``` и их вывод легко просмотреть
 [в web](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io).
-
-## CONTRIBUTORS
-* Alexander Naumov <alexander_naumov () opensuse ! org>
-* Oleg Pahl <deface () posteo ! de>
-* Dmitry Granin <granindb () gmail ! com>
-* Ruslan Gundakov <haikudjin () gmail ! com>
-* Dmitry Alenichev <dmitri () wave ! net ! ru>
-* Victor Gizhevsky <victor.gizhevsky () obsd  ! ru>
-* Maxim Golub <manefesto () inbox ! ru>
-* Eugeny Zaharov <eudgen () gmail ! com>
-* Vasyliy Kondrashev <vasyl.kondrashov () gmail ! com>
-* Sergey Marinchev
-* Vitaly Polygaev <pvit () hotbox ! ru>
-* Roman Romanchuk <fatroom () gmail ! com>
-* Alexander Symakov <xander () entropyware ! info>
-* Alexey Sychev <bsd () k96 ! ru>
-* Roman Khimov <roman () khimov ! ru>
-* Sergey Bronnikov <sergeyb () bronevichok ! ru>
