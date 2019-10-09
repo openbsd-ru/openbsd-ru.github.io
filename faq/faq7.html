@@ -98,7 +98,7 @@ OpenBSD предоставляет
 На некоторых платформах OpenBSD предоставляет буфер прокрутки экрана
 консоли (console scrollback buffer). Он позволяет вам вернуться к
 информации, которую уже не видно на экране из-за появления новой.
-Для перемещания вверх и вниз используйте комбинации клавиш
+Для перемещения вверх и вниз используйте комбинации клавиш
 <code>[SHIFT]+[PGUP]</code> и <code>[SHIFT]+[PGDN]</code>.
 Количество экранов, помещающихся в буфера прокрутки - 8. 
 Переключение консолей очистит буфер прокрутки.
@@ -107,37 +107,36 @@ OpenBSD предоставляет
 
 <h3 id="AddConsole">Добавление виртуальных консолей</h3>
 
-If you wish to have more than the default number of virtual consoles, use the
-<a href="https://man.openbsd.org/wsconscfg">wsconscfg(8)</a> command to create
-screens for <code>ttyC6</code>, <code>ttyC7</code> and above.
-For example:
+Если вы хотите, чтобы виртуальных консолей было больше, используйте команду
+<a href="https://man.openbsd.org/wsconscfg">wsconscfg(8)</a> для создания
+новых экранов для <code>ttyC6</code>, <code>ttyC7</code> и т.д. Например:
 
 <pre class="cmdbox">
 # <b>wsconscfg -t 80x25 6</b>       # this will not work on systems using drm(4)
 </pre>
 
-This will create a virtual terminal for <code>ttyC6</code>, accessed by
-<code>[CTRL]+[ALT]+[F7]</code>.
-To get a <code>login:</code> prompt on the newly created virtual console,
-you need to set it to <code>on</code>
-in <a href="https://man.openbsd.org/ttys">ttys(5)</a>,
-and either reboot or send <a href="https://man.openbsd.org/init">init(8)</a>
-a HUP signal using <a href="https://man.openbsd.org/kill">kill(1)</a>.
-Add this command to <a href="https://man.openbsd.org/rc.local">rc.local(8)</a>
-if you want the extra screen the next time you boot the computer.
+Это создаст виртуальный терминал для <code>ttyC6</code>, доступ к которому
+будет осуществляться при помощи <code>[CTRL]+[ALT]+[F7]</code>.
+Чтобы получить приглашение <code>login:</code> на только что созданной
+виртуальной консоли, вам нужно включить его как <code>on</code> в
+<a href="https://man.openbsd.org/ttys">ttys(5)</a>,
+и либо перезагрузить <a href="https://man.openbsd.org/init">init(8)</a>,
+либо отправить ему сигнал HUP при помощи
+<a href="https://man.openbsd.org/kill">kill(1)</a>.
+Добавьте эту команду в <a href="https://man.openbsd.org/rc.local">rc.local(8)</a>,
+если вам потребуется дополнительная консоль при следующей загрузке компьютера.
 
 <h3 id="Size80x50">Изменение шрифтов и разрешения консоли</h3>
 
-Many VGA video cards on alpha, amd64 and i386 are capable of displaying a higher
-text resolution of 50 lines instead of the usual 25 lines.
-The standard 80x25 text screen uses 8x16 pixel fonts.
-To double the number of lines, we first load an 8x8 pixel font with
-<a href="https://man.openbsd.org/wsfontload">wsfontload(8)</a>.
-Then we delete and recreate a virtual console with the desired screen resolution
-using <a href="https://man.openbsd.org/wsconscfg">wsconscfg(8)</a>.
-This can be done automatically at boot by adding the following commands to
-the end of the <a href="https://man.openbsd.org/rc.local">rc.local(8)</a>
-script:
+Многие VGA видеокарты на alpha, amd64 и i386 способны отображать 50 строк
+текста в высоком разрешении вместо обычных 25.
+Стандартный 80x25 экран использует шрифт 8x16 пикселей.
+Чтобы удвоить количество строк, мы сначала загружаем шрифт 8x8 пикселей при
+помощи <a href="https://man.openbsd.org/wsfontload">wsfontload(8)</a>.
+Затем мы удаляем и создаем заново виртуальную консоль с нужным разрешением
+экрана, используя  <a href="https://man.openbsd.org/wsconscfg">wsconscfg(8)</a>.
+Это можно сделать автоматически при загрузке, добавив следующие команды в
+конец <a href="https://man.openbsd.org/rc.local">rc.local(8)</a> скрипта:
 
 <pre class="cmdbox">
 wsfontload -h 8 -e ibm /usr/share/misc/pcvtfonts/vt220l.808	# load 8x8 font
@@ -145,66 +144,72 @@ wsconscfg -dF 5			# delete screen 5 accessed by [CTRL]+[ALT]+[F6]
 wsconscfg -t 80x50 5		# add screen 5 with 50 lines of 80 characters
 </pre>
 
-If you wish to modify other screens, simply repeat the delete and add screen
-steps for whichever screens you want running at the 80x50 resolution.
-It is not possible to change the resolution of the primary console device
-<code>ttyC0</code> accessed by <code>[CTRL]+[ALT]+[F1]</code>.
-Avoid changing screen 4 which is used by X as a graphical screen.
+Если вы хотите изменить другие screens, просто повторите шаги удаления и
+добавления экрана для других экранов. Невозможно изменить разрешение основного
+консольного устройства <code>ttyC0</code>, доступ к которому осуществляется при
+помощью <code>[CTRL]+[ALT]+[F1]</code>. Избегайте изменения экрана 4, который
+используется X в качестве графического экрана.
 
 <h2 id="Blanker">Отчистка неактивной консоли</h2>
 
-If you wish to blank your console after a period of inactivity without using X,
-modify the following <a href="https://man.openbsd.org/wscons">wscons(4)</a>
-variables:
+Если вы хотите, чтобы экран отключался после определенного периода неактивности
+консоли (без использования X), можете установить следующие параметры
+<a href="https://man.openbsd.org/wscons">wscons(4)</a>:
 
 <ul>
   <li><b><code>display.screen_off</code></b>
-    determines the blanking time in milliseconds.
+    определяет время в тысячных долях секунды, после которых экран будет погашен.
   <li><b><code>display.kbdact</code></b>
-    if set to <code>on</code>, keyboard activity will unblank the screen.
+    установка этого параметра как <code>on</code>, делает возможным пробудить
+    экран при любой активности с клавиатуры.
   <li><b><code>display.msact</code></b>
-    if set to <code>on</code>, <a href="#ConsoleMouse" >console mouse</a>
-    activity will unblank the screen.
+    установка этого параметра как <code>on</code>, приведет к тому, что экран
+    будет пробуждаться при любой активности <a href="#ConsoleMouse" >конольной мыши</a>.
   <li><b><code>display.outact</code></b>
-    if set to <code>on</code>, screen output will unblank the screen.
+    установка этого парамерта как <code>on</code> обозначает, что экран будет
+    просыпаться, если на экран будет выведенно что-то новое.
   <li><b><code>display.vblank</code></b>
-    if set to <code>on</code> will disable the vertical sync pulse.
-    This will cause many monitors to go into an energy saver mode.
+    установка этого параметра как <code>on</code> отключает вертикальное обновление
+    экрана.
+    Это приведет к тому, что многие мониторы перейдут в режим энергосбережения.
 </ul>
 
-For example:
+Вы можете установить эти переменные в командной строке, используя для этого
+<a href="https://man.openbsd.org/wsconsctl">wsconsctl(8)</a>:
 
 <pre class="cmdbox">
 # <b>wsconsctl display.screen_off=60000</b>
 display.screen_off -> 60000
 </pre>
 
-Set them permanently by editing
+или установить их перманентно (изменения вступят в силу после перезагрузки),
+отредактировав
 <a href="https://man.openbsd.org/wsconsctl.conf">wsconsctl.conf(5)</a>.
-The blanker is activated when either <code>display.kbdact</code> or
-<code>display.outact</code> is set to <code>on</code>.
-Note that one of those two must be <code>off</code>.
+Отключение экрана активируется лишь в том случае, если одна из двух переменных
+<code>display.kbdact</code> или <code>display.outact</code> установленна как
+<code>on</code>. Еще одно замечание - одна из них должна быть <code>off</code>.
 
 <h2 id="SerCon">Последовательный порт для доступа к консоли</h2>
 
-OpenBSD supports serial console on most platforms, however details vary greatly
-between platforms.
-In addition to allowing users to log in, they're also useful for recording
-console output.
+OpenBSD поддерживает работу консоли через последовательный порт на большенстве
+платформ, однако существуют различия в ее работе на разных платфомах.
+Помимо того, что пользователи могут таким образом входить в систему,
+они также могут быть использованы для записи вывода с консоли.
 
 <p>
-There are two parts to getting a fully functional serial console on an OpenBSD
-system:
+Использование полноценной последовательной консоли в OpenBSD состоит
+из двух частей:
 
 <ul>
-  <li>Enable the serial port to be used as an interactive terminal, so a user
-      can log in to it when running multi-user.
-  <li>Configure OpenBSD to use your serial port as a console for status and
-      single user mode.
-      This part is very platform-dependent.
+  <li>Позволяет использовать последовательный порт в качестве интерактивного
+      терминала, чтобы пользователь мог войти в него при работе в
+      многопользовательском режиме.
+  <li>Можно настроить OpenBSD для использования последовательного порта в
+      качестве консоли лишь для мониторинга состояния системы и
+      однопользовательского режима. Эта часть сильно зависит от платформы.
 </ul>
 
-<h3 id="SerContty">Change <code>/etc/ttys</code> to get a login prompt</h3>
+<h3 id="SerContty">Настройка возможности входа в систему через <code>/etc/ttys</code></h3>
 
 Terminal sessions are controlled by the
 <a href="https://man.openbsd.org/ttys">ttys(5)</a> file.
