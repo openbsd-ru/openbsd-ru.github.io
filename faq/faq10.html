@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD FAQ: Управление системой</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/faq10.html">
+
+<h2 id=OpenBSD>
+<a href="../index.html">
+<i>Open</i><b>BSD</b></a>
+FAQ - Управление системой
+<small>
+<a href="index.html">[FAQ - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+<li><a href="#Patches"          >Обновления безопасности</a>
+<li><a href="#rc"               >Системные демоны</a>
+<li><a href="#doas"             >Выполнение команд от имени другого пользователя</a>
+<li><a href="#vipw"             >Редактирование файла паролей</a>
+<li><a href="#SKey"             >Использование S/Key</a>
+<li><a href="#Dir"              >Directory Services</a>
+<ul>
+  <li><a href="#YP_secure"      >Вопросы безопасности YP</a>
+  <li><a href="#YP_server"      >Настройка YP сервера</a>
+  <li><a href="#YP_client"      >Настройка YP клиента</a>
+</ul>
+</ul>
+
+<hr>
+
+<h2 id="Patches">Обновления безопасности (Security Updates)</h2>
+
+When a critical bug is found, the fix will be committed to the -current tree
+(and made available in <a href="faq5.html#Flavors">snapshot builds</a>)
+as soon as possible.
+From that point on, things are handled differently depending on whether the
+problem was in the OpenBSD base system or a third party package.
+This section details how to keep your system up to date between releases.
+
+<p>
+For the OpenBSD base system, security fixes are normally applied to the
+two most recent releases.
+There are four options:
+
+<ul>
+  <li><b>Apply binary patches</b> - available on amd64, arm64, i386
+    <br>
+    If you're running a supported release of OpenBSD, you can simply use
+    the <a href="https://man.openbsd.org/syspatch">syspatch(8)</a> utility
+    to upgrade any files in need of security or reliability fixes.
+    This is the quickest and easiest method to get the base system up to date.
+    Security advisories are sent to the
+    <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&amp;extra=announce">announce</a>
+    mailing list.
+  <li><b>Update your system to -stable</b>
+    <br>
+    Fetch (or update) your source tree with <a href="../anoncvs.html">CVS</a>,
+    then <a href="../stable.html">recompile</a> the kernel and userland.
+  <li><b>Patch the affected files individually</b>
+    <br>
+    While applying fixes from the <a href="../errata.html">errata page</a>
+    typically requires less time than a CVS checkout/update and rebuild,
+    there is no universal set of instructions to follow.
+    Sometimes you must patch and recompile one application, sometimes more.
+  <li><b>Upgrade your system to -current</b>
+    <br>
+    As all fixes are applied to the -current code base, updating your system
+    to the latest <a href="faq5.html#Snapshots">snapshot</a> is a good way to
+    get all the fixes at once.
+    However, running -current is not for everyone.
+</ul>
+
+For third party software installed via <a href="faq15.html">packages</a>,
+fixes are normally only applied to the most recent release.
+There are three options:
+
+<ul>
+  <li><b>Use binary packages</b> - available on amd64, arm64, i386, sparc64
+    <br>
+    Binary packages for -stable are rebuilt only for security issues or other
+    major fixes.
+    Simply call <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> with
+    the <code>-u</code> flag to get the new files.
+  <li><b>Use the -stable ports tree</b>
+    <br>
+    Fetch (or update) your <a href="ports/ports.html">ports tree</a>,
+    run the <code>/usr/ports/infrastructure/bin/pkg_outdated</code> script to
+    list any packages in need of rebuilding, and issue <code>make update</code>
+    in the affected port directory.
+    In some cases, existing ports will need to be uninstalled before rebuilding.
+    To be alerted of port updates, consider following the
+    <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&amp;extra=ports-changes">ports-changes</a>
+    mailing list.
+  <li><b>Upgrade your system to -current</b>
+    <br>
+    Binary packages for -current are rebuilt on a regular basis, and these
+    new packages will include any security fixes.
+</ul>
+
+<h2 id="rc">Системные демоны (System Daemons)</h2>
+
+System daemons (or "services") are started, stopped and controlled by
+the <a href="https://man.openbsd.org/rc">rc(8)</a> script via
+<a href="https://man.openbsd.org/rc.d">rc.d(8)</a>.
+
+<p>
+Most daemons and services that come with OpenBSD are controlled on boot
+by variables defined in
+<a href="https://cvsweb.openbsd.org/src/etc/rc.conf?rev=HEAD">/etc/rc.conf</a>.
+You'll see lines similar to this:
+
+<pre class="cmdbox">
+httpd_flags=NO
+</pre>
+
+This shows that <a href="https://man.openbsd.org/httpd">httpd(8)</a> is not to
+be started from <a href="https://man.openbsd.org/rc">rc(8)</a> at boot time.
+Each line has a comment showing you the flags for common usage of that daemon
+or service.
+
+<p>
+Do not alter <a href="https://man.openbsd.org/rc.conf">rc.conf(8)</a> directly.
+Instead, use the <a href="https://man.openbsd.org/rcctl">rcctl(8)</a> utility
+to maintain the <code>/etc/rc.conf.local</code> file.
+This makes future upgrades easier as all the changes are in the one file that
+isn't touched during upgrade.
+
+<p>
+For example, to start the <a href="https://man.openbsd.org/apmd">apmd(8)</a>
+daemon for CPU scaling, one might do:
+
+<pre class="cmdbox">
+# <b>rcctl enable apmd</b>
+# <b>rcctl set apmd flags -A</b>
+# <b>rcctl start apmd</b>
+</pre>
+
+<h2 id="doas">Выполнение команд от имени другого пользователя</h2>
+
+The <a href="https://man.openbsd.org/doas">doas(1)</a> tool lets a system
+administrator permit certain users to run specific commands as another user.
+Regular users can run administrative commands, only being required to
+authenticate as themselves, without the need for the root password.
+
+<p>
+For example, if appropriately configured, the following command would display
+root's <a href="https://man.openbsd.org/crontab.5">crontab(5)</a> file:
+
+<pre class="cmdbox">
+$ <b>doas -u root crontab -l</b>
+</pre>
+
+Commands invoked by <a href="https://man.openbsd.org/doas">doas(1)</a>
+are logged to <code>/var/log/secure</code> by default.
+Check the <a href="https://man.openbsd.org/doas.conf">doas.conf(5)</a> manual
+for configuration examples.
+
+<h2 id="vipw">Редактирование файла паролей</h2>
+
+OpenBSD's main password file is located at <code>/etc/master.passwd</code> and
+is only readable by root.
+The <a href="https://man.openbsd.org/pwd_mkdb">pwd_mkdb(8)</a> tool generates
+the world-readable <code>/etc/passwd</code> and the password databases
+(<code>/etc/pwd.db</code> and <code>/etc/spwd.db</code>) from the main file.
+The format is described in
+<a href="https://man.openbsd.org/passwd.5">passwd(5)</a>.
+
+<p>
+Always use <a href="https://man.openbsd.org/vipw">vipw(8)</a> to edit your
+password file.
+After you are done editing, it will first sanity check the changes, then
+recreate <code>/etc/passwd</code> and the password databases, and finally
+install the copy in place of the original <code>/etc/master.passwd</code> file.
+
+<h2 id="SKey">Использование S/Key</h2>
+
+S/Key is a "one-time password" authentication system.
+It generates a sequence of one-time (single use) passwords from a user's
+secret passphrase along with a challenge received from the server, by means of a
+hash function:
+<a href="https://man.openbsd.org/md5">md5</a>,
+<a href="https://man.openbsd.org/sha1">sha1</a> or
+<a href="https://man.openbsd.org/rmd160">rmd160</a>.
+
+<blockquote>
+<b>WARNING:</b>
+One-time password systems only protect authentication information.
+They do not prevent network eavesdroppers from gaining access to private
+information.
+Furthermore, if you are accessing a secure system A, it is recommended that
+you do this from another trusted system B, to ensure nobody is gaining access
+to system A by logging your keystrokes or by capturing and/or forging input
+and output on your terminal devices.
+</blockquote>
+
+<h3>Setting Up S/Key</h3>
+
+To start off, the directory <code>/etc/skey</code> must exist.
+If this directory doesn't exist, have the superuser create it by doing:
+
+<pre class="cmdbox">
+# <b>skeyinit -E</b>
+</pre>
+
+Then use
+<a href="https://man.openbsd.org/skeyinit">skeyinit(1)</a>
+to initialize your S/Key.
+You will first be prompted for your login password, then you will be asked for
+your S/Key secret passphrase, which must be at least 10 characters long:
+
+<pre class="cmdbox">
+$ <b>skeyinit</b>
+Password:
+[Adding ericj with md5]
+Enter new secret passphrase:
+Again secret passphrase:
+
+ID ericj skey is otp-md5 100 oshi45820
+Next login password: HAUL BUS JAKE DING HOT HOG
+</pre>
+
+Notice the information in the last two lines.
+The program used to create your S/Key password is
+<a href="https://man.openbsd.org/otp-md5">otp-md5(1)</a>,
+the sequence number is <code>100</code> and the secret key is
+<code>oshi45820</code>.
+The six small words <code>HAUL BUS JAKE DING HOT HOG</code> constitute the S/Key
+password with sequence number <code>100</code>.
+
+<h3>Generating S/Key Passwords</h3>
+To generate the S/Key password for the next login, use
+<a href="https://man.openbsd.org/skeyinfo">skeyinfo(1)</a>
+to find out what command to run:
+
+<pre class="cmdbox">
+$ <b>skeyinfo -v</b>
+otp-md5 95 oshi45820
+$ <b>otp-md5 95 oshi45820</b>
+Enter secret passphrase:
+NOOK CHUB HOYT SAC DOLE FUME
+</pre>
+
+In order to generate a list of S/Key passwords, do:
+
+<pre class="cmdbox">
+$ <b>otp-md5 -n 5 95 oshi45820</b>
+Enter secret passphrase:
+91: SHIM SET LEST HANS SMUG BOOT
+92: SUE ARTY YAW SEED KURD BAND
+93: JOEY SOOT PHI KYLE CURT REEK
+94: WIRE BOGY MESS JUDE RUNT ADD
+95: NOOK CHUB HOYT SAC DOLE FUME
+</pre>
+
+<h3>Using S/Key to Log In</h3>
+
+Here is an example session using S/Key to log in to an ftp server on
+<code>localhost</code>.
+To perform an S/Key login, you append <code>:skey</code> to your login name.
+
+<pre class="cmdbox">
+$ <b>ftp localhost</b>
+Connected to localhost.
+220 oshibana.shin.ms FTP server (Version 6.5/OpenBSD) ready.
+Name (localhost:ericj): <b>ericj:skey</b>
+331- otp-md5 93 oshi45820
+331 S/Key Password: <b>JOEY SOOT PHI KYLE CURT REEK</b>
+[...]
+230 User ericj logged in.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> <b>quit</b>
+221 Goodbye.
+</pre>
+
+Similarly, for <a href="https://man.openbsd.org/ssh">ssh(1)</a>:
+
+<pre class="cmdbox">
+$ <b>ssh -l ericj:skey localhost</b>
+otp-md5 91 oshi45821
+S/Key Password: <b>SHIM SET LEST HANS SMUG BOOT</b>
+Last login: Thu Apr  7 12:21:48 on ttyp1 from 156.63.248.77
+$
+</pre>
+
+<h2 id="Dir">Directory Services</h2>
+
+OpenBSD can be used for both servers and clients of databases containing
+user credentials, group information and other network-related data.
+
+<p>
+Of course, you could use various directory services on OpenBSD.
+But YP is the only one that can be accessed directly using standard
+C-library functions like
+<a href="https://man.openbsd.org/getpwent">getpwent(3)</a>,
+<a href="https://man.openbsd.org/getgrent">getgrent(3)</a>,
+<a href="https://man.openbsd.org/gethostbyname">gethostbyname(3)</a>
+and so on.
+Thus, if you keep your data in a YP database, you do not need to copy it to
+local configuration files like
+<a href="https://man.openbsd.org/master.passwd">master.passwd(5)</a> before you
+can use it, for example to authenticate system users.
+
+<p>
+YP is a directory service compatible with Sun Microsystems NIS
+(Network Information System).
+See <a href="https://man.openbsd.org/yp">yp(8)</a> for an overview of the
+available manual pages.
+Be careful, some operating systems contain directory services bearing similar
+names but all the same being incompatible, for example NIS+.
+
+<p>
+To use directory services other than YP, you either need to populate local
+configuration files from the directory, or you need a YP frontend to
+the directory.
+For example, you can use the <code>sysutils/login_ldap</code> port when you
+choose the former,
+while the <a href="https://man.openbsd.org/ypldap">ypldap(8)</a>
+daemon provides the latter.
+
+<p>
+For some applications, simply synchronizing a small number of configuration
+files among a group of machines using tools like
+<a href="https://man.openbsd.org/rdist">rdist(1)</a>,
+<a href="https://man.openbsd.org/cron">cron(8)</a>,
+<a href="https://man.openbsd.org/scp">scp(1)</a> or
+<code>rsync</code> (available from ports) constitutes an easy and robust
+alternative to a full-blown directory service.
+
+<h3 id="YP_secure">Вопросы безопасности YP</h3>
+
+For compatibility reasons, all security features built into the OpenBSD
+implementation of YP are switched <i>off</i> by default.
+Even when they are all switched on, the NIS protocol is still inherently
+insecure for two reasons:
+All data, including sensitive data like password hashes, is transmitted
+unencrypted across the network, and neither the client nor the server can
+reliably verify each other's identity.
+
+<p>
+Thus, before setting up any YP server, you should consider whether these
+inherent security flaws are acceptable in your context.
+In particular, YP is inadequate if potential attackers have physical access
+to your network.
+Anybody gaining root access to any computer connected to your network segments
+carrying YP traffic can bind your YP domain and retrieve its data.
+In some cases, passing YP traffic through SSL or IPsec tunnels might be
+an option.
+
+<h3 id="YP_server">Настройка YP сервера</h3>
+
+A YP server serves a group of clients called a "domain."
+You should first select a domain name; it can be an arbitrary string and
+need not be related in any way to DNS domain names.
+Choosing a random name like "Eepoo5vi" can marginally improve security,
+though the effect is mostly in security by obscurity.
+In case you need to maintain several distinct YP domains, it's probably
+better to choose descriptive names like "sales," "marketing" and "research"
+in order to forestall system administration errors caused by obscurity.
+Also note that some versions of SunOS require using the host's DNS domain
+name, so your choice might be restricted in a network including such hosts.
+
+<p>
+Use the <a href="https://man.openbsd.org/domainname">domainname(1)</a>
+utility to set the domain name, and put it into the
+<a href="https://man.openbsd.org/defaultdomain">defaultdomain(5)</a>
+file to have it automatically set at system startup time.
+
+<pre class="cmdbox">
+# <b>echo "puffynet" > /etc/defaultdomain</b>
+# <b>domainname `cat /etc/defaultdomain`</b>
+</pre>
+
+Initialize the YP server using the interactive command:
+
+<pre class="cmdbox">
+# <b>ypinit -m</b>
+</pre>
+
+At this point, it is not necessary to specify slave servers yet.
+To add slave servers, you can rerun
+<a href="https://man.openbsd.org/ypinit">ypinit(8)</a>
+later, using the <code>-u</code> option.
+
+Setting up at least one slave server for each domain is useful to avoid
+service interruptions.
+For example, should the master server ever go down or lose network
+connectivity, client processes trying to access YP maps block indefinitely
+until they receive the requested information.
+Thus, YP service interruptions typically render the client hosts completely
+unusable until YP is back to service.
+
+<p>
+Decide where to store the source files to generate your YP maps from.
+Keeping the server configuration separate from the served configuration
+helps to control which information will be served and which won't, so the
+default <code>/etc</code> often isn't the best choice.
+
+<p>
+The only inconvenience caused by changing the source directory is that you
+will not be able to add, remove and modify users and groups in the
+YP domain using utilities like
+<a href="https://man.openbsd.org/user">user(8)</a> and
+<a href="https://man.openbsd.org/group">group(8)</a>.
+Instead, you will have to edit the configuration files with a text editor.
+
+<p>
+To define the source directory, edit the file
+<code>/var/yp/`domainname`/Makefile</code>
+and change the <code>DIR</code> variable, e.g.
+
+<pre class="cmdbox">
+DIR=/etc/yp/src/puffynet
+</pre>
+
+Consider customizing other variables in
+<code>/var/yp/`domainname`/Makefile</code>.
+See <a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>
+for details.
+
+<p>
+For example, even in case you use the default source directory
+<code>/etc</code>, you do not usually need all accounts and groups existing
+on the server on all your client hosts.
+In particular, not serving the root account and thus keeping root's password
+hash confidential is often beneficial to security.
+Review the values of <code>MINUID</code>, <code>MAXUID</code>,
+<code>MINGID</code> and <code>MAXGID</code> and adjust them to you needs.
+
+<p>
+If all your YP clients run OpenBSD or FreeBSD, exclude the encrypted
+passwords from the <code>passwd</code> maps by setting <code>UNSECURE=""</code>
+in <code>/var/yp/`domainname`/Makefile</code>.
+
+<p>
+The former practice of editing the template file
+<code>/var/yp/Makefile.yp</code> is no longer recommended.
+Changes to that file affect all domains initialized after the change, but
+do not affect domains initialized before the change, so this is error-prone
+either way:
+You both risk that the intended changes do not take effect, and you risk to
+forget about them and have them affect other domains later which they were
+never intended for.
+
+<p>
+Create the source directory and populate it with the configuration files
+you need.
+See <a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>
+to learn which YP maps require which source files.
+For the format of the individual configuration files, refer to
+<a href="https://man.openbsd.org/passwd.5">passwd(5)</a>,
+<a href="https://man.openbsd.org/group.5">group(5)</a>,
+<a href="https://man.openbsd.org/hosts">hosts(5)</a>
+and so on, and look at the examples in <code>/etc</code>.
+
+<p>
+Create the initial version of your YP maps using the commands
+
+<pre class="cmdbox">
+# <b>cd /var/yp</b>
+# <b>make</b>
+</pre>
+
+Do not worry about error messages from
+<a href="https://man.openbsd.org/yppush">yppush(8)</a> right now.
+The YP server is not yet running.
+
+<p>
+YP uses <a href="https://man.openbsd.org/rpc">rpc(3)</a>
+(remote procedure calls) to communicate with clients, so it is necessary
+to enable <a href="https://man.openbsd.org/portmap">portmap(8)</a>.
+To do so, use <a href="https://man.openbsd.org/rcctl">rcctl(8)</a>.
+
+<pre class="cmdbox">
+# <b>rcctl enable portmap</b>
+# <b>rcctl start portmap</b>
+</pre>
+
+Consider using either the
+<a href="https://man.openbsd.org/securenet">securenet(5)</a> or the
+<a href="https://man.openbsd.org/ypserv.acl">ypserv.acl(5)</a>
+security feature of the YP server daemon.
+But be aware that both of these only provide IP based access control.
+Thus, they only help as long as potential attackers have neither physical
+access to the hardware of the network segments carrying your YP traffic
+nor root access to any host connected to those network segments.
+
+<p>
+Finally, start the YP server daemon:
+
+<pre class="cmdbox">
+# <b>rcctl enable ypserv</b>
+# <b>rcctl start ypserv</b>
+</pre>
+
+To test the new server, consider making it its own client,
+following the instructions in the first part of the next section.
+In case you don't want the server to use its own maps, you can
+disable the client part after the test with the following commands:
+
+<pre class="cmdbox">
+# <b>rcctl stop ypbind</b>
+# <b>rcctl disable ypbind</b>
+</pre>
+
+Remember that each time you change a file sourced by a YP map,
+you must regenerate your YP maps.
+
+<pre class="cmdbox">
+# <b>cd /var/yp</b>
+# <b>make</b>
+</pre>
+
+This updates all database files in <code>/var/yp/`domainname`</code>, with
+one exception:  The file <code>ypservers.db</code>, listing all YP master
+and slave servers associated with the domain, is created directly
+from <code>ypinit -m</code> and modified exclusively by <code>ypinit -u</code>.
+In case you accidentally delete it, run <code>ypinit -u</code> to recreate
+it from scratch.
+
+<h3 id="YP_client">Настройка YP клиента</h3>
+
+Setting up a YP client involves two distinct parts.
+First, you must get the YP client daemon running,
+binding your client host to a YP server.
+Completing the following steps will allow you to retrieve data
+from the YP server, but that data will not yet be used by the system:
+
+<p>
+Like on the server, you must set the domain name and enable the portmapper:
+
+<pre class="cmdbox">
+# <b>echo "puffynet" > /etc/defaultdomain</b>
+# <b>domainname `cat /etc/defaultdomain`</b>
+# <b>rcctl enable portmap</b>
+# <b>rcctl start portmap</b>
+</pre>
+
+It is recommended to provide a list of YP servers in the configuration
+file <code>/etc/yp/`domainname`</code>.
+Otherwise, the YP client daemon will use network broadcasts to find
+YP servers for its domain.
+Explicitly specifying the servers is both more robust and marginally
+less open to attack.
+If you have not set up any slave servers, just put the host name
+of the master server into <code>/etc/yp/`domainname`</code>.
+
+<p>
+Enable and start the YP client daemon,
+<a href="https://man.openbsd.org/ypbind">ypbind(8)</a>.
+
+<pre class="cmdbox">
+# <b>rcctl enable ypbind</b>
+# <b>rcctl start ypbind</b>
+</pre>
+
+If all went well you should be able to query the YP server using
+<a href="https://man.openbsd.org/ypcat">ypcat(1)</a>
+and see your passwd map returned.
+
+<pre class="cmdbox">
+# <b>ypcat passwd</b>
+bob:*:5001:5000:Bob Nuggets:/home/bob:/usr/local/bin/zsh
+...
+</pre>
+
+Another useful tool for debugging your YP setup is
+<a href="https://man.openbsd.org/ypmatch">ypmatch(1)</a>.
+
+<p>
+The second part of configuring a YP client involves editing local configuration
+files such that certain YP maps get used by various system facilities.
+Not all servers serve all standard maps supported by the operating system, some
+servers serve additional non-standard maps, and you are by no means compelled to
+use all those maps.
+Which of the available maps shall or shall not be used, and for which purposes
+they shall be used, is fully at the discretion of the client host's system
+administrator.
+
+<p>
+For a list of standard YP maps and their standard usage, see
+<a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>.
+
+<p>
+If you want to include all user accounts from the YP domain, append the
+default YP marker to the master password file and rebuild the password
+database:
+
+<pre class="cmdbox">
+# <b>echo '+:*::::::::' >> /etc/master.passwd</b>
+# <b>pwd_mkdb -p /etc/master.passwd</b>
+</pre>
+
+For details on selective inclusion and exclusion of user accounts, see
+<a href="https://man.openbsd.org/passwd.5">passwd(5)</a>.
+To test whether inclusion actually works, use the
+<a href="https://man.openbsd.org/id">id(1)</a> utility.
+
+<p>
+If you want to include all groups from the YP domain, append the default YP
+marker to the group file:
+
+<pre class="cmdbox">
+# <b>echo '+:*::' >> /etc/group</b>
+</pre>
+
+For details on selective group inclusion, see
+<a href="https://man.openbsd.org/group.5">group(5)</a>.
