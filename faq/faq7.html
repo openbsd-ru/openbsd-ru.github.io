@@ -211,99 +211,104 @@ OpenBSD поддерживает работу консоли через посл
 
 <h3 id="SerContty">Настройка возможности входа в систему через <code>/etc/ttys</code></h3>
 
-Terminal sessions are controlled by the
-<a href="https://man.openbsd.org/ttys">ttys(5)</a> file.
-Before OpenBSD will give you a <code>login:</code> prompt at a device,
-it has to be enabled in <code>/etc/ttys</code>.
-The serial terminal is disabled by default on platforms which typically have
-a keyboard and screen attached.
-We'll use the amd64 platform as an example.
-In this case, you must edit the line that reads:
+Поведением терминалов в OpenBSD контролирется файлом
+<a href="https://man.openbsd.org/ttys">ttys(5)</a>. Для того, чтобы появилось
+приглашение для входа в систему <code>login:</code>, его необходимо включить
+в <code>/etc/ttys</code>. Последовательный терминал (serial terminal) по
+умолчанию отключен на платформах, к которым обычно подключены клавиатура и
+экран. Мы будем использовать платформу amd64 в качестве примера.
+В этом случае вы должны изменить строку:
 
 <pre class="cmdbox">
 tty00   "/usr/libexec/getty std.9600"   unknown off
 </pre>
 
-to read something like:
+таким образом:
 
 <pre class="cmdbox">
 tty00   "/usr/libexec/getty std.9600"   vt220   on secure
 </pre>
 
-Here, <code>tty00</code> is the serial port we are using as a console and
-<code>vt220</code> is the
-<a href="https://man.openbsd.org/termcap.5">termcap(5)</a>
-entry that matches your terminal.
-Other likely options might include <code>vt100</code>, <code>xterm</code>, etc.
-The <code>on</code> bit enables the login prompt by activating
-<a href="https://man.openbsd.org/getty">getty(8)</a> for that serial port.
-The <code>secure</code> bit permits a <code>root</code> login at this console.
-The <code>9600</code> bit is the terminal baud rate.
+Здесь <code>tty00</code> - это последовательный порт, который мы используем
+в качестве консоли, а <code>vt220</code> - запись в
+<a href="https://man.openbsd.org/termcap.5">termcap(5)</a>, соответствующая
+вашему терминалу. Другие возможные варианты могут включать <code>vt100</code>,
+<code>xterm</code> и т.д. Параметр <code>on</code> включает приглашение
+для входа в систему, активируя
+<a href="https://man.openbsd.org/getty">getty(8)</a>
+для этого последовательного порта. Параметр <code>secure</code> разрешает
+вход в систему пользователю <code>root</code> на этой консоли.
+И наконец, параметр <code>9600</code> - это скорость для этого терминала.
 
 <p>
-Note that you can use a serial console for install without doing this step, as
-the system is running in single user mode, and not using <code>getty</code> for
-login.
+Обратите внимание, что вы можете использовать последовательную консоль
+(serial console) для установки системы без выполнения этого шага, так как
+система работает в однопользовательском режиме и не использует
+<code>getty</code> для входа в систему.
 
 <p>
-On some platforms and some configurations, you must bring the system up in
-single user mode to make this change if a serial console is all you have
-available.
+На некоторых платформах и некоторых конфигурациях вы должны перевести
+систему в однопользовательский режим, чтобы сделать это изменение, если
+у вас есть последовательная консоль.
 
-<h3>amd64 and i386</h3>
+<h3>amd64 и i386</h3>
 
-To configure the boot process to use the serial port as a console, your
-<a href="https://man.openbsd.org/amd64/boot.conf">boot.conf(5)</a> file should
-include the line:
+Для настройки процесса загрузки таким образом, чтобы использовался
+последовательный порт в качестве консоли, файл
+<a href="https://man.openbsd.org/amd64/boot.conf">boot.conf(5)</a>
+должен содержать строку:
 
 <pre class="cmdbox">
 set tty com0
 </pre>
 
-This file is put on your boot drive, which could also be your install media.
-Use the <code>stty</code> option if you need a baud rate other than 9600bps.
+Этот файл помещается на ваш загрузочный диск, который также может быть
+вашим install media. Используйте параметр <code>stty</code>, если вам
+нужна скорость передачи данных, отличная от 9600bps.
 
 <p>
-Some systems may be able to operate without a video card in the machine,
-but certainly not all -- many consider this an error condition.
-Others are capable of redirecting all BIOS keyboard and screen activity to
-a serial port through a configuration option, so the machine can be
-completely maintained through the serial port.
-Your results may vary.
-When using this feature, some BIOS implementations may prevent the boot loader
-from seeing the serial port, thus the kernel will not be told to use it.
-There may be a BIOS option "Continue Console Redirection after POST."
-This should be set to OFF, so the boot loader and the kernel can handle
-their own console.
+Некоторые системы могут работать без видеокарты. Некоторые считают это
+условием ошибки. Другие способны перенаправлять все действия клавиатуры
+и экрана BIOS на последовательный порт с помощью параметра конфигурации,
+поэтому можно полностью обслуживать машину через последовательный порт.
+Ваши результаты могут отличаться.
+При использовании этой функции некоторые реализации BIOS могут мешать
+загрузчику видеть последовательный порт, поэтому ядро не сможет его
+использовать.
+Может быть опция BIOS "Continue Console Redirection after POST"
+(«Продолжить перенаправление консоли после POST»). Она должна быть
+выключена, т.е. установлена в OFF, чтобы загрузчик и ядро могли
+создать и работать со своими собственными консолями.
 
 <p>
-To use the machine in multi-user mode, you will need to edit
-<code>/etc/ttys</code> as <a href="#SerContty">explained above</a>.
+Чтобы испрользовать машину в многопользовательском режиме, вам
+понадобится отредактировать файл <code>/etc/ttys</code> как
+<a href="#SerContty">рассказывалось выше</a>.
 
 <h3>sparc64</h3>
 
-These machines are designed to be completely maintainable with a serial console.
-Simply remove the keyboard from the machine, and the system will run serial.
+Эти машины специально спроектированы таким образом, чтобы с ними легко
+можно было работать при помощи последовательной консоли. Просто отключите
+клавиатуру, и система автоматически будет использовать проследовательный порт.
 
 <p>
-On some systems, the serial ports are labeled <code>ttya</code>,
-<code>ttyb</code>, <code>ttyh0</code> or <code>ttyh1</code>.
-It is not necessary to make any changes to <code>/etc/ttys</code> to use a
-serial console in multi-user mode.
+В некоторых системах последовательные порты распознаются системой как
+<code>ttya</code>, <code>ttyb</code>, <code>ttyh0</code> или <code>ttyh1</code>.
+Нет необходимости трогать <code>/etc/ttys</code> для использования
+последовательной консоли в многопользовательском режиме.
 
 <p>
-Some sparc64 systems interpret a BREAK signal on the console port to be the
-same as a STOP-A command.
-This kicks the system back to the Forth prompt, stopping any application
-and operating system at that point.
-This is handy when desired, but unfortunately, some serial terminals at
-power-down and some RS-232 switching devices send something the computer
-interprets as a break signal, halting the machine.
-Test before you go into production.
+Некоторые системы sparc64 интерпретируют сигнал BREAK на консольном порту
+так же, как команда STOP-A. Это возвращает систему обратно к приглашению
+Forth, останавливая в этот момент любое приложение и операционную систему.
+Это удобно, если подобное происходит по желанию пользователя, но, к
+сожалению, некоторые последовательные терминалы и RS-232 switching devices
+посылают что-то, что компьютер интерпретирует как сигнал об остановке машины.
+Проверьте это, прежде чем использовать на критически важных машинах.
 
 <p>
-If you have a keyboard and monitor attached, you can still force the
-serial console to be used instead by using the following commands at the
+Если клавиатура и монитор подключены, вы все равно можете принудительно
+использовать последовательную консоль, используя следующие команды в
 <code>ok</code> prompt:
 
 <pre class="cmdbox">
@@ -312,14 +317,14 @@ ok <b>setenv output-device ttya</b>
 ok <b>reset</b>
 </pre>
 
-If <code>ttyC0</code> is active in <code>/etc/ttys</code>, as
-<a href="#SerContty">explained above</a>, you can use the keyboard and
-monitor in X.
+Если <code>ttyC0</code> активирован в <code>/etc/ttys</code>, как
+<a href="#SerContty">описано выше</a>, вы можете использовать клавиатуру
+и монитор в X.
 
 <h3>macppc</h3>
 
-The macppc machines are configured for a serial console through OpenFirmware.
-Use the commands:
+Машины macppc сконфигурированы таким образом, что для работы с последовательной
+консоли используется OpenFirmware. Используйте команды:
 
 <pre class="cmdbox">
 ok <b>setenv output-device scca</b>
@@ -327,26 +332,27 @@ ok <b>setenv input-device scca</b>
 ok <b>reset-all</b>
 </pre>
 
-Set your serial console to 57600bps, 8N1.
+Установите последовательную консоль на 57600bps, 8N1.
 
 <p>
-Unfortunately, serial console is not directly possible on most MacPPCs.
-While most of these machines do have serial hardware, it isn't accessible
-outside the machine.
-Fortunately, a few companies offer add-on devices for several Macintosh
-models which will make this port available for use as a serial console.
+К сожалению, последовательная консоль на большинстве MacPPC напрямую невозможна.
+Хотя большинство этих машин имеют serial hardware, оно недоступно из вне
+(it isn't accessible outside the machine). К счастью, несколько компаний
+предлагают дополнительные устройства для нескольких моделей Macintosh,
+которые сделают этот порт доступным для использования через последовательную
+консоль.
 
 <p>
-You will have to change <code>tty00</code> in <code>/etc/ttys</code> to
-<code>on</code> and set the speed to 57600 instead of the default of 9600 as
-detailed <a href="#SerContty">above</a> in single user mode before booting
-multi-user and having the serial console functional.
+Вы должны использовать параметр <code>on</code> для <code>tty00</code>
+в <code>/etc/ttys</code> и установить скорость 57600 вместо 9600 (значение
+по умолчанию), как описано <a href="#SerContty">выше</a> в однопользовательском
+режиме, прежде чем перезагрузиться в многопользовательском режиме и иметь
+возможность работать с последовательной консолью.
 
-<h3>I get input/output error when trying to use my tty devices</h3>
+<h3>Что делать при I/O ошибках во время работы с tty</h3>
 
-You need to use <code>/dev/cuaXX</code> for connections initiated from the
-OpenBSD system.
-The <code>/dev/ttyXX</code> devices are intended only for terminal or dial-in
-usage.
-Refer to the <a href="https://man.openbsd.org/cua">cua(4)</a> manual for more
-details.
+Вам необходимо использовать <code>/dev/cuaXX</code> для соединений,
+инициированных из OpenBSD. Устройства <code>/dev/ttyXX</code> предназначены
+только для использования с терминалами или по телефонной линии.
+Обратитесь к руководству <a href="https://man.openbsd.org/cua">cua(4)</a>
+для получения более подробной информации.
