@@ -22,7 +22,7 @@ issue.
 
 | Материал к переводу | Ответственный | Комментарий |
 | --- | --- | --- |
-| **[FAQ#10_System Management](https://www.openbsd.org/faq/faq10.html)** |  Хотите перевести? | |
+| **[FAQ#10_System Management](https://www.openbsd.org/faq/faq10.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#13_Multimedia](https://www.openbsd.org/faq/faq13.html)** |  Хотите перевести? | |
 | **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
 | **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
