@@ -69,8 +69,8 @@ issue.
 материал с оригинальным. К примеру, security.html:
 
 ``` 
-[1.438] added "Full Disclosure" part - secitity.html
-[1.439] better wording - secirity.html
+[1.438] added "Full Disclosure" part - security.html
+[1.439] better wording - security.html
 [1.439] sync - security.html
 ``` 
 Обратите внимание на [CVSweb](https://cvsweb.openbsd.org/www/)
