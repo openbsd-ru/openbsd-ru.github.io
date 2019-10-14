@@ -22,16 +22,16 @@ FAQ - Управление системой
 <hr>
 
 <ul>
-<li><a href="#Patches"          >Обновления безопасности</a>
-<li><a href="#rc"               >Системные демоны</a>
-<li><a href="#doas"             >Выполнение команд от имени другого пользователя</a>
-<li><a href="#vipw"             >Редактирование файла паролей</a>
-<li><a href="#SKey"             >Использование S/Key</a>
-<li><a href="#Dir"              >Directory Services</a>
+<li><a href="#Patches"    >Обновления безопасности</a>
+<li><a href="#rc"         >Системные демоны</a>
+<li><a href="#doas"       >Выполнение команд от имени другого пользователя</a>
+<li><a href="#vipw"       >Редактирование файла паролей</a>
+<li><a href="#SKey"       >Использование S/Key</a>
+<li><a href="#Dir"        >Directory Services</a>
 <ul>
-  <li><a href="#YP_secure"      >Вопросы безопасности YP</a>
-  <li><a href="#YP_server"      >Настройка YP сервера</a>
-  <li><a href="#YP_client"      >Настройка YP клиента</a>
+  <li><a href="#YP_secure">Вопросы безопасности YP</a>
+  <li><a href="#YP_server">Настройка YP сервера</a>
+  <li><a href="#YP_client">Настройка YP клиента</a>
 </ul>
 </ul>
 
@@ -39,104 +39,104 @@ FAQ - Управление системой
 
 <h2 id="Patches">Обновления безопасности (Security Updates)</h2>
 
-When a critical bug is found, the fix will be committed to the -current tree
-(and made available in <a href="faq5.html#Flavors">snapshot builds</a>)
-as soon as possible.
-From that point on, things are handled differently depending on whether the
-problem was in the OpenBSD base system or a third party package.
-This section details how to keep your system up to date between releases.
+При обнаружении и исправлении критического бага, fix сразу же будет добавлен
+в дерево -current нашего репозитория (fix так же будет доступен во всех
+последующих <a href="faq5.html#Flavors">сборках снапошотов</a>).
+С этого момента, в зависимости от того, где был найден баг - в базовой
+системе OpenBSD или third party пакете, последующие шаги будут отличаться.
+В этом разделе подробно описано, как поддерживать вашу систему в актуальном
+состоянии между релизами.
 
 <p>
-For the OpenBSD base system, security fixes are normally applied to the
-two most recent releases.
-There are four options:
+Security fixes для базовых компонентов OpenBSD обычно добавляются к двум
+последним релизам. Есть четыре варианта:
 
 <ul>
-  <li><b>Apply binary patches</b> - available on amd64, arm64, i386
+  <li><b>Использование бинарных патчей</b> - доступно для amd64, arm64, i386
     <br>
-    If you're running a supported release of OpenBSD, you can simply use
-    the <a href="https://man.openbsd.org/syspatch">syspatch(8)</a> utility
-    to upgrade any files in need of security or reliability fixes.
-    This is the quickest and easiest method to get the base system up to date.
-    Security advisories are sent to the
-    <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&amp;extra=announce">announce</a>
-    mailing list.
-  <li><b>Update your system to -stable</b>
+    Если вы используете одну из поддерживаемых релизов OpenBSD, вы можете
+    использовать утилиту <a href="https://man.openbsd.org/syspatch">syspatch(8)</a>
+    для обновления файлов, для которых появляются обновления безопасности.
+    Это самый быстрый и простой способ обновления базовых компонентов
+    системы. Советы, касательно процесса обновления, можно найти в рассылке
+    <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&amp;extra=announce">announce</a>.
+  <li><b>Обновление системы до -stable</b>
     <br>
-    Fetch (or update) your source tree with <a href="../anoncvs.html">CVS</a>,
-    then <a href="../stable.html">recompile</a> the kernel and userland.
-  <li><b>Patch the affected files individually</b>
+    Загрузите или обновите ваш локальный
+    <a href="../anoncvs.html">CVS репозиторий</a>, затем
+    <a href="../stable.html">перекомпилируйте и пересоберите</a> ядро и userland.
+  <li><b>Накладывание патчей на уязвимые файлы</b>
     <br>
-    While applying fixes from the <a href="../errata.html">errata page</a>
-    typically requires less time than a CVS checkout/update and rebuild,
-    there is no universal set of instructions to follow.
-    Sometimes you must patch and recompile one application, sometimes more.
-  <li><b>Upgrade your system to -current</b>
+    Хотя накладывание патчей с <a href="../errata.html">errata страницы</a>
+    обычно требует меньшего времени, чем CVS checkout/update и последующий
+    процесс пересборки, универсальной последовательности действий нет.
+    Иногда вы должны исправить и перекомпилировать лишь одну программу,
+    иногда - целый ряд компонентов.
+  <li><b>Обновление системы до -current</b>
     <br>
-    As all fixes are applied to the -current code base, updating your system
-    to the latest <a href="faq5.html#Snapshots">snapshot</a> is a good way to
-    get all the fixes at once.
-    However, running -current is not for everyone.
+    Поскольку все исправления (fixes) накладываются на -current, обновление
+    системы до последнего <a href="faq5.html#Snapshots">снапшота</a> - это
+    хороший способ получить все исправления одновременно.
+    Тем не менее, помните, что использование -current подойдет не всем.
 </ul>
 
-For third party software installed via <a href="faq15.html">packages</a>,
-fixes are normally only applied to the most recent release.
-There are three options:
+Для third party ПО, установленного при помощи <a href="faq15.html">пакетов</a>,
+исправления обычно затрагивают лишь последнюю версию.
+Тут есть три варианта:
 
 <ul>
-  <li><b>Use binary packages</b> - available on amd64, arm64, i386, sparc64
+  <li><b>Использование бинарных пакетов</b> - доступно для amd64, arm64, i386, sparc64
     <br>
-    Binary packages for -stable are rebuilt only for security issues or other
-    major fixes.
-    Simply call <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> with
-    the <code>-u</code> flag to get the new files.
-  <li><b>Use the -stable ports tree</b>
+    Бинарные пакеты для -stable пересобираются только в случае найденных проблем
+    безопасности или необходимости использования других серьезных исправлений.
+    Просто запустите <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
+    с флагом <code>-u</code>, чтобы загрузить себе новые файлы.
+  <li><b>Использование дерева портов -stable</b>
     <br>
-    Fetch (or update) your <a href="ports/ports.html">ports tree</a>,
-    run the <code>/usr/ports/infrastructure/bin/pkg_outdated</code> script to
-    list any packages in need of rebuilding, and issue <code>make update</code>
-    in the affected port directory.
-    In some cases, existing ports will need to be uninstalled before rebuilding.
-    To be alerted of port updates, consider following the
-    <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&amp;extra=ports-changes">ports-changes</a>
-    mailing list.
-  <li><b>Upgrade your system to -current</b>
+    Загрузите (или обновите) себе <a href="ports/ports.html">дерево портов</a>,
+    запустите скрипт <code>/usr/ports/infrastructure/bin/pkg_outdated</code>,
+    чтобы получить список всех пакетов, нуждающихся в пересборке, и выполните
+    команду <code>make update</code> в каталоге соответствующего порта.
+    В некоторых случаях перед пересборкой необходимо удалить существующие порты.
+    Чтобы получать уведомления об обновлениях портов, подпишитесь на рассылку
+    <a href="https://lists.openbsd.org/cgi-bin/mj_wwwusr?func=lists-long-full&amp;extra=ports-changes">ports-changes</a>.
+  <li><b>Обновление системы до -current</b>
     <br>
-    Binary packages for -current are rebuilt on a regular basis, and these
-    new packages will include any security fixes.
+    Бинарные пакеты для -current пересобираются постоянно (on a regular basis),
+    и эти новые пакеты включают все исправления безопасности.
 </ul>
 
 <h2 id="rc">Системные демоны (System Daemons)</h2>
 
-System daemons (or "services") are started, stopped and controlled by
-the <a href="https://man.openbsd.org/rc">rc(8)</a> script via
+Системные демоны (или "сервисы") запускаются, останавливаются и управляются при
+помощи <a href="https://man.openbsd.org/rc">rc(8)</a> скриптов через
 <a href="https://man.openbsd.org/rc.d">rc.d(8)</a>.
 
 <p>
-Most daemons and services that come with OpenBSD are controlled on boot
-by variables defined in
+Большинство демонов и сервисов, которые поставляются вместе с OpenBSD,
+контролируются во время загрузки системы при помощи переменных, установленных в
 <a href="https://cvsweb.openbsd.org/src/etc/rc.conf?rev=HEAD">/etc/rc.conf</a>.
-You'll see lines similar to this:
+В этом файле присутствуют строки подобной этой:
 
 <pre class="cmdbox">
 httpd_flags=NO
 </pre>
 
-This shows that <a href="https://man.openbsd.org/httpd">httpd(8)</a> is not to
-be started from <a href="https://man.openbsd.org/rc">rc(8)</a> at boot time.
-Each line has a comment showing you the flags for common usage of that daemon
-or service.
+Мы видим, что <a href="https://man.openbsd.org/httpd">httpd(8)</a> не должен
+запускаться во время загрузки системы при помощи
+<a href="https://man.openbsd.org/rc">rc(8)</a>. В каждой строке есть комментарий,
+показывающий вам параметры/флаги общего использования этого демона или сервиса.
 
 <p>
-Do not alter <a href="https://man.openbsd.org/rc.conf">rc.conf(8)</a> directly.
-Instead, use the <a href="https://man.openbsd.org/rcctl">rcctl(8)</a> utility
-to maintain the <code>/etc/rc.conf.local</code> file.
-This makes future upgrades easier as all the changes are in the one file that
-isn't touched during upgrade.
+Не редактируйте файл <a href="https://man.openbsd.org/rc.conf">rc.conf(8)</a>.
+Вместо этого используйте утилиту <a href="https://man.openbsd.org/rcctl">rcctl(8)</a>
+для внесение изменений в <code>/etc/rc.conf.local</code>.
+Это упрощает процесс обновления, так как все изменения находятся в одном файле,
+который не затрагивается во время обновления.
 
 <p>
-For example, to start the <a href="https://man.openbsd.org/apmd">apmd(8)</a>
-daemon for CPU scaling, one might do:
+Например, чтобы запустить демон <a href="https://man.openbsd.org/apmd">apmd(8)</a>
+для CPU scaling, можно сделать:
 
 <pre class="cmdbox">
 # <b>rcctl enable apmd</b>
