@@ -146,76 +146,76 @@ httpd_flags=NO
 
 <h2 id="doas">Выполнение команд от имени другого пользователя</h2>
 
-The <a href="https://man.openbsd.org/doas">doas(1)</a> tool lets a system
-administrator permit certain users to run specific commands as another user.
-Regular users can run administrative commands, only being required to
-authenticate as themselves, without the need for the root password.
+<a href="https://man.openbsd.org/doas">doas(1)</a> позволяет системному
+администратору разрешать определенным пользователям запускать определенные
+команды от имени другого пользователя. Обычные пользователи могут выполнять
+административные команды, требуя только аутентификации самого себя, без
+необходимости пароля root.
 
 <p>
-For example, if appropriately configured, the following command would display
-root's <a href="https://man.openbsd.org/crontab.5">crontab(5)</a> file:
+Например, при соответствующей настройке следующая команда покажет содержимое
+файла <a href="https://man.openbsd.org/crontab.5">crontab(5)</a>, принадлежащего
+пользователю root.
 
 <pre class="cmdbox">
 $ <b>doas -u root crontab -l</b>
 </pre>
 
-Commands invoked by <a href="https://man.openbsd.org/doas">doas(1)</a>
-are logged to <code>/var/log/secure</code> by default.
-Check the <a href="https://man.openbsd.org/doas.conf">doas.conf(5)</a> manual
-for configuration examples.
+Команды, запускаемые при помощи <a href="https://man.openbsd.org/doas">doas(1)</a>,
+по умолчанию протоколируются в <code>/var/log/secure</code>. Примеры конфигурации
+можно найти в руководстве
+<a href="https://man.openbsd.org/doas.conf">doas.conf(5)</a>.
 
 <h2 id="vipw">Редактирование файла паролей</h2>
 
-OpenBSD's main password file is located at <code>/etc/master.passwd</code> and
-is only readable by root.
-The <a href="https://man.openbsd.org/pwd_mkdb">pwd_mkdb(8)</a> tool generates
-the world-readable <code>/etc/passwd</code> and the password databases
-(<code>/etc/pwd.db</code> and <code>/etc/spwd.db</code>) from the main file.
-The format is described in
-<a href="https://man.openbsd.org/passwd.5">passwd(5)</a>.
+Основным файлом паролей OpenBSD является <code>/etc/master.passwd</code>.
+Он доступен для чтения только пользователю root.
+Утилита <a href="https://man.openbsd.org/pwd_mkdb">pwd_mkdb(8)</a> генерирует
+читабельные файлы <code>/etc/passwd</code> и базы паролей
+(<code>/etc/pwd.db</code> и <code>/etc/spwd.db</code>) из основного файла.
+Формат описан в <a href="https://man.openbsd.org/passwd.5">passwd(5)</a>.
 
 <p>
-Always use <a href="https://man.openbsd.org/vipw">vipw(8)</a> to edit your
-password file.
-After you are done editing, it will first sanity check the changes, then
-recreate <code>/etc/passwd</code> and the password databases, and finally
-install the copy in place of the original <code>/etc/master.passwd</code> file.
+Всегда используйте <a href="https://man.openbsd.org/vipw">vipw(8)</a> для
+редактирования файла паролей.
+После того, как вы закончите редактирование, он сначала проверит изменения,
+затем создаст <code>/etc/passwd</code> и базы паролей и, наконец,
+установит копию вместо исходного файла <code>/etc/master.passwd</code>.
 
 <h2 id="SKey">Использование S/Key</h2>
 
-S/Key is a "one-time password" authentication system.
-It generates a sequence of one-time (single use) passwords from a user's
-secret passphrase along with a challenge received from the server, by means of a
-hash function:
+S/Key представляет из себя систему аутентификации по принципу "одноразового
+пароля". Он генерирует последовательность одноразовых паролей из passphrase
+(секретной парольной фразы) пользователя вместе с challenge, полученным от
+сервера, при помощи хэш-функции:
 <a href="https://man.openbsd.org/md5">md5</a>,
 <a href="https://man.openbsd.org/sha1">sha1</a> or
 <a href="https://man.openbsd.org/rmd160">rmd160</a>.
 
 <blockquote>
-<b>WARNING:</b>
-One-time password systems only protect authentication information.
-They do not prevent network eavesdroppers from gaining access to private
-information.
-Furthermore, if you are accessing a secure system A, it is recommended that
-you do this from another trusted system B, to ensure nobody is gaining access
-to system A by logging your keystrokes or by capturing and/or forging input
-and output on your terminal devices.
+<b>ВНИМАНИЕ:</b>
+Системы с одноразовыми паролями защищают только информацию процесса аутентификации.
+Они не мешают сетевым хулиганам получать доступ к личной информации.
+Кроме того, если вы обращаетесь к защищенной системе A, рекомендуется сделать
+это из другой доверенной системы B, чтобы никто не получал доступ к системе
+A путем регистрации нажатий клавиш или захвата и/или подделки ввода и вывода
+на вашем терминале.
 </blockquote>
 
-<h3>Setting Up S/Key</h3>
+<h3>Настройка S/Key</h3>
 
-To start off, the directory <code>/etc/skey</code> must exist.
-If this directory doesn't exist, have the superuser create it by doing:
+Для начала каталог <code>/etc/skey</code> должен существовать.
+Если этот каталог не существует, попросите суперпользователя создать его:
 
 <pre class="cmdbox">
 # <b>skeyinit -E</b>
 </pre>
 
-Then use
+Затем используйте
 <a href="https://man.openbsd.org/skeyinit">skeyinit(1)</a>
-to initialize your S/Key.
-You will first be prompted for your login password, then you will be asked for
-your S/Key secret passphrase, which must be at least 10 characters long:
+для инициализации вашего S/Key.
+Сначала вам будет предложено ввести пароль, затем вы должны будете ввести
+passphrase (секретную парольную фразу) S/Key длиной не менее 10 символов:
 
 <pre class="cmdbox">
 $ <b>skeyinit</b>
@@ -228,15 +228,15 @@ ID ericj skey is otp-md5 100 oshi45820
 Next login password: HAUL BUS JAKE DING HOT HOG
 </pre>
 
-Notice the information in the last two lines.
-The program used to create your S/Key password is
+Обратите внимание на информацию в последних двух строках.
+Программа, использованная для создания вашего S/Key пароля, -
 <a href="https://man.openbsd.org/otp-md5">otp-md5(1)</a>,
-the sequence number is <code>100</code> and the secret key is
-<code>oshi45820</code>.
-The six small words <code>HAUL BUS JAKE DING HOT HOG</code> constitute the S/Key
-password with sequence number <code>100</code>.
+порядковый номер (sequence number) - <code>100</code>,
+а секретный ключ - <code>oshi45820</code>.
+Шесть маленьких слов <code>HAUL BUS JAKE DING HOT HOG</code> составляют
+S/Key пароль с порядковым номером <code>100</code>.
 
-<h3>Generating S/Key Passwords</h3>
+<h3>Генерация S/Key паролей</h3>
 To generate the S/Key password for the next login, use
 <a href="https://man.openbsd.org/skeyinfo">skeyinfo(1)</a>
 to find out what command to run:
@@ -261,7 +261,7 @@ Enter secret passphrase:
 95: NOOK CHUB HOYT SAC DOLE FUME
 </pre>
 
-<h3>Using S/Key to Log In</h3>
+<h3>Использование S/Key для входа в систему</h3>
 
 Here is an example session using S/Key to log in to an ftp server on
 <code>localhost</code>.
