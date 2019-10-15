@@ -24,23 +24,23 @@ issue.
 | --- | --- | --- |
 | **[FAQ#10_System Management](https://www.openbsd.org/faq/faq10.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#13_Multimedia](https://www.openbsd.org/faq/faq13.html)** | [Sergey Bronnikov](https://github.com/ligurio) | |
-| **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
-| **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Getting Started](https://www.openbsd.org/faq/pf/config.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Logging](https://www.openbsd.org/faq/pf/logging.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/logging.html)|
-| **[FAQ#PF_Lists and Macros](https://www.openbsd.org/faq/pf/macros.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Runtime Options](https://www.openbsd.org/faq/pf/options.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/options.html)|
-| **[FAQ#PF_Performance](https://www.openbsd.org/faq/pf/perf.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/pools.html)|
-| **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Tables](https://www.openbsd.org/faq/pf/tables.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | |
-| **[FAQ#PF_Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html)** | [Oleg Pahl](https://github.com/oleg-pahl) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/tagging.html)|
+| **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
+| **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | Хотите перевести?| |
+| **[FAQ#PF_Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html)** | Хотите перевести? | |
+| **[FAQ#PF_Getting Started](https://www.openbsd.org/faq/pf/config.html)** | Хотите перевести? | |
+| **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** | Хотите перевести? | |
+| **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | Хотите перевести? | |
+| **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** | Хотите перевести? | |
+| **[FAQ#PF_Logging](https://www.openbsd.org/faq/pf/logging.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/logging.html)|
+| **[FAQ#PF_Lists and Macros](https://www.openbsd.org/faq/pf/macros.html)** | Хотите перевести? | |
+| **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | Хотите перевести? | |
+| **[FAQ#PF_Runtime Options](https://www.openbsd.org/faq/pf/options.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/options.html)|
+| **[FAQ#PF_Performance](https://www.openbsd.org/faq/pf/perf.html)** | Хотите перевести? | |
+| **[FAQ#PF_Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/pools.html)|
+| **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | Хотите перевести? | |
+| **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | Хотите перевести? | |
+| **[FAQ#PF_Tables](https://www.openbsd.org/faq/pf/tables.html)** | Хотите перевести? | |
+| **[FAQ#PF_Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/tagging.html)|
 | **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
