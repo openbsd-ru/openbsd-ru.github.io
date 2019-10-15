@@ -358,65 +358,68 @@ YP - это служба каталогов, совместимая с Sun Micro
 
 <h3 id="YP_server">Настройка YP сервера</h3>
 
-A YP server serves a group of clients called a "domain."
-You should first select a domain name; it can be an arbitrary string and
-need not be related in any way to DNS domain names.
-Choosing a random name like "Eepoo5vi" can marginally improve security,
-though the effect is mostly in security by obscurity.
-In case you need to maintain several distinct YP domains, it's probably
-better to choose descriptive names like "sales," "marketing" and "research"
-in order to forestall system administration errors caused by obscurity.
-Also note that some versions of SunOS require using the host's DNS domain
-name, so your choice might be restricted in a network including such hosts.
+Сервер YP обслуживает группу клиентов, называемых «доменом».
+Вы должны сначала выбрать доменное имя; это может быть произвольная
+строка, которая не должна быть каким-либо образом связана с доменными
+именами DNS. Выбор случайного имени, такого как «Eepoo5vi», может немного
+улучшить безопасность, хотя эффект в основном заключается в безопасности
+по незаметности. В случае, если вам нужно поддерживать несколько отдельных
+доменов YP, вероятно, лучше выбрать описательные имена, такие как «sales»,
+«marketing» или «research», чтобы предотвратить ошибки системного
+администрирования, вызванные неясностью. Также обратите внимание, что
+в некоторых версиях SunOS требуется использовать доменное имя DNS хоста,
+поэтому ваш выбор может быть ограничен.
 
 <p>
-Use the <a href="https://man.openbsd.org/domainname">domainname(1)</a>
-utility to set the domain name, and put it into the
-<a href="https://man.openbsd.org/defaultdomain">defaultdomain(5)</a>
-file to have it automatically set at system startup time.
+Используйте утилиту
+<a href="https://man.openbsd.org/domainname">domainname(1)</a>, чтобы
+установить имя домена, и поместите его в файл
+<a href="https://man.openbsd.org/defaultdomain">defaultdomain(5)</a>,
+чтобы он автоматически использовался во время запуска системы.
 
 <pre class="cmdbox">
 # <b>echo "puffynet" > /etc/defaultdomain</b>
 # <b>domainname `cat /etc/defaultdomain`</b>
 </pre>
 
-Initialize the YP server using the interactive command:
+Вот так можно инициализировать YP сервер в интерактивном режиме:
 
 <pre class="cmdbox">
 # <b>ypinit -m</b>
 </pre>
 
-At this point, it is not necessary to specify slave servers yet.
-To add slave servers, you can rerun
-<a href="https://man.openbsd.org/ypinit">ypinit(8)</a>
-later, using the <code>-u</code> option.
-
-Setting up at least one slave server for each domain is useful to avoid
-service interruptions.
-For example, should the master server ever go down or lose network
-connectivity, client processes trying to access YP maps block indefinitely
-until they receive the requested information.
-Thus, YP service interruptions typically render the client hosts completely
-unusable until YP is back to service.
-
-<p>
-Decide where to store the source files to generate your YP maps from.
-Keeping the server configuration separate from the served configuration
-helps to control which information will be served and which won't, so the
-default <code>/etc</code> often isn't the best choice.
+На этом этапе пока нет необходимости указывать slave-серверы.
+Чтобы добавить slave-серверы, вы можете перезапустить
+<a href="https://man.openbsd.org/ypinit">ypinit(8)</a> позже,
+используя опцию <code>-u</code>.
+Настройка хотя бы одного slave-сервера для каждого домена имеет смысл,
+чтобы избежать прерываний обслуживания. Например, если главный сервер
+когда-нибудь выйдет из строя или потеряет сетевое соединение, клиентские
+процессы, пытающиеся получить доступ к YP maps, блокируются, пока они не
+получат запрашиваемую информацию.
+Таким образом, прерывания службы YP обычно делают клиентские хосты
+полностью непригодными, пока проблемы с YP не будут устранены.
 
 <p>
-The only inconvenience caused by changing the source directory is that you
-will not be able to add, remove and modify users and groups in the
-YP domain using utilities like
-<a href="https://man.openbsd.org/user">user(8)</a> and
+Решите, где хранить файлы для создания ваших YP maps.
+Хранение конфигурации сервера отдельно от обслуживаемой конфигурации
+(served configuration) помогает контролировать, какая информация будет
+обслуживаться, а какая нет, поэтому использование по умолчанию
+<code>/etc</code> часто является не лучшим выбором.
+
+<p>
+Единственное неудобство, вызванное изменением исходного каталога,
+заключается в том, что вы не сможете добавлять, удалять и изменять
+пользователей и группы в домене YP с помощью таких утилит, как
+<a href="https://man.openbsd.org/user">user(8)</a> и
 <a href="https://man.openbsd.org/group">group(8)</a>.
-Instead, you will have to edit the configuration files with a text editor.
+Вместо этого вам придется редактировать файлы конфигурации с
+помощью текстового редактора.
 
 <p>
-To define the source directory, edit the file
-<code>/var/yp/`domainname`/Makefile</code>
-and change the <code>DIR</code> variable, e.g.
+Чтобы определить исходный каталог, отредактируйте файл
+<code>/var/yp/`domainname`/Makefile</code> и измените переменную
+<code>DIR</code>, например:
 
 <pre class="cmdbox">
 DIR=/etc/yp/src/puffynet
