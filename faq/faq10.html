@@ -27,7 +27,7 @@ FAQ - Управление системой
 <li><a href="#doas"       >Выполнение команд от имени другого пользователя</a>
 <li><a href="#vipw"       >Редактирование файла паролей</a>
 <li><a href="#SKey"       >Использование S/Key</a>
-<li><a href="#Dir"        >Directory Services</a>
+<li><a href="#Dir"        >Служба каталогов (Directory Services)</a>
 <ul>
   <li><a href="#YP_secure">Вопросы безопасности YP</a>
   <li><a href="#YP_server">Настройка YP сервера</a>
@@ -237,9 +237,9 @@ Next login password: HAUL BUS JAKE DING HOT HOG
 S/Key пароль с порядковым номером <code>100</code>.
 
 <h3>Генерация S/Key паролей</h3>
-To generate the S/Key password for the next login, use
-<a href="https://man.openbsd.org/skeyinfo">skeyinfo(1)</a>
-to find out what command to run:
+Чтобы сгенерировать S/Key пароль для следующего входа в систему,
+используйте <a href="https://man.openbsd.org/skeyinfo">skeyinfo(1)</a>,
+чтобы узнать, какую команду и параметры нужно для этого использовать:
 
 <pre class="cmdbox">
 $ <b>skeyinfo -v</b>
@@ -249,7 +249,7 @@ Enter secret passphrase:
 NOOK CHUB HOYT SAC DOLE FUME
 </pre>
 
-In order to generate a list of S/Key passwords, do:
+Если же надо сгенерировать несколько S/Key паролей:
 
 <pre class="cmdbox">
 $ <b>otp-md5 -n 5 95 oshi45820</b>
@@ -263,9 +263,9 @@ Enter secret passphrase:
 
 <h3>Использование S/Key для входа в систему</h3>
 
-Here is an example session using S/Key to log in to an ftp server on
-<code>localhost</code>.
-To perform an S/Key login, you append <code>:skey</code> to your login name.
+Пример сеанса с FTP сервером <code>localhost</code>, где используется
+S/Key. Для входа в систему при помощи S/Key вы должны добавить
+<code>:skey</code> к вашему имени:
 
 <pre class="cmdbox">
 $ <b>ftp localhost</b>
@@ -282,7 +282,7 @@ ftp> <b>quit</b>
 221 Goodbye.
 </pre>
 
-Similarly, for <a href="https://man.openbsd.org/ssh">ssh(1)</a>:
+Это же относится и к <a href="https://man.openbsd.org/ssh">ssh(1)</a>:
 
 <pre class="cmdbox">
 $ <b>ssh -l ericj:skey localhost</b>
@@ -292,69 +292,69 @@ Last login: Thu Apr  7 12:21:48 on ttyp1 from 156.63.248.77
 $
 </pre>
 
-<h2 id="Dir">Directory Services</h2>
+<h2 id="Dir">Служба каталогов (Directory Services)</h2>
 
-OpenBSD can be used for both servers and clients of databases containing
-user credentials, group information and other network-related data.
+OpenBSD может использоваться как для серверных, так и для клиентских
+баз данных, содержащих учетные записи пользоватей, информацию о группе
+и другие данные, связанные с сетью.
 
 <p>
-Of course, you could use various directory services on OpenBSD.
-But YP is the only one that can be accessed directly using standard
-C-library functions like
+Конечно, вы можете использовать различные службы каталогов в OpenBSD.
+Но YP - единственный, к которому можно напрямую обратиться, используя
+стандартные функции C-библиотеки, такие как
 <a href="https://man.openbsd.org/getpwent">getpwent(3)</a>,
 <a href="https://man.openbsd.org/getgrent">getgrent(3)</a>,
 <a href="https://man.openbsd.org/gethostbyname">gethostbyname(3)</a>
-and so on.
-Thus, if you keep your data in a YP database, you do not need to copy it to
-local configuration files like
-<a href="https://man.openbsd.org/master.passwd">master.passwd(5)</a> before you
-can use it, for example to authenticate system users.
+и так далее. Таким образом, если вы храните свои данные в базе данных YP,
+вам не нужно копировать их в локальные файлы конфигурации, такие как
+<a href="https://man.openbsd.org/master.passwd">master.passwd(5)</a>,
+прежде чем вы сможете использовать их, например, для аутентификации
+пользователей в системе.
 
 <p>
-YP is a directory service compatible with Sun Microsystems NIS
+YP - это служба каталогов, совместимая с Sun Microsystems NIS
 (Network Information System).
-See <a href="https://man.openbsd.org/yp">yp(8)</a> for an overview of the
-available manual pages.
-Be careful, some operating systems contain directory services bearing similar
-names but all the same being incompatible, for example NIS+.
+Загляните в <a href="https://man.openbsd.org/yp">yp(8)</a> для обзора
+доступных справочных страниц. Будьте осторожны, некоторые операционные
+системы содержат службы каталогов, имеющие одинаковые имена, но, тем
+не менее, несовместимые, например NIS+.
 
 <p>
-To use directory services other than YP, you either need to populate local
-configuration files from the directory, or you need a YP frontend to
-the directory.
-For example, you can use the <code>sysutils/login_ldap</code> port when you
-choose the former,
-while the <a href="https://man.openbsd.org/ypldap">ypldap(8)</a>
-daemon provides the latter.
+Чтобы использовать службы каталогов, отличные от YP, вам нужно либо
+заполнить локальные файлы конфигурации из данными из каталога,
+либо использовать внешний интерфейс YP для каталога.
+Например, вы можете использовать порт <code>sysutils/login_ldap</code>
+при выборе первого, тогда как демон
+<a href="https://man.openbsd.org/ypldap">ypldap(8)</a> в свою очередь
+предоставит второе.
 
 <p>
-For some applications, simply synchronizing a small number of configuration
-files among a group of machines using tools like
+Для некоторых приложений простая синхронизация небольшого числа файлов
+конфигурации между группой машин можно реализовать при помощи таких
+инструментов, как
 <a href="https://man.openbsd.org/rdist">rdist(1)</a>,
 <a href="https://man.openbsd.org/cron">cron(8)</a>,
-<a href="https://man.openbsd.org/scp">scp(1)</a> or
-<code>rsync</code> (available from ports) constitutes an easy and robust
-alternative to a full-blown directory service.
+<a href="https://man.openbsd.org/scp">scp(1)</a> или
+<code>rsync</code> (доступен из портов). Эта коллекция представляет
+собой простую и надежную альтернативу directory services.
 
 <h3 id="YP_secure">Вопросы безопасности YP</h3>
 
-For compatibility reasons, all security features built into the OpenBSD
-implementation of YP are switched <i>off</i> by default.
-Even when they are all switched on, the NIS protocol is still inherently
-insecure for two reasons:
-All data, including sensitive data like password hashes, is transmitted
-unencrypted across the network, and neither the client nor the server can
-reliably verify each other's identity.
+По соображениям совместимости все функции безопасности, встроенные в
+реализацию YP OpenBSD, по умолчанию <i>отключены</i>. Даже когда все они
+включены, протокол NIS по-прежнему небезопасен по двум причинам: все
+данные, включая конфиденциальные данные, такие как хеши паролей, передаются
+незашифрованными по сети, и ни клиент, ни сервер не могут надежно
+проверить идентичность друг друга.
 
 <p>
-Thus, before setting up any YP server, you should consider whether these
-inherent security flaws are acceptable in your context.
-In particular, YP is inadequate if potential attackers have physical access
-to your network.
-Anybody gaining root access to any computer connected to your network segments
-carrying YP traffic can bind your YP domain and retrieve its data.
-In some cases, passing YP traffic through SSL or IPsec tunnels might be
-an option.
+Таким образом, перед настройкой любого YP-сервера вы должны подумать,
+приемлемы ли эти недостатки безопасности в вашем конкретном случае.
+В частности, YP не подходит, если потенциальные злоумышленники имеют
+физический доступ к вашей сети. Любой, кто получает root-доступ к любому
+компьютеру, подключенному к сегментам вашей сети, по которым передается
+трафик YP, может подключиться к вашему домену YP и получить его данные.
+В некоторых случаях можно использовать SSL- и IPsec-туннели для трафика YP.
 
 <h3 id="YP_server">Настройка YP сервера</h3>
 
