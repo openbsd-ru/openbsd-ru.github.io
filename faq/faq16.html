@@ -11,29 +11,12 @@
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
 <link rel="canonical" href="https://www.openbsd.org/faq/faq16.html">
 
-<!--
-Copyright (c) 2018 Solene Rapenne <solene@openbsd.org>
-
-Permission to use, copy, modify, and distribute this documentation for
-any purpose with or without fee is hereby granted, provided that the
-above copyright notice and this permission notice appear in all copies.
-
-THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS DOCUMENTATION
--->
-
 <h2 id=OpenBSD>
 <a href="../index.html">
 <i>Open</i><b>BSD</b></a>
 FAQ - Виртуализация
 <small>
-<a href="index.html">[FAQ Index]</a>
+<a href="index.html">[FAQ - На главную]</a>
 </small>
 </h2>
 <hr>
@@ -70,7 +53,7 @@ OpenBSD поставляется с гипервизором <a href="https://ma
   <li>приостановка / возобновление виртуальных машин
 </ul>
 
-Следующие функции недоступны в настоящее время:
+Следующие функции в настоящий момент недоступны:
 
 <ul>
   <li>графика
@@ -149,7 +132,7 @@ Escape sequence <code>~.</code> необходима если требуется
 Чтобы выйти из последовательной консоли через SSH, используйте <code>~~..</code>
 
 <p>
-Виртуальная машина может быть остановлена ​​с помощью 
+Остановить виртуальную машину можно при помощи
 <a href="https://man.openbsd.org/vmctl">vmctl(8)</a>.
 
 <pre class="cmdbox">
@@ -174,7 +157,7 @@ vm "example" {
 
 <!-- XXX specify which ones -->
 
-Другие изменения, такие как настройка объема ОЗУ или дискового пространства, 
+Другие изменения, такие как настройка объема RAM или дискового пространства,
 требуют перезагрузки виртуальной машины.
 
 <h2 id="VMMnet">Сеть</h2>
@@ -228,7 +211,7 @@ pass in proto { udp tcp } from 100.64.0.0/10 to any port domain \
 
 <h3>Вариант 3 - Дополнительный контроль над конфигурацией сети VM</h3>
 
-Иногда Вам может потребоваться дополнительный контроль над виртуальной сетью для ваших виртуальных машин, 
+Иногда вам может потребоваться дополнительный контроль над виртуальной сетью для ваших виртуальных машин,
 например, возможность устанавливать некоторые из них на свой виртуальный коммутатор. 
 Это можно сделать с помощью интерфейса <a href="https://man.openbsd.org/bridge">bridge(4)</a> 
 и <a href="https://man.openbsd.org/vether">vether(4)</a>.
@@ -313,9 +296,9 @@ vm "my_vm" {
 <p>
 
 <b>Примечание:</b>
-Если интерфейс хоста (<code>em0</code> в приведенном выше примере) также настроен с использованием DHCP, 
-<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, работающий на этом интерфейсе, 
-может блокировать запросы DHCP на получение гостевых виртуальных машин. 
-В этом случае Вам следует выбрать другой интерфейс хоста, не использующий DHCP, или прекратить любые процессы 
-<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, назначенные этому интерфейсу, 
-перед запуском виртуальных машин, или использовать статические IP-адреса для виртуальных машин.
+Если сетевой интерфейс (<code>em0</code> в приведенном выше примере) также настроен на
+использование DHCP,  <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>,
+работающий на этом же интерфейсе, может блокировать DHCP-запросы от гостевых виртуальных машин.
+В этом случае вам следует выбрать другой сетевой интерфейс, не использующий DHCP, или остановить
+все процессы <a href="https://man.openbsd.org/dhclient">dhclient(8)</a>, назначенные этому интерфейсу,
+перед запуском виртуальных машин, или же использовать статические IP-адреса для виртуальных машин.
