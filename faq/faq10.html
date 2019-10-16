@@ -425,121 +425,119 @@ YP - это служба каталогов, совместимая с Sun Micro
 DIR=/etc/yp/src/puffynet
 </pre>
 
-Consider customizing other variables in
-<code>/var/yp/`domainname`/Makefile</code>.
-See <a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>
-for details.
+Описание других параметров для файла
+<code>/var/yp/`domainname`/Makefile</code> можно найти в
+<a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>.
 
 <p>
-For example, even in case you use the default source directory
-<code>/etc</code>, you do not usually need all accounts and groups existing
-on the server on all your client hosts.
-In particular, not serving the root account and thus keeping root's password
-hash confidential is often beneficial to security.
-Review the values of <code>MINUID</code>, <code>MAXUID</code>,
-<code>MINGID</code> and <code>MAXGID</code> and adjust them to you needs.
+Например, даже если вы используете дефолтный каталог <code>/etc</code>,
+вам, как правило, не нужны все учетные записи и группы, существующие на
+сервере для всех ваших клиентских машин.
+В частности, отсутствие защиты учетной записи root и, следовательно,
+сохранение конфиденциальности хэша пароля root, рекомендуется с целью
+безопасности. Просмотрите значения <code>MINUID</code>, <code>MAXUID</code>,
+<code>MINGID</code> и <code>MAXGID</code> и настройте их в соответствии
+с вашими потребностями/планами.
 
 <p>
-If all your YP clients run OpenBSD or FreeBSD, exclude the encrypted
-passwords from the <code>passwd</code> maps by setting <code>UNSECURE=""</code>
-in <code>/var/yp/`domainname`/Makefile</code>.
+Если все ваши YP-клиенты используют OpenBSD или FreeBSD, исключите (exclude)
+зашифрованные пароли из <code>passwd</code> maps, установив
+<code>UNSECURE=""</code> в <code>/var/yp/`domainname`/Makefile</code>.
 
 <p>
-The former practice of editing the template file
-<code>/var/yp/Makefile.yp</code> is no longer recommended.
-Changes to that file affect all domains initialized after the change, but
-do not affect domains initialized before the change, so this is error-prone
-either way:
-You both risk that the intended changes do not take effect, and you risk to
-forget about them and have them affect other domains later which they were
-never intended for.
+Прежняя практика редактирования файла шаблона <code>/var/yp/Makefile.yp</code>
+больше не рекомендуется. Изменения в этом файле влияют на все домены,
+инициализированные после изменения, но не влияют на домены,
+инициализированные до изменения, так что в любом случае это черевато ошибкам:
+во-первых, вы рискуете, что предполагаемые изменения не вступают в силу,
+а во-вторых, вы рискуете забыть о них и их влиянии на другие домены, для
+которых они никогда и не предназначались.
 
 <p>
-Create the source directory and populate it with the configuration files
-you need.
-See <a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>
-to learn which YP maps require which source files.
-For the format of the individual configuration files, refer to
+Создайте source directory и заполните его необходимыми файлами конфигурации.
+См. <a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>, чтобы
+узнать, какие YP maps требуют какие файлы. Для формата отдельных файлов
+конфигурации, ознакомьтесь с
 <a href="https://man.openbsd.org/passwd.5">passwd(5)</a>,
 <a href="https://man.openbsd.org/group.5">group(5)</a>,
 <a href="https://man.openbsd.org/hosts">hosts(5)</a>
-and so on, and look at the examples in <code>/etc</code>.
+и так далее, а также ознакомьтесь с примерами в <code>/etc</code>.
 
 <p>
-Create the initial version of your YP maps using the commands
+Создайте initial version своих YP maps при помощи команд
 
 <pre class="cmdbox">
 # <b>cd /var/yp</b>
 # <b>make</b>
 </pre>
 
-Do not worry about error messages from
-<a href="https://man.openbsd.org/yppush">yppush(8)</a> right now.
-The YP server is not yet running.
+Не переживайте сейчас по поводу сообщений об ошибках от
+<a href="https://man.openbsd.org/yppush">yppush(8)</a>.
+YP-cервер еще не запущен.
 
 <p>
-YP uses <a href="https://man.openbsd.org/rpc">rpc(3)</a>
-(remote procedure calls) to communicate with clients, so it is necessary
-to enable <a href="https://man.openbsd.org/portmap">portmap(8)</a>.
-To do so, use <a href="https://man.openbsd.org/rcctl">rcctl(8)</a>.
+Для связи с клиентами YP использует <a href="https://man.openbsd.org/rpc">rpc(3)</a>
+(remote procedure calls, удаленные вызовы процедур), поэтому необходимо
+включить <a href="https://man.openbsd.org/portmap">portmap(8)</a>.
+Используйте для этого <a href="https://man.openbsd.org/rcctl">rcctl(8)</a>.
 
 <pre class="cmdbox">
 # <b>rcctl enable portmap</b>
 # <b>rcctl start portmap</b>
 </pre>
 
-Consider using either the
-<a href="https://man.openbsd.org/securenet">securenet(5)</a> or the
+Не забывайте об использовании таких функций безопасности YP сервера как
+<a href="https://man.openbsd.org/securenet">securenet(5)</a> или
 <a href="https://man.openbsd.org/ypserv.acl">ypserv.acl(5)</a>
-security feature of the YP server daemon.
-But be aware that both of these only provide IP based access control.
-Thus, they only help as long as potential attackers have neither physical
-access to the hardware of the network segments carrying your YP traffic
-nor root access to any host connected to those network segments.
+Но имейте в виду, что оба они обеспечивают только контроль доступа на
+основе IP. Таким образом, они помогают только до тех пор, пока потенциальные
+злоумышленники не имеют ни физического доступа к оборудованию сегментов
+сети, передающих ваш YP-трафик, ни доступа к любому из хостов, подключенных
+к этим сегментам сети.
 
 <p>
-Finally, start the YP server daemon:
+Наконец, запустите YP-сервер:
 
 <pre class="cmdbox">
 # <b>rcctl enable ypserv</b>
 # <b>rcctl start ypserv</b>
 </pre>
 
-To test the new server, consider making it its own client,
-following the instructions in the first part of the next section.
-In case you don't want the server to use its own maps, you can
-disable the client part after the test with the following commands:
+Чтобы протестировать ваш только что запущенный сервер, подумайте о том,
+чтобы сделать его собственным клиентом, следуя инструкциям в первой части
+следующего раздела. Если вы не хотите, чтобы сервер использовал свои
+собственные maps, вы можете отключить клиентскую часть после теста при
+помощи следующих команд:
 
 <pre class="cmdbox">
 # <b>rcctl stop ypbind</b>
 # <b>rcctl disable ypbind</b>
 </pre>
 
-Remember that each time you change a file sourced by a YP map,
-you must regenerate your YP maps.
+Помните, что каждый раз, когда вы изменяете файл, созданный YP map,
+вы должны заново сгеренировать свои YP maps.
 
 <pre class="cmdbox">
 # <b>cd /var/yp</b>
 # <b>make</b>
 </pre>
 
-This updates all database files in <code>/var/yp/`domainname`</code>, with
-one exception:  The file <code>ypservers.db</code>, listing all YP master
-and slave servers associated with the domain, is created directly
-from <code>ypinit -m</code> and modified exclusively by <code>ypinit -u</code>.
-In case you accidentally delete it, run <code>ypinit -u</code> to recreate
-it from scratch.
+Это обновит все файлы базы данных в <code>/var/yp/`domainname`</code>.
+Исключением тут является файл <code>ypservers.db</code>, в котором
+перечислены все ведущие и подчиненные сервера YP, связанные с доменом.
+Он создается непосредственно при помощи <code>ypinit -m</code>, а изменяется
+при помощи <code>ypinit -u</code>. Если вы случайно удалили его, при помощи
+<code>ypinit -u</code> вы можете сгенерировать его снова (воссоздать с нуля).
 
 <h3 id="YP_client">Настройка YP клиента</h3>
 
-Setting up a YP client involves two distinct parts.
-First, you must get the YP client daemon running,
-binding your client host to a YP server.
-Completing the following steps will allow you to retrieve data
-from the YP server, but that data will not yet be used by the system:
+Процесс настройки YP-клиента состоит из двух частей.
+Во-первых, вы должны запустить демон YP-клиента, привязав ваш хост к
+YP-серверу. Выполнение следующих шагов позволит вам получить данные с
+YP-сервера, но эти данные еще не будут использоваться системой:
 
 <p>
-Like on the server, you must set the domain name and enable the portmapper:
+Как и на сервере, вы должны установить доменное имя и включить portmapper:
 
 <pre class="cmdbox">
 # <b>echo "puffynet" > /etc/defaultdomain</b>
@@ -548,17 +546,16 @@ Like on the server, you must set the domain name and enable the portmapper:
 # <b>rcctl start portmap</b>
 </pre>
 
-It is recommended to provide a list of YP servers in the configuration
-file <code>/etc/yp/`domainname`</code>.
-Otherwise, the YP client daemon will use network broadcasts to find
-YP servers for its domain.
-Explicitly specifying the servers is both more robust and marginally
-less open to attack.
-If you have not set up any slave servers, just put the host name
-of the master server into <code>/etc/yp/`domainname`</code>.
+Рекомендуется добавить список YP-серверов в конфиг
+<code>/etc/yp/`domainname`</code>. В противном случае, демон YP-клиента
+будет использовать широковещательные рассылки для поиска YP-серверов своего
+домена.
+Явная спецификация серверов более надежна и менее уязвима для атак.
+Если вы не настроили никаких slave-серверов, просто поместите имя хоста
+главного сервера в <code>/etc/yp/`domainname`</code>.
 
 <p>
-Enable and start the YP client daemon,
+Добавьте в автозагрузку (enable) и запустите демон YP-клиента,
 <a href="https://man.openbsd.org/ypbind">ypbind(8)</a>.
 
 <pre class="cmdbox">
@@ -566,9 +563,9 @@ Enable and start the YP client daemon,
 # <b>rcctl start ypbind</b>
 </pre>
 
-If all went well you should be able to query the YP server using
-<a href="https://man.openbsd.org/ypcat">ypcat(1)</a>
-and see your passwd map returned.
+Если все прошло без ошибок, вы сможете отправлять запросы YP-серверу при
+помощи <a href="https://man.openbsd.org/ypcat">ypcat(1)</a> и получать
+назад passwd map.
 
 <pre class="cmdbox">
 # <b>ypcat passwd</b>
@@ -576,45 +573,45 @@ bob:*:5001:5000:Bob Nuggets:/home/bob:/usr/local/bin/zsh
 ...
 </pre>
 
-Another useful tool for debugging your YP setup is
+Еще один полезный инструмент для отладки настройки вашего YP -
 <a href="https://man.openbsd.org/ypmatch">ypmatch(1)</a>.
 
 <p>
-The second part of configuring a YP client involves editing local configuration
-files such that certain YP maps get used by various system facilities.
-Not all servers serve all standard maps supported by the operating system, some
-servers serve additional non-standard maps, and you are by no means compelled to
-use all those maps.
-Which of the available maps shall or shall not be used, and for which purposes
-they shall be used, is fully at the discretion of the client host's system
-administrator.
+Вторая часть настройки YP-клиента подразумевает редактирование локальных
+файлов конфигурации таким образом, чтобы определенные YP maps использовались
+различными системными средствами. Не все серверы обслуживают все стандартные
+maps, поддерживаемые операционной системой, некоторые серверы обслуживают
+дополнительные нестандартные maps, и вы ни в коем случае не обязаны использовать
+из все. Какая из доступных maps должна или не должна использоваться, и для
+каких целей, полностью на усмотрение системного администратора хоста-клиента.
 
 <p>
-For a list of standard YP maps and their standard usage, see
+Список стандартных YP maps и их стандартное назначение смотрите в
 <a href="https://man.openbsd.org/Makefile.yp">Makefile.yp(8)</a>.
 
 <p>
-If you want to include all user accounts from the YP domain, append the
-default YP marker to the master password file and rebuild the password
-database:
+Если вы хотите включить все учетные записи пользователей из YP-домена,
+добавьте YP-маркер по умолчанию в master password file и пересоберите базу
+паролей:
 
 <pre class="cmdbox">
 # <b>echo '+:*::::::::' >> /etc/master.passwd</b>
 # <b>pwd_mkdb -p /etc/master.passwd</b>
 </pre>
 
-For details on selective inclusion and exclusion of user accounts, see
+Подробную информацию о выборочном включении и исключении учетных записей
+пользователей можно найти в
 <a href="https://man.openbsd.org/passwd.5">passwd(5)</a>.
-To test whether inclusion actually works, use the
-<a href="https://man.openbsd.org/id">id(1)</a> utility.
+Чтобы проверить, действительно ли работает включение, используйте утилиту
+<a href="https://man.openbsd.org/id">id(1)</a>.
 
 <p>
-If you want to include all groups from the YP domain, append the default YP
-marker to the group file:
+Если вы хотите включить все группы из YP-домена, добавьте дефолтный YP-маркер
+в group файл:
 
 <pre class="cmdbox">
 # <b>echo '+:*::' >> /etc/group</b>
 </pre>
 
-For details on selective group inclusion, see
+Подробнее о добавлении пользователей в ту или иную группу см.
 <a href="https://man.openbsd.org/group.5">group(5)</a>.
