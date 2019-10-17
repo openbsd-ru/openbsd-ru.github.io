@@ -128,9 +128,6 @@ firmware). Обе группы устройств и ACPI поддерживаю
 Возможно, потребуется обновить дерево поддерживаемых устройств, чтобы использовать
 OpenBSD на этих машинах.
 
-<p>
-Поддержка Amlogic G12A/B и Ampere eMAG была добавленна уже после релиза OpenBSD 6.5.
-
 <h4>Ethernet</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/dwge.4">dwge(4)</a>
@@ -167,9 +164,9 @@ OpenBSD на этих машинах.
 </ul>
 
 <strong>Нет real time clock:</strong> Многие arm64 устройства не имеют real
-time clock с питанием от батарейки. По этой причине
-<a href="faq/faq8.html#OpenNTPD">OpenNTPD</a> необходимо использовать
-с параметром <code>-s</code>.
+time clock с питанием от батарейки, тем не менее, использование
+<a href="https://man.openbsd.org/ntpd">ntpd(8)</a> должно компенсировать
+этот недостаток.
 
 <h3 id="install">
 <strong>Загрузка и установка OpenBSD/arm64:</strong>
@@ -177,9 +174,9 @@ time clock с питанием от батарейки. По этой причи
 
 <p>
 Последний поддерживаемая версия OpenBSD/arm64
-<a href="https://www.openbsd.org/65.html">OpenBSD 6.5</a>.
+<a href="https://www.openbsd.org/66.html">OpenBSD 6.6</a>.
 Здесь вы можете найти
-<a href="https://ftp.openbsd.org/pub/OpenBSD/6.5/arm64/INSTALL.arm64">
+<a href="https://ftp.openbsd.org/pub/OpenBSD/6.6/arm64/INSTALL.arm64">
 инструкции по установке OpenBSD/arm64</a>.
 
 <p>
