@@ -163,7 +163,7 @@ OpenBSD использует систему контроля версий
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
-$ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -rOPENBSD_6_5 -P src</b>
+$ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -rOPENBSD_6_6 -P src</b>
 </pre>
 
 После того как вы загрузили исходники, вы можете обновить/синхронизировать
@@ -171,7 +171,7 @@ $ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -rOPENBSD_6_5 -P src</b>
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
-$ <b>cvs -q up -Pd -rOPENBSD_6_5</b>
+$ <b>cvs -q up -Pd -rOPENBSD_6_6</b>
 </pre>
 
 Замените <code>src</code> на <code>xenocara</code> или <code>ports</code>
@@ -529,13 +529,13 @@ $ <b>make</b>
 <ul>
   <li>Ваш diff должен быть создан в -current.
   <li>Для создания diff'а используйте команду <code>cvs diff -uNp</code>.
-  <li>Отправьте ваш diff в теле письма в рассылку
-      <a href="https://openbsd.org/mail.html">tech@</a>.
+  <li>Отправьте ваш diff в теле письма в <b>tech</b>
+      <a href="../mail.html">рассылку</a>.
       Убедитесь заранее, что ваш почтовый клиент не искажает пробелы,
       и diff будет читабельным.
 </ul>
 
-Если вы используете <a href="https://github.com/openbsd">git репозиторий</a>
+Если вы используете <a href="https://github.com/openbsd">git зеркало</a>
 с исходниками OpenBSD, в вашем репозитории нужно будет выполнить
 
 <pre class="cmdbox">
