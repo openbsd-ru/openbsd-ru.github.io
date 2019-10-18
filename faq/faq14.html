@@ -535,15 +535,15 @@ amd64, sparc64 и arm64.
 Welcome to the OpenBSD/amd64 X.X installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell? <b>s</b>
 # <b>cd /dev</b>
-# <b>sh MAKEDEV sd1 sd2</b>
+# <b>sh MAKEDEV sd0 sd1 sd2</b>
 </pre>
 
-Теперь у вас есть полностью поддерживаемые <code>sd0</code>, <code>sd1</code> и
-<code>sd2</code> устройства.
+Теперь у вас есть полностью поддерживаемые <code>sd0</code>,
+<code>sd1</code> и <code>sd2</code> устройства.
 
 <p>
-Далее, мы инициализируем диски при помощи
-<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создаем RAID разделы
+Далее, инициализируйте диски при помощи
+<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создайте RAID разделы
 при помощи <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
 
 <p>
@@ -668,8 +668,17 @@ Welcome to the OpenBSD/amd64 X.X installation program.
 </pre>
 
 Далее, после этого, вам будет предоставлен shell, из которого вы сможете
-манипулировать дисками. В этом примере мы установим <code>sd0</code> SATA
+работать с дисками. В этом примере мы установим <code>sd0</code> SATA
 диск, удалив все его предыдущее содержимое.
+
+<p>
+Так как установщик по умолчанию видит не все устройства, убедитесь,
+что устройство <code>/dev/sd0</code> распознано:
+
+<pre class="cmdbox">
+# <b>cd /dev && sh MAKEDEV sd0</b>
+</pre>
+
 Неплохой идеей будет запись случайных данных на диск. Это делается следующим
 образом:
 
@@ -683,9 +692,9 @@ Welcome to the OpenBSD/amd64 X.X installation program.
 сколько используется места на диске.
 
 <p>
-Далее, мы инициализируем диск при помощи
-<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создаем softraid
-раздел при помощи
+Далее, инициализируйте диск при помощи
+<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создайте
+softraid раздел при помощи
 <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
 
 <p>
@@ -734,9 +743,7 @@ softraid0: CRYPTO volume attached as sd1
 <a href="#softraidFDEkeydisk">использовать и keydisk</a>.
 
 <p>
-Поскольку в установщике по умолчанию не так много устройств, на которых
-он предлагает развернуть систему, нам надо позаботиться о том, чтобы устройство
-<code>/dev/sd1</code> было в их числе.
+Удостоверьтесь, что устройство <code>/dev/sd1</code> распознано системой:
 
 <pre class="cmdbox">
 # <b>cd /dev && sh MAKEDEV sd1</b>
