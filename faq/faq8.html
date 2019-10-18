@@ -115,23 +115,23 @@ OpenBSD предполагает, что ваши аппаратные часы 
 
 <p>
 Если испрользование UTC является причиной проблем, вы всегда можете изменить
-настройки, используя
-<a href="https://man.openbsd.org/config">config(8)</a>.
-Например, чтобы сконфигурировать OpenBSD для использования аппаратные часов
+настройки, в
+<a href="https://man.openbsd.org/sysctl.conf">sysctl.conf(5)</a>.
+Например, добавьте следюущие строки в <code>/etc/sysctl.conf</code> чтобы
+сконфигурировать OpenBSD для использования аппаратные часов
 установленных на US/Eastern (5 часов или 300 минут от UTC):
 
 <pre class="cmdbox">
-# <b>config -ef /bsd</b>
-[...]
-Enter 'help' for information
-ukc> <b>timezone 300</b>
-timezone = 300, dst = 0
-ukc> <b>quit</b>
-Saving modified kernel.
+kern.utc_offset=-300
 </pre>
 
-Ознакомьтесь с <a href="https://man.openbsd.org/options">options(4)</a>
-и обратите внимание на опцию "TIMEZONE=value".
+Ознакомьтесь с параметром "kern.utc_offset" в руководстве
+<a href="https://man.openbsd.org/sysctl.2">sysctl(2)</a>.
+
+<p>
+Обратите внимание, что аппаратные часы (hardware clock) должны работать
+с вышеуказанной конфигурацией и требуемым смещением перед загрузкой OpenBSD,
+иначе при загрузке будет неправильно настроено системное время.
 
 <p>
 Обычно, часовой пояс настраивается во время установки.
