@@ -2,7 +2,7 @@
 <html lang=en>
 <meta charset=utf-8>
 
-<title>OpenBSD: Problem Reports</title>
+<title>OpenBSD: Отчёты об ошибках</title>
 <meta name="description" content="OpenBSD problem report page">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
@@ -17,44 +17,39 @@ h3 {
 <h2 id=OpenBSD>
 <a href="index.html">
 <i>Open</i><b>BSD</b></a>
-Problem Reports
+Отчёты об ошибках
 </h2>
 
 <hr>
 
-<h3>Released versions problem reports</h3>
+<h3>Отчёты о проблемах в выпущенных версиях</h3>
 
 <p>
-Before reporting bugs/problems with released versions, go through this
-checklist:
+Прежде чем сообщать об ошибках/проблемах в выпущенных версиях, просмотрите
+этот контрольный список:
 
 <ol>
- <li>First, check for <a href="errata.html">patches and notes regarding the
-     release</a>.
- <li>Next, find out if there is a newer release available.
- <li>Finally, check for <a href="plus.html">changes made between OpenBSD
-     versions</a>.
+ <li>Во-первых, проверьте <a href="errata.html">наличие исправлений и заметок, касающихся выпуска</a>.
+ <li>Затем выясните, есть ли более новая версия.
+ <li>Наконец, проверьте наличие <a href="plus.html">изменений между версиями OpenBSD</a>.
 </ol>
 
 <p>
-If nothing looks like it addresses your problem, then please become acquainted
-with <a href="https://man.openbsd.org/sendbug">sendbug(1)</a> before submitting
-a bug report.
+Если ничто не похоже на решение вашей проблемы, то пожалуйста, ознакомьтесь с <a href="https://man.openbsd.org/sendbug">sendbug(1)</a> перед отправкой сообщения об ошибке.
 
-<h3>Current version problem reports</h3>
+<h3>Отчёты о проблемах в текущей версии</h3>
 
 <p>
-If your problem is with the -current source tree rather than
--release or -stable,
+Если ваша проблема связана с исходным деревом -current, а не -release или
+-stable,
 
 <ol>
- <li>Test the problem at least twice, with source updated a few days apart.
- <li>Do not report source tree compilation problems, unless they persist.
-     They are almost always your mistake, or they are being worked on as you
-     encounter them.
-     People working on the project are doing
-     <a href="faq/faq5.html">make build</a> at least once per day, and usually
-     several times per day with different architectures.
+ <li>Проверьте проблему, по крайней мере, дважды, с обновлением исходного кода несколько дней.
+ <li>Не сообщайте о проблемах компиляции исходного дерева, пока они есть. Почти
+     всегда это ваша ошибка, или над ними работают, когда вы с ними сталкиваетесь.
+	 Люди, работающие над проектом, делают
+	 <a href="faq/faq5.html">make build</a>, по крайней мере, один раз в день,
+	 и обычно несколько раз в день с разными архитектурами.
  <li>Remember that the <a href="anoncvs.html">AnonCVS</a> servers are
      updated a few hours behind the actual working source tree.
  <li>Check for <a href="plus.html">changes made between OpenBSD versions</a>
@@ -65,123 +60,126 @@ If your problem is with the -current source tree rather than
      in a bug report.
 </ol>
 
-<h3>How to create a problem report</h3>
+<h3>Как создать отчет о проблеме</h3>
 
 <p>
-<strong>Always provide as much information as possible</strong>.
-Try to pinpoint the exact problem.
-Give clear instructions on how to reproduce the problem.
-Try to describe it with as much accuracy and non-confusing terminology
-as possible, especially if it is not easy to reproduce.
-Describing problems by saying "it crashes" or "I get strange interrupt issues
-on this one box that I built" are of no use.
-Communicate with others (on the mailing lists or any other forum where
-knowledgeable users congregate) to confirm that the problem is new and
-preferably repeatable.
-Please try to make sure it is not a local problem created by using broken
-or unsupported hardware, or by using unsupported build options or software.
+<strong>Всегда предоставляйте как можно больше информации</strong>.
+Попробуйте точно определить проблему. Дайте четкие инструкции о том, как
+воспроизвести проблему. Постарайтесь описать её с максимально возможной
+точностью и не вводящей в заблуждение терминологией, особенно если её нелегко
+воспроизвести.
+Описывать проблемы словами «это дает сбой» или «я получаю странные проблемы с
+прерываниями на этом одном из построенных мной блоков» бесполезно.
+Общайтесь с другими (в списках рассылки или на любом другом форуме, где
+собираются знающие пользователи), чтобы подтвердить, что проблема является
+новой и желательно повторяемой.
+Пожалуйста, постарайтесь убедиться, что это не локальная проблема, созданная с
+помощью сломанного или неподдерживаемого оборудования или с помощью
+неподдерживаемых параметров сборки или программного обеспечения.
 
 <p>
-Please don't start fixing problems that require significant work until you
-are sure you understand them, especially during our release periods when we
-must not change major sections of code.
-If you are going to write significant amounts of code, mention it on the
-mailing lists to make sure no one else is already working on the problem
-(saving duplication of effort).
+Пожалуйста, не начинайте исправлять проблемы, которые требуют значительных
+усилий, пока вы не будете уверены, что понимаете их, особенно во время наших
+периодов выпуска, когда мы не должны изменять основные разделы кода.
+Если вы собираетесь писать значительные объемы кода, укажите его в списках
+рассылки, чтобы убедиться, что никто другой уже не работает над этой проблемой
+(для исключения дублирования работы).
 
 <p>
-The following items should be contained in every bug report:
+Следующие элементы должны содержаться в каждом отчете об ошибке:
 
 <ol>
- <li>The exact sequence of steps from startup necessary to reproduce
-     the problem.
-     This should be self-contained; it is not enough to send in a bare
-     command without the arguments and other data you supplied to it.
-     If a bug requires a particular sequence of events, please list those.
-     You are encouraged to minimize the size of your example, but this is
-     not absolutely necessary.
-     If the bug is reproducible, we'll find it either way.
+ <li>Точная последовательность шагов при запуске необходима для воспроизведения проблемы.
+	 Это должно быть автономным; недостаточно отправить пустую команду без
+	 аргументов и других данных, которые вы ей предоставили.
+	 Если ошибка требует определенной последовательности событий, перечислите
+	 их.
+	 Вам рекомендуется минимизировать размер вашего примера, но это не
+	 является абсолютно необходимым.
+	 Если ошибка воспроизводима, мы найдем её в любом случае.
 <p>
- <li>The output you got.
-     Please do not just say that it "didn't work" or "failed."
-     If there is an error message, show it, even if you don't understand it.
-     If OpenBSD panics with a particular error, say which.
-     If nothing at all happens, say so.
-     Even if the result of your test case is a program crash or otherwise
-     obvious, it might not happen in our testing.
-     The easiest thing is to copy the output from the terminal, if possible.
+ <li>Вывод, который вы получили.
+     Пожалуйста, не говорите, что это «не сработало» или «не удалось».
+	 Если есть сообщение об ошибке, покажите его, даже если вы его не
+	 понимаете.
+	 Если OpenBSD паникует с определенной ошибкой, скажите, какая.
+	 Если ничего не происходит, так и скажите.
+	 Даже если результатом вашего теста является сбой программы или он
+	 очевиден, в нашем тестировании это может не произойти.
+	 Проще всего скопировать вывод с терминала, если это возможно.
 <p>
-     Note: In case of fatal errors, the error message provided might not
-     contain all the information available.
-     In that case, also look at the output in the system log files, such
-     as those stored in <code>/var/log</code>.
-     Also, if you are dealing with an application that has its own log files,
-     such as httpd, check for errors where it keeps its logs.
+	 Примечание. В случае фатальных ошибок предоставленное сообщение об ошибке
+	 может содержать не всю доступную информацию.
+	 В этом случае также просмотрите выходные данные в файлах системного
+	 журнала, например, хранящиеся в <code>/var/log</code>.
+	 Кроме того, если вы имеете дело с приложением, которое имеет свои
+	 собственные файлы журналов, например httpd, проверьте наличие ошибок, где
+	 оно хранит свои журналы.
 <p>
- <li>The OpenBSD kernel output.
-     You can get this with the dmesg command, but it is possible that your
-     dmesg output does not contain all the information that is captured in
-     <code>/var/run/dmesg.boot</code>.
-     If this is the case, include information from both.
-     <strong>Please include this in all bug reports.</strong>
+ <li>Вывод ядра OpenBSD.
+	 Вы можете получить его с помощью команды dmesg, но возможно, что ваш
+	 вывод dmesg не содержит всей информации, которая содержится в
+	 <code>/var/run/dmesg.boot</code>.
+	 Если это так, включите информацию от обоих.
+	 <strong>Пожалуйста, включите это во все сообщения об ошибках.</strong>
 <p>
- <li>If you run third party software which has to do with your bug, say so,
-     including what version.
-     If you are talking about a snapshot, mention that, including its date
-     and time.
+ <li>Если вы используете стороннее программное обеспечение, которое связано с
+     вашей ошибкой, скажите, в том числе и версию.
+	 Если вы говорите о снапшоте, упомяните об этом, включая дату и время его
+	 создания.
 <p>
- <li>A traceback from your kernel panic.
-     If your kernel panicked and you are at a
-     <a href="https://man.openbsd.org/ddb">ddb(4)</a>
-     prompt, please provide the panic message, as well as the output of
-     the <kbd>trace</kbd> and <kbd>ps</kbd> commands in your bug report as
-     advised.
-     If the machine hangs, try enabling <kbd>sysctl ddb.console=1</kbd>
-     prior to the hang and getting in DDB via Ctl+Alt+Esc on the keyboard
-     (must be outside of X), or sending BREAK if using a serial console.
-     If, for some reason, the panic message is not visible, you can get it
-     again with the <kbd>show panic</kbd> command.
-     <strong>This is essential whenever possible.
-     Panic reports without the panic message, traceback and ps output are
-     useless</strong>.
-     The output of <kbd>show registers</kbd> might be of interest as well.
-     You might then want to reboot with <kbd>boot dump</kbd> so that a kernel
-     image could be saved by
-     <a href="https://man.openbsd.org/savecore">savecore(8)</a> for further
-     post-mortem debugging, as described in the
-     <a href="https://man.openbsd.org/crash">crash(8)</a> man page.
+ <li>Трейс от паники ядра.
+     Если ваше ядро запаниковало и вы получили приглашение
+	 <a href="https://man.openbsd.org/ddb">ddb(4)</a>, то пожалуйста,
+	 предоставьте сообщение о панике, а также вывод команд <kbd>trace</kbd> и
+	 <kbd>ps</kbd> в вашем отчете об ошибках, как это было рекомендовано.
+	 Если машина зависает, попробуйте включить <kbd>sysctl ddb.console =
+	 1</kbd> до зависания и войти в DDB с помощью Ctl+Alt+Esc на клавиатуре
+	 (вы должны быть не в X сессии) или отправить BREAK при использовании
+	 последовательной консоли.
+	 Если по какой-либо причине сообщение о панике не отображается, вы можете
+	 получить его снова с помощью команды <kbd>show panic</kbd>.
+	 <strong>Это важно, когда это возможно. Отчеты о панике без сообщения о
+	 панике, трассировки и вывода ps бесполезны.</strong>.
+	 Также может быть интересным вывод <kbd>show registers</kbd>.  Вам может
+	 потребоваться перезагрузка с <kbd>boot dump</kbd>, чтобы образ ядра мог
+	 быть сохранен с помощью
+	 <a href="https://man.openbsd.org/savecore">savecore(8)</a> для дальнейшей
+	 отладки, как описано на справочной странице
+	 <a href="https://man.openbsd.org/crash">crash(8)</a>.
 <p>
-   <li>If you're reporting a problem with the X Window System on an
-   architecture that uses the X.Org server, please include the full
-   <code>/var/log/Xorg.0.log</code> file in your report in addition
-   to the <code>dmesg.boot</code> information.
+   <li>Если вы сообщаете о проблеме с системой X Window для архитектуры, в
+       которой используется сервер X.Org, то включите вывод полного файла
+       <code>/var/log/Xorg.0.log</code> в ваш отчет в дополнение к выводу
+       <code>dmesg.boot</code>.
 </ol>
 
 <p>
-Do not be afraid if your bug report becomes rather lengthy.
-That is a fact of life.
-It's better to report everything the first time than us having to squeeze
-the facts out of you.
-On the other hand, if your input files are huge, it is fair to ask first
-whether somebody is interested in looking into it.
+Не бойтесь, если ваш отчет об ошибке станет довольно длинным.
+Это факт жизни.
+Лучше сообщать обо всём сразу, чем нам выдавливать факты из вас.
+С другой стороны, если ваши входные файлы огромны, то сначала стоит спросить,
+заинтересован ли кто-нибудь в этом.
 
-<h3 id="bugtypes">Sending in bug reports</h3>
-
-<p>
-If possible, use the <a href="https://man.openbsd.org/sendbug">sendbug(1)</a>
-command to help generate your bug report.
-It will automatically include some useful information about your hardware
-that helps diagnose many issues.
-This tool requires that your system can properly send email.
-If you cannot use sendbug on a functional OpenBSD machine, please send your
-bug report to <a href="mailto:bugs@openbsd.org">bugs@openbsd.org</a>.
+<h3 id="bugtypes">Отправка отчета об ошибке</h3>
 
 <p>
-Perhaps what you are sending in is a feature request, not necessarily a bug.
-New features are accepted, especially with code that implements your suggested
-new feature.
+Если возможно, используйте команду
+<a href="https://man.openbsd.org/sendbug">sendbug(1)</a>, чтобы помочь
+сгенерировать ваш отчет об ошибке. Он будет автоматически включать некоторую
+полезную информацию о вашем оборудовании, которая поможет диагностировать
+многие проблемы. Этот инструмент требует, чтобы ваша система могла правильно
+отправлять электронную почту. Если вы не можете использовать sendbug на
+работающем компьютере с OpenBSD, отправьте отчет об ошибке на
+<a href="mailto:bugs@openbsd.org">bugs@openbsd.org</a>.
 
 <p>
-For debugging some problems, we must have the hardware that has the problem.
-Please remember that the OpenBSD project's resources are limited.
-You could <a href="want.html">donate some hardware</a>.
+Возможно, то, что вы отправляете - это запрос дополнительной функциональности,
+а не ошибка. Новая функциональность принимается, особенно с кодом, который
+реализует предложенную вами новую функциональность.
+
+<p>
+Для отладки некоторых проблем у нас должно быть оборудование, которое имеет
+проблему.
+Пожалуйста, помните, что ресурсы проекта OpenBSD ограничены.
+Вы <a href="want.html">пожертвовать некоторое оборудование</a>.
