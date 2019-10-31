@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://www.openbsd.org/faq/pf/config.html -->
+<html lang="en" id="faq"><!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>OpenBSD PF: Начало Работы</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="./OpenBSD PF_ Getting Started_files/openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/config.html">
+
+<!--
+Copyright (c) 2003, Nick Holland <nick@openbsd.org>
+Copyright (c) 2003, 2004, Joel Knight <enabled@myrealbox.com>
+
+Permission to use, copy, modify, and distribute this documentation for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+
+THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS DOCUMENTATION
+-->
+
+</head><body><h2 id="OpenBSD">
+<a href="https://www.openbsd.org/index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Начало Работы
+<small>
+<a href="https://www.openbsd.org/faq/pf/index.html">[Содержание]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="https://www.openbsd.org/faq/pf/config.html#activate">Активация</a>
+  </li><li><a href="https://www.openbsd.org/faq/pf/config.html#config">Конфигурация</a>
+  </li><li><a href="https://www.openbsd.org/faq/pf/config.html#control">Управление</a>
+</li></ul>
+
+<hr>
+
+<h2 id="activate">Активация</h2>
+
+PF включён по умолчанию.
+Если Вы хотите отключить автозапуск при загрузке системы, используйте программу
+<a href="https://man.openbsd.org/rcctl">rcctl(8)</a>:
+
+<pre class="cmdbox"># <b>rcctl disable pf</b>
+</pre>
+
+Перезагрузите систему, чтобы изменения вступили в силу.
+
+<p>
+Также Вы можете активировать и деактивировать PF вручную, используя программу
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>:
+
+</p><pre class="cmdbox"># <b>pfctl -e</b>
+# <b>pfctl -d</b>
+</pre>
+
+Это позволит включить и отключить PF.
+Однако, обратите внимание, что набор правил при этом не загрузится.
+Набор правил должен быть загружен отдельно, до или после включения PF.
+
+<h2 id="config">Конфигурация</h2>
+
+PF считывает свою конфигурацию из файла
+<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> во время запуска системы, как только отработают
+системные сценарии <a href="https://man.openbsd.org/rc">rc scripts</a>.
+Обратите внимание, что <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> хотя и
+используется по умолчанию и загружается системными сценариями rc, это всего лишь текстовый файл,
+загружаемый и интерпретируемый <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>
+и вкладываемый в <a href="https://man.openbsd.org/pf">pf(4)</a>.
+
+Для некоторых приложений, другие наборы правил могут быть загружены из иных файлов после загрузки системы.
+
+<p>
+<code>pf.conf</code> состоит из нескольких частей:
+
+</p><ul>
+  <li><b><a href="https://www.openbsd.org/faq/pf/macros.html">Макросы:</a></b> Пользовательские переменные, 
+    которые могут содержать IP-адреса, имена интерфейсов и т.д.
+  </li><li><b><a href="https://www.openbsd.org/faq/pf/tables.html">Таблицы:</a></b> Структура, используемая 
+    для хранения списков IP-адресов.
+  </li><li><b><a href="https://www.openbsd.org/faq/pf/options.html">Опции:</a></b> Различные опции 
+    контроля работы PF.
+  </li><li><b><a href="https://www.openbsd.org/faq/pf/filter.html">Правила Фильтрации:</a></b> Разрешают выборочную фильтрацию или блокировку пакетов 
+    при их прохождении через любой из интерфейсов.
+      Правилам фильтрации могут быть заданы параметры для указания
+  <a href="https://www.openbsd.org/faq/pf/nat.html">преобразования сетевых адресов</a> и
+  <a href="https://www.openbsd.org/faq/pf/rdr.html">перенаправления трафика</a>.
+</li></ul>
+
+Пустые строки игнорируются, а строки начинающиеся с <code>#</code> воспринимаются
+как комментарии.
+
+<h2 id="control">Управление</h2>
+
+После загрузки, пакетом PF можно управлять используя программу
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
+Некоторые примеры команд:
+
+<pre class="cmdbox"># <b>pfctl -f  /etc/pf.conf</b>	Загрузить файл pf.conf
+# <b>pfctl -nf /etc/pf.conf</b>	Проанализировать синтаксис, но не загружать сам файл.
+# <b>pfctl -sr</b>			Показать текущий набор правил
+# <b>pfctl -ss</b>			Показать таблицу текущих состояний
+# <b>pfctl -si</b>			Показать статистику фильтра и счетчики
+# <b>pfctl -sa</b>			Покажите ВСЁ что возможно показать
+</pre>
+
+За полным списком команд, пожалуйста, обратитесь к
+<a href="https://man.openbsd.org/pfctl">man-странице</a>.
+</body></html>
