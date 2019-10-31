@@ -25,7 +25,6 @@ issue.
 | **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
 | **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | Хотите перевести?| |
 | **[FAQ#PF_Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html)** | Хотите перевести? | |
-| **[FAQ#PF_Getting Started](https://www.openbsd.org/faq/pf/config.html)** | Хотите перевести? | |
 | **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** | Хотите перевести? | |
 | **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | Хотите перевести? | |
 | **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** | Хотите перевести? | |
