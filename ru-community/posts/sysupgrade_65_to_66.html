@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang=ru id=platform>
+<meta charset=utf-8>
+
+<title>Краткое введение в sysupgrade</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+
+<style>
+.scsi {
+  color: var(--green);
+}
+</style>
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+Краткое введение в sysupgrade
+</h2>
+<hr>
+
+Мы всегда любили процесс обновления OpenBSD за его стабильность. Теперь же,
+ко всему прочему, разработчики подарили нам утилиту
+<a href="https://man.openbsd.org/sysupgrade.8">sysupgrade(8)</a>, благодаря
+которой этот процесс становится еще и на много удобнее.
+
+<p>
+Тут описывается процесс обновления OpenBSD 6.5 до следующей версии - 6.6.
+Вообще, надо сказать, причиной написания этого поста послужило обсуждение
+в сети новости о появлении этого инструмента, а точнее - непонимание
+появления этой утилиты в 6.5: в man-странице черным по белому говорится, что
+sysupgrage появилась только в 6.6.
+
+<p>
+<a href="https://man.openbsd.org/sysupgrade.8">sysupgrade(8)</a> действительно
+разрабатывалась уже после выхода OpenBSD 6.5, но была
+<a href="https://undeadly.org/cgi?action=article;sid=20191003065609">бэкпортирована</a>
+в 6.5 и доступна там в виде <a href="https://man.openbsd.org/syspatch.8">syspatch(8)</a>
+обновления
+(<a href="https://www.openbsd.org/errata65.html#p012_sysupgrade">patch 012</a>): 
+
+<pre class="cmdbox">
+# uname -a
+OpenBSD softiron.my.domain 6.5 GENERIC.MP#84 arm64
+
+# sysupgrade
+ksh: sysupgrade: not found
+
+softiron# syspatch
+Get/Verify syspatch65-001_rip6cks... 100% |*************|   191 KB    00:02
+Installing patch 001_rip6cksum
+Get/Verify syspatch65-002_srtp.tgz 100% |***************|  4169 KB    00:50
+Installing patch 002_srtp
+Get/Verify syspatch65-004_bgpd.tgz 100% |***************|   151 KB    00:01
+Installing patch 004_bgpd
+Get/Verify syspatch65-005_libssl.tgz 100% |*************|  4169 KB    00:27
+Installing patch 005_libssl
+Get/Verify syspatch65-006_tcpsack... 100% |*************|   162 KB    00:00
+Installing patch 006_tcpsack
+Get/Verify syspatch65-007_smtpd.tgz 100% |**************|   187 KB    00:00
+Installing patch 007_smtpd
+Get/Verify syspatch65-010_frag6ec... 100% |*************| 44470       00:00
+Installing patch 010_frag6ecn
+Get/Verify syspatch65-011_expat.tgz 100% |**************|   575 KB    00:03
+Installing patch 011_expat
+Get/Verify syspatch65-012_sysupgr... 100% |*************| 11478       00:00
+Installing patch 012_sysupgrade
+Get/Verify syspatch65-013_unbound... 100% |*************|  2917 KB    00:17
+Installing patch 013_unbound
+Get/Verify syspatch65-014_dhcpd.tgz 100% |**************| 55129       00:00
+Installing patch 014_dhcpd
+Relinking to create unique kernel... done; reboot to load the new kernel
+Errata can be reviewed under /var/syspatch
+
+# echo $?
+0
+</pre>
+После этого в системе будет установленна sysupgrade, запуск которой начнет процесс
+обновления.
+
+<pre class="cmdbox">
+# sysupgrade
+</pre>
+
+По аналогии с <a href="https://man.openbsd.org/syspatch.8">syspatch(8)</a>, будут
+скачены все <a href="https://openbsd-ru.github.io/faq/faq4.html#FilesNeeded">компоненты</a>,
+необходимые для установки 6.6. После этого система сама перезагрузится (не забудьте
+об этом, работая через SSH), автоматически запустится установщик, и начнется процесс
+установки только что загруженных компонентов. В принципе, в этом процессе нет ничего
+нового, за тем лишь исключением, что теперь все проходит автоматически, и нет необходимости
+заргужаться с usb-флешки в качестве install/upgrade media.
+
+<p>
+После обновления система снова перезагружается. После этого, уже в новой 6.6, надо
+выполнить две команды, завершающие процесс обновления:
+<pre class="cmdbox">
+# sysmerge
+
+# pkg_add -u
+quirks-3.182 signed on 2019-10-30T21:07:38Z
+quirks-3.124->3.182: ok
+Read shared items: ok
+
+# uname -a
+OpenBSD softiron.my.domain 6.6 GENERIC.MP#269 arm64
+</pre>
+
