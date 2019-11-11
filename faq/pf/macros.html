@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD PF: Lists and Macros</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/macros.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Списки и макросы
+<small>
+<a href="index.html">[FAQ PF - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#lists"  >Списки</a>
+  <li><a href="#macros" >Макросы</a>
+</ul>
+
+<hr>
+
+<h2 id="lists">Списки</h2>
+
+Список позволяет задавать в правиле несколько похожих критериев. Например,
+несколько протоколов, номера портов, адресов и т.д. Таким образом, вместо
+написания одного правила для каждого отдельного IP-адреса, который необходимо
+заблокировать, можно написать одно правило, указав в списке необходимые IP-адреса.
+Списки определяются путем указания элементов в скобках <code>{ }</code>.
+
+<p>
+Когда <a href="https://man.openbsd.org/pfctl">pfctl(8)</a> находит список
+во время загрузки набора правил, он создает несколько правил, по одному для
+каждого элемента в списке. Например:
+
+<pre class="cmdbox">
+block out on fxp0 from { 192.168.0.1, 10.5.32.6 } to any
+</pre>
+
+будет интерпретированно как:
+
+<pre class="cmdbox">
+block out on fxp0 from 192.168.0.1 to any
+block out on fxp0 from 10.5.32.6 to any
+</pre>
+
+В одном правиле можно использовать несколько списков:
+
+<pre class="cmdbox">
+match in on fxp0 proto tcp to port { 22 80 } rdr-to 192.168.0.6
+block out on fxp0 proto { tcp udp } from { 192.168.0.1, 10.5.32.6 } \
+   to any port { ssh https }
+</pre>
+
+Запятые между элементами списка необязательны.
+
+<p>
+Списки в свою очередь также могут включать в себя списки:
+
+<pre class="cmdbox">
+trusted = "{ 192.168.1.2 192.168.5.36 }"
+pass in inet proto tcp from { 10.10.0.0/24 $trusted } to port 22
+</pre>
+
+Остерегайтесь таких конструкций, как следующие. Они являются
+распространенной ошибкой и называются «списками с отрицанием»:
+
+<pre class="cmdbox">
+pass in on fxp0 from { 10.0.0.0/8, !10.1.2.3 }
+</pre>
+
+Хотя предполагаемое значение должно соответствовать «любому адресу
+в пределах 10.0.0.0/8, кроме 10.1.2.3», правило интерпретируется как:
+
+<pre class="cmdbox">
+pass in on fxp0 from 10.0.0.0/8
+pass in on fxp0 from !10.1.2.3
+</pre>
+
+т.е. соответствует любому возможному адресу.
+Вместо этого следует использовать <a href="tables.html">таблицы</a>.
+
+<h2 id="macros">Макросы</h2>
+
+Макросы - это определяемые пользователем переменные, которые могут содержать
+IP-адреса, номера портов, имена интерфейсов и т.д. Использование макросов может
+упростить создание правил PF, а также значительно облегчить работу с уже
+существующими правилами.
+
+<p>
+Имена макросов должны начинаться с букв и могут содержать буквы, цифры и
+символы подчеркивания. Имена макросов не могут быть зарезервированными словами,
+такими как <code>pass</code>, <code>out</code> или <code>queue</code>.
+
+<pre class="cmdbox">
+ext_if = "fxp0"
+
+block in on $ext_if from any to any
+</pre>
+
+Это создаст макрос <code>ext_if</code>. Когда к макросу обращаются после
+того, как он был создан, к его имени должен добавляеться символ <code>$</code>.
+
+<p>
+В теле макросов также могут использоваться списки:
+
+<pre class="cmdbox">
+friends = "{ 192.168.1.1, 10.0.2.5, 192.168.43.53 }"
+</pre>
+
+Макросы могут быть определены рекурсивно. Поскольку макросы не интерпретируются
+в кавычках, необходимо использовать следующий синтаксис:
+
+<pre class="cmdbox">
+host1      = "192.168.1.1"
+host2      = "192.168.1.2"
+all_hosts  = "{" $host1 $host2 "}"
+</pre>
+
+Теперь макрос <code>$all_hosts</code> будет интерпретироваться как 192.168.1.1, 192.168.1.2.
