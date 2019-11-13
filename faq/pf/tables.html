@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD PF: Tables</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/tables.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Таблицы
+<small>
+<a href="index.html">[FAQ PF - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#intro" >Введение</a>
+  <li><a href="#config">Конфигурация</a>
+  <li><a href="#manip" >Управление при помощи <code>pfctl</code></a>
+  <li><a href="#addr"  >Указание адресов</a>
+  <li><a href="#match" >Сопоставление адресов</a>
+</ul>
+<hr>
+
+<h2 id="intro">Введение</h2>
+
+Таблица используется для хранения группы IPv4- и/или IPv6-адресов.
+Поиск в таблице выполняется очень быстро, а по сравнению со
+<a href="macros.html#lists">списками</a>, процессорного времени и
+памяти для этого потребуется меньше.
+По этой причине таблица идеально подходит для хранения именно большой
+группы адресов, т.к. время поиска в таблице, содержащей 50 000 адресов,
+не на много больше, чем для таблицы, содержащей 50 адресов.
+Таблицы можно использовать для следующих целей:
+
+<ul>
+  <li>Определние в правилах адресов отправителей/получателей.
+  <li>Определение translation- или redirection-адресов в
+      <code>nat-to</code> и <code>rdr-to</code> правилах.
+  <li>Опредение адреса получателя в правилах <code>route-to</code>,
+      <code>reply-to</code> и <code>dup-to</code>.
+</ul>
+
+<p>
+Таблицы можно создавать либо в
+<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>,
+либо при помощи <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
+
+<h2 id="config">Конфигурация</h2>
+
+In <code>pf.conf</code>,
+tables are created using the <code>table</code> directive.
+The following attributes may be specified for each table:
+
+<ul>
+  <li><code>const</code> - the contents of the table cannot be changed once the
+      table is created.
+      When this attribute is not specified,
+      <a href="https://man.openbsd.org/pfctl">pfctl(8)</a> may be used to add
+      or remove addresses from the table at any time, even when running with a
+      <a href="https://man.openbsd.org/securelevel">securelevel(7)</a> of two
+      or greater.
+  <li><code>persist</code> - causes the kernel to keep the table in memory even
+      when no rules refer to it.
+      Without this attribute, the kernel will automatically remove the table
+      when the last rule referencing it is flushed.
+</ul>
+
+Example:
+
+<pre class="cmdbox">
+table &lt;goodguys&gt; { 192.0.2.0/24 }
+table &lt;rfc1918&gt;  const { 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8 }
+table &lt;spammers&gt; persist
+block in on fxp0 from { &lt;rfc1918&gt;, &lt;spammers&gt; } to any
+pass  in on fxp0 from &lt;goodguys&gt; to any
+</pre>
+
+Addresses can also be specified using the negation (or "not") modifier,
+such as:
+
+<pre class="cmdbox">
+table &lt;goodguys&gt; { 192.0.2.0/24, !192.0.2.5 }
+</pre>
+
+The <code>goodguys</code> table will now match all addresses in the 192.0.2.0/24
+network except for 192.0.2.5.
+
+<p>
+Note that table names are always enclosed in &lt; &gt; angled brackets.
+
+<p>
+Tables can also be populated from text files containing a list of IP
+addresses and networks:
+
+<pre class="cmdbox">
+table &lt;spammers&gt; persist file "/etc/spammers"
+block in on fxp0 from &lt;spammers&gt; to any
+</pre>
+
+The file <code>/etc/spammers</code> would contain a list of IP addresses
+and/or
+<a href="https://web.archive.org/web/20150213012421/http://public.swbell.net/dedicated/cidr.html">CIDR</a>
+network blocks, one per line.
+
+<h2 id="manip">Управление при помощи <code>pfctl</code></h2>
+
+Tables can be manipulated on the fly by using
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
+For instance, to add entries to the &lt;spammers&gt; table created above:
+
+<pre class="cmdbox">
+# <b>pfctl -t spammers -T add 203.0.113.0/24</b>
+</pre>
+
+This will also create the &lt;spammers&gt; table if it doesn't already exist.
+To list the addresses in a table:
+
+<pre class="cmdbox">
+# <b>pfctl -t spammers -T show</b>
+</pre>
+
+The <code>-v</code> argument can also be used with <code>-T show</code> to
+display statistics for each table entry.
+To remove addresses from a table:
+
+<pre class="cmdbox">
+# <b>pfctl -t spammers -T delete 203.0.113.0/24</b>
+</pre>
+
+For more information on manipulating tables with <code>pfctl</code>, please read
+the <a href="https://man.openbsd.org/pfctl">pfctl(8)</a> man page.
+
+<h2 id="addr">Указание адресов</h2>
+
+In addition to being specified by IP address, hosts may also be specified by
+their hostname.
+When the hostname is resolved to an IP address, all resulting IPv4 and IPv6
+addresses are placed into the table.
+IP addresses can also be entered into a table by specifying a valid interface
+name, interface group, or the <code>self</code> keyword.
+The table will then contain all IP addresses assigned to that interface
+or group, or to the machine (including loopback addresses), respectively.
+
+<p>
+One limitation when specifying addresses is that <code>0.0.0.0/0</code> and
+<code>0/0</code> will not work in tables.
+The alternative is to hard code that address or use a
+<a href="macros.html#macros">macro</a>.
+
+<h2 id="match">Сопоставление адресов</h2>
+
+An address lookup against a table will return the most narrowly matching entry.
+This allows for the creation of tables such as:
+
+<pre class="cmdbox">
+table &lt;goodguys&gt; { 172.16.0.0/16, !172.16.1.0/24, 172.16.1.100 }
+
+block in on dc0
+pass &nbsp;in on dc0 from &lt;goodguys&gt;
+</pre>
+
+Any packet coming in through <code>dc0</code> will have its source address
+matched against the table <code>&lt;goodguys&gt;</code>:
+
+<ul>
+  <li>172.16.50.5 - narrowest match is 172.16.0.0/16; packet matches the
+      table and will be passed
+  <li>172.16.1.25 - narrowest match is !172.16.1.0/24; packet matches an
+      entry in the table but that entry is negated (uses the "!" modifier);
+      packet does not match the table and will be blocked
+  <li>172.16.1.100 - exactly matches 172.16.1.100; packet matches the
+      table and will be passed
+  <li>10.1.4.55 - does not match the table and will be blocked
+</ul>
