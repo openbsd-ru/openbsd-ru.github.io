@@ -56,25 +56,23 @@ PF - Таблицы
 
 <h2 id="config">Конфигурация</h2>
 
-In <code>pf.conf</code>,
-tables are created using the <code>table</code> directive.
-The following attributes may be specified for each table:
+В <code>pf.conf</code> таблицу можно создать при помощи директивы
+<code>table</code>. Следующие атрибуты можно использовать для таблиц:
 
 <ul>
-  <li><code>const</code> - the contents of the table cannot be changed once the
-      table is created.
-      When this attribute is not specified,
-      <a href="https://man.openbsd.org/pfctl">pfctl(8)</a> may be used to add
-      or remove addresses from the table at any time, even when running with a
-      <a href="https://man.openbsd.org/securelevel">securelevel(7)</a> of two
-      or greater.
-  <li><code>persist</code> - causes the kernel to keep the table in memory even
-      when no rules refer to it.
-      Without this attribute, the kernel will automatically remove the table
-      when the last rule referencing it is flushed.
+  <li><code>const</code> - содержимое таблицы не может быть изменено
+      после создания таблицы. Если этот атрибут не указан, при помощи
+      <a href="https://man.openbsd.org/pfctl">pfctl(8)</a> можно добавлять
+      или удалять адреса из таблицы в любое время, даже если используется
+      <a href="https://man.openbsd.org/securelevel">securelevel(7)</a> с
+      уровнем два и выше.
+  <li><code>persist</code> - заставляет ядро хранить таблицу в памяти,
+      даже если на нее не ссылаются никакие правила. Без этого атрибута
+      ядро автоматически удалит таблицу при сбросе последнего правила,
+      ссылающегося на нее.
 </ul>
 
-Example:
+Например:
 
 <pre class="cmdbox">
 table &lt;goodguys&gt; { 192.0.2.0/24 }
@@ -84,45 +82,44 @@ block in on fxp0 from { &lt;rfc1918&gt;, &lt;spammers&gt; } to any
 pass  in on fxp0 from &lt;goodguys&gt; to any
 </pre>
 
-Addresses can also be specified using the negation (or "not") modifier,
-such as:
+Адреса также могут быть указаны при помощи отрицания (или «не»), например:
 
 <pre class="cmdbox">
 table &lt;goodguys&gt; { 192.0.2.0/24, !192.0.2.5 }
 </pre>
 
-The <code>goodguys</code> table will now match all addresses in the 192.0.2.0/24
-network except for 192.0.2.5.
+Теперь таблица <code>goodguys</code> будет содержать все адреса из сети
+192.0.2.0/24, но кроме 192.0.2.5.
 
 <p>
-Note that table names are always enclosed in &lt; &gt; angled brackets.
+Обратите внимание, что имена таблиц всегда надо брать в &lt; &gt;
+(угловые скобки).
 
 <p>
-Tables can also be populated from text files containing a list of IP
-addresses and networks:
+Таблицы также можно создать при помощи обычных текстовых файлов, содержащих
+список IP-адресов и сетей:
 
 <pre class="cmdbox">
 table &lt;spammers&gt; persist file "/etc/spammers"
 block in on fxp0 from &lt;spammers&gt; to any
 </pre>
 
-The file <code>/etc/spammers</code> would contain a list of IP addresses
-and/or
+Файл <code>/etc/spammers</code> должен содержать список IP-адресов и/или
 <a href="https://web.archive.org/web/20150213012421/http://public.swbell.net/dedicated/cidr.html">CIDR</a>
-network blocks, one per line.
+заблокированных сетей (по одному/одной в каждой строчке).
 
 <h2 id="manip">Управление при помощи <code>pfctl</code></h2>
 
-Tables can be manipulated on the fly by using
+Таблицами можно управлять на лету при помощи
 <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
-For instance, to add entries to the &lt;spammers&gt; table created above:
+Например, чтобы добавить записи в таблицу &lt;spammers&gt;, упомянутую выше:
 
 <pre class="cmdbox">
 # <b>pfctl -t spammers -T add 203.0.113.0/24</b>
 </pre>
 
-This will also create the &lt;spammers&gt; table if it doesn't already exist.
-To list the addresses in a table:
+Это также создаст таблицу &lt;spammers&gt;, если ее еще нет.
+Вывести список адресов из той или иной таблицы можно так:
 
 <pre class="cmdbox">
 # <b>pfctl -t spammers -T show</b>
