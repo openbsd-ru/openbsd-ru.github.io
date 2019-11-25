@@ -50,7 +50,7 @@ issue.
 | **[FAQ#Ports_Working with Ports](https://www.openbsd.org/faq/ports/ports.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
-| **[OpenIKED](https://www.openiked.org/)** | Хотите перевести? | страниц нет в CVS |
+| **[OpenIKED](https://www.openiked.org/)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[OpenRSYNC](https://www.openbsd.org/openrsync/)** | Хотите перевести? | в CVS пока только index |
 
 ## Правила перевода
