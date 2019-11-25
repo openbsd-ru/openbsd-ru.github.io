@@ -89,7 +89,7 @@ table &lt;goodguys&gt; { 192.0.2.0/24, !192.0.2.5 }
 </pre>
 
 Теперь таблица <code>goodguys</code> будет содержать все адреса из сети
-192.0.2.0/24, но кроме 192.0.2.5.
+192.0.2.0/24, кроме 192.0.2.5.
 
 <p>
 Обратите внимание, что имена таблиц всегда надо брать в &lt; &gt;
@@ -119,44 +119,44 @@ block in on fxp0 from &lt;spammers&gt; to any
 </pre>
 
 Это также создаст таблицу &lt;spammers&gt;, если ее еще нет.
-Вывести список адресов из той или иной таблицы можно так:
+Вывести список адресов таблицы можно так:
 
 <pre class="cmdbox">
 # <b>pfctl -t spammers -T show</b>
 </pre>
 
-The <code>-v</code> argument can also be used with <code>-T show</code> to
-display statistics for each table entry.
-To remove addresses from a table:
+Аргумент <code>-v</code> можно использовать и совместно с
+<code>-T show</code>, чтобы вывести статистику для каждой записи
+таблицы. Удалить адреса из таблицы можно так:
 
 <pre class="cmdbox">
 # <b>pfctl -t spammers -T delete 203.0.113.0/24</b>
 </pre>
 
-For more information on manipulating tables with <code>pfctl</code>, please read
-the <a href="https://man.openbsd.org/pfctl">pfctl(8)</a> man page.
+Более подробное описание работы с таблицами при помощи
+<code>pfctl</code> находится в man-странице
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
 
 <h2 id="addr">Указание адресов</h2>
 
-In addition to being specified by IP address, hosts may also be specified by
-their hostname.
-When the hostname is resolved to an IP address, all resulting IPv4 and IPv6
-addresses are placed into the table.
-IP addresses can also be entered into a table by specifying a valid interface
-name, interface group, or the <code>self</code> keyword.
-The table will then contain all IP addresses assigned to that interface
-or group, or to the machine (including loopback addresses), respectively.
+Помимо указания IP-адреса, хосты также могут быть указаны при помощи
+своего имени. Когда имя хоста преобразуется в IP-адрес, все полученные
+адреса IPv4 и IPv6 помещаются в таблицу. IP-адреса также можно ввести
+в таблицу, указав правильное имя интерфейса, группу интерфейсов или
+ключевое слово <code>self</code>.
+Таблица будет содержать все IP-адреса, назначенные этому интерфейсу или
+группе или же машине (включая loopback адреса) соответственно.
 
 <p>
-One limitation when specifying addresses is that <code>0.0.0.0/0</code> and
-<code>0/0</code> will not work in tables.
-The alternative is to hard code that address or use a
-<a href="macros.html#macros">macro</a>.
+Одно ограничение при указании адресов состоит в том, что
+<code>0.0.0.0/0</code> и <code>0/0</code> не будут работать в таблицах.
+Альтернативой является hard-code-указание этого адреса или же использование
+<a href="macros.html#macros">макроса</a>.
 
 <h2 id="match">Сопоставление адресов</h2>
 
-An address lookup against a table will return the most narrowly matching entry.
-This allows for the creation of tables such as:
+Поиск lookup адреса в таблице вернет наиболее узко совпадающую запись.
+Это позволяет создавать таблицы, такие как:
 
 <pre class="cmdbox">
 table &lt;goodguys&gt; { 172.16.0.0/16, !172.16.1.0/24, 172.16.1.100 }
@@ -165,16 +165,16 @@ block in on dc0
 pass &nbsp;in on dc0 from &lt;goodguys&gt;
 </pre>
 
-Any packet coming in through <code>dc0</code> will have its source address
-matched against the table <code>&lt;goodguys&gt;</code>:
+Любой входящий через <code>dc0</code> пакет, будет иметь свой source-адрес,
+совпадающий с таблицей <code>&lt;goodguys&gt;</code>:
 
 <ul>
-  <li>172.16.50.5 - narrowest match is 172.16.0.0/16; packet matches the
-      table and will be passed
-  <li>172.16.1.25 - narrowest match is !172.16.1.0/24; packet matches an
-      entry in the table but that entry is negated (uses the "!" modifier);
-      packet does not match the table and will be blocked
-  <li>172.16.1.100 - exactly matches 172.16.1.100; packet matches the
-      table and will be passed
-  <li>10.1.4.55 - does not match the table and will be blocked
+  <li>172.16.50.5 - ближайшее совпадение с 172.16.0.0/16;
+      пакет попадает в таблицу и будет передан
+  <li>172.16.1.25 - ближайшее совпадение с !172.16.1.0/24;
+      пакет попадает в таблицу, но эта запись отменяется (negated) (используется
+      модификатор "!"); пакет не соответствует таблице и будет отброшен
+  <li>172.16.1.100 - точно совпадает с 172.16.1.100; пакет попадает в таблицу и
+      будет передан
+  <li>10.1.4.55 - не попадает в таблицу и будет отброшен
 </ul>
