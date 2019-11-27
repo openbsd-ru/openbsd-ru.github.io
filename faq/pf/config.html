@@ -11,24 +11,6 @@
 <link rel="stylesheet" type="text/css" href="../../openbsd.css">
 <link rel="canonical" href="https://www.openbsd.org/faq/pf/config.html">
 
-<!--
-Copyright (c) 2003, Nick Holland <nick@openbsd.org>
-Copyright (c) 2003, 2004, Joel Knight <enabled@myrealbox.com>
-
-Permission to use, copy, modify, and distribute this documentation for
-any purpose with or without fee is hereby granted, provided that the
-above copyright notice and this permission notice appear in all copies.
-
-THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS DOCUMENTATION
--->
-
 <h2 id=OpenBSD>
 <a href="../../index.html">
 <i>Open</i><b>BSD</b></a>
@@ -50,8 +32,8 @@ PF - Начало Работы
 <h2 id="activate">Активация</h2>
 
 PF включён по умолчанию.
-Если Вы хотите отключить автозапуск при загрузке системы, используйте программу
-<a href="https://man.openbsd.org/rcctl">rcctl(8)</a>
+Если вы хотите отключить автозапуск PF во время загрузки системы, используйте
+программу <a href="https://man.openbsd.org/rcctl">rcctl(8)</a>:
 
 <pre class="cmdbox">
 # <b>rcctl disable pf</b>
@@ -60,39 +42,39 @@ PF включён по умолчанию.
 Перезагрузите систему, чтобы изменения вступили в силу.
 
 <p>
-Также Вы можете активировать и деактивировать PF вручную, используя программу
-<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>:
+Также вы можете активировать и деактивировать PF вручную, используя
+программу <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>:
 
 <pre class="cmdbox">
 # <b>pfctl -e</b>
 # <b>pfctl -d</b>
 </pre>
 
-Это позволит включить и отключить PF.
-Однако, обратите внимание, что набор правил при этом не загрузится.
-Набор правил должен быть загружен отдельно, до или после включения PF.
+Это позволит включить и отключить PF. Однако набор правил при этом не загрузится.
+Он должен быть загружен отдельно, до или после включения PF.
 
 <h2 id="config">Конфигурация</h2>
 
 PF считывает свою конфигурацию из файла
 <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> во время запуска системы,
-как только отработают
-системные сценарии <a href="https://man.openbsd.org/rc">rc scripts</a>.
-Обратите внимание, что <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> хотя и
-используется по умолчанию и загружается системными сценариями rc,
-это всего лишь текстовый файл,
-загружаемый и интерпретируемый <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>
-и вкладываемый в <a href="https://man.openbsd.org/pf">pf(4)</a>.
+после того, как выполнятся системные
+<a href="https://man.openbsd.org/rc">rc-скрипты</a>.
+Обратите внимание, что хотя <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>,
+используемый по умолчанию, загружается системными rc-скриптами, это всего лишь
+текстовый файл, интерпретируемый при помощи
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>
+и используемый <a href="https://man.openbsd.org/pf">pf(4)</a>.
 
-Для некоторых приложений, другие наборы правил могут быть загружены из иных файлов после загрузки системы.
+Для некоторых приложений, другие наборы правил могут быть загружены из иных файлов
+после загрузки системы.
 
 <p>
 <code>pf.conf</code> состоит из нескольких частей:
 
 <ul>
-  <li><b><a href="https://www.openbsd.org/faq/pf/macros.html">Макросы:</a></b>
+  <li><b><a href="macros.html">Макросы:</a></b>
     Пользовательские переменные, которые могут содержать IP-адреса, имена интерфейсов и т.д.
-  <li><b><a href="https://www.openbsd.org/faq/pf/tables.html">Таблицы:</a></b>
+  <li><b><a href="tables.html">Таблицы:</a></b>
     Структура, используемая для хранения списков IP-адресов.
   <li><b><a href="https://www.openbsd.org/faq/pf/options.html">Опции:</a></b>
     Различные опции контроля работы PF.
@@ -108,7 +90,7 @@ PF считывает свою конфигурацию из файла
 
 <h2 id="control">Управление</h2>
 
-После загрузки, пакетом PF можно управлять, используя программу
+После загрузки, пакетным фильтром PF можно управлять при помощи утилиты
 <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
 Некоторые примеры команд:
 
@@ -120,5 +102,4 @@ PF считывает свою конфигурацию из файла
 # <b>pfctl -sa</b>			Покажите ВСЁ что возможно показать
 </pre>
 
-За полным списком команд, пожалуйста, обратитесь к
-<a href="https://man.openbsd.org/pfctl">man-странице</a>.
+Полный список команд можно найти в <a href="https://man.openbsd.org/pfctl">man-странице</a>.
