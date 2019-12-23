@@ -40,68 +40,182 @@ sysupgrage появилась только в 6.6.
 (<a href="https://www.openbsd.org/errata65.html#p012_sysupgrade">patch 012</a>): 
 
 <pre class="cmdbox">
-# uname -a
-OpenBSD softiron.my.domain 6.5 GENERIC.MP#84 arm64
+$ uname -a
+OpenBSD pizza.my.domain 6.5 GENERIC.MP#1356 i386
 
-# sysupgrade
+$ sysupgrade
 ksh: sysupgrade: not found
 
-softiron# syspatch
-Get/Verify syspatch65-001_rip6cks... 100% |*************|   191 KB    00:02
+# syspatch
+Get/Verify syspatch65-001_rip6cks... 100% |**********************|   197 KB    00:00
 Installing patch 001_rip6cksum
-Get/Verify syspatch65-002_srtp.tgz 100% |***************|  4169 KB    00:50
+Get/Verify syspatch65-002_srtp.tgz 100% |************************|  4117 KB    00:21
 Installing patch 002_srtp
-Get/Verify syspatch65-004_bgpd.tgz 100% |***************|   151 KB    00:01
+Get/Verify syspatch65-004_bgpd.tgz 100% |************************|   151 KB    00:00
 Installing patch 004_bgpd
-Get/Verify syspatch65-005_libssl.tgz 100% |*************|  4169 KB    00:27
+Get/Verify syspatch65-005_libssl.tgz 100% |**********************|  4117 KB    00:22
 Installing patch 005_libssl
-Get/Verify syspatch65-006_tcpsack... 100% |*************|   162 KB    00:00
+Get/Verify syspatch65-006_tcpsack... 100% |**********************|   158 KB    00:00
 Installing patch 006_tcpsack
-Get/Verify syspatch65-007_smtpd.tgz 100% |**************|   187 KB    00:00
+Get/Verify syspatch65-007_smtpd.tgz 100% |***********************|   199 KB    00:01
 Installing patch 007_smtpd
-Get/Verify syspatch65-010_frag6ec... 100% |*************| 44470       00:00
+Get/Verify syspatch65-010_frag6ec... 100% |**********************| 47274       00:00
 Installing patch 010_frag6ecn
-Get/Verify syspatch65-011_expat.tgz 100% |**************|   575 KB    00:03
+Get/Verify syspatch65-011_expat.tgz 100% |***********************|   546 KB    00:02
 Installing patch 011_expat
-Get/Verify syspatch65-012_sysupgr... 100% |*************| 11478       00:00
+Get/Verify syspatch65-012_sysupgr... 100% |**********************| 11481       00:00
 Installing patch 012_sysupgrade
-Get/Verify syspatch65-013_unbound... 100% |*************|  2917 KB    00:17
+Get/Verify syspatch65-013_unbound... 100% |**********************|  2873 KB    00:17
 Installing patch 013_unbound
-Get/Verify syspatch65-014_dhcpd.tgz 100% |**************| 55129       00:00
+Get/Verify syspatch65-014_dhcpd.tgz 100% |***********************| 53323       00:00
 Installing patch 014_dhcpd
+Get/Verify syspatch65-015_net8021... 100% |**********************| 68389       00:00
+Installing patch 015_net80211
+Get/Verify syspatch65-016_sysupgr... 100% |**********************|  9216       00:00
+Installing patch 016_sysupgrade
+Get/Verify syspatch65-017_ifioctl... 100% |**********************|   381 KB    00:02
+Installing patch 017_ifioctl
+Get/Verify syspatch65-018_inteldr... 100% |**********************| 32264 KB    03:11
+Installing patch 018_inteldrm
+Get/Verify syspatch65-019_mesa.tgz 100% |************************|  4686 KB    00:17
+Installing patch 019_mesa
+Get/Verify syspatch65-020_mesaxlo... 100% |**********************|  5563 KB    00:24
+Installing patch 020_mesaxlock
+Get/Verify syspatch65-021_libcaut... 100% |**********************| 20674 KB    01:55
+Installing patch 021_libcauth
+Get/Verify syspatch65-022_xenodm.tgz 100% |**********************| 39740       00:00
+Installing patch 022_xenodm
+Get/Verify syspatch65-023_suauth.tgz 100% |**********************|  6846       00:00
+Installing patch 023_suauth
+Get/Verify syspatch65-024_ldso.tgz 100% |************************|   258 KB    00:01
+Installing patch 024_ldso
+Get/Verify syspatch65-026_ftp.tgz 100% |*************************| 57152       00:00
+Installing patch 026_ftp
+Get/Verify syspatch65-027_ripd.tgz 100% |************************| 38695       00:00
+Installing patch 027_ripd
 Relinking to create unique kernel... done; reboot to load the new kernel
 Errata can be reviewed under /var/syspatch
-
-# echo $?
-0
 </pre>
-После этого в системе будет установленна sysupgrade, запуск которой начнет процесс
-обновления.
+После этого в системе установленна sysupgrade, запуск которой начнет процесс обновления.
+
+<p>
+По аналогии с <a href="https://man.openbsd.org/syspatch.8">syspatch(8)</a>, будут загружены
+все <a href="https://openbsd-ru.github.io/faq/faq4.html#FilesNeeded">компоненты</a>,
+необходимые для установки новой версии OpenBSD.
 
 <pre class="cmdbox">
 # sysupgrade
+SHA256.sig   100% |**********************************************|  1963       00:00
+Signature Verified
+INSTALL.i386 100% |**********************************************| 44329       00:00
+base66.tgz   100% |**********************************************|   196 MB    21:06
+bsd          100% |**********************************************| 13609 KB    01:19
+bsd.mp       100% |**********************************************| 13704 KB    01:26
+bsd.rd       100% |**********************************************|  8653 KB    00:49
+comp66.tgz   100% |**********************************************| 52820 KB    05:28
+game66.tgz   100% |**********************************************|  2649 KB    00:13
+man66.tgz    100% |**********************************************|  7418 KB    00:35
+xbase66.tgz  100% |**********************************************| 19121 KB    02:04
+xfont66.tgz  100% |**********************************************| 39342 KB    04:27
+xserv66.tgz  100% |**********************************************| 13473 KB    01:47
+xshare66.tgz 100% |**********************************************|  4482 KB    00:44
+Verifying sets.
+Fetching updated firmware.
+Upgrading.
 </pre>
 
-По аналогии с <a href="https://man.openbsd.org/syspatch.8">syspatch(8)</a>, будут
-скачены все <a href="https://openbsd-ru.github.io/faq/faq4.html#FilesNeeded">компоненты</a>,
-необходимые для установки 6.6. После этого система сама перезагрузится (не забудьте
-об этом, работая через SSH), автоматически запустится установщик, и начнется процесс
-установки только что загруженных компонентов. В принципе, в этом процессе нет ничего
-нового, за тем лишь исключением, что теперь все проходит автоматически, и нет необходимости
-заргужаться с usb-флешки в качестве install/upgrade media.
+После этого система сама перезагрузится (не забудьте об этом, работая удаленно,
+например через SSH), автоматически запустится установщик, и начнется процесс
+обновления только что загруженных компонентов. В принципе, в этом процессе нет ничего
+нового, за тем лишь исключением, что теперь все проходит автоматически, и нет
+необходимости в подготовке и заргузки с install/upgrade usb-флешки.
 
 <p>
-После обновления система снова перезагружается. После этого, уже в новой 6.6, надо
+После обновления система снова перезагружается. После этого, уже в новой OpenBSD, надо
 выполнить две команды, завершающие процесс обновления:
 <pre class="cmdbox">
 # sysmerge
 
 # pkg_add -u
-quirks-3.182 signed on 2019-10-30T21:07:38Z
+quirks-3.182 signed on 2019-12-19T13:58:10Z
 quirks-3.124->3.182: ok
+boehm-gc-7.6.0p2->7.6.0p3: ok
+bzip2-1.0.6p10->1.0.8: ok
+curl-7.66.0:nghttp2-1.37.0->1.39.2: ok
+curl-7.64.1p1->7.66.0: ok
+desktop-file-utils-0.24p0:libiconv-1.14p3->1.16p0: ok
+gettext-0.19.8.1p3->gettext-runtime-0.20.1p0 forward dependencies:
+| Dependencies of libexif-0.6.21p1 on gettext-* don't match
+| Dependencies of libpsl-0.20.2 on gettext-* don't match
+| Dependencies of w3m-0.5.3p7-image on gettext-* don't match
+| Dependencies of gdiff-3.7 on gettext-* don't match
+| Dependencies of wget-1.20.3 on gettext-* don't match
+| Dependencies of glib2-2.58.3p9 on gettext-* don't match
+| Dependencies of python-3.6.8p0 on gettext-* don't match
+Merging libexif-0.6.21p1->0.6.21p2 (ok)
+Merging libpsl-0.20.2->0.20.2p0 (ok)
+Merging w3m-0.5.3p7-image->0.5.3p8-image (ok)
+Merging gdiff-3.7->3.7p0 (ok)
+Merging wget-1.20.3->1.20.3p1 (ok)
+Merging glib2-2.58.3p9->2.60.7 (ok)
+Merging python-3.6.8p0->3.6.9 (ok)
+desktop-file-utils-0.24p0:xz-5.2.4->5.2.4: ok
+desktop-file-utils-0.24p0:giflib-5.1.6->5.1.6: ok
+desktop-file-utils-0.24p0:jpeg-2.0.2v0->2.0.3v0: ok
+desktop-file-utils-0.24p0:libid3tag-0.15.1bp5->0.15.1bp5: ok
+desktop-file-utils-0.24p0:png-1.6.35p0->1.6.37: ok
+desktop-file-utils-0.24p0:tiff-4.0.10->4.0.10: ok
+desktop-file-utils-0.24p0:imlib2-1.4.10->1.4.10: ok
+desktop-file-utils-0.24p0:libffi-3.2.1p5->3.2.1p5: ok
+desktop-file-utils-0.24p0:libunistring-0.9.7->0.9.7: ok
+desktop-file-utils-0.24p0:libidn2-2.0.0p0->2.3.0: ok
+desktop-file-utils-0.24p0:libsigsegv-2.12->2.12: ok
+desktop-file-utils-0.24p0:pcre-8.41p2->8.41p2: ok
+desktop-file-utils-0.24p0:pcre2-10.32->10.33: ok
+desktop-file-utils-0.24p0:sqlite3-3.27.2p0->3.29.0: ok
+Detected loop, merging sets ok
+| python-3.7.4
+| gdiff-3.7+gettext-0.19.8.1p3+glib2-2.58.3p9+libexif-0.6.21p1+libpsl-0.20.2+python-3.6.8p0+w3m-0.5.3p7-image+wget-1.20.3->gdiff-3.7p0+gettext-runtime-0.20.1p0+glib2-2.60.7+libexif-0.6.21p2+libpsl-0.20.2p0+python-3.6.9+w3m-0.5.3p8-image+wget-1.20.3p1
+desktop-file-utils-0.24p0:gdiff-3.7+gettext-0.19.8.1p3+glib2-2.58.3p9+libexif-0.6.21p1+libpsl-0.20.2+python-3.6.8p0+w3m-0.5.3p7-image+wget-1.20.3->gdiff-3.7p0+gettext-runtime-0.20.1p0+glib2-2.60.7+libexif-0.6.21p2+libpsl-0.20.2p0+python-3.6.9+python-3.7.4+w3m-0.5.3p8-image+wget-1.20.3p1: ok
+desktop-file-utils-0.23p10->0.24p0: ok
+feh-3.2.1:jasper-2.0.14->2.0.14: ok
+feh-3.2.1:libxml-2.9.8p1->2.9.9: ok
+feh-3.2.1:shared-mime-info-1.10p5->1.10p5: ok
+feh-3.2.1:gdk-pixbuf-2.38.1->2.38.2: ok
+feh-3.2.1:gtk-update-icon-cache-3.24.7->3.24.12: ok
+feh-2.27->3.2.1: ok
+fluxbox-1.3.7p4:fribidi-1.0.5->1.0.7p0: ok
+fluxbox-1.3.7p4->1.3.7p4: ok
+libslang-2.2.4p5:oniguruma-6.9.1->6.9.4: ok
+libslang-2.2.4p4->2.2.4p5: ok
+libssh2-1.8.2->1.9.0: ok
+mc-4.8.23p0:unzip-6.0p11->6.0p12: ok
+mc-4.8.23p0:zip-3.0p1->3.0p1: ok
+mc-4.8.22p0->4.8.23p0: ok
+portslist-7.20->7.26: ok
+sbcl-1.4.8p0->1.5.5: ok
+Running tags: ok
 Read shared items: ok
+--- -libxml-2.9.8p1 -------------------
+Remember to update /var/db/xmlcatalog
+--- -mc-4.8.22p0 -------------------
+Couldn't delete /etc/mc/mc.keymap (no checksum)
 
-# uname -a
-OpenBSD softiron.my.domain 6.6 GENERIC.MP#269 arm64
+# echo $?
+0
+
+$ uname -a
+OpenBSD pizza.my.domain 6.6 GENERIC.MP#304 i386
 </pre>
 
+Как видете, на этой desktop-системе у меня полно софта, который надо было обновить.
+Тут и fluxbox, и новый python, и даже LISP. Качал все через usb-wifi, так что весь
+процесс занял почти целый час.
+
+<p>
+Маленький совет: если вы используете
+<a href="http://firmware.openbsd.org/firmware/">firmware</a> для wifi,
+то не поленитесь загрузить себе соответствующий tgz еще до начала обновления.
+В процессе обновления, новый firmware не будет загружен автоматически из интернет,
+а старый не будет подходить к новому ядро. Следовательно вы окажетесь в новой
+OpenBSD, но без работающей сети.
