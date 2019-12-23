@@ -2,7 +2,7 @@
 
 pprintf() {
     if [ -z $3 ]; then
-        printf "%30s%12s%12s    %s\n" $1 $2 "-----" "?????"
+        printf "%30s%12s%12s    %s\n" $1 "-----" $2 "?????"
         return	
     fi
 
