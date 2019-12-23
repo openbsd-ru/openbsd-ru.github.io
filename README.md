@@ -31,7 +31,6 @@ issue.
 | **[FAQ#PF_Logging](https://www.openbsd.org/faq/pf/logging.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/logging.html)|
 | **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | Хотите перевести? | |
 | **[FAQ#PF_Runtime Options](https://www.openbsd.org/faq/pf/options.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/options.html)|
-| **[FAQ#PF_Performance](https://www.openbsd.org/faq/pf/perf.html)** | Хотите перевести? | |
 | **[FAQ#PF_Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/pools.html)|
 | **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | Хотите перевести? | |
 | **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | Хотите перевести? | |
