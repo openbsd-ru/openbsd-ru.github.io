@@ -23,23 +23,6 @@ td {
 }
 </style>
 
-<!--
-Copyright (c) 2005-2007 Steven Mestdagh <steven@openbsd.org>
-
-Permission to use, copy, modify, and distribute this documentation for
-any purpose with or without fee is hereby granted, provided that the
-above copyright notice and this permission notice appear in all copies.
-
-THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS DOCUMENTATION
--->
-
 <h2 id=OpenBSD>
 <a href="../index.html">
 <i>Open</i><b>BSD</b></a>
@@ -514,6 +497,7 @@ $ <b>cat -u &lt; /dev/rmidi0 &gt; /dev/rmidi1</b>
 Теперь вы можете услышать, что вы играете на MIDI-клавиатуре синтезатора.
 
 <p>
+<!-- XXX midiplay removed
 Основная утилита для воспроизведения стандартных файлов MIDI - <a
 href="https://man.openbsd.org/midiplay">midiplay(1)</a>.
 Воспроизведение стандартного файла MIDI, в этом примере через синтезатор, так
@@ -532,6 +516,7 @@ MIDI-порты, позволяя программам отправлять др
 <pre class="cmdbox">
 $ <b>midiplay -f midithru/0 file.mid</b>
 </pre>
+XXX midiplay removed -->
 
 Для записи MIDI-файлов вы можете использовать утилиту <code>smfrec</code>,
 включенную порт <code>audio/midish</code>.
