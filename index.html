@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=ru>
+<html lang=ru id=project-main>
     <meta charset=utf-8>
     <title>OpenBSD</title>
     <meta name="description" content="the main OpenBSD page">
@@ -7,11 +7,9 @@
     <link rel="canonical" href="https://www.openbsd.org/">
     <link rel="stylesheet" href="openbsd.css">
 
-<table id="project-main">
-  <tr class="align-top">
-    <td>
-
-      <h1>Проект OpenBSD</h1>
+  <main>
+    <nav>
+      <header>Проект OpenBSD</header>
       <ul>
         <li><a href="goals.html">Цели проекта</a>
         <li><a href="plat.html">Платформы</a>
@@ -21,19 +19,19 @@
         <li><a href="https://www.openbsd.org/innovations.html">Инновации</a>
       </ul>
 
-      <h1>Скачать OpenBSD</h1>
+      <header>Скачать OpenBSD</header>
       <ul>
         <li><a href="faq/faq4.html#Download">Загрузка</a>
       </ul>
 
-      <h1>Исходники</h1>
+      <header>Исходники</header>
       <ul>
         <li><a href="anoncvs.html">AnonCVS</a>
         <li><a href="https://cvsweb.openbsd.org/">CVS Web</a>
         <li><a href="https://github.com/openbsd">GitHub зеркало</a>
       </ul>
 
-      <h1>Информация</h1>
+      <header>Информация</header>
       <ul>
         <li><a href="https://www.openbsd.org/plus.html">Changelog</a>
         <li><a href="faq/index.html">FAQ</a>
@@ -48,7 +46,7 @@
         <li><a href="https://www.openbsd.org/support.html">Поддержка</a>
       </ul>
 
-      <h1>Поддержка OpenBSD</h1>
+      <header>Поддержка OpenBSD</header>
       <ul>
         <!--
         <li><a href="https://openbsdstore.com">Buy OpenBSD Products</a>
@@ -57,19 +55,18 @@
         <li><a href="https://www.openbsdfoundation.org/"><i>OpenBSD Foundation</i></a>
       </ul>
 
-      <h1>Русское сообщество</h1>
+      <header>Русское сообщество</header>
       <ul>
         <li><a href="ru-community/articles.html">Статьи</a>
         <li><a href="https://vk.com/openbsd_hackers">Группа в VK</a>
         <li><a href="https://github.com/openbsd-ru">Проект на GitHub</a>
       </ul>
-    </td>
-
-    <td>
-      <h1 class="header">
-         <a href="https://www.openbsd.org/66.html">
-         <img src="images/puffy66.gif" height="198" width="599" alt="[OpenBSD 6.6]"></a>
-      </h1>
+    </nav>
+    <article>
+      <h2>
+        <a href="https://www.openbsd.org/66.html">
+        <img src="images/puffy66.gif" height="198" width="599" alt="[OpenBSD 6.6]"></a>
+      </h2>
 
       <p id="callout">
       Всего две удаленные уязвимости в стандартной установке за черт знает сколько лет!
@@ -95,12 +92,15 @@
       собранным <a href="https://www.openbsdfoundation.org">OpenBSD Foundation</a>.
       Эти пожертвования гарантируют дальнейшую разработку OpenBSD, которая остается
       <a href="https://www.openbsd.org/policy.html">свободной</a> для всех.
+    </article>
+  </main>
 
-  <tr class="align-bottom">
-    <td>
+  <footer>
+    <figure>
       <a href="images/rack2009.jpg">
       <img width="60" height="90" src="images/rack2009-s.png" alt="rack"></a>
-    <td>
+    </figure>
+    <aside>
       <hr>
       Дочерние проекты:
       <a href="openssh/index.html">OpenSSH</a>,
@@ -112,12 +112,12 @@
       <a href="libressl/index.html">LibreSSL</a>
       <br>
       <small>
-      <em>This site is a translated version of <a href="https://www.openbsd.org/">openbsd.org</a>.
-      Translation project is organized by <a href="https://github.com/alexander-naumov">Alexander Naumov</a>
-      and is going with the support of
-      <a href="https://github.com/openbsd-ru/openbsd-ru.github.io/graphs/contributors">
-      volunteers</a>.</em><br>
+        <em>
+        This site is a translated version of <a href="https://www.openbsd.org/">openbsd.org</a>.
+        Translation project is organized by <a href="https://github.com/alexander-naumov">Alexander Naumov</a>
+        and is going with the support of
+        <a href="https://github.com/openbsd-ru/openbsd-ru.github.io/graphs/contributors">volunteers</a>.
+        </em>
       </small>
-    </td>
-  </tr>
-</table>
+    </aside>
+  </footer>
