@@ -53,92 +53,90 @@ td, th {
 
 <h2 id="PortsIntro">Введение</h2>
 
-The ports tree is meant for advanced users.
-<b>Everyone is encouraged to use the pre-compiled binary packages.</b>
-If you have questions about the ports tree, it is assumed that you have
-read the manual pages and this FAQ, and that you are able to work with it.
+Использование портов предназначено для опытных пользователей.
+<b>Всем рекомендуется использовать предварительно скомпилированные бинарные
+пакеты.</b>
+Если вы задаете вопросы по теме портов, то подразумевается, что вы не просто
+умеете работать с портами, но и как минимум прочли соответствующие
+man-страницы и этот FAQ.
 
 <p>
-The ports tree is a set of Makefiles, one for each third party application,
-that controls:
+Дерево портов представляет из себя набор Makefile'ов, по одному для каждой
+программы, которые управляют:
 
 <ul>
-  <li>Where and how to fetch the source of the software
-  <li>Which other software it depends upon
-  <li>How to alter the sources (if necessary)
-  <li>How to configure and build it
-  <li>How to test it (optional)
-  <li>How to install it
+  <li>Откуда и как именно скачать исходники программы
+  <li>От каких других программ оно зависит
+  <li>Как вносить изменения в исходники (если потребуется)
+  <li>Как его собрать и сконфигурировать
+  <li>Как его протестировать (встречается не для всех программ)
+  <li>Как его установить
 </ul>
 
-Apart from the Makefile, each port also contains at least the following:
+Помимо файла Makefile, каждый порт как минимум содержит следующее:
 
 <ul>
-  <li><code>PLIST</code> - instructions for package creation once the
-      application has been built
-  <li><code>DESCR</code> - description of the application
-  <li><code>distinfo</code> - distribution file checksums and size
+  <li><code>PLIST</code> - инструкции по созданию пакета, после того как
+      программа была собрана
+  <li><code>DESCR</code> - описание программы
+  <li><code>distinfo</code> - размер и checksum архива с исходниками
 </ul>
 
-All this information is kept in a directory hierarchy under
-<code>/usr/ports</code>.
-This hierarchy contains three special subdirectories:
+Вся эта информация хранится в подкаталогах в <code>/usr/ports</code>.
+В иерархии подкаталогов стоит выделить три особенных:
 
 <ul>
-  <li><code>distfiles/</code> - where software distribution sets are stored
-      after downloading
-  <li><code>infrastructure/</code> - all the necessary scripts and makefiles
-      for the ports infrastructure
-  <li><code>packages/</code> - binary packages built by the ports system
+  <li><code>distfiles/</code> - где храняться скаченные архивы (software
+      distribution sets) после загрузки из сети
+  <li><code>infrastructure/</code> - все необходимые скрипты и makefiles,
+      необходимые для инфраструктуры порта
+  <li><code>packages/</code> - бинарные пакеты, собранные системой портов
 </ul>
 
-The other subdirectories all form different application categories,
-which contain the subdirectories of the actual ports.
-Complex ports may be organized to an even deeper level, for example if
-they have a core part and a set of extensions, or a stable and a snapshot
-version of the application.
-Every port directory must contain a <code>pkg/</code> subdirectory with
-packing list(s) and description file(s).
-There may also be <code>patches/</code> and <code>files/</code> subdirectories,
-for source patches and additional files, respectively.
+Все остальные образуют разные категории приложений, в подкаталогах которых
+находятся порты. Сложные порты могут быть организованы на более глубоком уровне,
+например, если они разделены на основную часть и набор расширений, или
+стабильную версию и версию снапшота.
+Каждый каталог портов должен содержать подкаталог <code>pkg/</code> со списком
+PLIST и файлом с описанием DESCR.
+Также порт может содержать каталог <code>patches/</code>, где содержатся патчи
+для этого порта, и <code>files/</code> для других дополнительных файлов.
 
 <p>
-When a user issues <a href="https://man.openbsd.org/make">make(1)</a>
-in the subdirectory of a specific port, the system will recursively
-walk its dependency tree, check whether the required dependencies are
-installed, build and install any missing dependencies, and then
-continue the build of the desired port.
-All of the building happens inside the <i>working directory</i> that
-the port creates.
-Normally this is under <code>${WRKOBJDIR}</code>, defaulting to
-<code>/usr/ports/pobj</code>, but you may override this (see
-<a href="#PortsConfig">configuration of the ports system</a>).
+Когда пользователь запускает <a href="https://man.openbsd.org/make">make(1)</a>
+в подкаталоге того или иного порта, система рекурсивно просматривает свое дерево
+зависимостей, проверяет, установлены ли требуемые зависимости, собирает и
+устанавливает любые недостающие зависимости, а затем продолжает сборку
+нужного порта.
+Весь процесс сборки происходит внутри так называемого <i>рабочего каталога</i> 
+(working directory), который создает порт.
+Обычно это <code>${WRKOBJDIR}</code>, для которой по умолчанию используется
+<code>/usr/ports/pobj</code>, но вы можете переопределить это
+(см. <a href="#PortsConfig">настройка системы портов</a>).
 
 <p>
-The ports tree is tied to OpenBSD's <a href="../faq5.html#Flavors">flavors</a>.
-Do not check out a -current ports tree and expect it to work on a -release
-or -stable system.
-<b>If you follow -current, you need both a -current base system and a -current
-ports tree</b>.
-Because no intrusive changes are made in -stable, it is possible to use
-a -stable ports tree on a -release system and vice versa.
+Дерево портов связано с <a href="../faq5.html#Flavors">разновидностями</a>
+OpenBSD. Не стоит ожидать, что порты из дерева портов -current будут работать
+в системе -release или -stable. <b>Если вы используете -current, вам нужны
+и -current base system и дерево портов -current</b>.
+Поскольку в -stable не вносятся навязчивые изменения, в системе -release
+можно использовать дерево портов -stable и наоборот.
 
 <p>
-Another common failure is a missing X11 installation.
-Even if the port you try to build has no direct dependency on X11, a
-subpackage of it or its dependencies may require X11 headers and libraries.
-<b>Building ports on systems without X11 is not supported</b>.
+Еще одна распространенная ошибка - отсутствующая установка X11.
+Даже если порт, который вы пытаетесь собрать, не имеет прямой зависимости к
+X11, для его подпакета или его зависимостей могут потребоваться headers и
+библиотеки X11. <b>Сборка портов в системах без X11 не поддерживается</b>.
 
 <p>
-More information about the ports system may be found in these man pages:
+Более исчерпывающая информация по теме системы портов находится в man-страницах:
 
 <ul>
   <li><a href="https://man.openbsd.org/ports">ports(7)</a>
-  - describes the different stages (make targets) of port installation,
-  the use of flavors and subpackages and some other options.
+  - описывает различные stages (цели параметры make) установки портов,
+  использования flavors, subpackages и некоторые другие вопросы.
   <li><a href="https://man.openbsd.org/bsd.port.mk">bsd.port.mk(5)</a>
-  - in-depth information about all the make targets, variables, the fake
-  (installation directory) framework, etc.
+  - более глубокая информация о целях параметров make, переменных окружения и т.д.
 </ul>
 
 <h2 id="PortsFetch">Загрузка дерева портов</h2>
