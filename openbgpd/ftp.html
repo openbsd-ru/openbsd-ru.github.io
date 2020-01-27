@@ -16,10 +16,10 @@
 <hr>
 
 <p>
-Релиз портированной версии OpenBGPD 6.6p0 состоялся первого ноябрая 2019 года.
+Последний релиз портированной версии OpenBGPD 6.6p0 состоялся первого ноябрая 2019 года.
 
 <p>
-Это порт OpenBGPD для других операционных систем. Он основан на коде
+Это OpenBGPD версия/порт для других операционных систем. Он основан на коде
 портированных версий
 <a href="../openntpd/index.html">OpenNTPD</a>,
 <a href="../openssh/index.html">OpenSSH</a>,
@@ -41,24 +41,33 @@
 
 <p>
 OpenBGPD может работать и на других операционных системах, более новых или
-старых, но вышеперечисленные системы регулярно проверяются разработчиками.
-Отчеты (успех или нет) приветствуются.
-Вы можете сообщить об ошибках или отправить pull requests в
-<a href="https://github.com/openbgpd-portable">GitHub project</a>.
+старых, но на вышеперечисленные системах OpenBGPD регулярно тестируется
+разработчиками. Отчеты (успех или нет) приветствуются.
+Вы можете сообщить нам об проблемах/ошибках/багах или отправить pull requests
+в <a href="https://github.com/openbgpd-portable">GitHub проект</a>.
 
 <h3>Цифровая подпись</h3>
 
 <p>
-OpenBGPD portable releases are signed with a
-<a href="https://man.openbsd.org/signify.1">signify(1)</a>
-public key:
-<a href="https://ftp.openbsd.org/pub/OpenBSD/OpenBGPD/openbgpd.pub" style="font-family:monospace">RWTGJEPobKfXIP1+foh6O3ZGQIDIxwB0Hp4rH6fMYGdYPQMFH2IEqxcY</a>
+Релизы портированной версии OpenBGPD подписываются при помощи
+<a href="https://man.openbsd.org/signify.1">signify(1)</a>.
+Для этого используется public key:
+<a href="https://ftp.openbsd.org/pub/OpenBSD/OpenBGPD/openbgpd.pub"
+style="font-family:monospace">RWTGJEPobKfXIP1+foh6O3ZGQIDIxwB0Hp4rH6fMYGdYPQMFH2IEqxcY</a>
 
 <p>
-They are co-signed with GPG using this <a href="https://ftp.openbsd.org/pub/OpenBSD/OpenBGPD/openbgpd.asc">public key</a>.
+Они так же подписанны при помощи этого
+<a href="https://ftp.openbsd.org/pub/OpenBSD/OpenBGPD/openbgpd.asc">public GPG ключа</a>
 
 <p>
-Release signatures can be verified using the signify program from within the OpenBSD operating system itself, using the <a href="https://github.com/aperezdc/signify">portable version of signify</a>, which is available with recent <a href="https://packages.debian.org/search?keywords=signify-openbsd">Debian</a>, <a href="http://packages.ubuntu.com/search?keywords=signify-openbsd">Ubuntu</a> and <a href="https://aur.archlinux.org/packages/signify/">Arch Linux</a> releases, or by using GPG.
+Подпись релизов может быть проверена при помощи программы signify,
+которая доступна как в самой <a href="../index.html">OpenBSD</a>, так и при помощи
+<a href="https://github.com/aperezdc/signify">портированной версии signify</a>,
+которая доступна в
+<a href="https://packages.debian.org/search?keywords=signify-openbsd">Debian</a>,
+<a href="http://packages.ubuntu.com/search?keywords=signify-openbsd">Ubuntu</a> и
+<a href="https://aur.archlinux.org/packages/signify/">Arch Linux</a>,
+или же при помощи GPG.
 
 <h2>Зеркала</h2>
 
