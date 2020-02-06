@@ -34,6 +34,21 @@ OpenSMTPD разрабатывается с такой же строгостью
 
 <ul>
   <li>
+    <h3 id="661">Известные проблемы безопасности в OpenSMTPD 6.6.1</h3>
+    <p>
+    В OpenSMTPD 6.6.1 было найдено несколько проблем безопасности &mdash; все они уже
+    исправлены в нашем репозитории, а также в новых снапшотах и релизах, начиная с версии 6.6.2.
+    Затронуты все версии с 6.4.0 и до 6.6.1 включительно.
+      <ul>
+	<li>28 января 2020:
+	  <a href="https://ftp.openbsd.org/pub/OpenBSD/patches/6.6/common/019_smtpd_exec.patch.sig">
+	    An incorrect check allows an attacker to trick mbox delivery into executing
+	    arbitrary commands as root and lmtp delivery into executing arbitrary commands
+	    as an unprivileged user.</a>
+      </ul>
+
+  <li>
+
     <h3 id="545">Известные проблемы безопасности в OpenSMTPD 5.4.5</h3>
     <p>
     В OpenSMTPD 5.4.5 были найдены проблемы безопасности &mdash; все эти проблемы уже исправлены
