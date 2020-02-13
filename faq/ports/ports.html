@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>Порты OpenBSD: Работа с портами</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -141,18 +137,17 @@ X11, для его подпакета или его зависимостей м�
 
 <h2 id="PortsFetch">Загрузка дерева портов</h2>
 
-Once you have decided which flavor of the ports tree you want, you can
-get it from different sources.
-The table below gives an overview of where you can find the different
-flavors, and in which form.
-An '&#x2713;' marks availability
-and '&#x2717;' means it is not available through that specific source.
+После того, как вы определились с тем, какой flavor дерева портов вам нужен,
+вы можете загрузить его себе из разных мест. В таблице ниже дается объяснение
+по поводу того, где вы можете найти тот или иной flavor, и в каком формате.
+«&#x2713;» обозначает, что flavor доступнен, а «&#x2717;» наоборот - невозможность
+загрузить исходники, используя этот источник.
 
 <table>
 <thead>
 <tr>
-<th scope=col style="text-align: left">Source
-<th scope=col>Form
+<th scope=col style="text-align: left">Источник
+<th scope=col>Формат
 <th scope=col colspan=4>Flavor
 </thead>
 <tr>
@@ -162,7 +157,7 @@ and '&#x2717;' means it is not available through that specific source.
 <th scope=col>snapshots
 <th scope=col>-current
 <tr>
-<th scope=row style="text-align: left"><a href="../../ftp.html">Mirrors</a>
+<th scope=row style="text-align: left"><a href="../../ftp.html">Зеркала</a>
 <td>.tar.gz
 <td>&#x2713;</td>
 <td>&#x2717;</td>
@@ -178,7 +173,8 @@ and '&#x2717;' means it is not available through that specific source.
 </table>
 
 <p>
-Look for a file named <code>ports.tar.gz</code> on the mirrors.
+Обратите внимание на файл <code>ports.tar.gz</code>, который можно найти на
+наших зеркалах.
 
 <pre class="cmdbox">
 $ <b>cd /tmp</b>
@@ -186,60 +182,58 @@ $ <b>ftp https://cdn.openbsd.org/pub/OpenBSD/$(uname -r)/{ports.tar.gz,SHA256.si
 $ <b>signify -Cp /etc/signify/openbsd-$(uname -r | cut -c 1,3)-base.pub -x SHA256.sig ports.tar.gz</b>
 </pre>
 
-You want to untar this file in the <code>/usr</code> directory, which will
-create <code>/usr/ports</code> and all the directories under it.
+Его надо распаковать в каталог <code>/usr</code>, что приведет к созданию
+<code>/usr/ports</code> и множества других подкаталогов внутри него.
 
 <pre class="cmdbox">
 # <b>cd /usr</b>
 # <b>tar xzf /tmp/ports.tar.gz</b>
 </pre>
 
-The snapshots available on the mirrors are generated daily from the -current
-ports tree.
-You will find the snapshots in the <code>/pub/OpenBSD/snapshots/</code>
-directory.
-If you are using a snapshot of the ports tree, you should have installed
-a matching snapshot of OpenBSD.
-Make sure you keep your ports tree and your OpenBSD system in sync!
+Снапшоты, доступные на наших зеркалах, генерируются ежедневно из дерева портов
+-current. Вы можете найти их в каталоге <code>/pub/OpenBSD/snapshots/</code>.
+Если вы решили установить снапшот того или иного дерева портов, вы должны
+использовать и соответствующий снапшот OpenBSD.
+Не забвайте синхронизировать установленное дерево портов с используемой OpenBSD!
 
 <p>
-For more information about obtaining the ports tree via CVS, read the
-<a href="../../anoncvs.html">AnonCVS page</a>, which contains a list of
-available servers and a number of examples.
+Для получения дополнительной информации о загрузке дерева портов через CVS
+прочитайте страницу, посвященную <a href="../../anoncvs.html">AnonCVS</a>.
+Там можно найти список доступных серверов и ряд полезных примеров.
 
 <h2 id="PortsConfig">Настройка системы портов</h2>
 
-This section introduces some additional global settings for building ports.
-You can skip it, but then you will be required to perform many of the
-<a href="https://man.openbsd.org/make">make(1)</a> statements in later
-examples as root.
+В этом разделе рассказывается о некоторых дополнительных глобальных настройках,
+полезных при сборке портов. Вы можете пропустить его, но тогда вам потребуется
+выполнить многие команды <a href="https://man.openbsd.org/make">make(1)</a>
+в последующих примерах от root.
 
 <p>
-Because the OpenBSD project does not have the resources to fully review
-the source code of all software in the ports tree, you can configure the
-ports system to take a few safety precautions.
-The ports infrastructure is able to perform all building as a regular user,
-and perform only those steps that require superuser privileges as root
-(for example, the <code>install</code> make target).
-Details on how to configure privilege separation are in the
-<a href="https://man.openbsd.org/bsd.port.mk#PORTS_PRIVSEP">bsd.port.mk(5)</a>
-man page.
+Поскольку у проекта OpenBSD нет ресурсов для полного review всего исходного
+кода в дереве портов, вы можете предпринять нескоторые меры предосторожности,
+при помощи соответствующих настроек.
+Система портов, которую иногда называют «инфраструктурой портов», позволяет
+почти полностью собирать порты от имени обычного пользователя, и лишь некоторые
+шаги, которые требуют привилегий суперпользователя, от имени root (например,
+команда make <code>install</code>). Подробнее о том, как настроить разделение
+привилегий, рассказывается в man-странице
+<a href="https://man.openbsd.org/bsd.port.mk#PORTS_PRIVSEP">bsd.port.mk(5)</a>.
 
 <p>
-It is possible to use a read-only ports tree by separating directories
-that are written to during port building:
+Можно использовать read-only дерево портов при помощи разделения от каталогов, в
+которые производится запись во время сборки порта:
 
 <ul>
-  <li>The working directory of ports.
-  This is controlled by the <code>WRKOBJDIR</code> variable, which specifies
-  the directory which will contain the working directories.
-  <li>The directory containing distribution files.
-  This is controlled by the <code>DISTDIR</code> variable.
-  <li>The directory containing newly built binary packages.
-  This is controlled by the <code>PACKAGE_REPOSITORY</code> variable.
+  <li>Рабочий каталог портов.
+      Он указывается при помощи переменной <code>WRKOBJDIR</code>. Ее значение
+      указывает на каталог, который будет содержать рабочие каталоги.
+  <li>Каталог, содержащий distribution файлы. Он указывается при помощи
+      переменной <code>DISTDIR</code>.
+  <li>Каталог, куда будут складываться новые бинарные пакеты. Он указывается
+      при помощи переменной <code>PACKAGE_REPOSITORY</code>.
 </ul>
 
-For example, you could add the following lines to <code>/etc/mk.conf</code>:
+К примеру, вы можете добавить следующую строчку в файл <code>/etc/mk.conf</code>:
 
 <pre class="cmdbox">
 WRKOBJDIR=/usr/obj/ports
@@ -247,11 +241,12 @@ DISTDIR=/usr/distfiles
 PACKAGE_REPOSITORY=/usr/packages
 </pre>
 
-If desired, you can also change the ownership of these directories to your
-local username and group, so that the ports system can create the underlying
-working directories as a regular user.
-Again, ports can be <i>built</i> as a user, but must be <i>installed</i>
-by root or with <a href="https://man.openbsd.org/doas">doas(1)</a>.
+При желании вы также можете изменить владельца (ownership) этих каталогов
+на свое локальное имя пользователя и группу, чтобы система портов могла
+создавать базовые рабочие каталоги от имени обычного пользователя.
+Опять же, порты могут быть собраны от имени обычного пользователя, но
+установленны должны быть только пользователем root или при помощи
+<a href="https://man.openbsd.org/doas">doas(1)</a>.
 
 <h2 id="PortsSearch">Поиск в дереве портов</h2>
 
