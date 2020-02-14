@@ -233,7 +233,8 @@ $ <b>signify -Cp /etc/signify/openbsd-$(uname -r | cut -c 1,3)-base.pub -x SHA25
       при помощи переменной <code>PACKAGE_REPOSITORY</code>.
 </ul>
 
-К примеру, вы можете добавить следующую строчку в файл <code>/etc/mk.conf</code>:
+К примеру, вы можете добавить следующую строчку в файл
+<code>/etc/mk.conf</code>:
 
 <pre class="cmdbox">
 WRKOBJDIR=/usr/obj/ports
@@ -249,10 +250,10 @@ PACKAGE_REPOSITORY=/usr/packages
 <a href="https://man.openbsd.org/doas">doas(1)</a>.
 
 <h2 id="PortsSearch">Поиск в дереве портов</h2>
-
-Once you have the ports tree and the portslist package in place on your 
-system, it becomes very easy to search for software.
-Just use <code>make search key="searchkey"</code> as shown in this example:
+Как только вы скачали себе дерево портов и установили пакет portslist,
+можно начинать поиск доступного ПО.
+Для этого используйте команду <code>make search key="searchkey"</code>
+как показано в примере ниже:
 
 <pre class="cmdbox">
 $ <b>cd /usr/ports</b>
@@ -269,24 +270,26 @@ R-deps: devel/p5-Lchown net/rsync
 Archs:  any
 </pre>
 
-The search result gives a nice overview of each application that is found:
-the port name, the path to the port, a one-line description, the port's
-maintainer, keywords related to the port, library/build/runtime dependencies,
-and architectures on which the port is known to work.
+Результат поиска содержит не только название порта, но и предоставляет
+некоторую дополнительную информацию: PATH к порту, короткое описание,
+имя и почтовый адрес мейнтейнера, ключевые слова, связанные с портом,
+library/build/runtime зависимости и список архитектур, на которых порт
+поддерживается и работает.
 
 <p>
-This mechanism, however, is a very basic one, which just runs awk(1)
-on the ports index file.
-A port called "sqlports" allows very fine-grained searching using SQL.
-It is an SQLite database, but just about any database format can be created
-using the ports infrastructure.
-The <code>sqlports</code> port
-includes the script used to generate the database,
-which could be used as a basis to generate databases in different formats.
+Описанный способ очень прост. Тут просто запускается awk(1), который
+парсит index файл порта.
+Порт под названием «sqlports» напротив позволяет осуществлять очень
+детальный поиск при помощи поиска в базе данных. Это база данных SQLite,
+но практически любой формат базы данных может быть создан при помощи
+инфраструктуры портов.
+Порт <code>sqlports</code> включает в себя скрипт для создания базы
+данных, который можно использовать для создания баз данных различных
+форматах.
 
 <p>
-Just install the <code>sqlports</code> package to get started.
-A sample session could look like this:
+Просто установите пакет <code>sqlports</code>, чтобы попробовать.
+Пример сеанса может выглядеть так:
 
 <pre class="cmdbox">
 $ <b>sqlite3 /usr/local/share/sqlports</b>
@@ -316,18 +319,18 @@ qdirstat-1.4p1|Qt-based directory statistics
 sqlite>
 </pre>
 
-The above is still a very basic search.
-With SQL, just about anything can be searched for, including dependencies,
-configure flags, shared libraries, etc.
+Выше описан все же достаточно простой поиск.
+При помощи SQL можно искать практически все, что угодно, включая зависимости,
+флаги настройки, shared libraries и т.д.
 
 <h2 id="PortsInstall">Пример простой установки</h2>
 
-For clarity's sake, let's consider a simple example: rsnapshot.
-This application has several build dependencies: devel/autoconf/2.69
-devel/automake/1.15 devel/metaauto net/rsync
-The following commands assume you've configured PORTS_PRIVSEP as detailed in
-the <a href="https://man.openbsd.org/bsd.port.mk#PORTS_PRIVSEP">bsd.port.mk</a>
-manual.
+Для ясности рассмотрим простой пример: rsnapshot.
+Это приложение имеет несколько build зависимостей: <code>devel/autoconf/2.69</code>,
+<code>devel/automake/1.15</code>, <code>devel/metaauto</code> и <code>net/rsync</code>.
+Выполнение следующей команды подразумевает, что вы настроили
+PORTS_PRIVSEP, как описано в man-странице
+<a href="https://man.openbsd.org/bsd.port.mk#PORTS_PRIVSEP">bsd.port.mk</a>.
 
 <pre class="cmdbox">
 $ <b>cd /usr/ports/net/rsnapshot</b>
@@ -373,34 +376,34 @@ rsnapshot-1.4.2: ok
 </pre>
 
 <p>
-As you can see, the ports system is doing many things automatically.
-It will fetch, extract, and patch the source code, configure and build
-(compile) the source, install the files into a fake directory, create
-a package (corresponding to the packing list) and install this package
-onto your system (usually under <code>/usr/local/</code>).
-And it does this recursively <b>for all dependencies</b> of the port.
-Notice the
-"<code>===&gt; Verifying install for ...</code>" and
-"<code>===&gt; Returning to build of ...</code>" lines in the above output,
-indicating the walk through the dependency tree.
+Как вы видете, много делается автоматически. Система портов загружает, распаковывает
+и накладывает патчи на исходники, настраивает и собирает (компилируеть) их,
+устанавливает файлы в fake каталог, создает пакет (или даже список пакетов) и
+устанавливать этот пакет в вашу систему (обычно в <code>/usr/local/</code>).
+И все это проделывается рекурсивно <b>для всех зависимостей порта</b>.
+
+Обратите внимание на строки
+"<code>===&gt; Verifying install for ...</code>" и
+"<code>===&gt; Returning to build of ...</code>"
+в приведенном выше выводе, указывающие на обход дерева зависимостей.
 
 <p>
-If a previous version of the application you want to install was already
-installed on your system, you can use <code>make update</code> instead of
-<code>make install</code>.
-This will call <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
-with the <code>-r</code> flag.
+Если вы хотите установить какую-то программу, а она уже установленна
+в вашей системе, но установленна её старая версия,
+используйте <code>make update</code> вместо <code>make install</code>.
+Это запустит <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
+с флагом <code>-r</code>.
 
 <p>
-Large applications will require a lot of system resources to build.
-If you get "out of memory" type of errors when building such a port,
-this usually has one of two causes:
+Большие программы потребуют много системных ресурсов для сборки.
+Если вы получаете ошибки типа «out of memory» при попытке сборки такого
+порта, это обычно присходит по одной из двух причин:
 
 <ul>
-  <li>Your resource limits are too restrictive.
-      Adjust them with ksh's <code>ulimit</code>
-      or csh's <code>limit</code> command.
-  <li>You simply don't have enough RAM.
+  <li>Установленное значение limits ограничивает изспользование ресурсов.
+      Настройте ограничения при помощи ksh команды <code>ulimit</code>
+      или csh команды <code>limit</code>.
+  <li>Вам просто не хватает оперативной памяти (RAM).
 </ul>
 
 <h2 id="PortsClean">Очистка после сборки</h2>
