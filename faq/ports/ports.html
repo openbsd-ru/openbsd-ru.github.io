@@ -408,16 +408,17 @@ rsnapshot-1.4.2: ok
 
 <h2 id="PortsClean">Очистка после сборки</h2>
 
-You probably want to clean the port's default working directory after
-you have built the package and installed it.
+Скорее всего вы захотите почистить (не путать с "удалить") рабочий
+каталог порта после того, как соберете пакет и установите его.
 
 <pre class="cmdbox">
 $ <b>make clean</b>
 ===&gt;  Cleaning for rsnapshot-1.4.2
 </pre>
 
-By default, workdir dependencies are automatically cleaned.
-You can remove installed packages that were only needed for building with
+По умолчанию зависимости workdir автоматически очищаются.
+Вы можете удалить установленные пакеты, которые были необходимы только
+для сборки порта.
 
 <pre class="cmdbox">
 # <b>pkg_delete -a</b>
@@ -428,8 +429,8 @@ metaauto-1.0p1: ok
 Read shared items: ok
 </pre>
 
-If you wish to remove the source distribution set(s) of the port, you
-would use:
+Если вы хотите удалить исходники порта (source distribution set(s) of
+the port), сделайте следующее:
 
 <pre class="cmdbox">
 $ <b>make clean=dist</b>
@@ -437,15 +438,15 @@ $ <b>make clean=dist</b>
 ===&gt;  Dist cleaning for rsnapshot-1.4.2
 </pre>
 
-In case you have been compiling multiple flavors of the same port,
-you can clear the working directories of all these flavors at once using:
+Если вы компилировали несколько версий одного и того же порта,
+вы можете очистить рабочие каталоги всех этих версий одновременно:
 
 <pre class="cmdbox">
 $ <b>make clean=flavors</b>
 </pre>
 
-You can also clean everything up after each build by changing <code>BULK</code>
-from <code>auto</code> to <code>Yes</code>.
+Вы также можете очищать все после каждой сборки, изменив <code>BULK</code>
+с <code>auto</code> на <code>Yes</code>.
 
 <pre class="cmdbox">
 $ <b>make package BULK=Yes</b>
@@ -453,7 +454,7 @@ $ <b>make package BULK=Yes</b>
 
 <h2 id="PortsDelete">Удаление пакета, собранного из порта</h2>
 
-It is very easy to uninstall a port:
+Удалить порт очень просто:
 
 <pre class="cmdbox">
 $ <b>make uninstall</b>
@@ -462,11 +463,11 @@ rsnapshot-1.4.2: ok
 Read shared items: ok
 </pre>
 
-This will call <a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>
-to have the corresponding package removed from your system.
+Это запустит <a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>,
+который удалит соответствующий пакет из системы.
 
-If you would like to get rid of the packages you just built, you can do so
-as follows:
+Если вы хотите избавиться от только что собранных пакетов, это можно сделать
+следующим образом:
 
 <pre class="cmdbox">
 $ <b>make clean=packages</b>
@@ -719,24 +720,26 @@ Alternatively, you can:
 
 <h2 id="Helping">Как помочь нам</h2>
 
-There are many ways you can help.
-They are listed below, by increasing order of difficulty.
+Есть много способов помочь нам.
+Они перечисленны ниже, в порядке увеличения сложности.
 
 <ul>
-  <li><a href="#Problems">Report problems</a> as you experience them.
-  <li>You can systematically test ports and report breakages, or suggest
-  improvements.
-  Just have a look at the <a href="testing.html">Port Testing Guide</a>.
-  You <b>must run a -current system</b> for creating and testing ports.
-  <li>Test the updates to ports which are posted to the ports mailing list.
-  <li>Send updates or patches to a port's maintainer, or to the ports
-  mailing list if the port has no maintainer.
-  Generally this is highly appreciated, unless your patches will cause
-  developers to waste time rather than save time.
-  <li><a href="guide.html">Create new ports</a>.
+  <li><a href="#Problems">Сообщайте о проблемах</a> по мере их возникновения.
+  <li>Вы можете систематически тестировать порты и сообщать о проблемах или
+      просто о тех из них, которые сломанны, или предлагать те или иные улучшения.
+      Ознакомьтесь с <a href="testing.html">руководством по тестированию портов</a>.
+      Вы <b>должны работать в -current</b>, если тестируете порты или работаете
+      над созданием новых.
+  <li>Тестируйте обновления портов, которые присылают в ports рассылке.
+  <li>Отправляйте обновления или патчи мейнтейнеру или в рассылку ports,
+      если у порта нет мейнтейнера.
+      Как правило, это оценивается высоко, но только если ваши патчи не заставят
+      разработчиков тратить еще больше времени, вместо того, чтобы экономить его,
+      благодаря вашей работе.
+  <li><a href="guide.html">Создавайте новые порты</a>.
 </ul>
 
 <p>
-<a href="https://www.openbsd.org/want.html">Hardware</a> donations can assist
-testing ports on the various <a href="../../plat.html">platforms</a>
-OpenBSD runs on.
+Пожертвования в виде <a href="https://www.openbsd.org/want.html">железа</a>
+может помочь в тестировании портов на различных
+<a href="../../plat.html">платформах</a>, на которых работает OpenBSD.
