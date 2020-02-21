@@ -11,7 +11,7 @@
 <h2 id=OpenBSD>
 <a href="index.html">
 <i>Open</i><b>BSD</b></a>
-Анонимный CVS
+Анонимные CVS сервера
 </h2>
 
 <hr>
@@ -55,30 +55,31 @@ OpenBSD в актуальном состоянии, учитывая измен�
 Существуют два уровня доступа к дереву исходных кодов:
 
 <ul>
-<li>Доступ с правами чтения и записи для разработчиков
-<li>Доступ только для чтения любому желающему
+<li>Доступ с правами read-write для разработчиков
+<li>Доступ с правами read-only для всех остальных
 </ul>
 
-<h3 id="starting">Pre-loading the source tree</h3>
+<h3 id="starting">Предварительная загрузка исходников</h3>
 
 <p>
-While you can download the entire source tree from an AnonCVS server, you can
-save time and bandwidth by pre-loading your tree with the source tarballs.
-This is particularly true if you are running
-<a href="stable.html">-stable</a>, as relatively few files change
-between the -release and -stable.
+Хотя вы можете скачать себе весь репозиторий с исходниками, используя
+AnonCVS, можно сберечь и время и пропускную способность сети, предварительно
+загрузив себе тарболы с исходниками.
+Этот способ особенно подходит при использовании <a href="stable.html">-stable</a>,
+так как разница между -release и -stable как правило незначительна.
 
 <p>
-The source files for download from the <a href="ftp.html">mirrors</a> are
-separated into two files to reduce the download time for those wishing to
-work with only one part of the tree.
-The kernel sources are in <code>sys.tar.gz</code> and the userland sources
-are in <code>src.tar.gz</code>.
+Файлы с исходными кодами для загрузки с <a href="ftp.html">зеркал</a>
+разделены на две части, чтобы сократить время загрузки для тех, кто хочет
+работать только с одной из них.
+Исходники ядра находятся в <code>sys.tar.gz</code>, а исходники userland
+- в <code>src.tar.gz</code>.
 
 <p>
-The following commands assume you have followed
-<a href="faq/faq5.html#wsrc">these instructions</a> to give a non-root
-user write access to the src, ports and xenocara directories.
+При выполнении следующих командах подразумевается, что вы выполнили
+<a href="faq/faq5.html#wsrc">эти инструкции</a>, наделив не-root-пользователя
+правами на запись в каталогах <code>src</code>, <code>ports</code> и
+<code>xenocara</code>.
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
@@ -90,7 +91,7 @@ $ <b>cd /usr/xenocara</b>
 $ <b>tar xzf /tmp/xenocara.tar.gz</b>
 </pre>
 
-<h3 id="using">Using CVS to get and update your source trees</h3>
+<h3 id="using">Использование CVS для загрузки или обновления исходников (source trees)</h3>
 
 <p>
 <a href="https://man.openbsd.org/cvs">cvs(1)</a> was designed to be a simple way
@@ -110,7 +111,7 @@ If you begin with <code>src.tar.gz</code> and <code>sys.tar.gz</code> as mention
 above, you can skip the initial <kbd>checkout</kbd> and proceed to updating.
 
 <p>
-<b>Warning:</b>
+<b>Внимание:</b>
 When using cvs, you should take care that your current directory is either the
 root of the tree you are referencing or in a separate place such as
 <code>/tmp</code>.
@@ -118,7 +119,7 @@ Some commands, such as <kbd>cvs checkout</kbd>, can create an arbitrary sub-tree
 in the current directory, and a subsequent update will recursively flesh out
 this sub-tree.
 
-<h4 id="getting">Getting an initial tree</h4>
+<h4 id="getting">Загрузка исходного дерева с файлами</h4>
 
 <p>
 The following commands assume that your user is member of the <code>wsrc</code>
@@ -165,7 +166,7 @@ Are you sure you want to continue connecting (yes/no)? <b>yes</b>
 Warning: Permanently added 'anoncvs.spacehopper.org' (ED25519) to the list of known hosts.
 </pre>
 
-<h4 id="updating">Updating an existing tree</h4>
+<h4 id="updating">Обновление существующего дерева с исходниками</h4>
 
 <p>
 If you are following -current:
@@ -188,7 +189,7 @@ Every time you run this, cvs(1) synchronizes your <code>/usr/src</code> tree.
 It does not destroy any of your local changes; rather it attempts to merge
 changes in.
 
-<h4>Changing the server</h4>
+<h4>Использование другого сервера</h4>
 
 <p>
 If you are updating a source tree that you initially fetched
@@ -200,7 +201,7 @@ $ <b>cd /usr/src</b>
 $ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs -q up -Pd</b>
 </pre>
 
-<h4>Getting the ports and xenocara trees</h4>
+<h4>Загрузка исходников, содержащих ports и xenocara</h4>
 
 <p>
 Make sure your user is member of the <code>wsrc</code> group and that
@@ -246,7 +247,7 @@ $ <b>cvs -q up -Pd -rOPENBSD_6_6</b>
 
 </ul>
 
-<h4>Creating a diff</h4>
+<h4>Создание diff</h4>
 
 <p>
 To make a diff of a locally patched module (here <code>cd.c</code>) to include with
@@ -257,7 +258,7 @@ $ <b>cd /usr/src</b>
 $ <b>cvs diff -u sys/scsi/cd.c &gt; /tmp/patch</b>
 </pre>
 
-<h3 id="EXAMPLE">Example usage for cvs(1)</h3>
+<h3 id="EXAMPLE">Пример использования cvs(1)</h3>
 
 <p>
 A sample use of an anoncvs server would be:
@@ -273,7 +274,7 @@ $ <b>cvs diff -bc -r1.1 -r1.5 locore.s</b>
 [shows the changes between revisions 1.1 and rev 1.5]
 </pre>
 
-<h3 id="rsync">Mirroring the Repository</h3>
+<h3 id="rsync">Зеркалим репозиторий</h3>
 
 <p>
 As noted in the list below, some repository mirrors also allow fetching
@@ -329,7 +330,7 @@ The overall repository size currently increases at a rate
 of about <b>400</b>MB per annum. The src repository increases by about
 <b>150</b>MB.
 
-<h3 id="CVSROOT">Available Anonymous CVS servers</h3>
+<h3 id="CVSROOT">Доступные анонимные CVS сервера</h3>
 
 <ul>
 <li><strong>CVSROOT=anoncvs@anoncvs.au.openbsd.org:/cvs</strong><br>
@@ -556,7 +557,7 @@ Host anoncvs.ca.openbsd.org
     Port 2022
 </pre>
 
-<h3 id="MIRROR">Setting up an anoncvs mirror</h3>
+<h3 id="MIRROR">Настройка anoncvs зеркала</h3>
 
 <p>
 Anoncvs mirrors currently require about 6GB of disk (and it will grow!), and use
@@ -568,7 +569,7 @@ they are expected to serve.
 A <a href="https://www.openbsd.org/anoncvs.shar">document</a> which describes the setup of anoncvs
 servers is available.
 
-<h3 id="NOTES">Final notes</h3>
+<h3 id="NOTES">Пару слов вместо заключения</h3>
 
 <p>
 After upgrading your source tree, you should read the comments at the top of
