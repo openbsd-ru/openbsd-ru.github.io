@@ -46,7 +46,6 @@ issue.
 | **[FAQ_Upgrade Guide: 6.5 to 6.6](https://www.openbsd.org/faq/upgrade66.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Differences from Other BSD Projects](https://www.openbsd.org/faq/ports/differences.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
-| **[FAQ#Ports_Working with Ports](https://www.openbsd.org/faq/ports/ports.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
 | **[OpenRSYNC](https://www.openbsd.org/openrsync/)** | Хотите перевести? | в CVS пока только index |
