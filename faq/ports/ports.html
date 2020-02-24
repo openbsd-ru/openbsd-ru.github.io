@@ -477,118 +477,113 @@ rm -f /usr/ports/packages/amd64/all/rsnapshot-1.4.2.tgz
 
 <h2 id="PortsFlavors">Использование Flavors и Subpackages</h2>
 
-Please read the <a href="https://man.openbsd.org/ports">ports(7)</a>
-man page, which gives a good overview of this topic.
-There are two mechanisms to control the packaging of software according
-to different needs.
+Мы настоятельно советуем прочитать
+<a href="https://man.openbsd.org/ports">ports(7)</a>, которая представляет
+из себя хороший обзор и введение в эту тему. Существует два различных
+механизма работы с пакетами в соответствии с их потребностями.
 
 <p>
-The first mechanism is called <b>flavors</b>.
-A flavor usually indicates a certain set of compilation options.
-For instance, some applications have a "no_x11" flavor which can be used on
-systems without X.
-Some shells have a "static" flavor that will build a statically linked
-version.
-There are ports which have different flavors for building them with
-different graphical toolkits.
-Other examples include support for different database formats,
-different networking options (SSL, IPv6, ...), different paper sizes, etc.
+Первый механизм называется <b>flavors</b>. Flavor обычно указывает на
+определенный набор параметров компиляции. Например, некоторые приложения
+имеют flavor «no_x11», который предназначен для использования в системах
+без X. Некоторые оболочки имеют «статический» flavor, который создает
+статически связанную версию.
+Существуют порты, которые имеют разные flavors для их сборки с использованием
+различных графических инструментов.
+Другие примеры включают в себя поддержку различных форматов баз данных,
+различных параметры сети (SSL, IPv6, ...), различных размеров бумаги и т.д.
 
 <p>
-<b>Summary:</b>
-You will most likely use flavors when a package has not been made available
-for the flavor you are looking for.
-In this case, you can specify the desired flavor and build the port yourself.
+<b>Подводим итог:</b>
+Скорее всего, вы будете использовать flavors, если пакет не предоставляет
+(не поддерживает) flavor, который вам нужен. В этом случае вы можете указать
+желаемый flavor и собрать порт самостоятельно.
 
 <p>
-Most port flavors have their own working directory during compilation,
-and every flavor will be packaged into a correspondingly-named package to
-avoid any confusion.
-To see the different flavors of a certain port, you would change to its
-subdirectory and issue:
+Большинство flavors портов имеют свой собственный рабочий каталог во время
+компиляции, и каждый flavor собирается в пакете с соответствующим именем,
+чтобы избежать путаницы. Чтобы увидеть различные flavor того или иного порта,
+посмотрите в его подкаталог и выполнить команду:
 
 <pre class="cmdbox">
 $ <b>make show=FLAVORS</b>
 </pre>
 
-You can also look at the port's <code>DESCR</code> files, which explain the
-available flavors in more detail.
+Вы также можете посмотреть файлы <code>DESCR</code> порта, где более подробно
+объясняются доступные flavors.
 
 <p>
-The second mechanism is called <b>subpackages</b>.
-A porter may decide to create subpackages for different pieces of the
-same application if they can be logically separated.
-You will often see subpackages for the client part and the server part
-of a program.
-Sometimes extensive documentation is bundled in a separate subpackage
-because it takes up a lot of disk space.
-Extra functionality that pulls in heavy dependencies will often be
-packaged separately.
-The porter will also decide which subpackage is the main subpackage,
-to be installed as a default.
-Other examples are extensive test suites which come with the software,
-separate modules with support for different things, etc.
+Второй механизм называется <b>subpackages</b>.
+Мэйнтейнер может решить создать подпакеты (subpackages) для разных
+частей одной программы, если они могут быть логически разделены.
+Вы будете часто видеть subpackages для клиентской части и серверной
+части программы.
+Иногда обширная документация упакована в отдельный subpackage, поскольку
+она занимает много места на диске.
+Другим примером могут быть дополнительный функционал программы, который
+тянет кучу зависимостей, и который часто упаковываются отдельно.
+Мэйнтейнер также решит, какой subpackage является основным, и будет
+установлен по умолчанию. Другими примерами являются обширные тестовые наборы,
+которые поставляются с программами, отдельные модули с поддержкой всего
+возможного и т.д.
 
 <p>
-<b>Summary:</b>
-Some ports are split into several packages. <code>make install</code> will only
-install the main subpackage.
+<b>Подводим итог:</b>
+Некоторые порты могут быть разделены на несколько частей (или пакетов).
+<code>make install</code> установит только главную из них (main subpackage).
 
 <p>
-To list the different packages built by a port, use:
-
+Список packages, на которые разделен порт, можно увидеть при помощи команды:
 <pre class="cmdbox">
 $ <b>make show=PKGNAMES</b>
 </pre>
 
-<code>make install</code> will only install the main subpackage.
-To install them all, use:
+<code>make install</code> установит только главный subpackage.
+Для того, чтобы установить их всех, используй команду:
 
 <pre class="cmdbox">
 $ <b>make install-all</b>
 </pre>
 
-To list the different subpackages available for a port, use:
+Список subpackages, доступных для порта, можно увидеть при помощи команды:
 
 <pre class="cmdbox">
 $ <b>make show=MULTI_PACKAGES</b>
 </pre>
 
-It is possible to select which subpackage(s) to install from within the
-ports tree.
-After some tests, this procedure will just call
-<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
-to install the desired subpackage(s).
+Можно выбрать какие подпакеты (subpackage(s)) установить из дерева портов.
+После некоторых тестов эта процедура просто вызовет
+<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> для установки
+нужного subpackage(s).
 
 <pre class="cmdbox">
 # <b>env SUBPACKAGE="-server" make install</b>
 </pre>
 
-The subpackages mechanism only handles packages.
-It does not modify any configuration options before building the port.
-You must use flavors for that purpose.
+subpackages механизм обрабатывает только packages.
+Он не изменяет никакие параметры конфигурации перед сборкой порта.
+Вы должны использовать flavors для этой цели.
 
 <h2 id="dpb">Использование dpb для сборки Multiple портов</h2>
 
-When you need to build more than one or two ports at a time, you can
-use the <code>/usr/ports/infrastructure/bin/dpb</code> tool.
+Если вам нужно создать более одного порта одновременно, вы можете
+использовать для этого <code>/usr/ports/infrastructure/bin/dpb</code>.
 
-<a href="https://man.openbsd.org/dpb">dpb(1)</a> takes a list of ports to build
-and automatically builds them all in an optimal order, making use of as much
-parallelism as possible.
-It can also use multiple machines to perform the building, and produces
-detailed logs of the build process for troubleshooting, placed in
-<code>/usr/ports/logs</code> by default.
+<a href="https://man.openbsd.org/dpb">dpb(1)</a> ожидает список портов
+для сборки и автоматически собирает их все параллельно в оптимальном порядке.
+Он также может использовать несколько машин для сборки, а также создает
+подробные build-logs, которые можно будет найти в <code>/usr/ports/logs</code>,
+и которые можно будет использовать для troubleshooting.
 
 <pre class="cmdbox">
 # <b>/usr/ports/infrastructure/bin/dpb -P ~/localports</b>
 </pre>
 
-This command will read the list of
-<a href="https://man.openbsd.org/pkgpath">pkgpaths</a>
-in <code>~/localports</code> and build all the packages.
-It can also install the packages after they have been built.
-The <code>~/localports</code> file might look something like this:
+Эта команда запустит dpb, который прочтет список
+<a href="https://man.openbsd.org/pkgpath">pkgpaths</a> из
+<code>~/localports</code> и соберет все перечисленные там пакеты.
+Он также может установить пакеты после их сборки.
+Файл <code>~/localports</code> выглядит следующим образом:
 
 <pre class="cmdbox">
 net/rsync
@@ -596,99 +591,103 @@ www/mozilla-firefox
 editors/vim
 </pre>
 
-If you do not provide a list of ports to build on the command line or via
-<code>-P</code> or <code>-I</code>,
-<a href="https://man.openbsd.org/dpb">dpb(1)</a>
-will build all the ports in the ports tree.
-If run as root, dpb will automatically drop privileges to dedicated users
-for fetching distfiles and building ports.
-This is the recommended way to use it, but it can also run as a regular user.
-Additionally, the <a href="https://man.openbsd.org/proot">proot(1)</a> utility
-can be used to further isolate building operations.
+Если вы не передадите список портов для сборки в командной строке или
+через <code>-P</code> или <code>-I</code>,
+<a href="https://man.openbsd.org/dpb">dpb(1)</a> соберет все порты в
+дереве портов. При запуске от пользователя root, dpb автоматически отбрасывает
+привилегии, присвоенные пользователям для загрузки файлов с исходниками
+и сборки портов. Это рекомендуемый способ его использования, но он также
+может запускаться от имени обычного пользователя.
+Кроме того, утилита <a href="https://man.openbsd.org/proot">proot(1)</a>
+может использоваться для дальнейшей изоляции build операций.
 
 <h2 id="PortsSecurity">Обновления безопасности (-stable)</h2>
 
-When serious bugs or security flaws are discovered in third party software,
-they are fixed in the -stable branch of the ports tree.
-In contrast to the base system, the -stable ports tree only gets security
-backports for the latest release.
+Когда в портах (third party software) обнаруживаются серьезные ошибки
+или проблемы безопасности, они исправляются в -stable branch дерева портов.
+В отличие от базовой системы, дерево портов -stable обновляется только из-за
+добавления в нее security backports для последней версии.
 
 <p>
-This means that all you need to do is make sure you check out the correct
-branch of the ports tree, and build the desired software from it.
-You can keep your tree up to date with <a href="../../anoncvs.html">CVS</a>
-and subscribe to the ports-changes <a href="../../mail.html">mailing list</a>
-to receive security announcements related to software in the ports tree.
+Это означает, что все, что вам нужно сделать, это убедиться, что вы
+проверили правильный branch дерева портов и собрали необходимые
+программы из него. Вы можете поддерживать свое дерево в актуальном состоянии
+(up to date) при помощи <a href="../../anoncvs.html">CVS</a> и подписаться
+на <a href="../../mail.html">почтовую рассылку</a> ports-changes, чтобы
+получать уведомления о безопасности, связанные портами.
 
 <h2 id="PkgSig">Подписи пакетов</h2>
 
-Signatures are a good way to make sure packages are legitimate and not
-corrupted.
-OpenBSD offers official signed packages using
+Цифровые подписи являются хорошим способом быть уверенным в целостности
+загружаемых из сети пакетов.
+Они позволяют проверить не были ли пакеты кем-то умышленно измененны
+или просто повреждены при копировании. OpenBSD предоставляет официальные
+подписанные пакеты при помощи
 <a href="https://man.openbsd.org/signify">signify(1)</a>.
-No extra effort is needed on the user's part to ensure packages haven't
-been tampered with.
+Не требуется никаких дополнительных шагов со стороны пользователя, чтобы
+быть уверенным, что пакеты не были скомпрометированы.
 
 <p>
-If you want to build <i>your own</i> signed packages, you'll first need
-to create keys for signing.
+Если вы хотите собрать <i>свой собственный</i> подписанный пакет, вам сначала
+понадобится создать/сгенерировать пару ключей.
 
 <pre class="cmdbox">
 # <b>signify -Gns /etc/signify/my-pkg.sec -p /etc/signify/my-pkg.pub</b>
 </pre>
 
-Note the names: keys for signing packages should end in <code>pkg</code>.
+Замечание по поводу имен: ключи, используемые для подписи пакетов, должны
+заканчиваться на <code>pkg</code>.
 
 <p>
-Existing packages may be signed with
-<a href="https://man.openbsd.org/pkg_sign">pkg_sign(1)</a> after being built.
+Существующие пакеты могуть быть подписаны при помощи
+<a href="https://man.openbsd.org/pkg_sign">pkg_sign(1)</a> после их сборки.
 
 <pre class="cmdbox">
 # <b>cd /usr/ports/packages/$(uname -p)</b>
 # <b>pkg_sign -s signify2 -s /etc/signify/my-pkg.sec -o signed -S all</b>
 </pre>
 
-In order to install the package on another machine,
-the public key <code>my-pkg.pub</code> should be put into
-the <code>/etc/signify</code> directory on that machine.
+В случае установки такого пакета на другой машине,
+public key <code>my-pkg.pub</code> должен быть скопирован туда в каталог
+<code>/etc/signify</code>.
 
 <h2 id="Problems">Сообщить об ошибке</h2>
 
-If you have trouble with an existing port, please send an email to the
-port maintainer.
-To see the maintainer of the port, type, for example:
+Если у вас возникли какие-то проблемы с портом, отправьте email мэйнрейнеру
+(или как их еще называют в рунете - <i>сопровождающему</i>) порта. Узнать о том,
+кто поддерживает порт, можно вот так:
 
 <pre class="cmdbox">
 $ <b>cd /usr/ports/archivers/unzip</b>
 $ <b>make show=MAINTAINER</b>
 </pre>
 
-Alternatively, if there is no maintainer, or you can't reach them, send an
-email to the <a href="mailto:ports@openbsd.org">ports@openbsd.org</a>
-mailing list.
+Если мэйнтейнер не указан, или же если по той или иной причине
+с ним не получается связаться, отправьте письмо в рассылку
+<a href="mailto:ports@openbsd.org">ports@openbsd.org</a>.
 
 <p>
-In any case, please provide:
+Так или иначе, не забудьте предоставить следующую информацию:
 
 <ul>
-  <li>Your OpenBSD version, including any patches you may have applied.
-  The kernel version is given by: <code>sysctl -n kern.version</code>
-  <li>The version of your ports tree:
-  if the file <code>/usr/ports/CVS/Tag</code>
-  exists, provide its contents.
-  If this file is absent, you are using the -current ports tree.
-  <li>A complete description of the problem.
-  Don't be afraid to provide details.
-  Mention all the steps you followed before the problem occurred.
-  Is the problem reproducible?
-  The more information you provide, the more likely you will get help.
+  <li>Версию используемой OpenBSD, включая все патчи, которые были установленны.
+      Версию ядра, которую можно посмотреть при помощи
+      <code>sysctl -n kern.version</code>.
+
+  <li>Версию дерева портов: если существует файл <code>/usr/ports/CVS/Tag</code>,
+      покажие его содержимое. Отсутствие этого файла говорит о том, что
+      используется дерево портов -current.
+
+  <li>Полное развернутое описание проблемы. Не бойтесь предоставлять подробности.
+      Опишите все шаги, которые в итоге привели к проблеме.
+      Получается ли воспроизвести проблему снова и снова? Чем больше информации
+      вы предоставите, тем больше вероятность, что вам помогут.
 </ul>
 
-For ports which do not build correctly, a complete build transcript is
-almost always required.
-You can use the <code>portslogger</code> script, found in
-<code>/usr/ports/infrastructure/bin</code>, for this.
-A sample run might look like this:
+Для портов, которые не собираются, почти всегда требуется полная <i>стенограмма
+процесса сборки</i>. Для этого вы можете использовать скрипт <code>portslogger</code>,
+находящийся в <code>/usr/ports/infrastructure/bin</code>.
+Пример может выглядеть так:
 
 <pre class="cmdbox">
 $ <b>mkdir ~/portlog</b>
@@ -696,26 +695,23 @@ $ <b>cd /usr/ports/archivers/unzip</b>
 $ <b>make 2&gt;&amp;1 | /usr/ports/infrastructure/bin/portslogger ~/portlog</b>
 </pre>
 
-After this,
-you should have a logfile of the build in your <code>~/portlog</code>
-directory that you can send to the port maintainer.
-Also, make sure you are not using any special options in your build,
-for example in <code>/etc/mk.conf</code>.
+После этого, в каталоге <code>~/portlog</code> должен быть файл журнала
+сборки, который вы можете отправить мэйнтейнеру порта. Также убедитесь,
+что вы не используете никаких своих специальных параметров во время сборки,
+указанных например в <code>/etc/mk.conf</code>.
 
 <p>
-Alternatively, you can:
+В качестве альтернативы вы можете сделать следующее:
 
 <ul>
-  <li>Use <a href="https://man.openbsd.org/script">script(1)</a> to create
-      a complete build transcript.
-  <li>Attach the output of
-  <a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a>
-  if it seems even remotely relevant.
-  <li><a href="https://man.openbsd.org/gcc">gcc(1)</a>
-  internal compiler errors ask you to report the bug to the gcc
-  mailing list.
-  It does save time if you follow their direction, and provide at least
-  the various files produced by <code>gcc -save-temps</code>.
+  <li>Использовать <a href="https://man.openbsd.org/script">script(1)</a>
+	  для создания полной <i>стенограммы процесса сборки</i>.
+  <li>Прикрепить вывод <a href="https://man.openbsd.org/pkg_info">pkg_info(1)</a>,
+      если он покажется вам как-то связанным с возникшей проблемой.
+  <li>Некоторые internal ошибки компилятора
+      <a href="https://man.openbsd.org/gcc">gcc(1)</a> стоит направить в рассылку
+      gcc. Это сэкономит время, если вы последуете их указаниям и предоставите
+      как минимум различные файлы, созданные при помощи <code>gcc -save-temps</code>.
 </ul>
 
 <h2 id="Helping">Как помочь нам</h2>
@@ -740,6 +736,6 @@ Alternatively, you can:
 </ul>
 
 <p>
-Пожертвования в виде <a href="https://www.openbsd.org/want.html">железа</a>
-может помочь в тестировании портов на различных
-<a href="../../plat.html">платформах</a>, на которых работает OpenBSD.
+Пожертвования <a href="https://www.openbsd.org/want.html">железа</a>
+может помочь в тестировании портов на поддерживаемых OpenBSD
+<a href="../../plat.html">платформах</a>.
