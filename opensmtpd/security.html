@@ -33,6 +33,22 @@ OpenSMTPD разрабатывается с такой же строгостью
 <a href="https://openbsd-ru.github.io/security.html">безопасности в OpenBSD</a>.
 
 <ul>
+    <h3 id="664">Известные проблемы безопасности в OpenSMTPD 6.6.4</h3>
+    <p>
+    В OpenSMTPD 6.6.4 было найдено несколько проблем безопасности &mdash; все они уже
+    исправлены в нашем репозитории, а также в новых снапшотах и релизах, начиная с версии 6.6.4.
+    Затронуты все версии с 6.4.0 и до 6.6.1 включительно.
+    These are the OpenSMTPD 6.6.4 advisories &mdash; all these problems are solved
+    in our repository as well as in newer snapshots and releases starting with 6.6.4.
+      <ul>
+      <li>24 февраля 2020:
+	  <a href="https://ftp.openbsd.org/pub/OpenBSD/patches/6.6/common/021_smtpd_envelope.patch.sig">
+            An out of bounds read in smtpd allows an attacker to inject arbitrary
+            commands into the envelope file which are then executed as root.
+            Separately, missing privilege revocation in smtpctl allows arbitrary
+            commands to be run with the _smtpq group.</a>
+      </ul>
+  <li>
   <li>
     <h3 id="661">Известные проблемы безопасности в OpenSMTPD 6.6.1</h3>
     <p>
