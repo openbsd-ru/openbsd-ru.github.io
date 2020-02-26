@@ -94,39 +94,39 @@ $ <b>tar xzf /tmp/xenocara.tar.gz</b>
 <h3 id="using">Использование CVS для загрузки или обновления исходников (source trees)</h3>
 
 <p>
-<a href="https://man.openbsd.org/cvs">cvs(1)</a> was designed to be a simple way
-to retrieve and update your sources.
-You must first decide whether you want to track -current or a
-<a href="stable.html">-stable</a> branch.
-The current tree has all of the up to the minute changes, whereas the
--stable branch contains the sources for the release plus the patches from
-the <a href="errata.html">errata</a> and lesser issues already applied.
-For more information on the flavors of OpenBSD, see
-<a href="faq/faq5.html#Flavors">here</a>.
+<a href="https://man.openbsd.org/cvs">cvs(1)</a> был разработан таким
+образом, чтобы у пользователей не возникало никаких проблем с загрузкой
+и обновлением исходников. Сначала надо решить, с каким branch вы хотите
+работать: с -current или <a href="stable.html">-stable</a>.
+В -current branch есть все последние изменения, в то время как в -stable
+содержится только исходники последнего релиза, плюс патчи
+<a href="errata.html">критических багов</a> и другие исправления проблем.
+Для получения дополнительной информации о flavors OpenBSD, смотрите
+<a href="faq/faq5.html#Flavors">пятую главу FAQ</a>.
 
 <p>
-Choose the Anonymous CVS server you are going to use from the
-<a href="#CVSROOT">list of servers</a> below, then you can start using cvs.
-If you begin with <code>src.tar.gz</code> and <code>sys.tar.gz</code> as mentioned
-above, you can skip the initial <kbd>checkout</kbd> and proceed to updating.
+Для начала <a href="#CVSROOT">выберите анонимный CVS-сервер</a>, которым
+собираетесь пользоваться. Если вы начинаете с <code>src.tar.gz</code> и
+<code>sys.tar.gz</code>, как указано выше, вы можете пропустить команду
+<kbd>checkout</kbd> и перейти к обновлению.
 
 <p>
 <b>Внимание:</b>
-When using cvs, you should take care that your current directory is either the
-root of the tree you are referencing or in a separate place such as
-<code>/tmp</code>.
-Some commands, such as <kbd>cvs checkout</kbd>, can create an arbitrary sub-tree
-in the current directory, and a subsequent update will recursively flesh out
-this sub-tree.
+при использовании cvs помните о том, что текущий каталог должен
+находится либо в корне дерева, на которое вы ссылаетесь, либо в
+другом месте, например в <code>/tmp</code>.
+Некоторые команды, такие как <kbd>cvs checkout</kbd>, могут создать
+произвольное поддерево (sub-tree) в текущем каталоге, и последующее
+обновление рекурсивно расширит это поддерево.
 
 <h4 id="getting">Загрузка исходного дерева с файлами</h4>
 
 <p>
-The following commands assume that your user is member of the <code>wsrc</code>
-group:
+Следующая комада подразумевает, что вы уже входите в <code>wsrc</code>
+группу:
 
 <p>
-If you are following -current:
+Если вы хотите использовать -current:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
@@ -134,7 +134,7 @@ $ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P src</b>
 </pre>
 
 <p>
-If you are following the 6.6 -stable branch:
+Если вы хотите использовать 6.6 -stable branch:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
@@ -143,10 +143,10 @@ $ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -rOPENBSD_6_6 -P src</
 <!-- DO NOT EDIT ANONCVS.HTML MANUALLY - IT IS GENERATED FROM TEMPLATES! -->
 
 <p>
-Anonymous CVS uses passwordless SSH as a transport.
-If this is the first time you have connected to an anoncvs server,
-you will be asked to confirm the SSH fingerprint to ensure that you
-are connecting to the expected server:
+Анонимный CVS использует SSH для транспортировки данных. Пароль не нужен.
+Если вы впервые подключаетесь к anoncvs серверу, вам будет предложено
+подтвердить SSH fingerprint, чтобы убедиться, что вы подключаетесь к
+ожидаемому серверу:
 
 <pre class="cmdbox">
 $ <b>cvs -d anoncvs@anoncvs.spacehopper.org:/cvs checkout -P src</b>
@@ -156,10 +156,11 @@ Are you sure you want to continue connecting (yes/no)?
 </pre>
 
 <p>
-In most cases, the list below includes the fingerprints for the server,
-so you can compare it against the displayed fingerprint as additional
-verification that you are connecting to the correct server.
-Confirm this, and the fingerprint will then be saved as usual.
+Приведенный ниже список как правило включает в себя и fingerprint
+сервера, поэтому вы можете сравнить его с отображаемым при подключении
+fingerprint в качестве дополнительной проверки того, что подключаетесь
+к нужному серверу. Подтвердите установку соединения, и fingerprint
+будет сохранен (как и обычно при нормальном SSH соединении).
 
 <pre class="cmdbox">
 Are you sure you want to continue connecting (yes/no)? <b>yes</b>
@@ -169,7 +170,7 @@ Warning: Permanently added 'anoncvs.spacehopper.org' (ED25519) to the list of kn
 <h4 id="updating">Обновление существующего дерева с исходниками</h4>
 
 <p>
-If you are following -current:
+Если вы используете -current:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
@@ -177,7 +178,7 @@ $ <b>cvs -q up -Pd -A</b>
 </pre>
 
 <p>
-If you are following the 6.6 -stable branch:
+Если вы используете 6.6 -stable branch:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
@@ -185,16 +186,19 @@ $ <b>cvs -q up -Pd -rOPENBSD_6_6</b>
 </pre>
 
 <p>
-Every time you run this, cvs(1) synchronizes your <code>/usr/src</code> tree.
-It does not destroy any of your local changes; rather it attempts to merge
-changes in.
+Каждый раз, когда вы запустите приведенную выше команду,
+<a href="https://man.openbsd.org/cvs">cvs(1)</a> попытается синхронизировать
+ваш <code>/usr/src</code> с изменениями, добавленными на сервере.
+Это не поломает какие-любо локальные изменения; вместо этого cvs
+попытается объединить (merge) их.
 
 <h4>Использование другого сервера</h4>
 
 <p>
-If you are updating a source tree that you initially fetched
-from a different server, or from a tar file, you <b>must</b>
-add the <em>-d [cvsroot]</em> option to cvs.
+Если вы хотите обновить дерево каталогов с исходниками, которые
+загрузили себе первоночально с другого сервера или распаковали из
+тарбола, вы <b>должны</b> добавить <em>-d [cvsroot]</em> параметр
+<a href="https://man.openbsd.org/cvs">cvs(1)</a>. 
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
@@ -204,15 +208,15 @@ $ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs -q up -Pd</b>
 <h4>Загрузка исходников, содержащих ports и xenocara</h4>
 
 <p>
-Make sure your user is member of the <code>wsrc</code> group and that
-<code>/usr/ports</code> is group writable by <code>wsrc</code>.
-Replace <kbd>ports</kbd> with <kbd>xenocara</kbd> throughout to get or update a
-xenocara tree.
+Убедитесь, что ваш пользователь входит в группу <code>wsrc</code>
+и каталог <code>/usr/ports</code> открыт на запись группе <code>wsrc</code>.
+Замените <kbd>ports</kbd> на <kbd>xenocara</kbd>, чтобы загрузить или
+обновить дерево с исходниками <kbd>xenocara</kbd>.
 
 <ul><li>
 
 <p>
-If you are following -current:
+Если нужен -current:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
@@ -220,17 +224,17 @@ $ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P ports</b>
 </pre>
 
 <p>
-If you are following the 6.6 -stable branch:
+Если нужен 6.6 -stable branch:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
 $ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -rOPENBSD_6_6 -P ports</b>
 </pre>
 
-<li> Any time afterwards, to update this tree:
+<li> В любое время обновить это дерево можно так:
 
 <p>
-If you are following -current:
+В случае с -current:
 
 <pre class="cmdbox">
 $ <b>cd /usr/ports</b>
@@ -238,7 +242,7 @@ $ <b>cvs -q up -Pd -A</b>
 </pre>
 
 <p>
-If you are following the 6.6 -stable branch:
+В случае с 6.6 -stable branch:
 
 <pre class="cmdbox">
 $ <b>cd /usr/ports</b>
@@ -250,8 +254,9 @@ $ <b>cvs -q up -Pd -rOPENBSD_6_6</b>
 <h4>Создание diff</h4>
 
 <p>
-To make a diff of a locally patched module (here <code>cd.c</code>) to include with
-a bug report:
+Чтобы создать diff того или иного файла, после того как вы его
+изменили (в это примере это файл <code>cd.c</code>) для, к примеру,
+использования в отчете об ошибке:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
@@ -261,7 +266,7 @@ $ <b>cvs diff -u sys/scsi/cd.c &gt; /tmp/patch</b>
 <h3 id="EXAMPLE">Пример использования cvs(1)</h3>
 
 <p>
-A sample use of an anoncvs server would be:
+Пример использования anoncvs сервера выглядит так:
 
 <pre class="cmdbox">
 $ <b>cd /tmp</b>
