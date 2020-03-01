@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- saved from url=(0108)https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/anchors.html?rev=1.59&content-type=text/html -->
+<html lang="ru" id="faq"><!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>OpenBSD PF: Анкеры</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="./OpenBSD PF_ Anchors_files/openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/anchors.html">
+
+<!--
+Copyright (c) 2003-2007 Joel Knight <enabled@myrealbox.com>
+
+Permission to use, copy, modify, and distribute this documentation for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+
+THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS DOCUMENTATION
+-->
+
+</head><body><h2 id="OpenBSD">
+<a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Анкеры
+<small>
+<a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/index.html" style="font-weight:normal; float:right">[Содержание]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/anchors.html?rev=1.59&amp;content-type=text/html#intro">Вступление</a>
+  </li><li><a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/anchors.html?rev=1.59&amp;content-type=text/html#anchors">Анкеры</a>
+  </li><li><a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/anchors.html?rev=1.59&amp;content-type=text/html#options">Опции Анкера</a>
+  </li><li><a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/anchors.html?rev=1.59&amp;content-type=text/html#manip">Управление Анкерами</a>
+</li></ul>
+
+<hr>
+
+<h2 id="intro">Вступление</h2>
+
+Помимо основного набора правил, PF также может применить наборы подправил.
+Поскольку наборами подравил можно управлять на лету, используя 
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>, они обеспечивают удобный
+способ динамического изменения активного набора правил.
+
+В то время как <a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/tables.html">table</a> используется для хранения
+динамического списка адресов, наборы подправил используются для хранения динамического комплекта правил.
+Наборы подправил прикрелены к основному набору правил посредством <code>анкера</code>
+
+<p>
+Анкеры могут быть вложены что позволяет связывать вместе наборы подправил. 
+Анкерные правила будут оценены относительно анкера в который они загружены.
+Например, анкерные правила в основном наборе правил будут создавать вложенные анкерные точки с основным
+набором правил как родительскими, и анкерные правила, загруженные из файлов с директивой <code>load anchor</code> 
+создадут анкерные точки с этим анкером как родительским.
+
+</p><h2 id="anchors">Анкеры</h2>
+
+Анкер это набор правил, таблиц и других анкеров которым были назначены имена.
+Когда PF проходит через <code>anchor</code> правило в основном наборе правил,
+PF будет обрабатывать правила внутри точки анкера как если бы он обрабатывал правила
+из основного набора правил.
+Вычисление затем продолжится в основном наборе правил до тех пор пока пакет
+не попадёт под действие правила фильтра, который использует опцию <code>quick</code>,
+в этом случае совпадение будет считаться финальным и прекратит оценку правил
+как в анкере так и в основном наборе правил.
+
+<p>
+Пример:
+
+</p><pre class="cmdbox">block on     egress
+pass  out on egress
+
+anchor goodguys
+</pre>
+
+Этот набор правил устанавливает политику блокировки по умолчанию на выходной интерфейс
+для входящего и исходящего трафика, который затем отключается; также создаётся анкерное
+правило с именем <code>goodguys</code>
+Анкеры могут населяться правилами тремя методами:
+
+<ul>
+  <li>используя правило <code>load</code>
+  </li><li>используя <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>
+  </li><li>указывая правила встроенные в основной набор правил
+</li></ul>
+
+Правило <code>load</code> указывает  <code>pfctl</code> населить обозначенный анкер
+считывая правила из текстового файла.
+Правило <code>load</code> обязано быть после правила <code>anchor</code>.
+
+<p>
+Пример:
+
+</p><pre class="cmdbox">anchor goodguys
+load anchor goodguys from "/etc/anchor-goodguys-ssh"
+</pre>
+
+Чтобы добавить правила в анкер используя <code>pfctl</code>,
+Вы можете использовать следующий набор команд:
+
+<pre class="cmdbox"># <b>echo "pass in proto tcp from 192.0.2.3 to any port 22" | pfctl -a goodguys -f -</b>
+</pre>
+
+Правила также могут быть сохранены в (и загружены из) текстового файла.
+К примеру, вы бы могли добавить следующие
+две строчки в файл <code>/etc/anchor-goodguys-www</code>:
+
+<pre class="cmdbox">pass in proto tcp from 192.0.2.3 to any port 80
+pass in proto tcp from 192.0.2.4 to any port { 80 443 }
+</pre>
+
+Затем приминённое с:
+
+<pre class="cmdbox"># <b>pfctl -a goodguys -f /etc/anchor-goodguys-www</b>
+</pre>
+
+Для загрузки правил прямо из основного набора правил,
+закройте анкерные правила в блок прикрытый фигурными скобками:
+
+<pre class="cmdbox">anchor "goodguys" {
+        pass in proto tcp from 192.168.2.3 to port 22
+}
+</pre>
+
+Соответствующие анекты могут также содержать больше анкеров.
+
+<pre class="cmdbox">allow = "{ 192.0.2.3 192.0.2.4 }"
+
+anchor "goodguys" {
+  anchor {
+       pass in proto tcp from 192.0.2.3 to port 80
+  }
+  pass in proto tcp from $allow to port 22
+}
+</pre>
+
+С соответствующими анкерами, имя анкера становится опциональным.
+Обратите внимание как вложенные анкеры в примере выше не имют названия.
+Макрос <code>$allow</code> создан снаружи анкера (в основном наборе правил)
+а затем он используется внутри анкера.
+
+<p>
+Правила могут быть загружены в анкер используя тот же синтаксис
+и опции что и правила загруженные в основной набор правил.
+Есть одно предостережение, заключается в том что, до тех пор пока
+вы используете соответствующие анкеры то использованные
+<a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/www/faq/pf/macros.html">macros</a>
+обязаны также быть определены внутри самого анкера; макрос который определён в родительском
+наборе правил <i>не</i> видны из анкеры.
+
+</p><p>
+Так как анкеры могут быть вложеными, можно указать что
+все анкеры потомки в пределах указанного анкера должны быть оценены:  
+
+</p><pre class="cmdbox">anchor "spam/*"
+</pre>
+
+Данный синтаксис заставляет каждое правило в пределах каждого анкера прикриплённого
+в <code>spam</code> анкер обработаться.
+Анкеры потомки будут обработаны в алфавитном порядке, но не спускаться рекурсивно.
+Анкеры всегда обрабатываются относительно к анкеру в котором они определены.
+
+<p>
+Каждый анкер, также как и оснвной набор правил, существует отдельно от других наборов правил.
+Операции выполненные в одном наборе правил, такие как стирание правил, не влияют на другие.
+В добавок, удаление анкерной точки с основного набора правил не разрушит анкер или любой анкер потомок который
+прикреплен к этому анкеру.
+Анкер не уничтожен до тех пор пока не стёрты все его правила средством
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a> и отсутствуют анкеры потомки
+внутри анкера.
+
+</p><h2 id="options">Опции Анкера</h2>
+Опционально, <code>anchor</code> правила могут указать интерфейс, протокол,
+адрес источник и конечный адрес, тег, и т.д., используя тот же синтаксис как и другие правила.
+Когда дана такая информация, <code>anchor</code> правила исполняются только если
+пакет совпадает с определением <code>anchor</code> этого правила. 
+
+<p>
+Для примера:
+
+</p><pre class="cmdbox">block          on egress
+pass       out on egress
+anchor ssh in  on egress proto tcp to port 22
+</pre>
+
+Правила в анкере <code>ssh</code> обрабатываются только для TCP пакетов
+нацеленных на 22 порт который приходин на входящий интерфейс.
+Правила затем добавляются в <code>anchor</code> так:
+
+<pre class="cmdbox"># <b>echo "pass in from 192.0.2.10 to any" | pfctl -a ssh -f -</b>
+</pre>
+
+Так, даже хотя фильтр правило не уточняет интерфейс, протокол
+или порт, только хосту 192.0.2.10 будет разрешено подключение
+используя SSH из-за определения <code>anchor</code> этого правила.
+
+<p>
+Такой же синтаксис может быть применён во встроенные анкеры.
+
+</p><pre class="cmdbox">allow = "{ 192.0.2.3 192.0.2.4 }"
+anchor "goodguys" in proto tcp {
+   anchor proto tcp to port 80 {
+      pass from 192.0.2.3
+   }
+   anchor proto tcp to port 22 {
+      pass from $allow
+   }
+}
+</pre>
+
+<h2 id="manip">Управление Анкерами</h2>
+Управление анкерами осуществляется через
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
+Может использоваться для добавления и удаления правил из анкера
+без перезагрузки основного набора правил.
+
+<p>
+Для отображения всех наборов правил в анкере названным <code>ssh</code>:
+
+</p><pre class="cmdbox"># <b>pfctl -a ssh -s rules</b>
+</pre>
+
+Для стирания всех правил из того же анкера:
+
+<pre class="cmdbox"># <b>pfctl -a ssh -F rules</b>
+</pre>
+
+Для полного списка комманд, пожалуйста посмотрите
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a>.
+</body></html>
