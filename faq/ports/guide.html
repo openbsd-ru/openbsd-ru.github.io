@@ -46,57 +46,59 @@
 
 <h2 id="Overview">Обзор</h2>
 
-Итак, вы только что скомпилировали свою любимую программу на своей OpenBSD машине
+Итак, вы только что скомпилировали/собрали свою любимую программу на OpenBSD машине
 и хотите поделиться результатом своего труда, поместив получившееся в порт.
 Что для этого надо делать?
 
 <p>
-Наиболее важное, из того, что надо сделать - <b>не молчать</b>.
+Самое важное на данном этапе - <b>общаться</b> с другими мэйнтейнерами.
 Напишите письмо в рассылку <a href="mailto:ports@openbsd.org">ports@openbsd.org</a>
-и спросите, не работают ли они уже над этим же портом.
+и спросите, не работает ли кто-то уже над этим портом.
 <i>Расскажите о своих планах автору программы, для которой вы собираетесь создать
 порт</i>, а также и проблемах, которые вы, возможно, встретили.
-If licensing information appears incorrect, tell them.
-If you had to jump through hoops to make the port build, tell them what can be
-fixed.
-Если они занимаются разработкой только для Linux и, кажется, их вообще не интересует
-остальной мир Unix, попытайся показать им почему они ошибаются. Возможно они изменят
+Если информация об использованной лицензии неверна, сообщите об этом автору.
+Если процесс портирования и сборки порта этой программы показался вам слишком
+муторным, подскажите автору, что можно улучшить или исправить.
+Если он занимается разработкой только для Linux и, кажется, его вообще не интересует
+остальной мир UNIX, попытайтесь объяснить ему почему он ошибается. Возможно он изменит
 свои взгяды.
 
 <p>
-Общение и есть та разница, между удачным процессом портирования и поддержки порта,
-и тем состоянием порта, которое будет всех от него только отпугивать.
+Общение и есть та самая разница, чем отличается удачный процесс портирования
+и поддержки порта, и тем портом, который в итоге будет забыт.
 
 <p>
-Во-первых, ознакомься с информацией на этой странице.
-Тестируй, потом протестируй еще раз и наконец протестируй еще разок!
+Во-первых, ознакомтесь с информацией на этой странице.
+Тестируйте, потом протестируйте еще раз и наконец протестируйте еще разок!
 
 <p>
-OpenBSD fully supports updates.
-This means that <a href="#PortsUpdate">some issues</a> must be taken into
-account.
+OpenBSD полностью поддерживает обновления.
+Это означает, что <a href="#PortsUpdate">некоторые вопросы</a> должны быть
+приняты во внимание.
 
 <p>
-Submit the port.
-Create a gzipped tarball of the port directory.
-You can then either place it on a public HTTP server, sending its URL to
-<a href="mailto:ports@openbsd.org">ports@openbsd.org</a>, or send the port
-MIME encoded to the same address.
+Отправте (submit) порт.
+Создайте тарбол, содержащий все необходимое для порта.
+Затем вы можете либо разместить его на общедоступном HTTP-сервере, отправив
+его URL-адрес на <a href="mailto:ports@openbsd.org">ports@openbsd.org</a>,
+либо отправить на тот же адрес MIME encoded порт.
 
 <p>
-Porting some new software takes time.
-Maintaining it over time is harder.
-It is quite okay to port software and let other people handle it afterwards.
-It is also okay to help other people update and maintain other ports, as long
-as you communicate to avoid doing the same things twice.
+Портирование новых программ требует усилий и времени.
+Поддерживать их в последствии еще сложнее.
+Вполне реально портировать ту или иную программу, но позволить кому-то другому
+заниматься поддержкой порта впоследствии. Также можно помогать другим участникам
+сообщества обновлять и поддерживать свои порты, если общение между вами поможет
+избежать повторения одной и той же работы.
 
 <p>
-In OpenBSD culture, <code>MAINTAINER</code>ship is not a status item, but a
-responsibility.
-We have CVS and comments to give credit to the person who did the work.
-A port <code>MAINTAINER</code> is something else: a person who assumes
-responsibility for the working of the port, and is willing to spend some
-time ensuring it works as best as can be.
+В культуре OpenBSD сообщества гордое звание <code>MAINTAINER</code> обозначает
+в первую очередь ответственность, но никак не статус.
+У нас есть CVS с историей комментариев, где упоминается человек, сделавший работу
+и заслуживающий уважения.
+<code>MAINTAINER</code> порта - это нечто иное: человек, который берет на себя
+ответственность за работу порта и готов потратить некоторое время на то, чтобы
+он работал как можно лучше.
 
 <h2 id="PortsChecklist">Porting Checklist</h2>
 
