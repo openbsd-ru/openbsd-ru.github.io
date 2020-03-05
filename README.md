@@ -22,7 +22,7 @@ issue.
 
 | Материал к переводу | Ответственный | Комментарий |
 | --- | --- | --- |
-| **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
+| **[FAQ#PF_Anchors](https://www.openbsd.org/faq/pf/anchors.html)** | [khabibd](https://github.com/khabibd) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/anchors.html)|
 | **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | Хотите перевести?| |
 | **[FAQ#PF_Firewall Redundancy (CARP and pfsync)](https://www.openbsd.org/faq/pf/carp.html)** | Хотите перевести? | |
 | **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** | Хотите перевести? | |
@@ -42,7 +42,7 @@ issue.
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
 | **[6.6](https://www.openbsd.org/66.html)** |  Хотите перевести? | |
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
-| **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** |  Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
+| **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** | [Alexander Naumov](https://github.com/alexander-naumov)  | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
 | **[FAQ_Upgrade Guide: 6.5 to 6.6](https://www.openbsd.org/faq/upgrade66.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Differences from Other BSD Projects](https://www.openbsd.org/faq/ports/differences.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
