@@ -21,14 +21,14 @@
 <ul>
   <li><a href="#Extra"          >Дополнительная помощь</a>
   <li><a href="#Generic"        >Общие вопросы по поводу инфраструктуры</a>
-  <li><a href="#Make"           >Используйте make правильно</a>
-  <li><a href="#Fetch"          >Загрузка исходников</a>
+  <li><a href="#Make"           >Правильное использование make</a>
+  <li><a href="#Fetch"          >Распаковка (извлечение) исходников</a>
   <li><a href="#wrkdir"         >Инфраструктура <code>WRKDIR</code></a>
-  <li><a href="#Fake"           >Faking Ports</a>
+  <li><a href="#Fake"           >Fake установка порта</a>
     <ul>
      <li><a href="#Introduction">Введение</a>
      <li><a href="#Advantages"  >Преимущества</a>
-     <li><a href="#How"         >Как это использовать</a>
+     <li><a href="#How"         >Как это сделать</a>
      <li><a href="#Pitfalls"    >Ловушки</a>
     </ul>
   <li><a href="#Tools"          >Packaging инструменты</a>
@@ -87,7 +87,7 @@ do other stuff
 Чтобы снова воспользоваться этой функцией, запустите скрипт вручную из
 <code>Makefile</code>.
 
-<h2 id="Make">Используйте make правильно</h2>
+<h2 id="Make">Правильное использование make</h2>
 
 Обратите внимание, что если вы запускаете make с параметром (например вот так
 <code><b>make VAR=value</b></code>), присваиваемое значение параметра
@@ -97,7 +97,7 @@ do other stuff
 Гораздо лучше правильно установить значение <code>MAKE_FLAGS</code>,
 что к тому же снизит и maintanance нагрузку.
 
-<h2 id="Fetch">Загрузка исходников</h2>
+<h2 id="Fetch">Распаковка (извлечение) исходников</h2>
 
 Существует два типа архивов с исходниками: <code>DISTFILES</code> и
 <code>PATCHFILES</code>.
@@ -134,9 +134,9 @@ SUPDISTFILES=foo-i386.tgz foo-amd64.tgz
 
 Нам не нужны порты, которые используют <code>NO_WRKDIR</code>.
 Все порты OpenBSD должны иметь рабочий каталог.
-Детали, касательно имени каталога не должно вызывать беспокойства
-у того, кто собирает порт. Если вам нужно узнать об этом имени,
-спросите <code>Makefile</code>:
+Детали, касательно имени рабочего каталога, не должны вызывать беспокойства
+у того, кто собирает порт. Если вам нужно узнать об этом имени, спросите
+<code>Makefile</code>:
 
 <pre class="cmdbox">
 $ <b>cd that_ports_dir &amp;&amp; make show=WRKDIR</b>
@@ -148,7 +148,7 @@ $ <b>cd that_ports_dir &amp;&amp; make show=WRKDIR</b>
 <p>
 Основная причина этого запрета заключается в том, что <code>bsd.port.mk</code>
 в OpenBSD действует как настоящий <code>Makefile</code> с зависимостями.
-Этап <code>fetch</code> зависит от distfiles и patchfiles,, а все остальные
+Этап <code>fetch</code> зависит от distfiles и patchfiles, а все остальные
 этапы зависят от реальных файлов, находящихся в рабочем каталоге, поэтому
 они не могут существовать без рабочего каталога.
 
@@ -165,146 +165,144 @@ EXTRACT_ONLY=
 <dl>
 <dt><code>WRKDIR</code></dt>
 
-<dd>The port working directory, where it puts its own cookies.</dd>
+<dd>Рабочий каталог порта, куда он помещает свои собственные cookies.</dd>
 
 <dt><code>WRKDIST</code></dt>
 
-<dd>Subdirectory of <code>WRKDIR</code> where the port actually unpacks.
-It is also the base directory for patch.
-Other BSDs currently don't have the <code>WRKDIST/WRKSRC</code> distinction and
-have only <code>WRKSRC</code>.</dd>
+<dd>Подкаталог <code>WRKDIR</code>, куда фактически распаковывается порт.
+    Это также базовый каталог для патча.
+    Другие BSD в настоящее время не имеют <code>WRKDIST/WRKSRC</code> различий
+    и имеют только <code>WRKSRC</code>.</dd>
 
 <dt><code>WRKSRC</code></dt>
 
-<dd>Subdirectory of <code>WRKDIST</code> where the actual source lives.</dd>
+<dd>Подкаталог <code>WRKDIST</code>, в котором фактический находятся исходники.</dd>
 
 <dt><code>WRKBUILD</code></dt>
 
-<dd>Subdirectory of <code>WRKDIR</code> where the port configure and build will
-occur.
-Other BSDs don't have the <code>WRKBUILD/WRKSRC</code> distinction.
-Programs based on autoconf (mostly) can usually set <code>SEPARATE_BUILD</code>
-to let the port build happen in a <code>WRKBUILD</code> distinct from
-<code>WRKSRC</code>.</dd>
+<dd>Подкаталог <code>WRKDIR</code>, в котором будут выполняться конфигурирование
+    и сборка порта.
+    Другие BSD не имеют <code>WRKBUILD/WRKSRC</code> различий.
+    Программы, основанные на autoconf (в основном), обычно могут установить
+    <code>SEPARATE_BUILD</code>, чтобы позволить сборке порта происходить в
+    <code>WRKBUILD</code>, отличном от <code>WRKSRC</code>.</dd>
 
 <dt><code>WRKCONF</code></dt>
 
-<dd>Subdirectory of <code>WRKDIR</code> where configure scripts should be run.
-Defaults to <code>WRKBUILD</code>, which is correct 99% of the time.</dd>
+<dd>Подкаталог <code>WRKDIR</code>, в котором должны запускаться configure скрипты.
+    По умолчанию используется <code>WRKBUILD</code>, что в 99% случаев верно.</dd>
 
 <dt><code>WRKINST</code></dt>
 
-<dd>Directory where the port will be installed before being packaged (see
-"faking ports" below).</dd>
+<dd>Каталог, в который будет установлен порт перед созданием пакета
+    (читайте о «Fake установке портов» ниже).</dd>
 </dl>
 
 <p>
-<i>Note that <code>NO_WRKSUBDIR</code> has been removed: its functionality can
-be achieved by setting <code>WRKDIST=$(WRKDIR)</code> instead.</i>
+<i>Обратите внимание, что <code>NO_WRKSUBDIR</code>  был удален: теперь этот же эффект
+можно достигнуть установив <code>WRKDIST=$(WRKDIR)</code>.</i>
 
-<h2 id="Fake">Fake Port Installation</h2>
+<h2 id="Fake">Fake установка порта</h2>
 
 <h3 id="Introduction">Введение</h3>
 
-After a build is complete, other BSDs proceed to install a port, then build
-a package from the installed port.
-OpenBSD uses faked installation instead.
+После завершения сборки другие BSD приступают к установке порта, а затем
+собирают пакет из установленного порта.
+OpenBSD использует fake установку вместо этого.
 
 <ul>
-<li>An OpenBSD port is configured and built normally (e.g., to install under
-<code>PREFIX</code>, usually <code>/usr/local</code>).
+<li>Порт OpenBSD сконфигурирован и собран как обычно (т.е. установлен в
+    <code>PREFIX</code>, обычно это <code>/usr/local</code>).
 
-<li>But it's told to install elsewhere, namely under <code>WRKINST</code>, which
-is usually a subdirectory of <code>WRKDIR</code>.
+<li>Но указывается сдалать установку в другое место, а именно в <code>WRKINST</code>,
+    который обычно является подкаталогом <code>WRKDIR</code>.
 
-<li>Then the false installation is packaged, using the <code>-B</code> option of
-pkg_create.
+<li>Затем из fake установки создается пакет. Происходит это при помощи pkg_create
+    опции <code>-B</code>.
 
-<li>Finally, the resulting package can be installed, using pkg_add.
+<li>Наконец, получившийся пакет может быть установлен при помощи pkg_add.
 </ul>
 
 <h3 id="Advantages">Преимущества</h3>
 
 <ul>
-<li>For a package builder, it means that most ports don't have to actually be
-installed, which removes a large number of potential compromises and general
-nastiness from badly-installed ports.
-It also allows building several conflicting packages on the same machine.
-Finally, it allows building a new set of untested packages without hosing
-a correct installation.
+<li>Для того, кто собирает пакет (package builder), это означает, что большинство
+    портов не нужно устанавливать на самом деле, что устраняет огромное количество
+    потенциальных проблем с неправильно установленными портами.
+    Это также позволяет создавать несколько конфликтующих пакетов на одном компьютере.
+    Наконец, это позволяет создавать новый набор непроверенных пакетов без правильной
+    установки.
 
-<li>For a port writer, it greatly simplifies the task of finding problems in
-packing lists, since the fake area of installation is empty before the port
-gets installed.
-Also, if a port installs too many files, it is no longer necessary to tweak
-the port installation: it is enough not to record the extraneous files in
-the packing list.
+<li>Для того, кто составляет порт (port writer), это значительно упрощает задачу поиска
+    проблем в packing lists, поскольку fake среда пуста до установки порта.
+    Кроме того, если порт устанавливает слишком много файлов, больше нет необходимости
+    настраивать установку порта: достаточно просто не записывать посторонние файлы в
+    packing list.
 
-<li>For the end user, it improves the quality of packages: since the final
-port is installed using pkg_add, the end user gets <i>exactly</i> the same
-software that was prepared on the porter's machine.
+<li>Для пользователя (end user) это улучшает качество пакетов: поскольку последний порт
+    устанавливается с помощью pkg_add, пользователь получает <i>точно такое же</i>
+    программное обеспечение, которое было подготовлено на машине того, кто собирал порт
+    (porter).
 </ul>
 
-<h3 id="How">Как это использовать</h3>
+<h3 id="How">Как это сделать</h3>
 
-The targets invoked for <code><b>make fake</b></code> are the usual install
-targets, except for a few differences:
+Цели, используемые для <code><b>make fake</b></code>, являются обычными целями для
+установки, за исключением нескольких отличий:
 
 <ul>
-<li><code>FAKE_FLAGS</code> is used instead of <code>MAKE_FLAGS</code>.
-By default, <code>FAKE_FLAGS</code> sets <code>DESTDIR=${WRKINST}</code>.
+<li>Вместо <code>MAKE_FLAGS</code> используется	<code>FAKE_FLAGS</code>.
+    По умолчанию <code>FAKE_FLAGS</code> устанавливает <code>DESTDIR=${WRKINST}</code>.
 
-<li><code>FAKE_TARGET</code> is used instead of <code>INSTALL_TARGET</code>.
+<li>Вместо <code>INSTALL_TARGET</code> используется <code>FAKE_TARGET</code>.
 
-<li>The <code>{pre,do,post}-install</code> fragments are invoked with
-<code>TRUEPREFIX</code> set to <code>$(PREFIX)</code>,
-<code>PREFIX</code> set to <code>$(WRKINST)$(PREFIX)</code>, and
-<code>DESTDIR</code> set to <code>$(WRKINST)</code>.
+<li>Во время выполнения <code>{pre,do,post}-install</code>, значение
+<code>TRUEPREFIX</code> установлено как <code>$(PREFIX)</code>,
+<code>PREFIX</code> установлено как <code>$(WRKINST)$(PREFIX)</code>, а
+<code>DESTDIR</code> установлено как <code>$(WRKINST)</code>.
 </ul>
 
 <p>
-Ports using imake should work as is, since the imake fragments are configured
-to use <code>DESTDIR</code>.
-Similarly, recent GNU configure ports should need no change.
+Порты, использующие imake, должны работать как и обычно, поскольку цели imake
+настроены на использование <code>DESTDIR</code>. Точно так же недавние порты
+конфигурации GNU не нуждаются ни в каких изменениях.
 
 <p>
-Another good technique is a "late binding" trick: configure the ports to use
-a prefix of <code>$(DESTDIR)/usr/local</code>, so that the resulting
-<code>Makefile</code> has the following set:
+Еще один хороший прием - "late binding" («поздняя привязка»): настройте порты на
+использование prefix со значением <code>$(DESTDIR)/usr/local</code>, чтобы
+получившийся <code>Makefile</code> имел следующую конфигурацию:
 
 <pre class="cmdbox">
 prefix=$(DESTDIR)/usr/local
 </pre>
 
-When the port gets built, since <code>DESTDIR</code> is set to nothing,
-<code>/usr/local</code> is used.
-The fake install will put everything into <code>${WRKINST}/usr/local</code>
-(e.g., for GNU configure, use <code>CONFIGURE_STYLE= gnu dest</code>).
+Когда порт начинает собираться при пустом значении <code>DESTDIR</code>,
+будет использоваться <code>/usr/local</code>.
+Fake установка поместит все в <code>${WRKINST}/usr/local</code> (например, для
+GNU configure используйте <code>CONFIGURE_STYLE= gnu dest</code>).
 
 <h3 id="Pitfalls">Ловушки</h3>
 
 <ul>
-<li>Some ports are inconsistent in their <code>DESTDIR</code> processing: most
-of the port is happy with <code>DESTDIR</code> set, except for one or two
-offenders.
-Patch the problem away.
+<li>Некоторые порты несовместимы с изменениями значения своего <code>DESTDIR</code>:
+    для бОльшей части порта это не будет проблемой, за исключением одного или двух
+    нарушителей. Исправьте проблему (Patch the problem away).
 
-<li>Be careful to distinguish between the actual location where the port is
-installed, and the location recorded in the configuration files of the package.
-This is very easy to overlook, but easy to fix using <code>TRUEPREFIX</code>.
+<li>Будьте внимательны и отслеживайте фактическое местоположение, в котором
+    установлен порт, и местоположение, используемое конфигами пакета.
+    Это очень легко пропустить, но легко исправить при помощи <code>TRUEPREFIX</code>.
 
-<li>Absolute symlinks always need to be tweaked.
-Luckily, <code>bsd.port.mk</code> will notice problems in that area.
+<li>Абсолютные symlinks всегда нужно настраивать.
+    К счастью, <code>bsd.port.mk</code> заметит проблемы в этой области.
 
-<li>A few ports don't want to leave <code>$(DESTDIR)</code> alone at the
-configure stage.
-A <code>post-configure</code> fragment that tweaks all Makefiles to add the
-<code>DESTDIR</code> is needed.
+<li>Некоторые порты не хотят оставлять в покое <code>$(DESTDIR)</code> на этапе
+    настройки. Тут понадобится <code>post-configure</code>, который добавляет
+    <code>DESTDIR</code> настройки во все Makefile-файлы.
 
-<li>Very seldom, a port will resist all reasonable attempts to use FAKE.
-A brute force approach should work: use <code>pre-fake</code> to link or copy
-everything the port wants to find in the <code>WRKINST</code> area, then perform
-the install under chroot.
+<li>Очень редко порт сопротивляется всем разумным попыткам использовать FAKE.
+    Подход грубой силы работает тут на ура: используйте <code>pre-fake</code>,
+    чтобы слинковать или скопировать все, что порт хочет найти в <code>WRKINST</code>,
+    затем выполните install в chroot.
 </ul>
 
 <h2 id="Tools">Packaging инструменты</h2>
@@ -366,18 +364,17 @@ the install under chroot.
 <code>bsd.port.mk</code> предоставляет тут некоторую поддержку:
 
 <ul>
-<li>The <code>PKGNAME</code> is tweaked to include dash separated options (e.g.,
-<code>package-foo-zoinx</code>).
+<li><code>PKGNAME</code> настроен для включения опций, разделенных дефисом
+    (например, <code>package-foo-zoinx</code>).
 
-<li>The <code>WRKDIR</code> is tweaked so that distinct flavors can be built
-concurrently without colliding.
+<li><code>WRKDIR</code> настроен таким образом, что различные flavors могут
+    собираться одновременно, не мешая при этом друг другу.
 
-<li>Constructs of the form <code>%%flavor%%</code> will trigger the inclusion of
-<code>PFRAG.flavor</code>.
+<li>Конструкции вида <code>%%flavor%%</code> вызовут включение <code>PFRAG.flavor</code>.
 
-<li><code>bsd.port.subdir.mk</code> understands the extension
-<code>SUBDIR=directory,opt1,opt2</code> to say
-"build port in <code>directory</code> with <code>FLAVOR=opt1 opt2</code>."
+<li><code>bsd.port.subdir.mk</code> понимает расширение
+    <code>SUBDIR=directory,opt1,opt2</code> и интерпретирует его как «надо
+    собрать порт в <code>directory</code> с <code>FLAVOR=opt1 opt2</code>».
 </ul>
 
 <p>
