@@ -44,7 +44,6 @@ issue.
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
 | **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** | [Alexander Naumov](https://github.com/alexander-naumov)  | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
 | **[FAQ_Upgrade Guide: 6.5 to 6.6](https://www.openbsd.org/faq/upgrade66.html)** |  Хотите перевести? | |
-| **[FAQ#Ports_Differences from Other BSD Projects](https://www.openbsd.org/faq/ports/differences.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
@@ -75,8 +74,8 @@ issue.
 Постарайтесь передать именно его. Это дает огромный выигрыш в плане
 понятности материала. Перед тем как отправить pull request
 перечитайте еще раз свой перевод и спросите себя действительно ли
-вы полнимаете написанное или это просто перевод каждого по
-отдельности взятого слова.
+вы понимаете написанное или это просто перевод каждого по отдельности
+взятого слова.
 
 
 ## Как скачать исходники и приступить к работе
