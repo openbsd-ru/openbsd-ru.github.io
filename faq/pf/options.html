@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<title>OpenBSD PF: Параметры работы фильтра</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/options.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Параметры работы фильтра
+<small>
+<a href="index.html">[FAQ PF - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<p>
+Эти параметры используются для управления работой PF.
+Укразываются в файле <code>pf.conf</code> при помощи директивы <code>set</code>.
+
+<dl id="block-policy">
+<dt><code>set block-policy <i>option</i></code><br>
+<dd>Устанавливает поведение по умолчанию для правил <a href="filter.html">filter</a>,
+    которые определены директивой <code>block</code>.
+    <ul>
+      <li><code>drop</code> - пакет молча отбрасывается.
+      <li><code>return</code> - будет возвращен пакет TCP RST для заблокированных
+	  TCP пакетов и пакет ICMP Unreachable для всех остальных.
+    </ul>
+<dd>Имейте в виду, что определенные правила фильтра могут перекрывать назначенное поведение.
+Поведение по умолчанию <tt>drop</tt>.
+</dl>
+
+<dl id="debug">
+<dt><code>set debug <i>option</i></code><br>
+<dd>Устанавливает debugging уровень для pf.
+    Поддерживаемые в настоящий момент <code>emerg</code>, <code>alert</code>, <code>crit</code>,
+    <code>err</code>, <code>warning</code>, <code>notice</code>,
+    <code>info</code> и <code>debug</code>.
+</dl>
+
+<dl id="fingerprints">
+<dt><code>set fingerprints <i>file</i></code><br>
+<dd>Устанавливает файл, из которого загружаются fingerprints операционных систем.
+    Для использования с <a href="filter.html#osfp">passive OS fingerprinting</a>.
+    По умолчанию используется файл <code>/etc/pf.os</code>.
+</dl>
+
+<dl id="limit">
+<dt><code>set limit <i>option value</i></code><br>
+<dd>Устанавливает различные лимиты для операций pf.
+    The current settings of
+    these values can be viewed with <code>pfctl -s memory</code>.
+    <ul>
+      <li><code>frags</code> - максимальное количество записей в пуле памяти, которые
+          используются для пересборки пакетов (scrub rules).
+	  По умолчанию 5000.
+      <li><code>src-nodes</code> - максимальное количество записей в пуле памяти, которые
+          используются для отслеживания source IP адресов (создаются параметрами
+          <code>sticky-address</code> и <code>source-track</code>).
+          По умолчанию 10000.
+      <li><code>states</code> - максимальное количество записей в пуле памяти, которые
+          используются для состояния записей таблицы (<a href="filter.html">filter</a> правила
+          которые определяют <code>keep state</code>).
+          По умолчанию 10000.
+      <li><code>tables</code> - максимальное количество <a href="tables.html">таблиц</a>,
+          которое может быть создано.
+          По умолчанию 1000.
+      <li><code>table-entries</code> - максимальное количество адресов, которое может быть
+          сохранено во всех таблицах.
+          По умолчанию 200000.
+          Если размер физической памяти системы меньше 100MB, значение по умолчанию 
+	  устанавливается в 100000.
+    </ul>
+</dl>
+
+<dl id="loginterface">
+<dt><code>set loginterface <i>interface</i></code><br>
+<dd>Устанавливает интерфейс, для которого PF будет собирать статистику, такую как
+    количество принятых/переданных байт и количество пропущенных/заблокированных
+    пакетов. Одновременно статистика может собираться только для <i>одного</i> 
+    интерфейса. Помните, что счетчики <code>match</code>, <code>bad-offset</code> и др.,
+    а также счетчики таблицы состояний будут записаны, несмотря на то, установлен
+    <code>loginterface</code> или нет.
+    Для отключения сбора статистики установите параметр в значение <code>none</code>.
+    По умолчанию <code>none</code>.
+</dl>
+
+<dl id="optimization">
+<dt><code>set optimization <i>option</i></code><br>
+<dd>Оптимизирует PF для использования в одном из следующих сетевых окружений:
+    <ul>
+      <li><code>normal</code> - применимо для большинства сетей.
+      <li><code>high-latency</code> - сети с высокими задержками, такие как например
+          спутниковые соединения.
+      <li><code>aggressive</code> - агрессивное удаление соединений из таблицы состояний.
+          Этот режим может серьезно уменьшить потребление памяти в нагруженных файрволах
+	  и увеличивает риск раннего отбрасывания простаивающих (idle) соединений.
+      <li><code>conservative</code> - чрезвычайно консервативная настройка.
+          Она позволяет избежать сброса простаивающих (idle) соединений при большем
+          расходе памяти и немного увеличенной нагрузке на процессор.
+    </ul>
+<dd>По умолчанию <code>normal</code>.
+</dl>
+
+<dl id="ruleset-optimization">
+<dt><code>set ruleset-optimization <i>option</i></code>
+<dd>Управляет операциями оптимизатора правил PF.
+    <ul>
+      <li><code>none</code> - полностью запрещает оптимизатор.
+      <li><code>basic</code> - разрешает следующую оптимиацию правил:
+        <ol>
+          <li>удаление дубликатов правил
+          <li>удаление правил, которые являются подмножеством других правил
+          <li>объединение нескольких правил в таблицу, когда это является полезным
+          <li>пересортировка (изменение последовательности) правил с целью увеличения
+              произвидительности обработки
+        </ol>
+      <li><code>profile</code> - использует загруженный профиль как feedback профиль, 
+	  чтобы приспособить порядок быстрых правил (правил с параметром quick) к текущему
+	  сетевому трафику.
+    </ul>
+<dd>Начиная с OpenBSD 4.2, значением по умолчанию является <code>basic</code>.
+В <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> можно найти более детальное описание.
+</dl>
+
+<dl id="skip">
+<dt><code>set skip on <i>interface</i></code><br>
+<dd>Пропускает <i>всю</i> PF обработку на том или ином <code><i>interface</i></code>.
+    Эта директива может быть полезной для loopback интерфейса, на котором фильтрация,
+    нормализация, управление очередями и другие действия не требуются.
+    Этот параметр может быть использован несколько раз.
+    По умолчанию этот параметр не установлен (не используется).
+</dl>
+
+<dl id="state-policy">
+<dt><code>set state-policy <i>option</i></code><br>
+<dd>Устанавливает поведение PF когда он переходит в состояние keeping state.
+    Это поведение может быть переопределено непосредственно в самом правиле.
+    Смотрите <a href="filter.html#state">keeping state</a>.
+    <ul>
+      <li><code>if-bound</code> - состояния привязываются к интерфейсу, на котором они 
+	  были созданы. 
+          Если трафик совпадает с записью из таблицы состояний, но не совпадает с 
+	  записанным в ней интерфейсом, то совпадение отвергается.
+	  Пакет должен попадать под правило фильтра или он будет удален/отвергнут
+	  (dropped/rejected) полностью.
+      <li><code>floating</code> - состояние может соответствовать пакету на любом 
+          интерфейсе.
+          До тех пор пока пакет соответствует записи состояния и он проходит по тому же 
+	  направлению, по которому он проходил через интерфейс в момент создания
+	  состояния, интерфейс через который он проходит неважен, и он будет передан
+	  далее (pass).
+    </ul>
+<dd>По умолчанию <code>floating</code>.
+</dl>
+
+<dl id="timeout">
+<dt><code>set timeout <i>option value</i></code><br>
+<dd>Устанавливает значения различных таймаутов (в секундах).
+    <ul>
+      <li><code>interval</code> - задержка в секундах перед удалением просроченных 
+          состояний и фрагменов пакета.
+          По умолчанию <code>10</code>.
+      <li><code>frag</code> - время в секундах, до пометки несобранного (unassembled)
+          пакета как просроченного.
+          По умолчанию <code>30</code>.
+      <li><code>src.track</code> - значение в секундах периода хранения записи 
+          <a href="filter.html#stateopts">source tracking</a> в памяти после истечения 
+	  срока последного состояния.
+          По умолчанию <code>0</code>.
+    </ul>
+</dl>
+
+Примеры:
+
+<pre class="cmdbox">
+set timeout interval 10
+set timeout frag 30
+set limit { frags 5000, states 2500 }
+set optimization high-latency
+set block-policy return
+set loginterface dc0
+set fingerprints "/etc/pf.os.test"
+set skip on lo0
+set state-policy if-bound
+</pre>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
