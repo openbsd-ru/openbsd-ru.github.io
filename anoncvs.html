@@ -282,18 +282,17 @@ $ <b>cvs diff -bc -r1.1 -r1.5 locore.s</b>
 <h3 id="rsync">Зеркалим репозиторий</h3>
 
 <p>
-As noted in the list below, some repository mirrors also allow fetching
-the entire repository via rsync.
-Please use the <tt>reposync</tt> wrapper script which checks for updates to
-CVSROOT/ChangeLog and avoids a full directory scan in some cases where no update
-was detected.
-It also handles SSH port-forwarding for mirrors where this is available,
-allowing to connect to an "rsync --daemon" server over an
-authenticated and encrypted channel.
+Как уже упоминалось, некоторые зеркала с репозиториями поддерживают rsync.
+Используйте скрипт <tt>reposync</tt>, который проверяет наличие обновлений
+CVSROOT/ChangeLog и в некоторых случаях избегает полного сканирования
+каталогов, когда обновление не обнаружено.
+Он также поддерживает SSH port-forwarding для зеркал, где это возможно,
+позволяя подключаться к серверу "rsync --daemon" по аутентифицированному
+и зашифрованному каналу.
 
 <p>
-Install <tt>reposync</tt> from packages, create a user and directory to
-hold the repository, and a directory for reposync's own use:
+Установите пакет <tt>reposync</tt>, создайте нового пользователя и каталог,
+куда будет скачен репозиторий, а также каталог, необходимый для самого reposync:
 
 <pre class="cmdbox">
 # <b>pkg_add reposync</b>
@@ -302,23 +301,24 @@ hold the repository, and a directory for reposync's own use:
 </pre>
 
 <p>
-Now the following command might be used to mirror or update the repository.
-If your chosen mirror does not support SSH port-forwarding, either switch to
-a better mirror, or change to "reposync -p".
+После этого следующая команда может использоваться для зеркалирования или
+обновления репозитория. Если выбранное вами зеркало не поддерживает SSH port-forwarding,
+либо переключитесь на другое зеркало, либо используйте «reposync -p».
 
 <pre class="cmdbox">
 # <b>su -m cvs -c "reposync rsync://mirror.example.org/cvs /home/cvs"</b>
 </pre>
 
 <p>
-After mirroring, you can use the local directory as your cvsroot, for example:
+После создания зеркала можно использовать локальный каталог в качестве вашего
+cvsroot, например:
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
 $ <b>cvs -d /home/cvs -q up -Pd</b>
 </pre>
 
-As of November 2019, repository sizes are as follows:
+В ноябре 2019 года размер репозиториев был таким:
 
 <pre class="cmdbox">
 $ <b>du -shc *</b>
@@ -331,9 +331,9 @@ $ <b>du -shc *</b>
 </pre>
 
 <p>
-The overall repository size currently increases at a rate
-of about <b>400</b>MB per annum. The src repository increases by about
-<b>150</b>MB.
+Общий размер репозитория в настоящее время увеличивается примерно
+на <b>400</b> МБ в год. Репозиторий src увеличивается примерно на
+<b>150</b> МБ.
 
 <h3 id="CVSROOT">Доступные анонимные CVS сервера</h3>
 
@@ -343,18 +343,17 @@ of about <b>400</b>MB per annum. The src repository increases by about
 займет слишком много сил в времени.
 
 <p>
-You may want to use
-<a href="https://man.openbsd.org/traceroute">traceroute(8)</a>
-to find out which server is nearest you.
-Problems with a server should be reported to the <b>maintainer</b> of the
-server in question.
+Используйте <a href="https://man.openbsd.org/traceroute">traceroute(8)</a>
+чтобы найти ближайший к вам сервер.
+При возникновении проблем с сервером свяжитесь с его <b>мейнтейнером</b>.
 
 <p>
-If local policy prevents outgoing connections to ssh's default port of 22,
-some servers permit connections on an alternative port (typically 2022).
-These are noted in the list above.
-To use a different port, reconfigure your ssh client by adding a <code>Host</code>
-entry to <code>$HOME/.ssh/config</code>, e.g.:
+В случае, если вы в целях безопасности не хотите или не можете использовать
+исходящие SSH-соединения на 22 порт (используется по умолчанию), некоторые
+CVS-серверы позволяют подключаться на альтернативный порт (обычно 2022).
+Об этом должно быть указано в списке серверов.
+Для использования другого порта настройте ваш ssh-клиент добавив <code>Host</code>
+секцию в <code>$HOME/.ssh/config</code>, например:
 <pre class="cmdbox">
 Host anoncvs.ca.openbsd.org
     Port 2022
@@ -363,29 +362,29 @@ Host anoncvs.ca.openbsd.org
 <h3 id="MIRROR">Настройка anoncvs зеркала</h3>
 
 <p>
-Anoncvs mirrors currently require about 6GB of disk (and it will grow!), and use
-up to 64MB of swap per anoncvs user (assuming the user does a large operation;
-while smaller operations use fewer resources, anoncvs still makes much more of
-an impact than ftp).
-Such anoncvs machines should have excellent network connectivity for the area
-they are expected to serve.
-A <a href="https://www.openbsd.org/anoncvs.shar">document</a> which describes the setup of anoncvs
-servers is available.
+Anoncvs зеркала в настоящее время требуется около 6 ГБ свободного места на
+диске (и со временем будут требовать больше!). И для каждого anoncvs-пользователя
+требуется до 64 МБ swap (при условии, что пользователь выполняет сложные операции;
+в то время как простые операции используют меньше ресурсов, anoncvs по-прежнему
+требует гораздо большее ресурсов чем ftp).
+Такие anoncvs-машины должны иметь быстрое и стабильное сетевое соединение.
+Ознакомьтесь с <a href="https://www.openbsd.org/anoncvs.shar">документом</a>,
+где описывается процесс настройки anoncvs-серверов.
 
 <h3 id="NOTES">Пару слов вместо заключения</h3>
 
 <p>
-After upgrading your source tree, you should read the comments at the top of
-<code>/usr/src/Makefile</code> before attempting a build.
-Also, you should build a new kernel <strong>before</strong> doing a <kbd>make build</kbd>
-if possible.
-In some cases it may be necessary to rebuild and install the <code>config</code>
-utility before you can build the kernel.
-If <kbd>config GENERIC</kbd> fails this is probably the case.
+После обновления дерева с исходниками вы должны прочитать комментарии в верхней
+части <code>/usr/src/Makefile</code> файла, прежде чем пытаться выполнить сборку.
+Кроме того, вы должны собрать новое ядро <strong>прежде</strong> чем делать
+<kbd>make build</kbd>, если это возможно.
+В некоторых случаях может потребоваться пересобрать и установить утилиту
+<code>config</code>, прежде чем вы сможете собрать ядро.
+Например, если <kbd>config GENERIC</kbd> по той или иной причине у вас не
+сработает.
 
 <p>
-It is important to note that upgrading from a release to the current tree
-by rebuilding the sources can be rather difficult due to dependencies
-that are often not obvious.
-Therefore, it is suggested that you first install the latest snapshot before
-attempting a tree build from source.
+Важно отметить, что обновление с release до current путем пересборки/компиляции
+исходников может быть довольно трудным процессом из-за зависимостей, которые часто
+не очевидны. Поэтому рекомендуется сначала установить последний snapshot, прежде
+чем пытаться собрать current из исходников.
