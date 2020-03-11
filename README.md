@@ -12,13 +12,15 @@
 
 
 ## TODO
-Итак, вы решили помочь проекту, но не знаете с чего начать? Выберете
-любой свободный пункт из списка ниже, либо предложите другую помощь используя
-issue.
+Если вы решили помочь проекту, но не знаете с чего начать, выберете
+любой свободный пункт из списка ниже, либо предложите другую помощь, используя
+issue. Очень нужным и важным является самая обычная вычитка переведенного текста.
+Не стесняйтесь сообщить о любой ошибке, опечатке и даже самом незначительном
+подочете в тексте.
 
 Обратите внимание на автоматические проверки
 [устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
-и обновите уже переведенные страницы. Это очень важная задача.
+и обновите уже переведенные страницы. Это очень важно.
 
 | Материал к переводу | Ответственный | Комментарий |
 | --- | --- | --- |
@@ -41,7 +43,6 @@ issue.
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
 | **[6.6](https://www.openbsd.org/66.html)** |  Хотите перевести? | |
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
-| **[Anonymous CVS](https://www.openbsd.org/anoncvs.html)** | [Alexander Naumov](https://github.com/alexander-naumov)  | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/anoncvs.html)|
 | **[FAQ_Upgrade Guide: 6.5 to 6.6](https://www.openbsd.org/faq/upgrade66.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
