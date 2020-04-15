@@ -37,11 +37,11 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 <p>
 В настоящее время работа ведется над платформами  Allwinner A64/H5, Amlogic G12A/B,
 AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 7K/8K, Rockchip RK3328/RK3399,
-Broadcom BCM2837 (Raspberry Pi 3) и Socionext SCA11.
+Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4) и Socionext SCA11.
 
 <p>
 Устновочный образ включает в себя firmware, необходимый для загрузки Pine 64/64+
-и Raspberry Pi.
+и Raspberry Pi 3.
 
 <p>
 Raspberry Pi 3 требует закрытых, но свободно распространяемых (redistributable)
@@ -61,6 +61,12 @@ U-Boot&gt; setenv boot_targets usb0 mmc0 pxe dhcp
 U-Boot&gt; saveenv
 U-Boot&gt; boot
 </pre>
+
+<p>
+Для работы OpenBSD на Raspberry Pi 4 необходим EDK2-base UEFI firmware.
+По умолчанию boot ROM попытается загрузить firmware с SD-карты.
+Как и для Raspberry Pi 3 пока нет драйвера для SD/MMC, но никих дополнительных
+шагов не требуется для загрузки с USB-флешки (USB disk drive).
 
 <p>
 Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
@@ -101,9 +107,10 @@ OpenBSD/arm64 работает на следующем железе:
 		<li>Lenovo ThinkSystem HR330A
 		<li>Lenovo ThinkSystem HR350A
 	</ul>
-	<li>Broadcom BCM2837
+	<li>Broadcom BCM2837/BCM2711
 	<ul>
 		<li>Raspberry Pi 3
+		<li>Raspberry Pi 4
 	</ul>
 	<li>Marvell ARMADA 7K/8K
 	<ul>
@@ -113,6 +120,7 @@ OpenBSD/arm64 работает на следующем железе:
 	<ul>
 		<li>Pine64 ROCK64
 		<li>Pine64 ROCKPro64
+		<li>Pinebook Pro
 		<li>Firefly-RK3399
 		<li>FriendlyElec NanoPC-T4
 		<li>Theobroma Systems RK3399-Q7
@@ -132,6 +140,8 @@ OpenBSD на этих машинах.
 
 <h4>Ethernet</h4>
 <ul>
+	<li><a href="https://man.openbsd.org/arm64/bse.4">bse(4)</a>
+	  для встроенной Broadcom GENET 10/100/Gigabit Ethernet, используемой на Raspberry Pi 4
 	<li><a href="https://man.openbsd.org/arm64/dwge.4">dwge(4)</a>
 	  для встроенной Synopsys DesignWare GMAC 10/100/Gigabit Ethernet на Rockchip RK3399
 	<li><a href="https://man.openbsd.org/arm64/dwxe.4">dwxe(4)</a>
@@ -161,8 +171,8 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
 	  на Allwinner A64/H5 and Rockchip RK3328/RK3399
 	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
-	  на Amlogic G12A/B, Ampere eMAG, Rockchip RK3399, OverDrive 1000
-	  и SynQuacer-E
+	  на Amlogic G12A/B, Ampere eMAG, Rockchip RK3399, Raspberry Pi 4,
+	  OverDrive 1000 и SynQuacer-E
 </ul>
 
 <strong>Нет real time clock:</strong> Многие arm64 устройства не имеют real
@@ -180,6 +190,10 @@ time clock с питанием от батарейки, тем не менее, 
 Здесь вы можете найти
 <a href="https://ftp.openbsd.org/pub/OpenBSD/6.6/arm64/INSTALL.arm64">
 инструкции по установке OpenBSD/arm64</a>.
+
+
+<p>
+Поддержка Pinebook Pro и Raspberry Pi 4 была добавленна после релиза OpenBSD 6.6.
 
 <p>
 Новые снапшоты выкладываются время от времени на
