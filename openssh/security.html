@@ -15,7 +15,7 @@ li {
 </style>
 
 <h2 id=OpenBSD>
-<a href="/">
+<a href="index.html">
 <i>Open</i><b>SSH</b></a>
 Безопасность
 </h2>
@@ -33,14 +33,14 @@ OpenSSH разрабатывается по тем же принципам и т
 
 <ul>
 <li><p><b>3 октября 2017</b><br>
-    All version of OpenSSH prior to 7.6 supporting read-only mode in sftp-server
-    (introduced in 5.5).
-    Incorrect open(2) flags in sftp-server permitted creation
-    of zero-length files when the server was running in read-only mode (invoked
-    using the -R command-line flag).
+    Все версии OpenSSH до 7.6 поддерживают режим только для чтения в sftp-сервере
+    (был добавлен в версии 5.5).
+    Неправильные флаги для open(2) в sftp-сервере позволяли создавать файлы нулевой
+    длины, когда сервер работал в режиме только для чтения
+    (вызывается при помощи парамера -R в командной строке).
     <br>
-    This bug is corrected in OpenSSH 7.6.
-    For more information, please refer to the
+    Эта ошибка была исправленна в OpenSSH 7.6.
+    Больше об этой проблеме можно прочитать в
     <a href="https://www.openssh.com/txt/release-7.6">release notes</a>.
 
 <li><p><b>9 марта 2016</b><br>
