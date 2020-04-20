@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<title>OpenBSD PF: Logging</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/logging.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - создание и анализ log-файлов (протоколирование)
+<small>
+<a href="index.html">[FAQ PF - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#intro"   >Введение</a>
+  <li><a href="#log"     >Протоколирование пакетов</a>
+  <li><a href="#logfile" >Просмотр log-файла</a>
+  <li><a href="#filter"  >Фильтры для анализа log-файла</a>
+<!--
+  <li><a href="#syslog"  >Packet logging through syslog</a>
+-->
+</ul>
+
+<hr>
+
+<h2 id="intro">Введение</h2>
+
+Когда пакет обрабатывается PF, копия его заголовка пересылается на интерфейс
+<a href="https://man.openbsd.org/pflog">pflog(4)</a>, к которому добавляется
+дополнительная информация о интерфейсе, через который прошел пакет, действие,
+которое пременил PF к этому пакету (pass или block), и др.
+При помощи pflog(4) user-space программы могут получать logging data из ядра.
+Если PF включен (enabled) во время загрузки системы, запускается демон
+<a href="https://man.openbsd.org/pflogd">pflogd(8)</a>.
+По умолчанию pflogd(8) прослушивает интерфейс <code>pflog0</code> и записывает
+все протоколируемые данные в файл <code>/var/log/pflog</code>.
+
+
+<h2 id="log">Протоколирование пакетов</h2>
+
+Для того чтобы сохранять информацию о пакетах, обработанных PF, используйте
+параметр (keyword) <code>log</code>.
+Параметр <code>log</code> говорит о том, что все пакеты, которые попадают под PF
+правило его содержащее, должны быть занесены в протокол (log-файл).
+В том случае, когда правило <a href="filter.html#state">создает состояние</a>,
+в log-файл будет занесен только первый пакет (тот, который это состояние создал).
+
+<p>
+Опции, которые могут быть использованы с парамертом (keyword) <code>log</code>:
+
+<dl>
+<dt><code>all</code>
+<dd>Означает, что все обработанные пакеты, а не только инициализирующий пакет,
+    будут занесены в log-файл.
+    Полезно для правил, которые создают состояния.
+
+<dt><code>to <i>pflogN</i></code>
+<dd>Означает, что все обработанные пакеты будут занесены в log-файл при помощи
+    интерфейса pflog(4).
+    Например, при использовании 
+    <a href="https://man.openbsd.org/spamlogd">spamlogd(8)</a>, весь SMTP трафик
+    будет занесен в log-файл при помощи специального для этого интерфейса pflog(4).
+    Демону spamlogd(8) можно затем указать, чтобы он прослушивал этот интерфейс.
+    Это позволит оставить основной файл протокола PF свободным от трафика SMTP, 
+    который в этом случае не нуждается в протоколировании.
+    Для создания интерфейса pflog(4) используйте 
+    <a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
+    По умолчанию интерфейс <code>pflog0</code> создается автоматически.
+
+<dt><code>user</code>
+<dd>Является UNIX user-id и group-id, который будет владельцем сокета
+    источника/приемника пакета (этот сокет всегда локальный) и будет
+    запротоколирован вместе с остальной стандартной информацией.
+</dl>
+
+Параметры указываются в круглых скобках после <tt>log</tt>;
+их может быть несколько - используйте пробел или запятую в качестве разделителя.
+
+<pre class="cmdbox">
+pass in log (all, to pflog1) on egress inet proto tcp to egress port 22
+</pre>
+
+<h2 id="logfile">Просмотр log-файла</h2>
+
+Logfile, создаваемый pflogd, является бинарным файлом, поэтому не может быть
+прочитан при помощи обычного текстового редактора. Для его просмотра можно
+использовать <a href="https://man.openbsd.org/tcpdump">tcpdump(8)</a>.
+
+<p>
+Прочитать его содержимое можно вот так:
+
+<pre class="cmdbox">
+# <b>tcpdump -n -e -ttt -r /var/log/pflog</b>
+</pre>
+
+Учтите, что при просмотре pflog файла при помощи tcpdump(8) вы <i>не увидете</i>
+информацию в реальном времени. Просмотр протоколируемых пакетов в реальном
+времени можно увидеть при помощи <code>pflog0</code>интерфейса:
+
+<pre class="cmdbox">
+# <b>tcpdump -n -e -ttt -i pflog0</b>
+</pre>
+
+<b>ПРИМЕЧАНИЕ: </b>
+При чтении/анализе протокола, нужно быть особо осторожным, а именно - учитывать
+подробное декодирование протоколов tcpdump (активируется опцией командной строки
+<code>-v</code>).
+Декодер протокола tcpdump не имеет такой уж хорошей истории безопасности. По крайней
+мере в теории, возможна отложенная атака с использованием частичной загрузки пакета
+устройством протоколирования (logging device).
+Поэтому, рекомендованным методом исследования файла протокола является
+предварительный перенос log-файла с файрвола на другую машину.
+
+<p>
+Также нужно быть осторожным при предоставлении доступа к log-файлу.
+По умолчанию pflogd будет записывать в log-файл первые 160 байт пакета.
+Доступ к log-файлу может обозначать частичный доступ к содержимому пакета.
+
+
+<h2 id="filter">Фильтры для анализа log-файла</h2>
+
+Так как pflogd записывает данные в бинарном tcpdump формате, вы можете
+использовать все возможности tcpdump при просмотре протокола. Например, ниже
+представлена команда для просмотра пакетов, которые прошли через определенный
+порт:
+
+<pre class="cmdbox">
+# <b>tcpdump -n -e -ttt -r /var/log/pflog port 80</b>
+</pre>
+
+Также можно отфильтровать пакеты комбинацией указанных адресов и портов:
+
+<pre class="cmdbox">
+# <b>tcpdump -n -e -ttt -r /var/log/pflog port 80 and host 192.168.1.3</b>
+</pre>
+
+Такой же способ применим при чтении информации из интерфейса <code>pflog0</code>:
+
+<pre class="cmdbox">
+# <b>tcpdump -n -e -ttt -i pflog0 host 192.168.4.2</b>
+</pre>
+
+Обратите внимание, что это не влияет на то, какие пакеты регистрируются в
+log-файле pflogd; вышеупомянутые команды лишь показывают пакеты, которые были
+занесены в log-файл.
+
+<p>
+В дополнение к имеющимся стандартным правилам фильтрации
+<a href="https://man.openbsd.org/tcpdump.8">tcpdump(8)</a>, tcpdump имеет
+некоторые дополнительные возможности специально для чтения вывода pflogd:
+
+<ul>
+  <li><code>ip</code> - адреса IPv4.
+  <li><code>ip6</code> - адреса IPv6.
+  <li><code>on <i>int</i></code> - пакет прошел через интерфейс <i>int</i>.
+  <li><code>ifname <i>int</i></code> - то же самое, что и <code>on <i>int</i></code>.
+  <li><code>ruleset <i>name</i></code> - <a href="anchors.html">ruleset/anchor</a>, которому соответствовал пакет.
+  <li><code>rulenum <i>num</i></code> - номер <i>num</i> правила, которому соответствовал пакет.
+  <li><code>action <i>act</i></code> - действие, примененное к пакету.
+      Возможные действия - <code>pass</code> и <code>block</code>.
+  <li><code>reason <i>res</i></code> -  причина, по которой было применено то или иное <code>action</code>.
+      Возможные причины - <code>match</code>, <code>bad-offset</code>,
+      <code>fragment</code>, <code>short</code>, <code>normalize</code>,
+      <code>memory</code>, <code>bad-timestamp</code>, <code>congestion</code>,
+      <code>ip-option</code>, <code>proto-cksum</code>,
+      <code>state-mismatch</code>, <code>state-insert</code>,
+      <code>state-limit</code>, <code>src-limit</code> и <code>synproxy</code>.
+  <li><code>inbound</code> - пакет был входящим.
+  <li><code>outbound</code> - пакет был исходящим.
+</ul>
+
+Пример:
+
+<pre class="cmdbox">
+# <b>tcpdump -n -e -ttt -i pflog0 inbound and action block and on wi0</b>
+</pre>
+
+Команда покажет log в реальном времени только для входящих пакетов, которые
+были блокированы на интерфейсе wi0.
+
+<!-- XXX: needs to be rewritten
+<h2 id="syslog">Packet logging through syslog</h2>
+
+In many situations it is desirable to have the firewall logs available
+in ASCII format and/or to send them to a remote logging server.
+All this can be accomplished with a small shell script, some minor changes
+of the OpenBSD configuration files, and
+<a href="https://man.openbsd.org/syslogd">syslogd(8)</a>, the logging daemon.
+syslogd logs in ASCII and is also able to log to a remote logging server.
+
+<p>
+Create the following script as <code>/etc/pflogrotate</code>.
+
+<pre class="cmdbox">
+#!/bin/sh
+PFLOG=/var/log/pflog
+FILE=/var/log/pflog5min.$(date "+%Y%m%d%H%M")
+
+pkill -ALRM -u root -U root -t - -x pflogd
+if [ -r $PFLOG ] && [ $(stat -f %z $PFLOG) -gt 24 ]; then
+   mv $PFLOG $FILE
+   pkill -HUP -u root -U root -t - -x pflogd
+   tcpdump -n -e -s 160 -ttt -r $FILE | logger -t pf -p local0.info
+   rm $FILE
+fi
+</pre>
+
+Edit root's cron table:
+
+<pre class="cmdbox">
+# <b>crontab -u root -e</b>
+</pre>
+
+Add the following two lines:
+
+<pre class="cmdbox">
+# rotate pf log file every 5 minutes
+0-59/5 *       *       *       *       /bin/sh /etc/pflogrotate
+</pre>
+
+Add the following line to <code>/etc/syslog.conf</code>:
+
+<pre class="cmdbox">
+local0.info     /var/log/pflog.txt
+</pre>
+
+If you also want to log to a remote log server, add the line:
+
+<pre class="cmdbox">
+local0.info     @syslogger
+</pre>
+
+Make sure host <i>syslogger</i> has been defined in the
+<a href="https://man.openbsd.org/hosts">hosts(5)</a> file.
+
+<p>
+Create the file <code>/var/log/pflog.txt</code> to allow syslog to log to
+that file, and give it the same permissions as the pflog file.
+
+<pre class="cmdbox">
+# <b>touch /var/log/pflog.txt</b>
+# <b>chmod 600 /var/log/pflog.txt</b>
+</pre>
+
+Make syslogd notice the changes by restarting it:
+
+<pre class="cmdbox">
+# <b>kill -HUP $(cat /var/run/syslog.pid)</b>
+</pre>
+
+All logged packets are now sent to <code>/var/log/pflog.txt</code>.
+If the second line is added, they are sent to the remote logging host
+<i>syslogger</i> as well.
+
+<p>
+The script <code>/etc/pflogrotate</code> now processes and then deletes
+<code>/var/log/pflog</code> so rotation of <code>pflog</code> by
+<a href="https://man.openbsd.org/newsyslog">newsyslog(8)</a> is no longer
+necessary and should be disabled.
+However, <code>/var/log/pflog.txt</code> replaces <code>/var/log/pflog</code>
+and rotation of it should be activated.
+Change <code>/etc/newsyslog.conf</code> as follows:
+
+<pre class="cmdbox">
+#/var/log/pflog       600    3    250    *    ZB "pkill -HUP -u root -U root -t - -x pflogd"
+/var/log/pflog.txt    600    7    *      24
+</pre>
+
+PF will now log in ASCII to <code>/var/log/pflog.txt</code>.
+If so configured in <code>/etc/syslog.conf</code>, it will also log to a remote
+server.
+The logging is not immediate but it can take up to about 5-6 minutes (the cron
+job interval) before the logged packets appear in the file.
+-->
