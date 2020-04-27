@@ -62,67 +62,66 @@ OpenBSD, используемая для преобразования сетев
 
 <h2 id="works">Принцип работы NAT</h2>
 
-When a client on the internal network contacts a machine on the internet,
-it sends out IP packets destined for that machine.
-These packets contain all the addressing information necessary to get them
-to their destination.
-NAT is concerned with these pieces of information:
+Когда клиентская машина во внутренней сети связывается с машиной в
+интернете, она отправляет, предназначенные для этой машины, IP-пакеты.
+Эти пакеты содержат информацию, необходимую для того, чтобы удаленная
+машина получила их.
+NAT связывает некоторые части этой информаци:
 
 <ul>
-  <li>Source IP address (for example, 192.168.1.35)
-  <li>Source TCP or UDP port (for example, 2132)
+  <li>IP-адрес клиентской машины (например, 192.168.1.35)
+  <li>TCP- или UDP-порт, используемый клиентской машиной (например, 2132)
 </ul>
 
-When the packets pass through the NAT gateway, they will be modified so
-that they appear to be coming from the NAT gateway itself.
-The NAT gateway will record the changes it makes in its state table so that
-it can a) reverse the changes on return packets and b) ensure that return
-packets are passed through the firewall and are not blocked.
-For example, the following changes might be made:
+Когда пакеты проходят через шлюз NAT (NAT gateway), они изменяются
+таким образом, как будто их отправляет сам шлюз.
+Он записывает изменения, которые вносит, в свою таблицу состояний,
+чтобы в последствии мог а) отменить изменения в возвращаемых пакетах
+и б) обеспечить, чтобы возвратные пакеты проходили через firewall
+и не блокировались.
+Например, могут быть сделаны следующие изменения:
 
 <ul>
-  <li>Source IP: replaced with the external address of the gateway
-      (for example, 198.51.100.1)
-  <li>Source port: replaced with a randomly chosen, unused port on the gateway
-      (for example, 53136)
+  <li>IP-адрес клиента: перезаписывается внешним адресом шлюза
+      (например, 198.51.100.1)
+  <li>Порт клиента: перезаписывается случайно выбранным, неиспользуемым
+      шлюзом портом (например, 53136)
 </ul>
 
-Neither the internal machine nor the Internet host is aware of these
-translation steps.
-To the internal machine, the NAT system is simply an internet gateway.
-To the internet host, the packets appear to come directly from the NAT system;
-it is completely unaware that the internal workstation even exists.
+Ни внутренняя клиентская машина, ни интернет-хост не знают об этих
+изменениях. Для клиента NAT - это просто интернет-шлюз.
+Для интернет-хоста пакеты, кажется, приходят непосредственно от самого NAT;
+совершенно не известно, что внутренняя клиентская машина вообще существует.
 
 <p>
-When the internet host replies to the internal machine's packets, they
-will be addressed to the NAT gateway's external IP (198.51.100.1) at the
-translation port (53136).
-The NAT gateway will then search the state table to determine if the reply
-packets match an already established connection.
-A unique match will be found based on the IP/port combination which tells PF
-the packets belong to a connection initiated by the internal machine
-192.168.1.35.
-PF will then make the opposite changes it made to the outgoing packets and
-forward the reply packets on to the internal machine.
+Когда интернет-хост отвечает на пакеты клиентской внутренней машины, они
+будут адресованы внешнему IP-адресу NAT-шлюза (198.51.100.1) через порт
+трансляции (53136). Затем NAT шлюз выполнит поиск таблицы состояний, чтобы
+определить, соответствуют ли полученные пакеты уже установленному соединению.
+Уникальное совпадение будет найдено на основе комбинации IP/порта, которая
+сообщает PF, что пакеты принадлежат соединению, инициированному внутренней
+(клиентской) машиной 192.168.1.35.
+Затем PF внесет противоположные изменения в исходящие пакеты и перенаправит
+ответные пакеты клиентской машине во внутренней сети.
 
 <p>
-Translation of ICMP packets happens in a similar fashion but without the
-source port modification.
+Трансляция ICMP-пакетов происходит аналогичным образом, но естественно без
+изменения порта клиента.
 
 <h2 id="ipfwd">IP перенаправление</h2>
 
-Since NAT is almost always used on routers and network gateways, it will
-probably be necessary to enable IP forwarding so that packets can travel
-between network interfaces on the OpenBSD machine.
-IP forwarding is enabled using the
-<a href="https://man.openbsd.org/sysctl.2">sysctl(2)</a> mechanism:
+Поскольку NAT почти всегда используется на маршрутизаторах (routers) и
+сетевых шлюзах (network gateways), возможно, потребуется активировать/разрешить
+перенаправление IP-пакетов (IP forwarding), чтобы пакеты могли быть переданы
+между сетевыми интерфейсами на OpenBSD машине. IP forwarding включается при
+помощи <a href="https://man.openbsd.org/sysctl.2">sysctl(2)</a>:
 
 <pre class="cmdbox">
 # <b>sysctl net.inet.ip.forwarding=1</b>
 # <b>echo  'net.inet.ip.forwarding=1' >> /etc/sysctl.conf</b>
 </pre>
 
-Or, for IPv6:
+Или, если используется IPv6:
 
 <pre class="cmdbox">
 # <b>sysctl net.inet6.ip6.forwarding=1</b>
