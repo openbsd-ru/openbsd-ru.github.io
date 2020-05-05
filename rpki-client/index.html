@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang=ru>
+    <meta charset=utf-8>
+    <title>rpki-client</title>
+    <meta name="description" content="the main rpki-Client page">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="https://www.rpki-client.org/">
+    <link rel="stylesheet" href="openbsd.css">
+
+<table id="project-main" class="not-openbsd">
+  <tr class="align-top">
+    <td>
+
+      <h1>Проект rpki-client</h1>
+      <ul>
+        <li><a href="goals.html">Цели проекта</a>
+        <li><a href="features.html">Возможности</a>
+        <li><a href="manual.html">Руководства</a>
+      </ul>
+      <h1>Для OpenBSD</h1>
+      <ul>
+        <li><a href="../anoncvs.html">AnonCVS</a>
+        <li><a href="https://cvsweb.openbsd.org/src/usr.sbin/rpki-client/">CVSWeb</a>
+      </ul>
+      <h1>Для других ОС</h1>
+      <ul>
+        <li><a href="portable.html">Релизы</a>
+        <li><a href="https://github.com/rpki-client/rpki-client-portable">Development</a>
+        <li><a href="https://github.com/rpki-client/rpki-client-portable/issues">Bug Reports</a>
+      </ul>
+
+    <td>
+      <h1 class="header">
+        <img src="images/rpki-client.png" height=210 width=599 alt="[rpki-client]">
+      </h1>
+
+      <p id="callout">
+        <a href="https://ftp.openbsd.org/pub/OpenBSD/rpki-client/rpki-client-6.6p2.txt">rpki-client 6.6p2</a>
+        вышла 19 апреля 2020 года.
+
+<p>
+<a href="https://man.openbsd.org/rpki-client">rpki-client</a>
+это <strong>СВОБОДНАЯ</strong> и простая в использовании реализация
+Resource Public Key Infrastructure (RPKI) для Relying Parties (RP),
+которая способствует проверке маршрутов, полученных при помощи BGP.
+Программа опрашивает систему репозитория RPKI и выводит проверенные
+полезные нагрузки ROA в формате конфигурации, понятной
+<a href="../openbgpd/index.html">OpenBGPD</a> или
+<a href="https://bird.network.cz/">BIRD</a>, а также в виде CSV- или
+JSON-объектов для использования другими стеками маршрутизации.
+
+<p>
+В <a href="https://tools.ietf.org/html/rfc6811">RFC 6811</a> содержится
+описание того, как BGP Prefix Origin Validation защищает инфраструктуру
+маршрутизации.
+
+<p>
+<a href="https://man.openbsd.org/rpki-client">rpki-client</a>
+изначально разрабатывался Кристапсом Дзонсоном (Kristaps Dzonsons),
+Клаудио Джекером (Claudio Jeker), Джобом Снидерсом (Job Snijders) и
+Себастьяном Бенуа (Sebastian Benoit) в рамках
+<a href="../index.html">проекта OpenBSD</a> и выпускается как базовый
+компонент OpenBSD каждые шесть месяцев.
+
+<p>
+<a href="https://github.com/rpki-client/rpki-client-portable">
+Портируемая версия</a>, поддерживаемая Себастьяном Бенуа (Sebastian Benoit)
+и Джобом Снайдерсом (Job Snijders), доступна в виде тарбола, периодически
+загружаемого на зеркала. Приветствуются вклады как в само ядро rpki-client,
+так и в код портированной версии (portable build framework).
+
+<p>
+rpki-client свободно распространяется в соответствии с лицензией ISC.
+
+<tr class="align-bottom">
+<td>
+<td>
+<hr>
+<small>
+<em>This site is a translated version of <a href="https://www.rpki-client.org/">rpki-client.org</a>.
+Translation project is organized by <a href="https://github.com/alexander-naumov">Alexander Naumov</a>
+and is going with the support of
+<a href="https://github.com/openbsd-ru/openbsd-ru.github.io/graphs/contributors">
+volunteers</a>.</em>
+</small>
+</table>
