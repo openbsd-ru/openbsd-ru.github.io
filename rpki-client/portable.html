@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang=ru>
+<meta charset=utf-8>
+
+<title>rpki-client: Портированные версии</title>
+<meta name="description" content="rpki-client Portable Release">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="http://www.rpki-client.org/portable.html">
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<b>rpki-client</b></a>
+Портированные версии
+</h2>
+<hr>
+
+<p>
+Портированная версия rpki-client 6.6p2 вышла 19 апреля 2020 года.
+
+<p>
+Портированная версия rpki-client работает и на нескольких других UNIX системах,
+благодаря добавленния необходимого уровня совместимости и поддержке autotool. 
+При этом был использован опыт, полученный при портировнии
+<a href="../openssh/index.html">OpenSSH</a> и
+<a href="../libressl/index.html">LibreSSL</a>.
+
+<p>
+Чем больше таких интерфейсов изначально реализовано в ОС, тем выше вероятность,
+что портированная версия будет работать.
+Если ваша ОС не поддерживается, попросите вашего поставщика ОС поддерживать эти
+безопасные и простые API.
+
+<p>
+На момент написания портированная версия rpki-client собиралась и работала на
+следующих системах: 
+
+<ul>
+	<li>OpenBSD
+	<li>Linux (Debian 9, Debian 10)
+	<li>...
+</ul>
+
+<p>
+rpki-client может работать и на других ОС, более новых и старых, но
+вышеперечисленные регулярно тестируются разработчиками. Отчеты (успех или нет)
+приветствуются. Вы можете сообщить об ошибках или отправлять pull request в
+<a href="https://github.com/rpki-client/rpki-client-portable">проект на GitHub</a>.
+
+<hr>
+
+<h3 id="mirrors">Список зекрал</h3>
+<ul>
+<li><a href="https://www.rpki-client.org/portable.html#http">HTTP зеркала</a>
+<li><a href="https://www.rpki-client.org/portable.html#ftp">FTP зеркала</a>
+<li><a href="https://www.rpki-client.org/portable.html#rsync">RSYNC зеркала</a>
+</ul>
