@@ -140,9 +140,9 @@ pass in log on $ext_if proto esp from 198.51.100.1 to 192.0.2.1 tag IKED
 
 <pre class="cmdbox">
 ikev2 'server1_rsa' passive esp \
-      from 10.0.1.0/24 to 10.0.2.0/24 \
-      local 192.0.2.1 peer 198.51.100.1 \
-      srcid server1.domain
+        from 10.0.1.0/24 to 10.0.2.0/24 \
+        local 192.0.2.1 peer 198.51.100.1 \
+        srcid server1.domain
 </pre>
 
 И простой конфиг для server2, выступающего в роли инициатора:
@@ -241,11 +241,11 @@ esp tunnel from 198.51.100.1 to 192.0.2.1 spi 0xb1fc90b8 auth hmac-sha2-256 enc 
 
 <pre class="cmdbox">
 ikev2 'server1_rsa' passive esp \
-      from 10.0.1.0/24 to 10.0.2.0/24 \
-      from 10.0.1.0/24 to 198.51.100.1 \
-      from 192.0.2.1 to 10.0.2.0/24 \
-      local 192.0.2.1 peer 198.51.100.1 \
-      srcid server1.domain
+        from 10.0.1.0/24 to 10.0.2.0/24 \
+        from 10.0.1.0/24 to 198.51.100.1 \
+        from 192.0.2.1 to 10.0.2.0/24 \
+        local 192.0.2.1 peer 198.51.100.1 \
+        srcid server1.domain
 </pre>
 
 И конфигурация инициатора будет:
