@@ -160,6 +160,7 @@ boot> <b>boot hd1d:/bsd.rd</b>
 </ul>
 
 <h2 id="Download">Загрузка OpenBSD из Интернет</h2>
+<!-- XXXrelease *.fs is now \*.img -->
 
 Следующие установочные образы доступны для скачивания:
 
@@ -531,7 +532,6 @@ $ <b>(dmesg; sysctl hw.sensors) > ~/dmesg.txt</b>
 </ul>
 
 <h2 id="Multibooting">Мультизагрузка</h2>
-<!-- XXXrelease - fix GRUB vs GPT; test and update Windows section -->
 
 Мультизагрузка подразумевает использование на одном компьютере нескольких ОС,
 а также средства выбора нужной из них при загрузке.
@@ -551,6 +551,7 @@ $ <b>(dmesg; sysctl hw.sensors) > ~/dmesg.txt</b>
 
 
 <h3>Загрузчики (Boot Loaders)</h3>
+<!-- XXXrelease - fix GRUB for GPT or delete that part of the section -->
 
 На Mac и на других системах с UEFI
 <a href="http://www.rodsbooks.com/refind/">rEFInd</a>
