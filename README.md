@@ -41,6 +41,7 @@ issue. Очень нужным и важным является самая об�
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
 | **[amd64](https://www.openbsd.org/amd64.html)** |  Хотите перевести? | |
+| **[powerpc64](https://www.openbsd.org/powerpc64.html)** |  Хотите перевести? | |
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
 | **[6.7](https://www.openbsd.org/67.html)** |  Хотите перевести? | |
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
