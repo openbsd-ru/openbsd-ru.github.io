@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<title>OpenBSD PF: резервирование Firewall'а при помощи CARP и pfsync</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/carp.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - резервирование Firewall'а при помощи CARP и pfsync
+<small>
+<a href="index.html">[FAQ - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#carpintro"         >Введение в CARP</a>
+  <li><a href="#carpop"            >Использование CARP</a>
+  <li><a href="#carpconfig"        >Настройка CARP</a>
+  <li><a href="#carpex"            >Пример использования CARP</a>
+  <li><a href="#pfsyncintro"       >Введение в pfsync</a>
+  <li><a href="#pfsyncop"          >pfsync Operation</a>
+  <li><a href="#pfsyncconfig"      >Настройка pfsync</a>
+  <li><a href="#pfsyncex"          >pfsync пример</a>
+  <li><a href="#failover"          >Совместное использование CARP и pfsync
+                                    с целью откзаустойчивости</a>
+  <li><a href="#ops"               >Operational Issues</a>
+        <ul>
+        <li><a href="#bootconfig"  >Конфигурирование CARP и pfsync в процессе загрузки</a>
+        <li><a href="#forcefail"   >Forcing Failover of the Master</a>
+        <li><a href="#RulesetTips" >Советы по созданию pf правил</a>
+        </ul>
+  <li><a href="#ref"               >Другие источники информации</a>
+</ul>
+
+<hr>
+
+<h2 id="carpintro">Введение в CARP</h2>
+
+CARP (Common Address Redundancy Protocol) - протокол дупликации общего адреса.
+Его основная цель - позволить нескольким хостам в одном сегменте сети совместно
+использовать одинаковый IP-адрес. CARP является безопасной, свободной альтернативой
+<a href="https://www.ietf.org/rfc/rfc3768.txt">Virtual Router Redundancy Protocol</a>
+(VRRP) и
+<a href="https://www.ietf.org/rfc/rfc2281.txt">Hot Standby Router Protocol</a>
+(HSRP).
+
+<p>
+CARP позволяет группе хостов в одном сегменте сети совместно использовать
+один и тот же IP-адрес. Эта группа хостов называется «группой резервирования».
+Ей назначается IP-адрес, который является общим для всех хостов в группе.
+Внутри группы один из хостов обозначен как «главный», а остальные как его
+«резервные копии». Главный хост - тот, который в настоящее время «держит»
+общий IP; он отвечает на любой трафик или запросы ARP, направленные на
+этот IP-адрес. Каждый хост может принадлежать более чем одной группе
+резервирования одновременно.
+
+<p>
+Одним из распространенных применений CARP является создание группы
+хостов резервирования для firewall'ов. Виртуальный IP-адрес, назначенный
+группе резервирования, настраивается на клиентских компьютерах в
+качестве шлюза по умолчанию. В случае сбоя главного хоста firewall'а
+или перехода его в автономный режим, IP-адрес будет использоваться
+одним из резервных хостов. При этом это никак не отразится на работе
+самого firewall'а как сервиса.
+
+<p>
+CARP поддерживает IPv4 и IPv6.
+
+<h2 id="carpop">Использование CARP</h2>
+
+Главный (master) хост в группе регулярно отправляет сообщения в локальную
+сеть, чтобы резервные хосты знали, что он все еще жив. Если резервные хосты
+не слышат этих сообщений в течение установленного периода времени, то один
+из них берет на себя обязанности главного (это делает тот хост, у которого
+установленно наименьшее значение <code>advbase</code> и <code>advskew</code>).
+
+<p>
+Возможно наличие нескольких CARP-групп в одном сегменте сети.
+CARP-сообщения содержат идентификатор виртуального хоста, который позволяет
+членам группы определить, к какой группе резервирования принадлежит эти
+сообщения.
+
+<p>
+Чтобы злоумышленник в сегменте сети не мог подделать эти CARP-сообщения,
+каждая группа может быть настроена с паролем. Каждый CARP-пакет, отправленный
+группе, защищен при помощи SHA1 HMAC.
+
+<p>
+Поскольку CARP является отдельным независимым протоколом, для него должно
+быть указано pf pass-правило:
+
+<pre class="cmdbox">
+pass out on $carp_dev proto carp
+</pre>
+
+<code>$carp_dev</code> это имя физического интерфейса, который будет
+использоваться CARP'ом для связи с остальными хостами из резервной группы.
+
+<h2 id="carpconfig">Настройка CARP</h2>
+
+Each redundancy group is represented by a
+<a href="https://man.openbsd.org/carp">carp(4)</a> virtual network interface.
+As such, CARP is configured using
+<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
+
+<pre class="cmdbox">
+# <b>ifconfig <i>carpN</i> create</b>
+# <b>ifconfig <i>carpN</i> vhid <i>vhid</i> [pass <i>password</i>] [carpdev <i>carpdev</i>] \
+   [advbase <i>advbase</i>] [advskew <i>advskew</i>] [state <i>state</i>] [group|-group <i>group</i>] \
+   <i>ipaddress</i> netmask <i>mask</i></b>
+</pre>
+<!-- XXX someone who understands carpnodes should add a piece -->
+
+<dl>
+<dt><code><i>carpN</i></code>
+<dd>The name of the carp(4) virtual interface where <i>N</i> is an
+    integer that represents the interface's number (e.g. carp10).
+
+<dt><code><i>vhid</i></code>
+<dd>The Virtual Host ID.
+    This is a unique number that is used to identify the redundancy group to
+    other nodes in the group, and to distinguish between groups on the same
+    network.
+    Acceptable values are from 1 to 255.
+    This must be the same on all members of the group.
+
+<dt><code><i>password</i></code>
+<dd>The authentication password to use when talking to other CARP-enabled
+    hosts in this redundancy group.
+    This must be the same on all members of the group.
+
+<dt><code><i>carpdev</i></code>
+<dd>This optional parameter specifies the physical network interface that
+    belongs to this redundancy group.
+    By default, CARP will try to determine which interface to use by
+    looking for a physical interface that is in the same subnet as the
+    <i>ipaddress</i> and <i>mask</i> combination given to the carp(4)
+    interface.
+
+<dt><code><i>advbase</i></code>
+<dd>This optional parameter specifies how often, in seconds, to advertise
+    that we're a member of the redundancy group.
+    The default is 1 second.
+    Acceptable values are from 1 to 255.
+
+<dt><code><i>advskew</i></code>
+<dd>This optional parameter specifies how much to skew the
+    <code><i>advbase</i></code> when sending CARP advertisements.
+    By manipulating <code><i>advskew</i></code>, the master CARP host can be
+    chosen.
+    The higher the number, the <i>less</i> preferred the host will be when
+    choosing a master.
+    The default is 0.
+    Acceptable values are from 0 to 254.
+
+<dt><code><i>state</i></code>
+<dd>Force a carp(4) interface into a certain state.
+    Valid states are <code>init</code>, <code>backup</code>,
+    and <code>master</code>.
+
+<dt><code><i>group</i>, <i>-group</i></code>
+<dd>Add or remove a carp(4) interface to a certain interface group.
+    By default, all carp(4) interfaces are added to the <code>carp</code> group.
+    Each group has a <code>carpdemote</code> counter affecting all carp(4)
+    interfaces belonging to that group.
+    As described below, it can be useful to group certain interfaces together
+    for failover purposes.
+
+<dt><code><i>ipaddress</i></code>
+<dd>This is the shared IP address assigned to the redundancy group.
+    This address does not have to be in the same subnet as the IP address on
+    the physical interface (if present).
+    This address needs to be the same on all hosts in the group, however.
+
+<dt><code><i>mask</i></code>
+<dd>The subnet mask of the shared IP.
+</dl>
+
+<p>
+Further CARP behavior can be controlled via
+<a href="https://man.openbsd.org/sysctl">sysctl(8)</a>.
+
+<dl>
+<dt><code>net.inet.carp.allow</code>
+<dd>Accept incoming CARP packets or not.
+    Default is 1 (yes).
+
+<dt><code>net.inet.carp.preempt</code>
+<dd>Allow hosts within a redundancy group that have a better
+    <code>advbase</code> and <code>advskew</code> to preempt the master.
+    In addition, this option also enables failing over a group of interfaces
+    together in the event that one interface goes down.
+    If one physical CARP-enabled interface goes down, CARP will increase
+    the demotion counter, <code>carpdemote</code>, by 1 on interface groups that
+    the carp(4) interface is a member of, in effect causing all group
+    members to fail-over together.
+    <code>net.inet.carp.preempt</code> is 0 (disabled) by default.
+
+<dt><code>net.inet.carp.log</code>
+<dd>Log state changes, bad packets and other errors.
+    This value may be between 0 and 7, corresponding with syslog(3) priorities.
+    The default is 2 (state changes only).
+</dl>
+
+<h2 id="carpex">Пример использования CARP</h2>
+
+Пример конфигурации CARP может выглядеть следующим образом:
+
+<pre class="cmdbox">
+# <b>sysctl net.inet.carp.allow=1</b>
+# <b>echo 'net.inet.carp.allow=1' >> /etc/sysctl.conf</b>
+# <b>ifconfig carp1 create</b>
+# <b>ifconfig carp1 vhid 1 pass mekmitasdigoat carpdev em0 advskew 100 10.0.0.1 netmask 255.255.255.0</b>
+</pre>
+
+Эти команды создают конфигурацию, а именно:
+
+<ul>
+  <li>Позволяют получать CARP пакеты (это настройка подразумевается по умолчанию).
+  <li>Создают carp(4) интерфейс <code>carp1</code>.
+  <li>Настраивают <code>carp1</code> для виртуального хоста #1, включают пароль,
+      устанавливают <code>em0</code> в качестве интерфейса, принадлежащего группе,
+      и делают этот хост резервным, т.к. <code>advskew</code> имеет значение
+      <code>100</code> (при условии, конечно, что мастер настроен со значением
+      <code>advskew</code> менее 100).
+      Общий IP-адрес, назначенный этой группе: 10.0.0.1/255.255.255.0.
+</ul>
+
+Вывод команды <code>ifconfig</code> для <code>carp1</code> интерфейса покажет
+следующее состояние.
+
+<pre class="cmdbox">
+# <b>ifconfig carp1</b>
+carp1: flags=8802&lt;UP,BROADCAST,SIMPLEX,MULTICAST&gt; mtu 1500
+     carp: BACKUP carpdev em0 vhid 1 advbase 1 advskew 100
+     groups: carp
+     inet 10.0.0.1 netmask 0xffffff00 broadcast 10.0.0.255
+</pre>
+
+<h2 id="pfsyncintro">Введение в pfsync</h2>
+
+The <a href="https://man.openbsd.org/pfsync">pfsync(4)</a> network interface
+exposes certain changes made to the
+<a href="https://man.openbsd.org/pf">pf(4)</a> state table.
+By monitoring this device using
+<a href="https://man.openbsd.org/tcpdump">tcpdump(8)</a>, state table changes
+can be observed in real time.
+In addition, the pfsync(4) interface can send these state change messages out
+on the network so that other nodes running PF can merge the changes into their
+own state tables.
+Likewise, pfsync(4) can also listen on the network for incoming messages.
+
+<h2 id="pfsyncop">pfsync Operation</h2>
+
+By default, pfsync(4) does not send or receive state table updates
+on the network; however, updates can still be monitored using tcpdump(8)
+or other such tools on the local machine.
+
+<p>
+When pfsync(4) is set up to send and receive updates on the network,
+the default behavior is to multicast updates out on the local network.
+All updates are sent without authentication.
+Best common practice is either:
+
+<ol>
+  <li>Connect the two nodes that will be exchanging updates back-to-back
+      using a crossover cable and use that interface as the
+  <code>syncdev</code> (see <a href="#pfsyncconfig">below</a>).
+  <li>Use the ifconfig(8) <code>syncpeer</code> option (see
+      <a href="#pfsyncconfig">below</a>) so that updates are unicast directly
+      to the peer, then configure
+      <a href="https://man.openbsd.org/ipsec">ipsec(4)</a> between the hosts
+      to secure the pfsync(4) traffic.
+</ol>
+
+When updates are being sent and received on the network, pfsync packets
+should be passed in the filter ruleset:
+
+<pre class="cmdbox">
+pass on $sync_if proto pfsync
+</pre>
+
+<code>$sync_if</code> should be the physical interface that pfsync(4) is
+communicating over.
+
+<h2 id="pfsyncconfig">Настройка pfsync</h2>
+
+Since pfsync(4) is a virtual network interface, it is configured using
+<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
+
+<pre class="cmdbox">
+# <b>ifconfig <i>pfsyncN</i> syncdev <i>syncdev</i> [syncpeer <i>syncpeer</i>] [defer|-defer]</b>
+</pre>
+
+<dl>
+<dt><code><i>pfsyncN</i></code>
+<dd>The name of the pfsync(4) interface.
+
+<dt><code><i>syncdev</i></code>
+<dd>The name of the physical interface used to send pfsync updates out.
+
+<dt><code><i>syncpeer</i></code>
+<dd>This optional parameter specifies the IP address of a host to exchange
+    pfsync updates with.
+    By default, pfsync updates are multicast on the local network.
+    This option overrides that behavior and instead unicasts the update to
+    the specified <code><i>syncpeer</i></code>.
+
+<dt><code><i>defer</i></code>
+<dd>If the <code>defer</code> flag is used,
+    the initial packet of a new connection passing through the firewall will not
+    be transmitted until either another pfsync(4) system has acknowledged the
+    state table addition, or a timeout has expired.
+    This adds small delays but allows traffic to flow when more than one
+    firewall might actively handle packets ("active/active"), e.g. with
+    certain ospfd(8), bgpd(8) or carp(4) configurations.
+</dl>
+
+<h2 id="pfsyncex">pfsync Example</h2>
+
+Here is an example pfsync configuration:
+
+<pre class="cmdbox">
+# <b>ifconfig pfsync0 syncdev em1 up</b>
+</pre>
+
+This enables pfsync on the <code>em1</code> interface.
+Outgoing updates will be multicast on the network allowing any other
+host running pfsync to receive them.
+
+<h2 id="failover">Совместное использование CARP и pfsync с целью откзаустойчивости</h2>
+
+By combining the features of CARP and pfsync, a group of two or more
+firewalls can be used to create a highly-available, fully redundant
+firewall cluster.
+
+<dl>
+<dt>CARP:
+<dd>Handles the automatic failover of one firewall to another.
+
+<dt>pfsync:
+<dd>Synchronizes the state table amongst all the firewalls.
+    In the event of a failover, traffic can flow uninterrupted through the
+    new master firewall.
+</dl>
+
+<p>
+An example scenario.
+Two firewalls, <code>fw1</code> and <code>fw2</code>.
+
+<blockquote><pre>
+         +----| WAN/Internet |----+
+         |                        |
+      em2|                        |em2
+      +-----+                  +-----+
+      | fw1 |-em1----------em1-| fw2 |
+      +-----+                  +-----+
+      em0|                        |em0
+         |                        |
+      ---+-------Shared LAN-------+---
+</pre></blockquote>
+
+The firewalls are connected back-to-back using a crossover cable on
+<code>em1</code>.
+Both are connected to the LAN on <code>em0</code> and to a WAN/Internet
+connection on <code>em2</code>.
+IP addresses are as follows:
+
+<ul>
+  <li>fw1 em0: 172.16.0.1
+  <li>fw1 em1: 10.10.10.1
+  <li>fw1 em2: 192.0.2.1
+  <li>fw2 em0: 172.16.0.2
+  <li>fw2 em1: 10.10.10.2
+  <li>fw2 em2: 192.0.2.2
+  <li>LAN shared IP: 172.16.0.100
+  <li>WAN/internet shared IP: 192.0.2.100
+</ul>
+
+The network policy is that <code>fw1</code> will be the preferred master.
+
+<p>
+Configure fw1:
+
+<pre class="cmdbox">
+! enable preemption and group interface failover
+# <b>sysctl net.inet.carp.preempt=1</b>
+# <b>echo 'net.inet.carp.preempt=1' >> /etc/sysctl.conf</b>
+
+! configure pfsync
+# <b>ifconfig em1 10.10.10.1 netmask 255.255.255.0</b>
+# <b>ifconfig pfsync0 syncdev em1</b>
+# <b>ifconfig pfsync0 up</b>
+
+! configure CARP on the LAN side
+# <b>ifconfig carp1 create</b>
+# <b>ifconfig carp1 vhid 1 carpdev em0 pass lanpasswd \
+     172.16.0.100 netmask 255.255.255.0</b>
+
+! configure CARP on the WAN/Internet side
+# <b>ifconfig carp2 create</b>
+# <b>ifconfig carp2 vhid 2 carpdev em2 pass netpasswd \
+     192.0.2.100 netmask 255.255.255.0</b>
+</pre>
+
+Configure fw2:
+
+<pre class="cmdbox">
+! enable preemption and group interface failover
+# <b>sysctl net.inet.carp.preempt=1</b>
+# <b>echo 'net.inet.carp.preempt=1' >> /etc/sysctl.conf</b>
+
+! configure pfsync
+# <b>ifconfig em1 10.10.10.2 netmask 255.255.255.0</b>
+# <b>ifconfig pfsync0 syncdev em1</b>
+# <b>ifconfig pfsync0 up</b>
+
+! configure CARP on the LAN side
+# <b>ifconfig carp1 create</b>
+# <b>ifconfig carp1 vhid 1 carpdev em0 pass lanpasswd \
+     advskew 128 172.16.0.100 netmask 255.255.255.0</b>
+
+! configure CARP on the WAN/Internet side
+# <b>ifconfig carp2 create</b>
+# <b>ifconfig carp2 vhid 2 carpdev em2 pass netpasswd \
+     advskew 128 192.0.2.100 netmask 255.255.255.0</b>
+</pre>
+
+<h2 id="ops">Operational Issues</h2>
+
+Some common operational issues encountered with CARP/pfsync.
+
+<h3 id="bootconfig">Configuring CARP and pfsync During Boot</h3>
+
+Since carp(4) and pfsync(4) are both types of network interfaces, they
+can be configured at boot by creating a
+<a href="https://man.openbsd.org/hostname.if">hostname.if(5)</a> file.
+The <a href="https://man.openbsd.org/netstart">netstart</a> startup script
+will take care of creating the interface and configuring it.
+
+<p>
+Examples:
+
+<dl>
+<dt>/etc/hostname.carp1</dt>
+<dd>
+inet 172.16.0.100 255.255.255.0 172.16.0.255 vhid 1 carpdev em0 pass lanpasswd
+</dd>
+</dl>
+
+<dl>
+<dt>/etc/hostname.pfsync0</dt>
+<dd>
+up syncdev em1
+</dd>
+</dl>
+
+<h3 id="forcefail">Forcing Failover of the Master</h3>
+
+There can be times when it's necessary to failover or demote the master
+node on purpose.
+Examples include taking the master node down for maintenance or when
+troubleshooting a problem.
+The objective here is to gracefully fail over traffic to one of the
+backup hosts so that users do not notice any impact.
+
+<p>
+To failover a particular CARP group, shut down the carp(4) interface on the
+master node.
+This will cause the master to advertise itself with an "infinite"
+<code>advbase</code> and <code>advskew</code>.
+The backup host(s) will see this and immediately take over the role of master.
+
+<pre class="cmdbox">
+# <b>ifconfig carp1 down</b>
+</pre>
+
+An alternative is to increase the <code>advskew</code> to a value that's
+higher than the <code>advskew</code> on the backup host(s).
+This will cause a failover but still allow the master to participate in
+the CARP group.
+
+<p>
+Another method of failover is to tweak the CARP demotion counter.
+The demotion counter is a measure of how "ready" a host is to become master
+of a CARP group.
+For example, while a host is in the middle of booting up it's a bad idea
+for it to become the CARP master until all interfaces have been configured,
+all network daemons have been started, etc.
+Hosts advertising a high demotion value will be less preferred as the master.
+
+<p>
+A demotion counter is stored in each interface group that the CARP interface
+belongs to.
+By default, all CARP interfaces are members of the "carp" interface group.
+The current value of a demotion counter can be viewed using ifconfig(8):
+
+<pre class="cmdbox">
+# <b>ifconfig -g carp</b>
+carp: carp demote count 0
+</pre>
+
+In this example, the counter associated with the "carp" interface group is
+shown.
+When a CARP host advertises itself on the network, it takes the sum of
+the demotion counters for each interface group the carp(4) interface
+belongs to and advertises that value as its demotion value.
+
+<p>
+Now assume the following example.
+Two firewalls running CARP with the following CARP interfaces:
+
+<ul>
+  <li>carp1 -- Accounting Department
+  <li>carp2 -- Regular Employees
+  <li>carp3 -- Internet
+  <li>carp4 -- DMZ
+</ul>
+
+The objective is to failover just the carp1 and carp2 groups to the
+secondary firewall.
+
+<p>
+First, assign each to a new interface group, in this case named "internal":
+
+<pre class="cmdbox">
+# <b>ifconfig carp1 group internal</b>
+# <b>ifconfig carp2 group internal</b>
+# <b>ifconfig internal</b>
+carp1: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+     carp: MASTER carpdev em0 vhid 1 advbase 1 advskew 100
+     groups: carp internal
+     inet 10.0.0.1 netmask 0xffffff00 broadcast 10.0.0.255
+carp2: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+     carp: MASTER carpdev em1 vhid 2 advbase 1 advskew 100
+     groups: carp internal
+     inet 10.0.1.1 netmask 0xffffff00 broadcast 10.0.1.255
+</pre>
+
+Now increase the demotion counter for the "internal" group using ifconfig(8):
+
+<pre class="cmdbox">
+# <b>ifconfig -g internal</b>
+internal: carp demote count 0
+# <b>ifconfig -g internal carpdemote 50</b>
+# <b>ifconfig -g internal</b>
+internal: carp demote count 50
+</pre>
+
+The firewall will now gracefully failover on the carp1 and carp2 groups
+to the other firewall in the cluster while still remaining the master on
+carp3 and carp4.
+If the other firewall started advertising itself with a demotion value
+higher than 50, or if the other firewall stopped advertising altogether,
+then this firewall would again take over mastership on carp1 and carp2.
+
+<p>
+To fail back to the primary firewall, reverse the changes:
+
+<pre class="cmdbox">
+# <b>ifconfig -g internal -carpdemote 50</b>
+# <b>ifconfig -g internal</b>
+internal: carp demote count 0
+</pre>
+
+Network daemons such as <a href="https://man.openbsd.org/bgpd">OpenBGPD</a>
+and <a href="https://man.openbsd.org/sasyncd">sasyncd(8)</a> make use of the
+demotion counter to ensure that the firewall does not become master until BGP
+sessions become established and IPsec SAs are synchronized.
+
+<h3 id="RulesetTips">Ruleset Tips</h3>
+
+<b>Filter the physical interface.</b>
+As far as PF is concerned, network traffic comes from the physical
+interface, not the CARP virtual interface (i.e., <code>carp0</code>).
+So, write your rule sets accordingly.
+Don't forget that an interface name in a PF rule can be either the name of
+a physical interface or an address associated with that interface.
+For example, this rule could be correct:
+
+<pre class="cmdbox">
+pass in on fxp0 inet proto tcp from any to carp0 port 22
+</pre>
+
+But replacing the <code>fxp0</code> with <code>carp0</code> would not work as
+you desire.
+
+<p>
+<b>DON'T forget</b> to pass <code>proto carp</code>
+and <code>proto pfsync</code>!
+
+<h2 id="ref">Другие источники информации</h2>
+
+В нижеперечисленнх man-страницах также можно найти много полезной информации:
+
+<ul>
+  <li><a href="https://man.openbsd.org/carp"          >carp(4)</a>
+  <li><a href="https://man.openbsd.org/pfsync"        >pfsync(4)</a>
+  <li><a href="https://man.openbsd.org/ifconfig"      >ifconfig(8)</a>
+  <li><a href="https://man.openbsd.org/hostname.if"   >hostname.if(5)</a>
+  <li><a href="https://man.openbsd.org/pf.conf"       >pf.conf(5)</a>
+  <li><a href="https://man.openbsd.org/ifstated"      >ifstated(8)</a>
+  <li><a href="https://man.openbsd.org/ifstated.conf" >ifstated.conf(5)</a>
+</ul>
