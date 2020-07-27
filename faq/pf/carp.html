@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<title>OpenBSD PF: резервирование Firewall'а при помощи CARP и pfsync</title>
+<title>OpenBSD PF: создание резервной группы хостов Firewall'а при помощи CARP и pfsync</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../../openbsd.css">
@@ -10,9 +10,9 @@
 <h2 id=OpenBSD>
 <a href="../../index.html">
 <i>Open</i><b>BSD</b></a>
-PF - резервирование Firewall'а при помощи CARP и pfsync
+PF - создание резервной группы хостов Firewall'а при помощи CARP и pfsync
 <small>
-<a href="index.html">[FAQ - На главную]</a>
+<a href="index.html">[FAQ PF - На главную]</a>
 </small>
 </h2>
 <hr>
@@ -23,9 +23,9 @@ PF - резервирование Firewall'а при помощи CARP и pfsync
   <li><a href="#carpconfig"        >Настройка CARP</a>
   <li><a href="#carpex"            >Пример использования CARP</a>
   <li><a href="#pfsyncintro"       >Введение в pfsync</a>
-  <li><a href="#pfsyncop"          >pfsync Operation</a>
+  <li><a href="#pfsyncop"          >Управление pfsync</a>
   <li><a href="#pfsyncconfig"      >Настройка pfsync</a>
-  <li><a href="#pfsyncex"          >pfsync пример</a>
+  <li><a href="#pfsyncex"          >Пример pfsync</a>
   <li><a href="#failover"          >Совместное использование CARP и pfsync
                                     с целью откзаустойчивости</a>
   <li><a href="#ops"               >Operational Issues</a>
@@ -244,53 +244,53 @@ carp1: flags=8802&lt;UP,BROADCAST,SIMPLEX,MULTICAST&gt; mtu 1500
 
 <h2 id="pfsyncintro">Введение в pfsync</h2>
 
-The <a href="https://man.openbsd.org/pfsync">pfsync(4)</a> network interface
-exposes certain changes made to the
-<a href="https://man.openbsd.org/pf">pf(4)</a> state table.
-By monitoring this device using
-<a href="https://man.openbsd.org/tcpdump">tcpdump(8)</a>, state table changes
-can be observed in real time.
-In addition, the pfsync(4) interface can send these state change messages out
-on the network so that other nodes running PF can merge the changes into their
-own state tables.
-Likewise, pfsync(4) can also listen on the network for incoming messages.
+Сетевой интерфейс <a href="https://man.openbsd.org/pfsync">pfsync(4)</a>
+следит за всеми изменениями, внесенными в таблицу состояний
+<a href="https://man.openbsd.org/pf">pf(4)</a>.
+Наблюдая за этим интерфейсом при помощи
+<a href="https://man.openbsd.org/tcpdump">tcpdump(8)</a>, можно заметить
+изменения таблицы состояний в режиме реального времени.
+Кроме того, интерфейс pfsync(4) может отправлять сообщения об изменении
+состояния в сеть, чтобы другие узлы, работающие с PF, могли внести изменения
+в свои собственные таблицы состояний.
+Аналогично, pfsync(4) также может прослушивать в сети входящие сообщения.
 
-<h2 id="pfsyncop">pfsync Operation</h2>
+<h2 id="pfsyncop">Управление pfsync</h2>
 
-By default, pfsync(4) does not send or receive state table updates
-on the network; however, updates can still be monitored using tcpdump(8)
-or other such tools on the local machine.
+По умолчанию, pfsync(4) не отправляет и не получает обновления таблицы состояний
+в сети; однако обновления можно отслеживать при помощи tcpdump(8) или других
+подобных инструментов на локальном компьютере.
 
 <p>
-When pfsync(4) is set up to send and receive updates on the network,
-the default behavior is to multicast updates out on the local network.
-All updates are sent without authentication.
-Best common practice is either:
+Когда pfsync(4) настроен на отправку и получение обновлений из сети, по
+умолчанию используется многоадресная рассылка обновлений для локальной сети.
+Все обновления отправляются без аутентификации.
+Вот пример лучшей практики:
 
 <ol>
-  <li>Connect the two nodes that will be exchanging updates back-to-back
-      using a crossover cable and use that interface as the
-  <code>syncdev</code> (see <a href="#pfsyncconfig">below</a>).
-  <li>Use the ifconfig(8) <code>syncpeer</code> option (see
-      <a href="#pfsyncconfig">below</a>) so that updates are unicast directly
-      to the peer, then configure
-      <a href="https://man.openbsd.org/ipsec">ipsec(4)</a> between the hosts
-      to secure the pfsync(4) traffic.
+  <li>Соедините два узла, которые будут обмениваться обновлениями, при помощи
+      перекрестного (crossover) кабеля и используйте этот интерфейс в качестве
+      <code>syncdev</code> (см. <a href="#pfsyncconfig">ниже</a>).
+  <li>Используйте ifconfig(8) опцию <code>syncpeer</code>
+      (см. <a href="#pfsyncconfig">ниже</a>), чтобы обновления выполнялись
+      unicast-передачей напрямую одноранговому узлу, затем настройте
+      <a href="https://man.openbsd.org/ipsec">ipsec(4)</a> между хостами для
+      защиты pfsync(4) трафика.
 </ol>
 
-When updates are being sent and received on the network, pfsync packets
-should be passed in the filter ruleset:
+Когда обновления отправляются и принимаются из сети, для pfsync-пакетов должно
+быть созданно соответствующее PF правило:
 
 <pre class="cmdbox">
 pass on $sync_if proto pfsync
 </pre>
 
-<code>$sync_if</code> should be the physical interface that pfsync(4) is
-communicating over.
+<code>$sync_if</code> это имя физического интерфейса, который будет использовать
+pfsync(4).
 
 <h2 id="pfsyncconfig">Настройка pfsync</h2>
 
-Since pfsync(4) is a virtual network interface, it is configured using
+pfsync(4) является виртуальным сетевым интерфейсом и настраивается при помощи
 <a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
 
 <pre class="cmdbox">
@@ -299,39 +299,39 @@ Since pfsync(4) is a virtual network interface, it is configured using
 
 <dl>
 <dt><code><i>pfsyncN</i></code>
-<dd>The name of the pfsync(4) interface.
+<dd>Имя pfsync(4) интерфейса.
 
 <dt><code><i>syncdev</i></code>
-<dd>The name of the physical interface used to send pfsync updates out.
+<dd>Имя физического интерфейса, используемого pfsync для отправки и получения
+    обновлений.
 
 <dt><code><i>syncpeer</i></code>
-<dd>This optional parameter specifies the IP address of a host to exchange
-    pfsync updates with.
-    By default, pfsync updates are multicast on the local network.
-    This option overrides that behavior and instead unicasts the update to
-    the specified <code><i>syncpeer</i></code>.
+<dd>Этот необязательный параметр указывает IP-адрес хоста для обмена обновлениями
+    pfsync. По умолчанию это multicast-обновления в локальной сети. Эта опция
+    переопределяет это поведение и вместо этого направляет обновление указанному
+    <code><i>syncpeer</i></code>.
 
 <dt><code><i>defer</i></code>
-<dd>If the <code>defer</code> flag is used,
-    the initial packet of a new connection passing through the firewall will not
-    be transmitted until either another pfsync(4) system has acknowledged the
-    state table addition, or a timeout has expired.
-    This adds small delays but allows traffic to flow when more than one
-    firewall might actively handle packets ("active/active"), e.g. with
-    certain ospfd(8), bgpd(8) or carp(4) configurations.
+<dd>Если используется флаг <code>defer</code>,
+    первый initial-пакет нового соединения, проходящего через firewall, не будет
+    передаваться, пока либо другая система pfsync(4) не подтвердит добавление
+    таблицы состояний, либо не истечет время ожидания.
+    Это добавляет небольшие задержки, но позволяет трафику проходить, когда
+    несколько firewall'ов могут активно обрабатывать пакеты («активный/активный»),
+    например, с некоторыми конфигурациями ospfd(8), bgpd(8) или carp(4).
 </dl>
 
-<h2 id="pfsyncex">pfsync Example</h2>
+<h2 id="pfsyncex">Пример pfsync</h2>
 
-Here is an example pfsync configuration:
+Тут пример настройки pfsync:
 
 <pre class="cmdbox">
 # <b>ifconfig pfsync0 syncdev em1 up</b>
 </pre>
 
-This enables pfsync on the <code>em1</code> interface.
-Outgoing updates will be multicast on the network allowing any other
-host running pfsync to receive them.
+Эта команда активирует(enables) pfsync на интерфейсе <code>em1</code>.
+Исходящие обновления будут многоадресными (multicast) в сети, что
+позволит любому другому узлу, на котором запущен pfsync, получать их.
 
 <h2 id="failover">Совместное использование CARP и pfsync с целью откзаустойчивости</h2>
 
