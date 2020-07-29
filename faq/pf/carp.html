@@ -103,9 +103,9 @@ pass out on $carp_dev proto carp
 
 <h2 id="carpconfig">Настройка CARP</h2>
 
-Each redundancy group is represented by a
-<a href="https://man.openbsd.org/carp">carp(4)</a> virtual network interface.
-As such, CARP is configured using
+Каждая резервная группа хостов представлена виртуальным сетевым
+интерфейсом <a href="https://man.openbsd.org/carp">carp(4)</a>.
+В связи с этим, CARP может быть сконфигурирован при помощи
 <a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>.
 
 <pre class="cmdbox">
@@ -118,93 +118,89 @@ As such, CARP is configured using
 
 <dl>
 <dt><code><i>carpN</i></code>
-<dd>The name of the carp(4) virtual interface where <i>N</i> is an
-    integer that represents the interface's number (e.g. carp10).
+<dd>Имя виртуального интерфейса carp(4), где <i>N</i> это целое число,
+    представляющее номер интерфейса (например, carp10).
 
 <dt><code><i>vhid</i></code>
-<dd>The Virtual Host ID.
-    This is a unique number that is used to identify the redundancy group to
-    other nodes in the group, and to distinguish between groups on the same
-    network.
-    Acceptable values are from 1 to 255.
-    This must be the same on all members of the group.
+<dd>Virtual Host ID или виртуальный ID хоста.
+    Это уникальный номер, который используется для идентификации резервной
+    группы для других узлов в группе и для различения групп в одной сети.
+    Допустимые значения: от 1 до 255.
+    Должно быть одинаковым для всех хостов в группе.
 
 <dt><code><i>password</i></code>
-<dd>The authentication password to use when talking to other CARP-enabled
-    hosts in this redundancy group.
-    This must be the same on all members of the group.
+<dd>Пароль аутентификации, используемый при общении с другими CARP-узлами
+    в своей группе. Он должен быть одинаковым для всех хостов в группе.
 
 <dt><code><i>carpdev</i></code>
-<dd>This optional parameter specifies the physical network interface that
-    belongs to this redundancy group.
-    By default, CARP will try to determine which interface to use by
-    looking for a physical interface that is in the same subnet as the
-    <i>ipaddress</i> and <i>mask</i> combination given to the carp(4)
-    interface.
+<dd>Этот необязательный параметр указывает физический сетевой интерфейс,
+    который будет использоваться CARP'ом.
+    По умолчанию CARP пытается определить, какой интерфейс использовать,
+    ища физический интерфейс, который находится в той же подсети, что и
+    комбинация <i>ipaddress</i> и <i>mask</i>, заданная для carp(4) интерфейса.
 
 <dt><code><i>advbase</i></code>
-<dd>This optional parameter specifies how often, in seconds, to advertise
-    that we're a member of the redundancy group.
-    The default is 1 second.
-    Acceptable values are from 1 to 255.
+<dd>Этот необязательный параметр указывает, как часто в секундах
+    отправляется сообщение в сеть с информации о том, что хост является
+    членом резервной группы.
+    По умолчанию это 1 секунда. Допустимые значения от 1 до 255.
 
 <dt><code><i>advskew</i></code>
-<dd>This optional parameter specifies how much to skew the
-    <code><i>advbase</i></code> when sending CARP advertisements.
-    By manipulating <code><i>advskew</i></code>, the master CARP host can be
-    chosen.
-    The higher the number, the <i>less</i> preferred the host will be when
-    choosing a master.
-    The default is 0.
-    Acceptable values are from 0 to 254.
+<dd>Этот необязательный параметр указывает, насколько сильно искажается
+    <code><i>advbase</i></code> при отправке CARP-сообщений.
+    Управляя <code><i>advskew</i></code>, можно выбрать главный хост CARP.
+    Чем выше число, тем менее предпочтительным будет хост при выборе мастера.
+    По умолчанию 0. Допустимые значения от 0 до 254.
 
 <dt><code><i>state</i></code>
-<dd>Force a carp(4) interface into a certain state.
-    Valid states are <code>init</code>, <code>backup</code>,
-    and <code>master</code>.
+<dd>Переводит carp(4) интерфейс в определенное состояние.
+    Допустимые состояния: <code>init</code>, <code>backup</code>,
+    и <code>master</code>.
 
 <dt><code><i>group</i>, <i>-group</i></code>
-<dd>Add or remove a carp(4) interface to a certain interface group.
-    By default, all carp(4) interfaces are added to the <code>carp</code> group.
-    Each group has a <code>carpdemote</code> counter affecting all carp(4)
-    interfaces belonging to that group.
-    As described below, it can be useful to group certain interfaces together
-    for failover purposes.
+<dd>Добавляет или удаляет carp(4) интерфейс из определенной группы
+    интерфейсов. По умолчанию все carp(4) интерфейсы добавляются в
+    группу <code>carp</code>.
+    Каждая группа имеет счетчик <code>carpdemote</code>, влияющий
+    на все carp(4) интерфейсы, принадлежащие этой группе.
+    Как будет описано ниже, может быть полезно сгруппировать определенные
+    интерфейсы вместе с целью отработки форс-мажорных ситуаций.
 
 <dt><code><i>ipaddress</i></code>
-<dd>This is the shared IP address assigned to the redundancy group.
-    This address does not have to be in the same subnet as the IP address on
-    the physical interface (if present).
-    This address needs to be the same on all hosts in the group, however.
+<dd>Это общий IP-адрес, назначенный резервной группе.
+    Этот адрес не обязательно должен находиться в той же подсети,
+    что и IP-адрес физического интерфейса (если он есть).
+    Однако этот адрес должен быть одинаковым на всех хостах в группе.
 
 <dt><code><i>mask</i></code>
-<dd>The subnet mask of the shared IP.
+<dd>Маска подсети общего IP.
 </dl>
 
 <p>
-Further CARP behavior can be controlled via
+Поведение и состояние CARP можно контролировать при помощи
 <a href="https://man.openbsd.org/sysctl">sysctl(8)</a>.
 
 <dl>
 <dt><code>net.inet.carp.allow</code>
-<dd>Accept incoming CARP packets or not.
-    Default is 1 (yes).
+<dd>Принимать входящие CARP-пакеты или нет.
+    По умолчанию 1 (да, принимать).
 
 <dt><code>net.inet.carp.preempt</code>
-<dd>Allow hosts within a redundancy group that have a better
-    <code>advbase</code> and <code>advskew</code> to preempt the master.
-    In addition, this option also enables failing over a group of interfaces
-    together in the event that one interface goes down.
-    If one physical CARP-enabled interface goes down, CARP will increase
-    the demotion counter, <code>carpdemote</code>, by 1 on interface groups that
-    the carp(4) interface is a member of, in effect causing all group
-    members to fail-over together.
-    <code>net.inet.carp.preempt</code> is 0 (disabled) by default.
+<dd>Разрешить хостам в резервной группе, которые имеют лучшие
+    <code>advbase</code> и <code>advskew</code>, заменить мастера.
+    Кроме того, эта опция также позволяет переключать группы
+    интерфейсов в случае сбоя одного интерфейса.
+    Если один физический интерфейс с поддержкой CARP выйдет из строя,
+    CARP увеличит счетчик понижений, <code>carpdemote</code>,
+    на 1 в группах интерфейсов, членом которых является carp(4) интерфейс,
+    что фактически приведет к аварийному переключению всех членов
+    группы вместе.
+    Значение <code>net.inet.carp.preempt</code> равно 0 (отключено) по умолчанию.
 
 <dt><code>net.inet.carp.log</code>
-<dd>Log state changes, bad packets and other errors.
-    This value may be between 0 and 7, corresponding with syslog(3) priorities.
-    The default is 2 (state changes only).
+<dd>Изменения состояния журнала, плохие пакеты и другие ошибки.
+    Это значение может быть между 0 и 7, что соответствует приоритетам syslog(3).
+    По умолчанию 2 (только для изменений состояния).
 </dl>
 
 <h2 id="carpex">Пример использования CARP</h2>
@@ -335,23 +331,24 @@ pfsync(4) является виртуальным сетевым интерфе�
 
 <h2 id="failover">Совместное использование CARP и pfsync с целью откзаустойчивости</h2>
 
-By combining the features of CARP and pfsync, a group of two or more
-firewalls can be used to create a highly-available, fully redundant
-firewall cluster.
+При комбинировании возможностей CARP и pfsync, группу из двух или более
+firewall'ов можно использовать для создания высокодосупного,
+отказаустройчивого firewall-кластера.
 
 <dl>
 <dt>CARP:
-<dd>Handles the automatic failover of one firewall to another.
+<dd>Берет на себя задачу автоматического переключения с одного
+    firewall'а на другой.
 
 <dt>pfsync:
-<dd>Synchronizes the state table amongst all the firewalls.
-    In the event of a failover, traffic can flow uninterrupted through the
-    new master firewall.
+<dd>Синхронизирует таблицу состояний между всеми firewall'ми.
+    В случае сбоя трафик непрерывно перенаправляется на новый
+    главный (master) firewall.
 </dl>
 
 <p>
-An example scenario.
-Two firewalls, <code>fw1</code> and <code>fw2</code>.
+Пример сценария.
+Два firewall'а, <code>fw1</code> и <code>fw2</code>.
 
 <blockquote><pre>
          +----| WAN/Internet |----+
@@ -365,11 +362,10 @@ Two firewalls, <code>fw1</code> and <code>fw2</code>.
       ---+-------Shared LAN-------+---
 </pre></blockquote>
 
-The firewalls are connected back-to-back using a crossover cable on
-<code>em1</code>.
-Both are connected to the LAN on <code>em0</code> and to a WAN/Internet
-connection on <code>em2</code>.
-IP addresses are as follows:
+Firewall'ы подключены друг к другу при помощи перекрестного (crossover)
+кабеля с <code>em1</code>.
+Оба подключены к локальной сети с <code>em0</code> и к WAN/Интернет с
+<code>em2</code>. IP-адреса следующие:
 
 <ul>
   <li>fw1 em0: 172.16.0.1
@@ -382,10 +378,10 @@ IP addresses are as follows:
   <li>WAN/internet shared IP: 192.0.2.100
 </ul>
 
-The network policy is that <code>fw1</code> will be the preferred master.
+Политика сети такова, что <code>fw1</code> будет предпочтительным мастером.
 
 <p>
-Configure fw1:
+Настройка fw1:
 
 <pre class="cmdbox">
 ! enable preemption and group interface failover
@@ -408,7 +404,7 @@ Configure fw1:
      192.0.2.100 netmask 255.255.255.0</b>
 </pre>
 
-Configure fw2:
+Настройка fw2:
 
 <pre class="cmdbox">
 ! enable preemption and group interface failover
