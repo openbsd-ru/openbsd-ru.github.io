@@ -47,9 +47,7 @@ Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4) и Socionext SCA11.
 Raspberry Pi 3 требует закрытых, но свободно распространяемых (redistributable)
 файлов на диске для загрузки графического процессора VC4, который уже и запускает
 сами ядра ARM. По умолчанию загрузочный ROM пытается загрузить эти файлы только с
-SD-карты. Эти файлы присутствуют на установочном образе, но пока нет драйвера для
-SD/MMC, поэтому требуется USB-диск и пара дополнительных шагов, которые надо будет
-сделать.
+SD-карты.
 Чтобы загрузить firmware с SD-карты и иметь возможность работать с корневой ФС на
 USB после установки OpenBSD, перезагрузите компьютер и во время загрузки, до
 истечения времени ожидания, перейдите в U-Boot и скажите, чтобы тот грузился с
@@ -65,8 +63,8 @@ U-Boot&gt; boot
 <p>
 Для работы OpenBSD на Raspberry Pi 4 необходим EDK2-base UEFI firmware.
 По умолчанию boot ROM попытается загрузить firmware с SD-карты.
-Как и для Raspberry Pi 3 пока нет драйвера для SD/MMC, но никих дополнительных
-шагов не требуется для загрузки с USB-флешки (USB disk drive).
+Драйвера для SD/MMC пока нет, но никих дополнительных шагов не требуется
+для загрузки с USB-флешки (USB disk drive).
 
 <p>
 Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
@@ -152,10 +150,18 @@ OpenBSD на этих машинах.
 	  для встроенной SMSC LAN95xx 10/100 USB Ethernet на Raspberry Pi 3
 </ul>
 
+<h4>802.11 wireless</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/arm64/bwfm.4">bwfm(4)</a>
+	  на Raspberry Pi 3 и Pinebook Pro
+</ul>
+
 <h4>Storage</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/ahci.4">ahci(4)</a>
 	  на AMD Opteron A1100, Ampere eMAG, Marvell 7K/8K и SynQuacer-E
+	<li><a href="https://man.openbsd.org/arm64/bcmsdhost.4">bcmsdhost(4)</a>
+	  на Raspberry Pi 3
 	<li><a href="https://man.openbsd.org/arm64/dwmmc.4">dwmmc(4)</a>
 	  на Rockchip RK3328/RK3399
 	<li><a href="https://man.openbsd.org/arm64/sdhc.4">sdhc(4)</a>
