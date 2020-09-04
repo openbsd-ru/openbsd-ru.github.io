@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<title>OpenBSD PF: Настройка маршрутизатора (Building a Router)</title>
+<meta name="description" content="The Ultimate OpenBSD Router">
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/example1.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - настройка маршрутизатора (Building a Router)
+<small>
+<a href="index.html">[FAQ PF - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#background">Цель</a>
+  <li><a href="#net"       >Сеть</a>
+  <li><a href="#dhcp"      >DHCP</a>
+  <li><a href="#pf"        >Firewall</a>
+  <li><a href="#dns"       >DNS</a>
+</ul>
+<hr>
+
+<h2 id="background">Цель</h2>
+
+Материал на этой странице расскажет как настроить OpenBSD для работы в
+качестве маршрутизатора (router).
+Под маршрутизатором тут подразумевается система со следующими задачами:
+
+<ul>
+  <li>Преобразование сетевых адресов (Network Address Translation (NAT))
+  <li>Предоставление IP адресов клиентским машинам при помощи DHCP
+  <li>Открытый доступ для входящих соединений к локальному Web-серверу
+  <li>DNS кеширование для локальной сети
+  <li>Предоставление WIFI-доступа
+      (требуется <a href="../faq6.html#Wireless">поддерживаемая WIFI-карта</a>)
+</ul>
+
+В этом примере будут использоваться две
+<a href="https://man.openbsd.org/em">em(4)</a> сетевые карты,
+использующие кабель, и одна беспроводная сетевая карта
+<a href="https://man.openbsd.org/athn">athn(4)</a>.
+Имена интерфейсов <code>em0</code>, <code>em1</code> и <code>athn0</code>
+следует при необходимости заменить.
+
+<h2 id="net">Сеть</h2>
+
+<a href="https://man.openbsd.org/hostname.if">Настройка</a> будет подразумевать
+использование подсети <b>192.168.1.0/24</b> для подключений при помощи кабеля и
+<b>192.168.2.0/24</b> для беспроводных соединений.
+
+<pre class="cmdbox">
+# <b>echo 'net.inet.ip.forwarding=1' >> /etc/sysctl.conf</b>
+# <b>echo 'dhcp' > /etc/hostname.em0</b> # if you have a static IP, use that instead
+# <b>echo 'inet 192.168.1.1 255.255.255.0 192.168.1.255' > /etc/hostname.em1</b>
+# <b>vi /etc/hostname.athn0</b>
+</pre>
+
+Добавьте следующие строки, изменив при этом режим/канал (mode/channel),
+если потребуется:
+
+<pre class="cmdbox">
+media autoselect mode 11n mediaopt hostap chan 1
+nwid AccessPointName wpakey VeryLongPassword
+inet 192.168.2.1 255.255.255.0
+</pre>
+
+По умолчанию OpenBSD разрешает только WPA2-CCMP соединения в режиме HostAP.
+Если необходима поддержка старых (небезопасных) протоколов, они могут быть
+<a href="https://man.openbsd.org/ifconfig#IEEE_802.11_(WIRELESS_DEVICES)">
+добавленны</a>.
+
+<h2 id="dhcp">DHCP</h2>
+
+<a href="https://man.openbsd.org/dhcpd">dhcpd(8)</a> демон, который будет
+предоставлять IP-адреса клиентским машинам в сети, должен запускаться во
+время загрузки системы.
+Для настройки демона используется
+<a href="https://man.openbsd.org/dhcpd.conf">dhcpd.conf(5)</a> файл.
+
+<pre class="cmdbox">
+# <b>rcctl enable dhcpd</b>
+# <b>rcctl set dhcpd flags em1 athn0</b>
+# <b>vi /etc/dhcpd.conf</b>
+</pre>
+
+В следующем примере также показано резервирование статических IP-адресов
+для laptop'а и сервера на основе их MAC-адресов.
+
+<pre class="cmdbox">
+subnet 192.168.1.0 netmask 255.255.255.0 {
+	option routers 192.168.1.1;
+	option domain-name-servers 192.168.1.1;
+	range 192.168.1.4 192.168.1.254;
+	host myserver {
+		fixed-address 192.168.1.2;
+		hardware ethernet 00:00:00:00:00:00;
+	}
+	host mylaptop {
+		fixed-address 192.168.1.3;
+		hardware ethernet 11:11:11:11:11:11;
+	}
+}
+subnet 192.168.2.0 netmask 255.255.255.0 {
+	option routers 192.168.2.1;
+	option domain-name-servers 192.168.2.1;
+	range 192.168.2.2 192.168.2.254;
+}
+</pre>
+
+Здесь может быть указано любое адресное пространство, стандартизованное
+в <a href="https://tools.ietf.org/html/rfc1918">RFC 1918</a>.
+Строка <code>domain-name-servers</code> в этом примере указывает
+локальный DNS-сервер, настройка которого рассматривается далее.
+
+<h2 id="pf">Firewall</h2>
+
+OpenBSD's PF firewall is configured via the
+<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> file.
+It's highly recommended to become familiar with it, and PF in general, before
+copying this example.
+Each section will be explained in more detail.
+
+<pre class="cmdbox">
+# <b>vi /etc/pf.conf</b>
+</pre>
+
+A gateway configuration might look like this:
+
+<pre class="cmdbox">
+wired = "em1"
+wifi  = "athn0"
+table &lt;martians&gt; { 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16     \
+	 	   172.16.0.0/12 192.0.0.0/24 192.0.2.0/24 224.0.0.0/3 \
+	 	   192.168.0.0/16 198.18.0.0/15 198.51.100.0/24        \
+	 	   203.0.113.0/24 }
+set block-policy drop
+set loginterface egress
+set skip on lo0
+match in all scrub (no-df random-id max-mss 1440)
+match out on egress inet from !(egress:network) to any nat-to (egress:0)
+antispoof quick for { egress $wired $wifi }
+block in quick on egress from &lt;martians&gt; to any
+block return out quick on egress from any to &lt;martians&gt;
+block all
+pass out quick inet
+pass in on { $wired $wifi } inet
+pass in on egress inet proto tcp from any to (egress) port { 80 443 } rdr-to 192.168.1.2
+</pre>
+
+The ruleset's various sections will now be explained:
+
+<pre class="cmdbox">
+wired = "em1"
+wifi  = "athn0"
+</pre>
+
+The wired and wireless interface names for the LAN are defined with
+<a href="macros.html">macros</a>, used to make overall maintenance easier.
+Macros can be referenced throughout the ruleset after being defined.
+
+<pre class="cmdbox">
+table &lt;martians&gt; { 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16     \
+	 	   172.16.0.0/12 192.0.0.0/24 192.0.2.0/24 224.0.0.0/3 \
+	 	   192.168.0.0/16 198.18.0.0/15 198.51.100.0/24        \
+	 	   203.0.113.0/24 }
+</pre>
+
+This is a <a href="tables.html">table</a> of non-routable private addresses
+that will be used later.
+
+<pre class="cmdbox">
+set block-policy drop
+set loginterface egress
+set skip on lo0
+</pre>
+
+PF allows certain <a href="options.html">options</a> to be set at runtime.
+The <code>block-policy</code> decides whether rejected packets should return
+a TCP RST or be silently dropped.
+The <code>loginterface</code> specifies which interface should have packet
+and byte statistics collection enabled.
+These statistics can be viewed with the <code>pfctl -si</code> command.
+
+In this case, the <code>egress</code>
+<a href="https://man.openbsd.org/ifconfig#group">group</a> is being used
+rather than a specific interface name.
+By doing so, the interface holding the default route (<code>em0</code>) will
+be chosen automatically.
+Finally, <code>skip</code> allows a given interface to be omitted from packet
+processing.
+The firewall will ignore traffic on the
+<a href="https://man.openbsd.org/lo">lo(4)</a> loopback interface.
+
+<pre class="cmdbox">
+match in all scrub (no-df random-id max-mss 1440)
+match out on egress inet from !(egress:network) to any nat-to (egress:0)
+</pre>
+
+The <code>match</code> rules used here accomplish two things:
+normalizing incoming packets and performing network address translation,
+with the <code>egress</code> interface between the LAN and the public internet.
+For a more detailed explanation of <code>match</code> rules and their different
+options, refer to the <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>
+manual.
+
+<pre class="cmdbox">
+antispoof quick for { egress $wired $wifi }
+block in quick on egress from &lt;martians&gt; to any
+block return out quick on egress from any to &lt;martians&gt;
+</pre>
+
+The <a href="filter.html#antispoof">antispoof</a> keyword provides some
+protection from packets with spoofed source addresses.
+Incoming packets should be dropped if they appear to be from the list of
+unroutable addresses defined earlier.
+Such packets were likely sent due to misconfiguration, or possibly as part of
+a spoofing attack.
+Similarly, clients should not attempt to connect to such addresses.
+The "return" action is specified to prevent annoying timeouts for users.
+Note that this can cause problems if the router itself is also behind NAT.
+
+<pre class="cmdbox">
+block all
+</pre>
+
+The firewall will set a "default deny" policy for all traffic, meaning that
+only incoming and outgoing connections which have been explicitly put in the
+ruleset will be allowed.
+
+<pre class="cmdbox">
+pass out quick inet
+</pre>
+
+Allow outgoing IPv4 traffic from both the gateway itself and the LAN clients.
+
+<pre class="cmdbox">
+pass in on { $wired $wifi } inet
+</pre>
+
+Allow internal LAN traffic.
+
+<pre class="cmdbox">
+pass in on egress inet proto tcp from any to (egress) port { 80 443 } rdr-to 192.168.1.2
+</pre>
+
+Forward incoming connections (on TCP ports 80 and 443, for a web server)
+to the machine at 192.168.1.2.
+This is merely an example of port forwarding.
+
+<h2 id="dns">DNS</h2>
+
+Хотя DNS-кэш не требуется для шлюза (gateway system), он является
+обычным дополнением к нему.
+Когда клиенты отправляют DNS-запрос, они сначала получают содержание
+<a href="https://man.openbsd.org/unbound">unbound(8)</a> кеша.
+Если ответа там нет, запрос передается вышестоящему преобразователю.
+Затем результаты передаются клиенту и кэшируются в течение определенного
+периода времени, что ускоряет поиск того же адреса в будущем.
+
+<pre class="cmdbox">
+# <b>rcctl enable unbound</b>
+# <b>vi /var/unbound/etc/unbound.conf</b>
+</pre>
+
+Этот пример должен работать для большинства случаев:
+
+<pre class="cmdbox">
+server:
+	interface: 192.168.1.1
+	interface: 192.168.2.1
+	interface: 127.0.0.1
+	access-control: 192.168.1.0/24 allow
+	access-control: 192.168.2.0/24 allow
+	do-not-query-localhost: no
+	hide-identity: yes
+	hide-version: yes
+
+forward-zone:
+        name: "."
+        forward-addr: 1.2.3.4  # IP of the upstream resolver
+</pre>
+
+Дополнительные параметры конфигурации можно найти в
+<a href="https://man.openbsd.org/unbound.conf">unbound.conf(5)</a>.
+Исходящие DNS-запросы могут быть зашифрованы при помощи пакета
+<code>dnscrypt-proxy</code>. Подробности в прилагаемом README файле.
+
+<p>
+Если маршрутизатор должен использовать caching resolver, его
+<code>/etc/resolv.conf</code> файл должен содержать
+<code>nameserver 127.0.0.1</code>.
+
+<p>
+После внесения всех изменений, перезагрузите систему.
