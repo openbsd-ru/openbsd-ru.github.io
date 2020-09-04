@@ -27,7 +27,6 @@ issue. Очень нужным и важным является самая об�
 | --- | --- | --- |
 | **[FAQ13 - Multimedia](https://www.openbsd.org/faq/faq13.html)** | Хотите перевести?| [Перевод для 6.6](https://openbsd-ru.github.io/faq/faq13.html) |
 | **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | Хотите перевести?| |
-| **[FAQ#PF_Building a Router](https://www.openbsd.org/faq/pf/example1.html)** | Хотите перевести? | |
 | **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | Хотите перевести? | |
 | **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** | Хотите перевести? | |
 | **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
