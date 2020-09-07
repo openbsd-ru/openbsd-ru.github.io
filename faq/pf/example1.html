@@ -121,17 +121,18 @@ subnet 192.168.2.0 netmask 255.255.255.0 {
 
 <h2 id="pf">Firewall</h2>
 
-OpenBSD's PF firewall is configured via the
-<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a> file.
-It's highly recommended to become familiar with it, and PF in general, before
-copying this example.
-Each section will be explained in more detail.
+PF в OpenBSD конфигурируется при помощи файла
+<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>.
+Настоятельно рекомендуется быть знакомым с поддерживаемым им синтаксисом,
+а также вообще иметь предствление о PF, прежде чем просто копировать
+приведенный ниже пример.
+Каждая часть примера будет рассмотренна более детально.
 
 <pre class="cmdbox">
 # <b>vi /etc/pf.conf</b>
 </pre>
 
-A gateway configuration might look like this:
+Настройка шлюза (gateway) может выглядеть следующим образом.
 
 <pre class="cmdbox">
 wired = "em1"
@@ -154,16 +155,16 @@ pass in on { $wired $wifi } inet
 pass in on egress inet proto tcp from any to (egress) port { 80 443 } rdr-to 192.168.1.2
 </pre>
 
-The ruleset's various sections will now be explained:
+Теперь рассмотрим этот конфиг более подробно.
 
 <pre class="cmdbox">
 wired = "em1"
 wifi  = "athn0"
 </pre>
 
-The wired and wireless interface names for the LAN are defined with
-<a href="macros.html">macros</a>, used to make overall maintenance easier.
-Macros can be referenced throughout the ruleset after being defined.
+Имена сетевых интерфейсов для локальной сети определяются при помощи
+<a href="macros.html">макросов</a>, используемых для упрощения.
+На макросы можно ссылаться во всем наборе правил после их определения.
 
 <pre class="cmdbox">
 table &lt;martians&gt; { 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16     \
@@ -172,8 +173,8 @@ table &lt;martians&gt; { 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16     \
 	 	   203.0.113.0/24 }
 </pre>
 
-This is a <a href="tables.html">table</a> of non-routable private addresses
-that will be used later.
+Это <a href="tables.html">таблица</a> немаршрутизируемых private адресов,
+которые будут использоваться позже.
 
 <pre class="cmdbox">
 set block-policy drop
@@ -181,34 +182,37 @@ set loginterface egress
 set skip on lo0
 </pre>
 
-PF allows certain <a href="options.html">options</a> to be set at runtime.
-The <code>block-policy</code> decides whether rejected packets should return
-a TCP RST or be silently dropped.
-The <code>loginterface</code> specifies which interface should have packet
-and byte statistics collection enabled.
-These statistics can be viewed with the <code>pfctl -si</code> command.
+PF позволяет устанавливать определенные runtime
+<a href="options.html">параметры</a>.
+Использование параметра <code>block-policy</code> определяет,
+должны ли отброшенные пакеты возвращать TCP RST или же они должны
+блокироваться без уведомления.
+Параметр <code>loginterface</code> указывает, на каком интерфейсе
+должен быть включен сбор трафик-статистики (по пакетам и байтам).
+Эту статистику можно посмотреть при помощи команды <code>pfctl -si</code>.
 
-In this case, the <code>egress</code>
-<a href="https://man.openbsd.org/ifconfig#group">group</a> is being used
-rather than a specific interface name.
-By doing so, the interface holding the default route (<code>em0</code>) will
-be chosen automatically.
-Finally, <code>skip</code> allows a given interface to be omitted from packet
-processing.
-The firewall will ignore traffic on the
-<a href="https://man.openbsd.org/lo">lo(4)</a> loopback interface.
+В этом случае используется <code>egress</code>
+<a href="https://man.openbsd.org/ifconfig#group">group</a> вместо
+конкретного имя интерфейса.
+При этом автоматически будет выбран интерфейс, используемый для
+default route, т.е. маршрута по умолчанию (<code>em0</code>).
+
+Наконец, <code>skip</code> позволяет исключить данный интерфейс для
+обработки пакетов.
+Как видно из конфига, в данном примере будет игнорироваться трафик на
+<a href="https://man.openbsd.org/lo">lo(4)</a> интерфейсе.
 
 <pre class="cmdbox">
 match in all scrub (no-df random-id max-mss 1440)
 match out on egress inet from !(egress:network) to any nat-to (egress:0)
 </pre>
 
-The <code>match</code> rules used here accomplish two things:
-normalizing incoming packets and performing network address translation,
-with the <code>egress</code> interface between the LAN and the public internet.
-For a more detailed explanation of <code>match</code> rules and their different
-options, refer to the <a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>
-manual.
+Используемые здесь правила <code>match</code> выполняют две задачи:
+нормализацию входящих пакетов и выполнение трансляции сетевых адресов
+с <code>egress</code> интерфейсом между LAN и Интернетом.
+Более подробное объяснение правил <code>match</code> и поддерживаемых
+ими параметров можно найти в руководстве
+<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>.
 
 <pre class="cmdbox">
 antispoof quick for { egress $wired $wifi }
@@ -216,43 +220,44 @@ block in quick on egress from &lt;martians&gt; to any
 block return out quick on egress from any to &lt;martians&gt;
 </pre>
 
-The <a href="filter.html#antispoof">antispoof</a> keyword provides some
-protection from packets with spoofed source addresses.
-Incoming packets should be dropped if they appear to be from the list of
-unroutable addresses defined earlier.
-Such packets were likely sent due to misconfiguration, or possibly as part of
-a spoofing attack.
-Similarly, clients should not attempt to connect to such addresses.
-The "return" action is specified to prevent annoying timeouts for users.
-Note that this can cause problems if the router itself is also behind NAT.
+<a href="filter.html#antispoof">antispoof</a> обеспечивает некоторую
+защиту от пакетов с поддельными адресами источника. Входящие пакеты
+следует отбрасывать, если они появляются из списка немаршрутизируемых
+адресов, определенного ранее.
+Такие пакеты, вероятно, были отправлены из-за неправильной конфигурации
+или, возможно, как часть spoofing-атаки.
+Точно так же клиенты не должны пытаться подключиться к таким адресам.
+Параметр «return» используется для предотвращения раздражающих timeout'ов
+для пользователей. Обратите внимание, что это может вызвать проблемы,
+если сам маршрутизатор также находится за NAT.
 
 <pre class="cmdbox">
 block all
 </pre>
 
-The firewall will set a "default deny" policy for all traffic, meaning that
-only incoming and outgoing connections which have been explicitly put in the
-ruleset will be allowed.
+Устанавливается политика запрета по умолчанию для всего трафика,
+что означает, что будут разрешены только входящие и исходящие соединения,
+которые были явно помещены в набор правил.
 
 <pre class="cmdbox">
 pass out quick inet
 </pre>
 
-Allow outgoing IPv4 traffic from both the gateway itself and the LAN clients.
+Разрещен исходящий IPv4 трафик как от самого шлюза, так и от LAN клиентов.
 
 <pre class="cmdbox">
 pass in on { $wired $wifi } inet
 </pre>
 
-Allow internal LAN traffic.
+Разрешен трафик внутри локальной сети (LAN).
 
 <pre class="cmdbox">
 pass in on egress inet proto tcp from any to (egress) port { 80 443 } rdr-to 192.168.1.2
 </pre>
 
-Forward incoming connections (on TCP ports 80 and 443, for a web server)
-to the machine at 192.168.1.2.
-This is merely an example of port forwarding.
+Входящие соединения (через TCP-порты 80 и 443 для веб-сервера) будут
+перенаправляться на компьютер с адресом 192.168.1.2.
+Это просто пример port forwarding'а.
 
 <h2 id="dns">DNS</h2>
 
