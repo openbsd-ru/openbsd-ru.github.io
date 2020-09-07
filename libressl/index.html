@@ -1,97 +1,88 @@
 <!doctype html>
-<html lang=en>
-    <meta charset=utf-8>
-    <title>LibreSSL</title>
-    <meta name="description" content="the main LibreSSL page">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="canonical" href="https://www.libressl.org/">
-    <link rel="stylesheet" href="openbsd.css">
+<html lang=ru id=project-main>
+	<meta charset=utf-8>
+	<title>LibreSSL</title>
+	<meta name="description" content="the main LibreSSL page">
+	<link rel="canonical" href="https://www.libressl.org/">
+	<link rel="stylesheet" href="openbsd.css">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
-<table id="project-main" class="not-openbsd">
-  <tr class="align-top">
-    <td>
+<main>
+<nav>
 
-      <h1>Проект LibreSSL</h1>
-      <ul>
-        <li><a href="goals.html">Цели проекта</a>
-        <li><a href="releases.html">Релизы</a>
-        <li><a href="signing.html">Электронная подпись</a>
-        <li><a href="papers.html">Доклады</a>
-        <li><a href="patches.html">Патчи</a>
-        <li><a href="mail.html">Почтовые рассылки</a>
-      </ul>
+<header>Проект LibreSSL</header>
+<ul>
+	<li><a href="goals.html">Цели проекта</a>
+	<li><a href="releases.html">Релизы</a>
+	<li><a href="signing.html">Электронная подпись</a>
+	<li><a href="papers.html">Доклады</a>
+	<li><a href="patches.html">Патчи</a>
+	<li><a href="mail.html">Почтовые рассылки</a>
+</ul>
 
-      <ul>
-        <li><a href="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/">Download</a>
-      </ul>
+<ul>
+	<li><a href="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/">Download</a>
+</ul>
 
-      <h1>Исходники</h1>
-      <ul>
-        <li><a href="https://github.com/libressl-portable/">GitHub</a>
-        <li><a href="https://cvsweb.openbsd.org/src/lib/libtls/">CVS on Web (libtls)</a>
-        <li><a href="https://cvsweb.openbsd.org/src/lib/libcrypto/">CVS on Web (libcrypto)</a>
-        <li><a href="https://cvsweb.openbsd.org/src/lib/libssl/">CVS on Web (libssl)</a>
-      </ul>
+<header>Исходники</header>
+<ul>
+	<li><a href="https://github.com/libressl-portable/">GitHub</a>
+	<li><a href="https://cvsweb.openbsd.org/src/lib/libtls/">WebCVS (libtls)</a>
+	<li><a href="https://cvsweb.openbsd.org/src/lib/libcrypto/">WebCVS (libcrypto)</a>
+	<li><a href="https://cvsweb.openbsd.org/src/lib/libssl/">WebCVS (libssl)</a>
+</ul>
 
-    <td>
-      <h1 class="header">
-        <img width=599 height=192 src="images/libressl.jpg" alt="[LibreSSL]">
-      </h1>
+</nav>
+<article>
 
-      <p id="callout">
-        <a href="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.1.4-relnotes.txt">LibreSSL 3.1.4</a>
-        вышла 17 августа 2020 года
+<h2>
+	<img width=599 height=192 src="images/libressl.jpg" alt="[LibreSSL]">
+</h2>
+
+<p id="callout">
+<a href="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.1.4-relnotes.txt">LibreSSL 3.1.4</a>
+вышла 17 августа 2020 года
     
-    <p>
-    LibreSSL представляет из себя криптографический TLS-стек, возникший
-    как форк
-    <a href="http://wiki.openssl.org/index.php/Code_Quality">OpenSSL</a>
-    в 2014, с целью улучшения качества кода, более повышенной безопасности,
-    и применения лучших практик к процессу разработки.
+<p>
+LibreSSL представляет из себя криптографический TLS-стек,
+возникший как форк
+<a href="http://wiki.openssl.org/index.php/Code_Quality">OpenSSL</a>
+в 2014 году, с целью улучшения качества кода, более повышенной безопасности,
+и применения лучших практик к процессу разработки.
 
-    <p>
-    Первоночальная и основная разработка ориентированна на OpenBSD и разрабатывается
-    с обычной для проекта тщательностью.<br>
-    Регулярно код проекта <a href="releases.html">портируется</a> для других
-    ОС (Linux, FreeBSD, Windows, и.т.д.).
+<p>
+Первоночальная и основная разработка ориентированна на OpenBSD и
+разрабатывается с обычной для проекта тщательностью.<br>
+Регулярно код проекта <a href="releases.html">портируется</a>
+для других ОС (Linux, FreeBSD, Windows, и.т.д.).
 
-    <p>
-    Последним stable релизом является 3.1.4.<br>
-    Последним development релизом является 3.2.1.<br>
-    Больше информации можно найти на странице <a href="releases.html">доступных версий</a>.
+<p>
+Последним stable релизом является 3.1.4.<br>
+Последним development релизом является 3.2.1.<br>
+Больше информации можно найти на странице
+<a href="releases.html">доступных версий</a>.
 
-    <p>
-    LibreSSL состоит из следующих компонентов:
-    <ul>
-        <li><a href="https://man.openbsd.org/crypto.3">
+<p>
+LibreSSL состоит из следующих компонентов:
+<ul>
+	<li><a href="https://man.openbsd.org/crypto.3">
 	    libcrypto</a>: основная криптографическая библиотека
-        <li><a href="https://man.openbsd.org/ssl.3">
+	<li><a href="https://man.openbsd.org/ssl.3">
 	    libssl</a>: библиотека TLS
-        <li><a href="https://man.openbsd.org/tls_init.3">
+	<li><a href="https://man.openbsd.org/tls_init.3">
 	    libtls</a>: новая TLS библотека, разработанная с целью более простого
             создания защищенных приложений
 	<li>Различные утилиты, такие как
 	    <a href="https://man.openbsd.org/openssl.1">openssl(1)</a>,
 	    <a href="https://man.openbsd.org/nc.1">nc(1)</a>, и
 	    <a href="https://man.openbsd.org/ocspcheck.8">ocspcheck(8)</a>.
-    </ul>
+</ul>
 
-    <p>
-    Разработка LibreSSL финансово поддерживается 
-    <a href="https://www.openbsdfoundation.org/">OpenBSD Foundation</a>
-    и
-    <a href="https://www.openbsd.org/donations.html">проектом OpenBSD</a>.
-    Пожалуйста не забывайте о том, что и вы можете поддержать проект.
+<p>
+Разработка LibreSSL спонсируется 
+<a href="https://www.openbsdfoundation.org/">OpenBSD Foundation</a>
+и <a href="https://www.openbsd.org/donations.html">проектом OpenBSD</a>.
+Пожалуйста не забывайте о том, что и вы можете поддержать проект.
 
-<tr class="align-bottom">
-<td>
-<td>
-<hr>
-<small>
-<em>This site is a translated version of <a href="https://www.libressl.org">libressl.org</a>.
-Translation project is organized by <a href="https://github.com/alexander-naumov">Alexander Naumov</a>
-and is going with the support of
-<a href="https://github.com/openbsd-ru/openbsd-ru.github.io/graphs/contributors">
-volunteers</a>.</em>
-</small>
-</table>
+</article>
+</main>
