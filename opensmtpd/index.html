@@ -1,67 +1,66 @@
 <!doctype html>
-<html lang=ru>
-    <meta charset=utf-8>
-    <title>OpenSMTPD</title>
-    <meta name="description" content="the main OpenSMTPD page">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="canonical" href="https://www.opensmtpd.org/">
-    <link rel="stylesheet" href="openbsd.css">
+<html lang=ru id=project-main>
+	<meta charset=utf-8>
+	<title>OpenSMTPD</title>
+	<meta name="description" content="the main OpenSMTPD page">
+	<link rel="canonical" href="https://www.opensmtpd.org/">
+	<link rel="stylesheet" href="openbsd.css">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
-<table id="project-main" class="not-openbsd">
-  <tr class="align-top">
-    <td>
+<main>
+<nav>
 
-      <h1>OpenSMTPD</h1>
-      <ul>
-        <li><a href="goals.html">Цели проекта</a>
-        <li><a href="papers.html">Доклады</a>
-        <li><a href="security.html">Безопасность</a>
-        <li><a href="manual.html">Руководства</a>
-        <li><a href="list.html">Почтовые рассылки</a>
-        <li><a href="https://opensmtpd.org/donations.html">Пожертвования</a>
-      </ul>
+<header>OpenSMTPD</header>
+<ul>
+	<li><a href="goals.html">Цели проекта</a>
+	<li><a href="papers.html">Доклады</a>
+	<li><a href="security.html">Безопасность</a>
+	<li><a href="manual.html">Руководства</a>
+	<li><a href="list.html">Почтовые рассылки</a>
+	<li><a href="https://opensmtpd.org/donations.html">Пожертвования</a>
+</ul>
 
-      <h1>Для OpenBSD</h1>
-      <ul>
-        <li><a href="https://openbsd-ru.github.io/anoncvs.html">AnonCVS</a>
-        <li><a href="https://cvsweb.openbsd.org/src/usr.sbin/smtpd/">CVSWeb</a>
-      </ul>
+<header>Для OpenBSD</header>
+<ul>
+	<li><a href="https://openbsd-ru.github.io/anoncvs.html">AnonCVS</a>
+	<li><a href="https://cvsweb.openbsd.org/src/usr.sbin/smtpd/">CVSWeb</a>
+</ul>
 
-      <h1>Для других ОС</h1>
-      <ul>
-        <li><a href="portable.html">Портированная версия</a>
-        <li><a href="https://github.com/OpenSMTPD/OpenSMTPD/">Github</a>
-      </ul>
+<header>Для других ОС</header>
+<ul>
+	<li><a href="portable.html">Портированная версия</a>
+	<li><a href="https://github.com/OpenSMTPD/OpenSMTPD/">Github</a>
+</ul>
 
-    <td>
-      <h1 class="header">
-        <img src="images/opensmtpd.png" height=210 width=599 alt="[OpenSMTPD]">
-      </h1>
+</nav>
+<article>
 
-      <p id="callout">
-        Релиз
-        <a href="https://www.opensmtpd.org/announces/release-6.7.0p1.txt">OpenSMTPD 6.7</a>
-        состоялся 19 мая 2020 года.<br>
-        Последний minor релиз:
-        <a href="https://www.opensmtpd.org/archives/opensmtpd-6.7.1p1.tar.gz">OpenSMTPD 6.7.1p1</a>
-       [<a href="https://www.opensmtpd.org/archives/opensmtpd-6.7.1p1.sum.sig">sha256</a>]
-        состялся 21 мая 2020 года.
+<h2>
+	<img src="images/opensmtpd.png" alt="[OpenSMTPD]" height=210 width=599>
+</h2>
+
+<p id="callout">
+Релиз <a href="https://www.opensmtpd.org/announces/release-6.7.0p1.txt">OpenSMTPD 6.7</a>
+состоялся 19 мая 2020 года.<br>
+Последний minor релиз:
+<a href="https://www.opensmtpd.org/archives/opensmtpd-6.7.1p1.tar.gz">OpenSMTPD 6.7.1p1</a>
+[<a href="https://www.opensmtpd.org/archives/opensmtpd-6.7.1p1.sum.sig">sha256</a>]
+состоялся 21 мая 2020 года.
 
 <p>
-OpenSMTPD представляет из себя <strong>СВОБОДНУЮ</strong> реализацию серверной
-части SMTP протокола, описанного в RFC 5321
+OpenSMTPD представляет из себя <strong>СВОБОДНУЮ</strong>
+реализацию серверной части SMTP протокола, описанного в RFC 5321,
 с некоторыми дополнительными расширениями этого стандарта.
-Она позволяет обычным машинам обмениваться электронной почтой с другими системами,
-используя протокол SMTP.
+Она позволяет обычным машинам обмениваться электронной почтой
+с другими системами, используя протокол SMTP.
 
 <p>
-Проект задумывался как замена существующих на тот момент MTA. Сейчас OpenSMTPD
-представляет из себя достаточно полную реализацию протокола SMTP.
+Проект задумывался как замена существующих на тот момент MTA.
+Сейчас OpenSMTPD представляет из себя полную реализацию протокола SMTP.
 
 <p>
-OpenSMTPD разрабатывается Жилем Хеаде (Gilles Chehade) и Эриком Форотом (Eric Faurot),
-а также другими хакерами <a href="https://openbsd-ru.github.io">OpenBSD</a> и участниками
-других сообществ.
+OpenSMTPD разрабатывается Жилем Хеаде (Gilles Chehade) и Эриком Форотом
+(Eric Faurot), а также другими хакерами OpenBSD и участниками других сообществ.
 
 <p>
 OpenSMTPD является частью <a href="https://openbsd-ru.github.io">проекта OpenBSD</a>.
@@ -74,15 +73,5 @@ The OpenBSD project sells
 Sales of these items help to fund development.
 -->
 
-<tr class="align-bottom">
-<td>
-<td>
-<hr>
-<small>
-<em>This site is a translated version of <a href="https://www.opensmtpd.org/">opensmtpd.org</a>.
-Translation project is organized by <a href="https://github.com/alexander-naumov">Alexander Naumov</a>
-and is going with the support of
-<a href="https://github.com/openbsd-ru/openbsd-ru.github.io/graphs/contributors">
-volunteers</a>.</em>
-</small>
-</table>
+</article>
+</main>
