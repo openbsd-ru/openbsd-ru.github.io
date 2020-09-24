@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Собираем систему из исходников</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -69,7 +65,7 @@ FAQ - Собираем систему из исходников
 Последний доступный snapshot это все, что обычно необходимо для запуска -current.
 Если вы хотите собрать все из исходников, используйте только последний доступный
 snapshot.
-Этого можно добиться при помощи опции <code>-c</code> утилиты
+Этого можно добиться при помощи опции <code>-s</code> утилиты
 <a href="https://man.openbsd.org/susupgrade">sysupgrade(8)</a>.
 Проверьте страницу о
 <a href="https://www.openbsd.org/faq/current.html">последних -current и использования snapshots</a>,
@@ -92,7 +88,7 @@ snapshot.
   <li>Загрузка исходников
   <li>Сборка ядра (kernel) и пользовательских программ (userland), как объясняется
       в шагах 2 и 3 руководства <a href="https://man.openbsd.org/release">release(8)</a>
-  <li>Необязательно, но можно <a href="#Release">making a release</a> и
+  <li>Необязательно, но можно <a href="#Release">собрать -release</a> и
       <a href="#Xbld">собрать X</a>
 </ul>
 
@@ -527,7 +523,7 @@ $ <b>cd ../compile/CUSTOM</b>
 $ <b>make</b>
 </pre>
 
-<h2 id="Diff">Подготовока Diff</h2>
+<h2 id="Diff">Подготовка Diff</h2>
 
 Если вы изменили что-то в коде OpenBSD и решили поделиться этими изменениями с
 разработчиками, не забывайте о следующем:
