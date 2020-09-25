@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
+[![License](https://img.shields.io/github/license/openbsd-ru/openbsd-ru.github.io)](https://github.com/openbsd-ru/openbsd-ru.github.io/LICENSE)
+
 
 # Переведенные web-страницы проекта OpenBSD :blowfish:
 
