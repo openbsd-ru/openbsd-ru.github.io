@@ -1,32 +1,11 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Виртуальные частные сети (VPN)</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
 <link rel="canonical" href="https://www.openbsd.org/faq/faq17.html">
-
-<!--
-Copyright (c) 2018 Landry Breuil <landry@openbsd.org>
-
-Permission to use, copy, modify, and distribute this documentation for
-any purpose with or without fee is hereby granted, provided that the
-above copyright notice and this permission notice appear in all copies.
-
-THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS DOCUMENTATION
--->
 
 <h2 id=OpenBSD>
 <a href="../index.html">
@@ -53,7 +32,7 @@ FAQ - Виртуальные частные сети (VPN)
     </ul>
     <li><a href="#clientwindows">С клиентом Windows</a>
   </ul>
-  <li><a href="#clientikev1"    >Соединение с IKEv1 / L2TP OpenBSD VPN</a>
+  <li><a href="#clientikev1"    >Соединение с IKEv1/L2TP OpenBSD VPN</a>
 </ul>
 
 <hr>
@@ -76,7 +55,14 @@ OpenBSD поставляется с <a href="https://man.openbsd.org/iked">iked(
 Сервер IKEv1 <a href="https://man.openbsd.org/isakmpd">isakmpd(8)</a>
 также доступен, и в сочетании с
 <a href="https://man.openbsd.org/npppd">npppd(8)</a>
-он позволяет вам создать VPN IKEv1 / L2TP, где IKEv2 не может быть развернут.
+он позволяет вам создать VPN IKEv1/L2TP, где IKEv2 не может быть развернут.
+
+<p>
+Поддержка WireGuard так же есть и доступна при помощи устройства
+<a href="https://man.openbsd.org/wg">wg(4)</a>.
+Как рассказывается в руководстве, он может быть настроен точно так же как
+и любой другой <a href="faq6.html">сетевой интерфейс</a> в OpenBSD.
+
 
 <h2 id="authentication">Аутентификация</h2>
 
