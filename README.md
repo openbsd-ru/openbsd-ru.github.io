@@ -42,9 +42,9 @@ issue. Очень нужным и важным является самая об�
 | **[amd64](https://www.openbsd.org/amd64.html)** |  Хотите перевести? | |
 | **[powerpc64](https://www.openbsd.org/powerpc64.html)** |  Хотите перевести? | |
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
-| **[6.7](https://www.openbsd.org/67.html)** |  Хотите перевести? | |
+| **[6.8](https://www.openbsd.org/68.html)** |  Хотите перевести? | |
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
-| **[FAQ_Upgrade Guide: 6.6 to 6.7](https://www.openbsd.org/faq/upgrade67.html)** |  Хотите перевести? | |
+| **[FAQ_Upgrade Guide: 6.7 to 6.8](https://www.openbsd.org/faq/upgrade68.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
