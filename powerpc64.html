@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang=ru id=platform>
+<meta charset=utf-8>
+
+<title>OpenBSD/powerpc64</title>
+<meta name="description" content="the OpenBSD/powerpc64 page">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/powerpc64.html">
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+powerpc64
+</h2>
+<hr>
+
+<table><tr><td>
+<p>
+OpenBSD/powerpc64 работает на компьютерах  PowerNV, использующих процессор
+IBM POWER9.
+
+<p>
+Список почтовой рассылки посвященный портам OpenBSD/macppc и OpenBSD/powerpc64
+доступен по адресу <a href="mailto:ppc@openbsd.org">ppc@openbsd.org</a>
+Чтобы присоединиться к списку почтовой рассылки OpenBSD/macppc
+и OpenBSD/powerpc64 отправьте сообщение c текстом "<b>subscribe ppc</b>"
+на адрес <a href="mailto:majordomo@openbsd.org">majordomo@openbsd.org</a>.
+Перед тем как отправить сообщение обязательно ознакомьтесь с нашими
+<a href="mail.html">правилами списка почтовой рассылки</a>.
+
+<p>
+Текущим сопровождающим порта является Mark Kettenis
+(<a href="mailto:kettenis@openbsd.org">kettenis@openbsd.org</a>).
+Другие, безусловно, могут внести свой вклад!
+</table>
+
+<hr>
+
+<h3 id="history"><strong>История</strong></h3>
+
+<p>
+Первым официальным релизом OpenBSD/powerpc64 был OpenBSD 6.8.
+
+<p>
+И так как всегда чего-то не хватает, работа продолжается...
+<hr>
+
+<h3 id="status"><strong>Текущий статус:</strong></h3>
+
+<p>
+В настоящее время OpenBSD/powerpc64 поддерживает процессоры POWER9
+и стабильно работает на машинах PowerNV на базе плат Raptor Computing
+Systems Talos II и Blackbird. Поддержка процессоров POWER8 включена,
+но не тестировалась.
+
+<p>
+OpenBSD / powerpc64 не работает под гипервизором, таким как PowerVM
+или PowerKVM.
+
+<hr>
+
+<h3 id="hardware"><strong>Поддерживаемое оборудование:</strong></h3>
+
+<p>
+<h4>Поддерживаемые машины</h4>
+
+<p>
+OpenBSD/powerpc64, как известно, работает на следующих машинах:
+<ul style="column-count: 1">
+ <li>Raptor Talos II
+ <li>Raptor Blackbird
+</ul>
+
+<p>
+Ожидается, что OpenBSD/powerpc64 также будет работать в системах IBM PowerNV.
+Пожалуйста, попробуйте, если у вас есть доступ к такому оборудованию.
+<hr>
+
+<h3 id="install">
+<strong>Получение и установка OpenBSD/powerpc64:</strong>
+</h3>
+
+<p>
+Последним поддерживаемым выпуском OpenBSD/powerpc64 является
+<a href="https://www.openbsd.org/68.html">OpenBSD 6.8</a>.
+Вот
+<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/powerpc64/INSTALL.powerpc64">
+инструкции по установке OpenBSD/powerpc64</a>.
+
+<p>
+Время от времени снапшоты становятся доступными в
+<a href="https://cdn.openbsd.org/pub/OpenBSD/snapshots/powerpc64">этом месте</a>
+,а также на нескольких
+<a href="ftp.html">зеркалах</a>.
+Вот также
+<a href="https://ftp.openbsd.org/pub/OpenBSD/snapshots/powerpc64/INSTALL.powerpc64">
+инструкции по установке снапшота OpenBSD/powerpc64</a>.
+
+<p>
+Предусмотрено несколько типов установочных носителей, так что OpenBSD/powerpc64
+можно установить или обновить через образы miniroot, а также установить по сети.
+
+<ul>
+  <li><strong>Miniroot</strong> (minirootXX.img)
+  <p>
+  Miniroot обеспечивает простую среду установки. Просто запишите miniroot
+  на флешку командой dd и вставьте ее в USB-слот машины. После включения машины
+  в меню загрузчика petitboot должна появиться опция установки OpenBSD.
+
+  <p>
+  <li><strong>Сетевая загрузка</strong> (bsd.rd)
+  <p>
+  Также можно загрузить среду установки OpenBSD/powerpc64 непосредственно
+  с сервера HTTP или TFTP.
+</ul>
