@@ -1,5 +1,5 @@
 os:      linux
-dist:    xenial
+dist:    focal
 git:
   depth: false
 script:
