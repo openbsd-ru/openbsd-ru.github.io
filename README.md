@@ -39,7 +39,6 @@ issue. Очень нужным и важным является самая об�
 | **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
-| **[amd64](https://www.openbsd.org/amd64.html)** |  Хотите перевести? | |
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
 | **[6.8](https://www.openbsd.org/68.html)** |  Хотите перевести? | |
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
