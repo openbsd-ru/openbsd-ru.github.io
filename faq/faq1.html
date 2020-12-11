@@ -48,7 +48,7 @@ FAQ - Введение в OpenBSD
   <li>OpenBSD это полнофункциональная UNIX-подобная операционная система,
       доступная в исходном и двоичном виде бесплатно.
   <li>OpenBSD интегрирует передовые технологии безопасности, подходящие для
-      <a href="https://www.openbsd.org/faq/pf/example1.html">построения сетевых экранов</a> и
+      <a href="pf/example1.html">построения сетевых экранов</a> и
       частных сетевых сервисов в распределённом окружении.
   <li>OpenBSD извлекает выгоду из сильного постоянного развития во многих
   областях, предлагая возможности работать с появляющимися технологиями и
@@ -118,13 +118,13 @@ OpenBSD распространяется с рядом сторонних про
 
 <h2 id="Platforms">Поддержка аппаратного обеспечения</h2>
 
-OpenBSD работает на следующих <a href="https://www.openbsd.org/plat.html">платформах</a>:
+OpenBSD работает на следующих <a href="../plat.html">платформах</a>:
 <!-- XXXrelease - verify platform list is current -->
 
 <ul>
   <li><a href="https://www.openbsd.org/alpha.html"    >alpha</a>
-  <li><a href="https://www.openbsd.org/amd64.html"    >amd64</a>
-  <li><a href="https://www.openbsd.org/arm64.html"    >arm64</a>
+  <li><a href="../amd64.html"                         >amd64</a>
+  <li><a href="../arm64.html"                         >arm64</a>
   <li><a href="https://www.openbsd.org/armv7.html"    >armv7</a>
   <li><a href="https://www.openbsd.org/hppa.html"     >hppa</a>
   <li><a href="https://www.openbsd.org/i386.html"     >i386</a>
@@ -133,7 +133,7 @@ OpenBSD работает на следующих <a href="https://www.openbsd.or
   <li><a href="https://www.openbsd.org/luna88k.html"  >luna88k</a>
   <li><a href="https://www.openbsd.org/macppc.html"   >macppc</a>
   <li><a href="https://www.openbsd.org/octeon.html"   >octeon</a>
-  <li><a href="https://www.openbsd.org/powerpc64.html">powerpc64</a>
+  <li><a href="../powerpc64.html"                     >powerpc64</a>
   <li><a href="https://www.openbsd.org/sparc64.html"  >sparc64</a>
 </ul>
 
@@ -168,8 +168,7 @@ OpenBSD поставляется с обширной документацией 
   <a href="https://man.openbsd.org/shutdown">shutdown(8)</a>
   - остановка и перезагрузки системы.
   <li><a href="https://man.openbsd.org/syspatch">syspatch(8)</a>
-  - применение <a href="https://www.openbsd.org/faq/faq10.html#Patches">
-  обновлений безопасности и надёжности</a>.
+  - загрузка <a href="faq10.html#Patches">обновлений безопасности</a>.
   <li><a href="https://man.openbsd.org/sysupgrade">sysupgrade(8)</a>
   - обновление до следующего релиза OpenBSD или нового снапшота.
   <li><a href="https://man.openbsd.org/dmesg">dmesg(8)</a>
@@ -239,7 +238,7 @@ $ <b>man 5 crontab</b>
       Это самый активный список и он должен быть «по умолчанию»
 	  для большинства вопросов и обсуждений.
   <li><b>ports</b> - Обсуждение
-      <a href="https://www.openbsd.org/faq/ports/ports.html">дерева портов</a>.
+      <a href="ports/ports.html">дерева портов</a>.
   <li><b>source-changes</b> - Автоматическая рассылка изменений дерева исходников CVS.
       Каждый раз, когда разработчик вносит изменения в исходный код OpenBSD, xenocara
 	  или www, CVS отправляет копию сообщения об изменении в этот список.
@@ -277,8 +276,8 @@ $ <b>man 5 crontab</b>
 <ul>
   <li>OpenBSD - это Unix в стиле BSD, следующий дизайну 4.4BSD. Linux и Solaris
       являются системами в стиле System V. Некоторые Unix-подобные операционные
-      системы смешивают характеристики System V и BSD. Распространенным местом, где
-      это вызывает путаницу, являются <a href="https://www.openbsd.org/faq/faq10.html#rc">сценарии запуска</a>.
+      системы смешивают характеристики System V и BSD. Распространенным местом,
+      где это вызывает путаницу, являются <a href="faq10.html#rc">загрузочные скрипты</a>.
       OpenBSD использует систему <a href="https://man.openbsd.org/rc">rc(8)</a>.
   <li>OpenBSD - это законченная система. Это не ядро плюс утилиты, которые
       можно обновлять отдельно друг от друга.
