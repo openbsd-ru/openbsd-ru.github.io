@@ -45,7 +45,7 @@ FAQ - Общие вопросы
     Эта часть процесса различается для разных
     <a href="https://www.openbsd.org/plat.html">платформ</a>.
     Для amd64 и i386, на
-    <a href="https://www.openbsd.org/faq/faq14.html#BootAmd64">на втором этапе загрузки</a>
+    <a href="faq14.html#BootAmd64">на втором этапе загрузки</a>
     есть пауза для введения параметров ядра.
     В примере ниже видно как мы передали <code>-s</code> флаг для
     <a href="https://man.openbsd.org/OpenBSD-current/i386/boot">boot(8)</a>:
@@ -116,7 +116,7 @@ boot> <b>boot -s</b>
 
 OpenBSD предполагает, что ваши аппаратные часы настроены в соответствии с UTC
 (Universal Coordinated Time), а не по местному времени. Это может причиной проблем при
-<a href="https://www.openbsd.org/faq/faq4.html#Multibooting">мультизагрузке</a>.
+<a href="faq4.html#Multibooting">мультизагрузке</a>.
 Большинство других операционных ситем могут быть настроены по тому же принципу,
 что и OpenBSD, чтобы избежать эту проблему.
 
@@ -256,7 +256,7 @@ lookup file bind
 </pre>
 
 Если вы используете
-<a href="https://www.openbsd.org/faq/faq6.html#DHCP">DHCP</a>,
+<a href="faq6.html#DHCP">DHCP</a>,
 вы должны добавить <code>lookup file bind</code> в ваш
 <code>/etc/resolv.conf.tail</code> файл, так как <code>resolv.conf</code>
 будет перезаписан
