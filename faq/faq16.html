@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Виртуализация</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -190,8 +186,7 @@ vm "example" {
 
 <p>
 Следующая строка в <code>/etc/pf.conf</code> включит 
-<a href="https://www.openbsd.org/faq/pf/nat.html">NAT</a> сетевых адресов и перенаправит 
-DNS-запросы на указанный сервер:
+<a href="pf/nat.html">NAT</a> сетевых адресов и перенаправит DNS-запросы на указанный сервер:
 
 <pre class="cmdbox">
 match out on egress from 100.64.0.0/10 to any nat-to (egress)
