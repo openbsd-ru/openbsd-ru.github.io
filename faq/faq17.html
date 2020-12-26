@@ -434,6 +434,9 @@ server1# <b>cp /etc/iked/ca/ca.crt /var/www/htdocs/</b>
 Ответчик должен предоставить инициатору IP-адрес и, в конечном
 итоге, также сервер имен. Это достигается с помощью директив 
 <code>config</code>
+При использовании параметра <code>config address</code>,
+<code>to 0.0.0.0 </code> (или <code> 0.0.0.0/32 </code>)
+будет заменен назначенным динамическим IP-адресом.
 
 <h4 id="autheap">Использование MSCHAP-V2 для аутентификации EAP</h4>
 
@@ -445,7 +448,7 @@ server1# <b>cp /etc/iked/ca/ca.crt /var/www/htdocs/</b>
 <pre class="cmdbox">
 user 'android' 'password'
 ikev2 'responder_eap' passive esp \
-        from 0.0.0.0/0 to 10.0.5.0/24 \
+        from 0.0.0.0/0 to 0.0.0.0 \
         local 192.0.2.1 peer any \
         srcid server1.domain \
         eap "mschap-v2" \
@@ -508,7 +511,7 @@ server1# <b>cp /tmp/export/client1.domain.pfx /var/www/htdocs/client1.domain.pfx
 
 <pre class="cmdbox">
 ikev2 'responder_x509' passive esp \
-        from 0.0.0.0/0 to 10.0.5.0/24 \
+        from 0.0.0.0/0 to 0.0.0.0 \
         local 192.0.2.1 peer any \
         srcid server1.domain \
         config address 10.0.5.0/24 \
@@ -590,7 +593,7 @@ o об этих требованиях
 <pre class='cmdbox'>
 user 'windows' 'password'
 ikev2 'responder_eap' passive esp \
-        from 0.0.0.0/0 to 10.0.5.0/24 \
+        from 0.0.0.0/0 to 0.0.0.0 \
         local 192.0.2.1 peer any \
         srcid server1.domain.fqdn \
         eap "mschap-v2" \
