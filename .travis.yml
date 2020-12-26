@@ -3,5 +3,6 @@ dist:    focal
 git:
   depth: false
 script:
+  - bash link_update.sh | grep -v README
   - bash comp_version.sh
   - bash broken_links.sh
