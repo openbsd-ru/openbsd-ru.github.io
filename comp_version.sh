@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Author Oleg Pahl <deface@posteo.de>
+# Author Alexander Naumov <alexander_naumov@opensuse.org>
+
 pprintf() {
     if [ -z $3 ]; then
         printf "%30s%12s%12s    %s\n" $1 "-----" $2 "?????"
