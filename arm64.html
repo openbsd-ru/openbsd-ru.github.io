@@ -35,7 +35,7 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 <h3 id="status"><strong>Текущее состояние</strong></h3>
 
 <p>
-В настоящее время работа ведется над платформами  Allwinner A64/H5, Amlogic G12A/B,
+В настоящее время работа ведется над платформами  Allwinner A64/H5, Amlogic G12B/SM1,
 AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 7K/8K, Rockchip RK3328/RK3399,
 Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4) и Socionext SCA11.
 
@@ -61,10 +61,11 @@ U-Boot&gt; boot
 </pre>
 
 <p>
-Для работы OpenBSD на Raspberry Pi 4 необходим EDK2-base UEFI firmware.
+Для работы OpenBSD на Raspberry Pi 4 необходим EDK2-based UEFI firmware.
 По умолчанию boot ROM попытается загрузить firmware с SD-карты.
-Драйвера для SD/MMC пока нет, но никих дополнительных шагов не требуется
-для загрузки с USB-флешки (USB disk drive).
+Никих дополнительных шагов не требуется для загрузки с USB-флешки (USB disk
+drive), поскольку UEFI использует по умолчанию (предпочитает) загрузку с
+USB-флешки, а не с с SD-карты.
 
 <p>
 Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
@@ -97,9 +98,11 @@ OpenBSD/arm64 работает на следующем железе:
 		<li>SoftIron OverDrive 1000
 		<li>SoftIron OverDrive 3000
 	</ul>
-	<li>Amlogic G12A/B
+	<li>Amlogic G12B/SM1
 	<ul>
 		<li><a href="https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram/">Hardkernel ODROID-N2</a>
+		<li><a href="https://www.hardkernel.com/shop/odroid-c4/">Hardkernel ODROID-C4</a>
+		<li><a href="https://www.hardkernel.com/shop/odroid-hc4/">Hardkernel ODROID-HC4</a>
 	</ul>
 	<li>Ampere eMAG
 	<ul>
