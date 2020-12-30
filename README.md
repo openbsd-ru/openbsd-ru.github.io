@@ -32,7 +32,6 @@ issue. Очень нужным и важным является самая об�
 | **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | Хотите перевести? | |
 | **[FAQ#PF_Issues with FTP](https://www.openbsd.org/faq/pf/ftp.html)** | Хотите перевести? | |
 | **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
-| **[FAQ#PF_Address Pools and Load Balancing](https://www.openbsd.org/faq/pf/pools.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/pools.html)|
 | **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | Хотите перевести? | |
 | **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | Хотите перевести? | |
 | **[FAQ#PF_Packet Tagging (Policy Filtering)](https://www.openbsd.org/faq/pf/tagging.html)** | Хотите перевести? | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/blob/master/openbsd/faq/pf/tagging.html)|
