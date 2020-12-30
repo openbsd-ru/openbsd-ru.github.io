@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<title>OpenBSD PF: Пулы адресов и балансировка нагрузки</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/pools.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Пулы адресов и балансировка нагрузки
+<small>
+<a href="index.html">[FAQ PF - На главную]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#intro"          >Введение</a>
+  <li><a href="#nat"            >Пул адресов NAT</a>
+  <li><a href="#incoming"       >Балансировка нагрузки входящих соединений</a>
+  <li><a href="#outgoing"       >Балансировка нагрузки исходящих соединений</a>
+    <ul>
+      <li><a href="#outexample" >Примеры правил</a>
+    </ul>
+</ul>
+<hr>
+
+<h2 id="intro">Введение</h2>
+
+Адресный пул представляет собой два или более адресов, которые используются
+совместно группой пользователей.
+Адресный пул может быть указан в качестве параметра целевого адреса в
+директивах <a href="filter.html">фильтра</a> <code>nat-to</code>,
+<code>rdr-to</code>, <code>route-to</code>, <code>reply-to</code> и
+<code>dup-to</code>.
+
+<p>
+Существуют четыре метода использования адресного пула:
+
+<ul>
+  <li><code>bitmask</code> - указывает сетевую часть пула
+      адресов, с помощью которой будет модифицирован адрес (адрес источник
+      для правил <code>nat-to</code>, адрес приемник для правил
+      <code>rdr-to</code>).
+      Пример: если адресный пул определен как 192.0.2.1/24, а адрес,
+      который необходимо модифицировать - 10.0.0.50, то результирующий
+      адрес будет 192.0.2.50.
+      Если пул адресов 192.0.2.1/25, а изменяемый адрес - 10.0.0.130,
+      то результирующий адрес будет 192.0.2.2.
+  <li><code>random</code> - адрес из пула выбирается случайным образом.
+  <li><code>source-hash</code> - для определения какой адрес из пула бедет
+      использован используется хэш функция.
+      Этот метод гарантирует, что source address всегда будет перенаправлен 
+      на соответствующий ему адрес пула.
+      Ключ, который используется для алгоритма хеширования, может быть
+      указан дополнительно после ключевого <code>source-hash</code> в
+      шестнадцатеричном формате, или как строка.
+      По умолчанию, <a href="https://man.openbsd.org/pfctl">pfctl(8)</a>
+      будет создавать/генерировать случайный ключ каждый раз при загрузка
+      набора правил.
+  <li><code>round-robin</code> - адреса пула выбираются циклически
+      (последовательно по кругу).
+      Этот метод используется по умолчанию, а также ТОЛЬКО этот метод
+      используется, когда адресный пул объявлен при помощи
+      <a href="tables.html">таблиц</a>.
+</ul>
+
+<p>
+За исключением циклического метода <code>round-robin</code>, адресный пул
+должен быть описан как сетевой блок
+<a href="https://web.archive.org/web/20150213012421/http://public.swbell.net/dedicated/cidr.html">CIDR</a>
+(Classless Inter-Domain Routing).
+Циклический <code>round-robin</code> метод допускает использование множества
+отдельных адресов, определенных при помощи <a href="macros.html#lists">списка</a>
+или <a href="tables.html">таблицы</a>. 
+
+<p>
+Параметр <code>sticky-address</code> может быть использован с пулами типа
+<code>random</code> и <code>round-robin</code> для обеспечения того условия,
+что адрес источника всегда будет соотнесен тому же адресу перенаправления.
+
+<h2 id="nat">Пул адресов NAT</h2>
+
+Адресный пул может быть использован в качестве адреса для преобразования
+в правилах <a href="nat.html"><code>nat-to</code></a>.
+Соединения будут получать свой source address путем преобразования его в
+адреса из пула, указанным способом.
+Это может быть полезным в ситуации, когда PF обслуживает при помощи NAT
+очень большую сеть.
+Так как число соединений, преобразованных при помощи NAT, ограниченно,
+добавление дополнительных адресов позволяет шлюзу масштабироваться и
+обслуживать большее количество клиентов.
+
+<p>
+В этом примере пул из двух адресов используется для преобразования
+исходящих пакетов. Для каждого исходящего соединения PF будет
+циклически выбирать адрес способом round-robin.
+
+<pre class="cmdbox">
+match out on egress inet nat-to { 192.0.2.5, 192.0.2.10 }
+</pre>
+
+Одним из недостатков этого метода является то, что соединения с одного 
+внутреннего адреса не могут быть всегда преобразованы в тот же конечный 
+адрес. Это может препятствовать, например, просмотру сайтов, которые 
+отслеживают доступ пользователей, основываясь на его IP-адрес. 
+Альтернативный способ - использовать метод <code>source-hash</code>. 
+Тогда каждый внутренний адрес всегда будет преобразован в один и тот же 
+конечный адрес. Для этого адресный пул должен быть описан при помощи 
+сетевого блока
+<a href="https://web.archive.org/web/20150213012421/http://public.swbell.net/dedicated/cidr.html">CIDR</a>.
+
+<pre class="cmdbox">
+match out on egress inet nat-to 192.0.2.4/31 source-hash
+</pre>
+
+Это правило использует пул адресов 192.0.2.4/31 (192.0.2.4 — 192.0.2.5)
+для преобразования адреса исходящих пакетов.
+Каждый внутренний адрес будет всегда преобразован в один и тот же
+адрес благодаря ключевому слову <code>source-hash</code>.
+
+<h2 id="incoming">Балансировка нагрузки входящих соединений</h2>
+
+Адресный пул также может быть использован для балансировки нагрузки 
+входящих соединений. Например, входящие соединения к web серверу 
+могут быть распределены между web серверами в ферме:
+
+<pre class="cmdbox">
+web_servers = "{ 10.0.0.10, 10.0.0.11, 10.0.0.13 }"
+
+match in on egress proto tcp to port 80 rdr-to $web_servers \
+    round-robin sticky-address
+</pre>
+
+Последовательные соединения будут перенаправлены на web серверы
+циклическим методом. Причем соединения с одних и тех же адресов будут
+перенаправлены на одни и те же web серверы.
+"Липкие связи" ("sticky connection") будут существовать до тех пор пока
+они будут привязаны к своим соединениям.
+Как только соединения закрываются, исчезает и липкая связь. Последующие 
+соединения с этого адреса будут перенаправлены к следующему web серверу 
+в циклическом порядке.
+
+<h2 id="outgoing">Балансировка нагрузки исходящих соединений</h2>
+
+Пул адресов может быть использован в комбинации с опцией фильтра
+<code>route-to</code> для балансировки двух или более Internet соединений,
+когда невозможно использовать правильный протокол multipath-маршрутизации
+(например <a href="http://www.rfc-editor.org/rfc/rfc1771.txt">BGP4</a>).
+При использовании <code>route-to</code> с адресным пулом <code>round-robin</code>
+исходящие соединения могут быть равномернораспределены между несколькими 
+исходящими маршрутами.
+
+<p>
+Еще одна дополнительная порция информации, необходимая для
+этого - это IP-адрес соседнего рутера на каждом Internet соединении.
+Она необходима опции <code>route-to</code> для управления полем
+"приемник" (destination) исходящих пакетов.
+
+<p>
+Приведенный пример демонстрирует возможность балансировки исходящего 
+трафика через два Internet соединения:
+
+<pre class="cmdbox">
+lan_net = "192.168.0.0/24"
+int_if  = "dc0"
+ext_if1 = "fxp0"
+ext_if2 = "fxp1"
+ext_gw1 = "198.51.100.100"
+ext_gw2 = "203.0.113.200"
+
+pass in on $int_if from $lan_net route-to \
+   { ($ext_if1 $ext_gw1), ($ext_if2 $ext_gw2) } round-robin
+</pre>
+
+
+Параметр <code>route-to</code> применяется к <i>входящему</i> трафику на 
+<i>внутреннем</i> интерфейсе, чтобы указать исходящий сетевой интерфейс,
+трафик которого будет балансироваться через соответствующие шлюзы.
+Заметьте, что опция <code>route-to</code> может присутствовать в 
+<i>каждом</i> правиле фильтра, которое предназначено для балансировки 
+трафика (она не может быть использованая с правилом <code>match</code>).
+
+<p>
+Чтобы быть уверенным, что source address пакеты, принадлежащие
+<code>$ext_if1</code>, всегда перенаправляются на <code>$ext_gw1</code>
+(и аналогично для <code>$ext_if2</code> и <code>$ext_gw2</code>),
+в правила необходимо добавить следующие две строки:
+
+<pre class="cmdbox">
+pass out on $ext_if1 from $ext_if2 route-to ($ext_if2 $ext_gw2)
+pass out on $ext_if2 from $ext_if1 route-to ($ext_if1 $ext_gw1)
+</pre>
+
+И наконец, NAT может быть использован на каждом исходящем интерфейсе:
+
+<pre class="cmdbox">
+match out on $ext_if1 from $lan_net nat-to ($ext_if1)
+match out on $ext_if2 from $lan_net nat-to ($ext_if2)
+</pre>
+
+<p id="outexample">
+Полный пример балансировки исходящего трафика может выглядеть так:
+
+<pre class="cmdbox">
+lan_net = "192.168.0.0/24"
+int_if  = "dc0"
+ext_if1 = "fxp0"
+ext_if2 = "fxp1"
+ext_gw1 = "198.51.100.100"
+ext_gw2 = "203.0.113.200"
+
+#  nat outgoing connections on each internet interface
+match out on $ext_if1 from $lan_net nat-to ($ext_if1)
+match out on $ext_if2 from $lan_net nat-to ($ext_if2)
+
+#  default deny
+block in
+block out
+
+#  pass all outgoing packets on internal interface
+pass out on $int_if to $lan_net
+#  pass in quick any packets destined for the gateway itself
+pass in quick on $int_if from $lan_net to $int_if
+#  load balance outgoing traffic from internal network.
+pass in on $int_if from $lan_net \
+    route-to { ($ext_if1 $ext_gw1), ($ext_if2 $ext_gw2) } \
+    round-robin
+#  keep https traffic on a single connection; some web applications,
+#  especially "secure" ones, don't allow it to change mid-session
+pass in on $int_if proto tcp from $lan_net to port https \
+    route-to ($ext_if1 $ext_gw1)
+
+#  general "pass out" rules for external interfaces
+pass out on $ext_if1
+pass out on $ext_if2
+
+#  route packets from any IPs on $ext_if1 to $ext_gw1 and the same for
+#  $ext_if2 and $ext_gw2
+pass out on $ext_if1 from $ext_if2 route-to ($ext_if2 $ext_gw2)
+pass out on $ext_if2 from $ext_if1 route-to ($ext_if1 $ext_gw1)
+</pre>
