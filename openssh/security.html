@@ -32,6 +32,15 @@ OpenSSH разрабатывается по тем же принципам и т
 <a href="../security.html">безопасности OpenBSD</a>.
 
 <ul>
+<li><p><b>3 марта 2021</b><br>
+    ssh-agent в OpenSSH версиях между 8.2 и 8.4 (включительно).
+    <br>
+    Double-free memory corruption. Mitigated by socket peer user identity
+    checking and double-free protection in malloc(3).
+    Этот баг был исправлен в OpenSSH 8.5
+    Более подробную информацию по этому поводу можно прочитать в
+    <a href="txt/release-8.5">release notes</a>.
+
 <li><p><b>3 октября 2017</b><br>
     Все версии OpenSSH до 7.6 поддерживают режим только для чтения в sftp-сервере
     (был добавлен в версии 5.5).
