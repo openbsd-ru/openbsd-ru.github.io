@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Общие вопросы</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +30,7 @@ FAQ - Общие вопросы
 
 <h2 id="LostPW">Я забыл свой пароль root</h2>
 
-Процесс восстановления пароля включает следующие шаги - загрузку в
+Процесс восстановления пароля включает следующие шаги: загрузку в
 однопользовательском режиме, монтирование разделов <code>/</code> и
 <code>/usr</code>, выполнение команды
 <a href="https://man.openbsd.org/passwd">passwd(1)</a> для смены
@@ -105,7 +101,7 @@ boot> <b>boot -s</b>
 адресом или интерфейсом.
 
 <p>
-После того как вы запустете <a href="https://man.openbsd.org/ntpd">ntpd(8)</a>
+После того как вы запустите <a href="https://man.openbsd.org/ntpd">ntpd(8)</a>
 в качестве сервера, другие машины, возможно, не смогут синхронизировать
 настройки времени сразу же. Это связано с тем, что информация о времени не
 будет предоставляться сервером до тех пор, пока не будет достигнут достаточный
