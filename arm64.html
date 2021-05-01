@@ -40,13 +40,13 @@ AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 7K/8K, Rockchip RK3328/RK3399,
 Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4) и Socionext SCA11.
 
 <p>
-Устновочный образ включает в себя firmware, необходимый для загрузки Pine 64/64+
-и Raspberry Pi 3.
+Устновочный образ включает в себя firmware, необходимый для загрузки Pine 64/64+,
+Raspberry Pi 3 и Raspberry Pi 4.
 
 <p>
-Raspberry Pi 3 требует закрытых, но свободно распространяемых (redistributable)
+Raspberry Pi платы требует закрытых, но свободно распространяемых (redistributable)
 файлов на диске для загрузки графического процессора VC4, который уже и запускает
-сами ядра ARM. По умолчанию загрузочный ROM пытается загрузить эти файлы только с
+само ARM ядро. По умолчанию загрузочный ROM пытается загрузить эти файлы только с
 SD-карты.
 Чтобы загрузить firmware с SD-карты и иметь возможность работать с корневой ФС на
 USB после установки OpenBSD, перезагрузите компьютер и во время загрузки, до
@@ -61,11 +61,11 @@ U-Boot&gt; boot
 </pre>
 
 <p>
-Для работы OpenBSD на Raspberry Pi 4 необходим EDK2-based UEFI firmware.
-По умолчанию boot ROM попытается загрузить firmware с SD-карты.
-Никих дополнительных шагов не требуется для загрузки с USB-флешки (USB disk
-drive), поскольку UEFI использует по умолчанию (предпочитает) загрузку с
-USB-флешки, а не с с SD-карты.
+На некоторых моделях Raspberry Pi, где не работает U-Boot
+(например Raspberry Pi 400), можно использовать для загрузки
+<a href="https://github.com/pftf/RPi4">EDK2-based UEFI firmware</a>.
+Самый простой способ это сделать: установить firmware на SD карту,
+а ОС - на USB.
 
 <p>
 Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
@@ -112,7 +112,10 @@ OpenBSD/arm64 работает на следующем железе:
 	<li>Broadcom BCM2837/BCM2711
 	<ul>
 		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/">Raspberry Pi 3</a>
+		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/">Raspberry Pi 3 Model B+</a>
+			(но с ограничением; встроенная сетевоая карта не работает)
 		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/">Raspberry Pi 4</a>
+		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-400-unit/">Raspberry Pi 400</a>
 	</ul>
 	<li>Marvell ARMADA 7K/8K
 	<ul>
@@ -144,6 +147,10 @@ OpenBSD на этих машинах.
 Не забывайте, что Raspberry Pi 3 модели B+ отличается от первоночальной Raspberry Pi 3;
 некоторые важные компоненты (devices) на B+ <b>НЕ</b> поддеживаются.
 
+<p>
+Заметье, что Raspberry Pi 3 модели B+ отличается от оригинальной Raspberry Pi 3;
+некоторые важные компоненты на B+ <b>НЕ</b> поддерживаются.
+
 <h4>Ethernet</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/bse.4">bse(4)</a>
@@ -161,7 +168,7 @@ OpenBSD на этих машинах.
 <h4>802.11 wireless</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/bwfm.4">bwfm(4)</a>
-	  на Raspberry Pi 3/4 и Pinebook Pro
+	  на Raspberry Pi 3/4/400 и Pinebook Pro
 </ul>
 
 <h4>Storage</h4>
@@ -200,9 +207,9 @@ time clock с питанием от батарейки, тем не менее, 
 
 <p>
 Последний поддерживаемая версия OpenBSD/arm64
-<a href="https://www.openbsd.org/68.html">OpenBSD 6.8</a>.
+<a href="https://www.openbsd.org/69.html">OpenBSD 6.9</a>.
 Здесь вы можете найти
-<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/arm64/INSTALL.arm64">
+<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/arm64/INSTALL.arm64">
 инструкции по установке OpenBSD/arm64</a>.
 
 <p>
