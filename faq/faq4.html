@@ -115,18 +115,19 @@ boot> <b>boot hd1d:/bsd.rd</b>
 	  если вы используете одну из архитектур, отличных от x86. Они содержат
 	  подробные инструкции и предостережения:
           <p>
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/alpha/INSTALL.alpha">alpha</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/amd64/INSTALL.amd64">amd64</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/arm64/INSTALL.arm64">arm64</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/armv7/INSTALL.armv7">armv7</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/hppa/INSTALL.hppa">hppa</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/i386/INSTALL.i386">i386</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/landisk/INSTALL.landisk">landisk</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/loongson/INSTALL.loongson">loongson</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/luna88k/INSTALL.luna88k">luna88k</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/macppc/INSTALL.macppc">macppc</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/octeon/INSTALL.octeon">octeon</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/sparc64/INSTALL.sparc64">sparc64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/alpha/INSTALL.alpha">alpha</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/amd64/INSTALL.amd64">amd64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/arm64/INSTALL.arm64">arm64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/armv7/INSTALL.armv7">armv7</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/hppa/INSTALL.hppa">hppa</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/i386/INSTALL.i386">i386</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/landisk/INSTALL.landisk">landisk</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/loongson/INSTALL.loongson">loongson</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/luna88k/INSTALL.luna88k">luna88k</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/macppc/INSTALL.macppc">macppc</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/octeon/INSTALL.octeon">octeon</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/powerpc64/INSTALL.powerpc64">powerpc64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/sparc64/INSTALL.sparc64">sparc64</a>]
       <li>Если досуп к сети в вашем случае возможен только через wireless, узнайте
 	  заранее, требует ли ваша карта
 	  <a href="http://firmware.openbsd.org/firmware">дополнительной прошивки</a>?
@@ -161,27 +162,33 @@ boot> <b>boot hd1d:/bsd.rd</b>
 <ul>
 <li>
 <b>installXX.img</b>
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/install68.img">amd64</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/i386/install68.img">i386</a>]
+<br>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/install69.img">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/arm64/install69.img">arm64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/i386/install69.img">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/octeon/install69.img">octeon</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/powerpc64/install69.img">powerpc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/sparc64/install69.img">sparc64</a>]
 <br>
 Образ диска, который может быть записан на USB флешку или подобное устройство.
-<br>
 Содержит <a href="#FilesNeeded">установочные компоненты</a>.
 
 <p>
 <li>
 <b>minirootXX.img</b>
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/alpha/miniroot68.img">alpha</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/miniroot68.img">amd64</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/arm64/miniroot68.img">arm64</a>]
+<br>
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/alpha/miniroot68.img">alpha</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/miniroot68.img">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/arm64/miniroot68.img">arm64</a>]
 <!-- armv7 has multiple miniroot files for different boards -->
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/armv7/">armv7</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/i386/miniroot68.img">i386</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/landisk/miniroot68.img">landisk</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/loongson/miniroot68.img">loongson</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/luna88k/miniroot68.img">luna88k</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/octeon/miniroot68.img">octeon</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/sparc64/miniroot68.img">sparc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/armv7/">armv7</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/i386/miniroot68.img">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/landisk/miniroot68.img">landisk</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/loongson/miniroot68.img">loongson</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/luna88k/miniroot68.img">luna88k</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/octeon/miniroot68.img">octeon</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/powerpc64/miniroot69.img">powerpc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/sparc64/miniroot68.img">sparc64</a>]
 <br>
 Это такой же образ, как и выше, но без установочных компонент.
 Они загружаются из интернет или c локального диска.
@@ -189,12 +196,13 @@ boot> <b>boot hd1d:/bsd.rd</b>
 <p>
 <li>
 <b>installXX.iso</b>
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/alpha/install68.iso">alpha</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/install68.iso">amd64</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/hppa/install68.iso">hppa</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/i386/install68.iso">i386</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/macppc/install68.iso">macppc</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/sparc64/install68.iso">sparc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/alpha/install68.iso">alpha</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/install68.iso">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/hppa/install68.iso">hppa</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/i386/install68.iso">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/macppc/install68.iso">macppc</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/powerpc64/install69.iso">powerpc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/sparc64/install68.iso">sparc64</a>]
 <br>
 ISO 9660 образ. Используется для создания установочных CD/DVD.
 <br>
@@ -203,21 +211,21 @@ ISO 9660 образ. Используется для создания устан
 <p>
 <li>
 <b>cdXX.iso</b>
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/alpha/cd68.iso">alpha</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/cd68.iso">amd64</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/hppa/cd68.iso">hppa</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/i386/cd68.iso">i386</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/macppc/cd68.iso">macppc</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/sparc64/cd68.iso">sparc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/alpha/cd68.iso">alpha</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/cd68.iso">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/hppa/cd68.iso">hppa</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/i386/cd68.iso">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/macppc/cd68.iso">macppc</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/sparc64/cd68.iso">sparc64</a>]
 <br>
 Такой же образ как и выше, но без установочных компонент.
 
 <p>
 <li>
 <b>floppyXX.img</b>
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/floppy68.img">amd64</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/i386/floppy68.img">i386</a>]
-[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.8/sparc64/floppy68.img">sparc64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/floppy68.img">amd64</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/i386/floppy68.img">i386</a>]
+[<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/sparc64/floppy68.img">sparc64</a>]
 <br>
 Поддерживает некоторые старые машины, где отсутствуют другие возможности для загрузки.
 </ul>
@@ -255,7 +263,7 @@ minirootXX.img: OK
 
 Обратите внимание, что пакет signify в других операционных системах может не
 содержать требуемого
-<a href="https://ftp.openbsd.org/pub/OpenBSD/6.8/openbsd-68-base.pub">открытого ключа</a>
+<a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/openbsd-69-base.pub">открытого ключа</a>
 или быть установлен в другое место.
 
 <p>
