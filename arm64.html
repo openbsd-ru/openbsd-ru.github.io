@@ -35,9 +35,10 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 <h3 id="status"><strong>Текущее состояние</strong></h3>
 
 <p>
-В настоящее время работа ведется над платформами  Allwinner A64/H5, Amlogic G12B/SM1,
-AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 7K/8K, Rockchip RK3328/RK3399,
-Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4) и Socionext SCA11.
+В настоящее время работа ведется над платформами  Allwinner A64/H5,
+Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 3K/7K/8K,
+Rockchip RK3328/RK3399(pro), Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4)
+и Socionext SCA11.
 
 <p>
 Устновочный образ включает в себя firmware, необходимый для загрузки Pine 64/64+,
@@ -117,11 +118,15 @@ OpenBSD/arm64 работает на следующем железе:
 		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/">Raspberry Pi 4</a>
 		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-400-unit/">Raspberry Pi 400</a>
 	</ul>
+	<li>Marvell ARMADA 3K
+	<ul>
+		<li><a href="https://www.turris.com/en/mox/">Turris MOX</a>
+	</ul>
 	<li>Marvell ARMADA 7K/8K
 	<ul>
 		<li><a href="https://www.solid-run.com/marvell-armada-family/macchiatobin/">SolidRun/Marvell MACCHIATObin</a>
 	</ul>
-	<li>Rockchip RK3328/RK3399
+	<li>Rockchip RK3328/RK3399(pro)
 	<ul>
 		<li><a href="https://www.pine64.org/devices/single-board-computers/rock64/">Pine64 ROCK64</a>
 		<li><a href="https://www.pine64.org/rockpro64/">Pine64 ROCKPro64</a>
@@ -129,6 +134,7 @@ OpenBSD/arm64 работает на следующем железе:
 		<li><a href="https://en.t-firefly.com/product/rk3399.html">Firefly-RK3399</a>
 		<li><a href="http://wiki.friendlyarm.com/wiki/index.php/NanoPC-T4">FriendlyElec NanoPC-T4</a>
 		<li><a href="https://www.theobroma-systems.com/som-product/rk3399-q7/">Theobroma Systems RK3399-Q7</a>
+		<li><a href="https://wiki.radxa.com/RockpiN10">Radxa Rock Pi N10</a>
 	</ul>
 	<li>Socionext SC2A11
 	<ul>
@@ -161,6 +167,8 @@ OpenBSD на этих машинах.
 	  для встроенной Allwinner EMAC 10/100/Gigabit Ethernet на Allwinner A64/H5
 	<li><a href="https://man.openbsd.org/arm64/msk.4">msk(4)</a>
 	  для встроенной Marvell Yukon-2 10/100/Gigabit Ethernet на OverDrive 1000
+	<li><a href="https://man.openbsd.org/arm64/mvneta.4">mvneta(4)</a>
+	  встроенной Marvell ARMADA Ethernet на Marvell ARMADA 3K
 	<li><a href="https://man.openbsd.org/arm64/smsc.4">smsc(4)</a>
 	  для встроенной SMSC LAN95xx 10/100 USB Ethernet на Raspberry Pi 3
 </ul>
@@ -179,8 +187,10 @@ OpenBSD на этих машинах.
 	  на Raspberry Pi 3
 	<li><a href="https://man.openbsd.org/arm64/dwmmc.4">dwmmc(4)</a>
 	  на Rockchip RK3328/RK3399
+	<li><a href="https://man.openbsd.org/arm64/rkpcie.4">rkpcie(4)</a>
+	  на Rockchip RK3399
 	<li><a href="https://man.openbsd.org/arm64/sdhc.4">sdhc(4)</a>
-	  на Rockchip RK3399 и Raspberry Pi 4
+	  на Marvell ARMADA 3K/7K/8K, Rockchip RK3399 и Raspberry Pi 4
 	<li><a href="https://man.openbsd.org/arm64/sximmc.4">sximmc(4)</a>
 	  на Allwinner A64/H5
 </ul>
@@ -192,8 +202,8 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
 	  на Allwinner A64/H5 and Rockchip RK3328/RK3399
 	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
-	  на Amlogic G12A/B, Ampere eMAG, Rockchip RK3399, Raspberry Pi 4,
-	  OverDrive 1000 и SynQuacer-E
+	  на Amlogic G12A/B, Ampere eMAG, Marvell ARMADA 3K/7K/8K,
+	  Rockchip RK3399, Raspberry Pi 4, OverDrive 1000 и SynQuacer-E
 </ul>
 
 <strong>Нет real time clock:</strong> Многие arm64 устройства не имеют real
