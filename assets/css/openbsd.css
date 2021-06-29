@@ -1,4 +1,6 @@
-/* $OpenBSD: openbsd.css,v 1.20 2019/12/30 04:54:31 bentley Exp $ */
+/**
+* $ OpenBSD: openbsd.css, v 1.20 2019/12/30 04:54:31 bentley Exp $
+*/
 
 :root {
 	--red:   #E00000;
@@ -284,7 +286,7 @@ tt {
 
 	.cmdbox {
 		background: #000000;
-		color: #FFFFFFF;
+		color: #FFFFFF;
 	}
 
 	#OpenBSD :link {

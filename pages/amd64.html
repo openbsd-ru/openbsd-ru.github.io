@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>OpenBSD/amd64</title>
+    <meta name="description" content="The OpenBSD/amd64 page"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" href="./assets/img/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
+    <link rel="canonical" href="https://www.openbsd.org/amd64.html"/>
+</head>
+<body>
+    <header>
+        <h1 id="OpenBSD">
+            <a href="index.html"><i>Open</i><b>BSD</b></a> amd64
+        </h1>
+    </header>
+    <main>
+        <hr/>
+        <table>
+            <tr>
+                <td>
+                    <p>
+                        OpenBSD/amd64 работает на процессорах семейства AMD Athlon-64 в 64-битном
+                        режиме.
+                        Она также работает на процессорах других производителей, которые клонировали
+                        расширения AMD64.
+                    </p>
+                    <p>
+                        Обратите внимание, что <a href="https://www.openbsd.org/i386.html">OpenBSD/i386</a>
+                        также работает на этих процессорах, но в 32-битном режиме.
+                    </p>
+                    <p>
+                        Поддержка X Window System доступна для большинства видеокарт, благодяря
+                        использованию сервера X.Org. Как и в случае с другими свободными операционными
+                        системами, настоятельно рекомендуется избегать использования карт Nvidia,
+                        поскольку этот поставщик продолжает оказывать огромное сопротивление
+                        раскрытию информации, которая позволила бы X.Org правильно поддерживать
+                        своё оборудование.
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h2 id="status">
+            <strong>Текущий статус:</strong>
+        </h2>
+        <p>
+        Единственным серьезным недостатком на данный момент является то, что отладчик
+        ядра <a href="https://man.openbsd.org/amd64/ddb.4">ddb</a> немного слабоват.
+
+        <hr>
+
+        <h3 id="hardware"><strong>Поддерживаемое оборудование:</strong></h3>
+
+        <h4>Процессоры</h4>
+
+        <p>
+        Поддерживаются все версии процессоров AMD Athlon 64 и их клонов.
+
+        <h4>Поддержка графики</h4>
+
+        <p>
+        Работа базовой графики должна поддерживаться на большей часть оборудования, но
+        некоторые функции, такие как видео или 3D-ускорение, требуют поддержки
+        дополнительного драйвера. Неподдерживаемые устройства обычно могут работать
+        в режиме VESA или EFIFB.
+
+        <p>
+        В устройствах AMD используется запутанная смесь кодовых имен и перемаркировок.
+        Некоторые устройства должны работать:
+        <ul>
+            <li>
+                Продукты, использующие графические ядра "Northern Islands," "Southern Islands," 
+                    или 
+                "Sea Islands".
+            </li>
+            <li>AMD Radeon 5000 серии</li>
+            <li>Ожидается, что более ранние модели AMD и ATI также будут работать.</li>
+        </ul>
+        <p>
+        Устройства Intel тоже могут сбивать с толку. Некоторые устройства должны
+        работать:
+        <ul>
+            <li>Intel Kaby Lake (в составе i-7xxx ЦПУ)</li>
+            <li>Intel Skylake (в составе i-6xxx ЦПУ)</li>
+            <li>Intel Broadwell (в составе i-5xxx ЦПУ)</li>
+            <li>Intel Broxton/Apollo Lake</li>
+            <li>Intel Amber Lake</li>
+            <li>Intel Gemini Lake</li>
+            <li>Intel Coffee Lake</li>
+            <li>Intel Whiskey Lake</li>
+            <!-- XXX: uncomment if/when hardware becomes available
+                <li>
+                    Intel Cannon Lake
+                </li>
+                <li>
+                    Intel Ice Lake
+                </li>
+            -->
+            <li>Ожидается, что более ранние модели и модификации Intel также будут работать.</li>
+            <li>Графика PowerVR в составе некоторых процессоров Atom не поддерживается.</li>
+        </ul>
+
+        <h2>Неподдерживаемое оборудование:</h2>
+
+        <p>
+        Постоянно появляется новое оборудование, часть из которого может
+        не поддерживаться. Ваша
+        <a href="https://www.openbsd.org/donations.html">помощь пожертвованием времени, оборудования или документации</a>
+        может ускорить появление этой поддержки!
+
+        <h3 id="install">
+        <strong>Получение и установка OpenBSD/amd64:</strong>
+        </h3>
+
+        <p>
+        Последним поддерживаемым релизом OpenBSD/amd64 является
+        <a href="https://www.openbsd.org/69.html">OpenBSD 6.9</a>.
+        Вот
+        <a href="https://ftp.openbsd.org/pub/OpenBSD/6.9/amd64/INSTALL.amd64">
+        инструкции по установке OpenBSD/amd64</a>.
+
+        <p>
+        Время от времени становятся доступны снапшоты в 
+        <a href="https://cdn.openbsd.org/pub/OpenBSD/snapshots/amd64">этом месте</a>,
+        а также на нескольких 
+        <a href="ftp.html">зеркалах</a>.
+        Вот также 
+        <a href="https://ftp.openbsd.org/pub/OpenBSD/snapshots/amd64/INSTALL.amd64">
+        инструкции по установки снапшотов OpenBSD/amd64</a>.
+
+        <p>
+        Предоставляется несколько установочных носителей:
+        <ul>
+            <li><strong>CD образ</strong> (installXX.iso)
+                <p>
+                    CD ISO предоставляет загрузочный образ <i>El Torito</i> без эмуляции,
+                    включающий практически все драйверы OpenBSD.
+                    Он также включает минимальную поддержку USB (запоминающие устройства
+                    и клавиатурa).
+                </p>
+            </li>
+            <!--=====================-->
+            <p>
+                Список свежих драйверов этого образа можно найти в файле конфигурации ядра
+                <a href="https://cvsweb.openbsd.org/src/sys/arch/amd64/conf/RAMDISK_CD?rev=HEAD">RAMDISK_CD</a>
+            </p>
+            <!--=====================-->
+            <li><strong>Образ диска</strong> (minirootXX.img)
+                <p>
+                    Тот же установщик, что и CD ISO образ, но в форме, подходящей для создания
+                    загружаемых жестких дисков или USB накопителей.
+                </p>
+            </li>
+            <!--=====================-->
+            <li><strong>Дискета A</strong> (floppyXX.img)
+                <p>
+                    Этот образ дискеты размером 1,44 МБ содержит наиболее распространенные
+                    драйверы. Он создан для наиболее типичного ПК. Как правило,
+                    вы обнаружите, что отсутствующие драйверы - это драйверы, для которых
+                    требуется выполнять много микрокода, например, для редких карт SCSI,
+                    карт Gigabit
+                    Ethernet или устройств RAID.
+                </p>
+            </li>
+            <!--=====================-->
+            <p>
+                Список свежих драйверов этого образа можно найти в файле конфигурации ядра
+                <a href="https://cvsweb.openbsd.org/src/sys/arch/amd64/conf/RAMDISK?rev=HEAD">RAMDISK</a>
+            </p>
+        </ul>
+    </main>
+</body>
+</html>

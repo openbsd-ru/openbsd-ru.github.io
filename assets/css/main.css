@@ -1,0 +1,134 @@
+/**
+* Author: snxx
+* For license and copyright information please follow this like:
+* https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/LICENSE
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+html, body {
+	background-color: #fff;
+	color: #111;
+}
+
+header {
+
+}
+
+.container img:hover {
+	width: 580px;
+	height: 190px;
+}
+
+header img {
+	border-radius: 8px;
+}
+
+main {
+
+}
+
+main article {
+	background-color: #0011;
+	border-left: 10px solid #334;
+	/*position: absolute;*/
+	
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: sans-serif;
+}
+
+h1 {
+	margin: 20px 20px 20px 20px;
+	color: #CF4229;
+	font-size: 18px;
+}
+
+h2 {
+	font-size: 18px;
+}
+
+h3 {
+	font-size: 16px;
+}
+
+h4 {
+	font-size: 14px;
+}
+
+h5 {
+	font-size: 12px;
+}
+
+h6 {
+	font-size: 8px;
+}
+
+p, a, li, button {
+	font-family: monospace;
+	list-style: none;
+}
+
+li {
+	margin-left: 20px;
+}
+
+strong {
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
+aside {
+	background-color: #202F51;
+	color: #fff;
+	text-align: top;
+	width: 205px;
+	border-right: 4px solid #CF4229;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	position: absolute;
+}
+
+aside > h2 {
+	margin-left: 5px;
+	margin-top: 8px;
+}
+
+aside > ul {
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+
+footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fe9;
+	text-align: center;
+}
+
+#logotype {
+	text-align: center;
+	padding: 30px 30px 30px 30px;
+	background-color: #9ccc;
+}
+
+.container h1 {
+	margin-top: 5px;
+}
+
+a:link {
+	color: #80ABFC;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #CF4229;
+}
