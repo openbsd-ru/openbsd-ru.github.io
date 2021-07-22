@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
+[![Build Status](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io)
 [![License](https://img.shields.io/github/license/openbsd-ru/openbsd-ru.github.io)](https://github.com/openbsd-ru/openbsd-ru.github.io/LICENSE)
 
 
@@ -22,7 +22,7 @@ issue. Очень нужным и важным является самая об�
 подочете в тексте.
 
 Обратите внимание на автоматические проверки
-[устаревших страниц и поломанных ссылок](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io)
+[устаревших страниц и поломанных ссылок](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io)
 и обновите уже переведенные страницы. Это очень важно.
 
 | Материал к переводу | Ответственный | Комментарий |
@@ -135,4 +135,4 @@ pull request или просто issue, если у вас появятся ка
 
 Оба скрипта привязаны к travis, так что запускаются
 после каждого ```git push``` и их вывод можно просмотреть
-[в web](https://travis-ci.org/openbsd-ru/openbsd-ru.github.io).
+[в web](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io).
