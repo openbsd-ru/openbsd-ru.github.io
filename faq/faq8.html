@@ -22,7 +22,6 @@ FAQ - Общие вопросы
   <li><a href="#OpenNTPD"  >Использование OpenNTPD</a>
   <li><a href="#TimeZone"  >Часовые пояса</a>
   <li><a href="#locales"   >Набор символов (character sets) и локализация</a>
-  <li><a href="#RevDNS"    >Обратный просмотр DNS</a>
   <li><a href="#GenNotConf">Устройство "not configured" в dmesg</a>
 </ul>
 
@@ -193,70 +192,6 @@ ASCII, а таже частично кодировку UTF-8 набора сим
 учитывать другие <code>LC_*</code> переменные, но использовать их или
 устанавливать для <code>LC_CTYPE</code> любое другое значение, отличное от
 <code>C</code>, <code>POSIX</code> или <code>en_US.UTF-8</code>, не рекомендуется.
-
-<h2 id="RevDNS">Обратный просмотр DNS</h2>
-
-У некоторых новых пользоватей возникают задержки при попытках войти в
-систему при использовании, к примеру,
-<a href="https://man.openbsd.org/ssh">ssh(1)</a> или при использовании
-прокси или отправки письма.
-
-<p>
-Это почти всегда происходит из-за проблемы обратного преобразования DNS.
-DNS (Domain Name Services или система доменных имён) используется в Internet
-для преобразования имен (таких как например "www.openbsd.org") в IP-адрес.
-Другая задача DNS - преобразовывать IP-адрес назад в "имя".
-Этот процесс называется обратным преобразованием или обратным просмотром DNS
-(reverse DNS).
-
-<p>
-Для более лучшего процесса входа в систему, OpenBSD выполняет обратный
-просмотр DNS для любой машины, к которой подключаются различными путями,
-включая <a href="https://man.openbsd.org/ssh">ssh(1)</a>,
-<a href="https://man.openbsd.org/ftp">ftp(1)</a> и
-<a href="https://man.openbsd.org/ftp-proxy">ftp-proxy(8)</a>.
-К несчастью, в некоторых случаях, машина, которая пытается создать соединение,
-не имеет соответствующей обратной DNS записи.
-
-<h3>Решение, использующее hosts файл</h3>
-
-Самое простое решение выглядит так: добавить в ваш
-<a href="https://man.openbsd.org/hosts">hosts(5)</a>
-файл все машины из внутренней сети, и проверить, что ваш файл
-<a href="https://man.openbsd.org/resolv.conf">resolv.conf(5)</a> содержит,
-строку <code>lookup file bind</code>. Это гарантирует, что resolver знает,
-что поиск начинать нужно с файла
-<a href="https://man.openbsd.org/hosts">hosts(5)</a>, и только в том случае,
-если это не прокатит, использовать DNS-серверы, заданные при помощи строк
-<code>nameserver</code> в файле
-<a href="https://man.openbsd.org/resolv.conf">resolv.conf(5)</a>.
-
-<p>
-Ваш <code>/etc/hosts</code> файл может выглядеть как этот:
-
-<pre class="cmdbox">
-::1          localhost.in.example.org localhost
-127.0.0.1    localhost.in.example.org localhost
-192.168.1.1  gw.in.example.org        gw
-192.168.1.20 scrappy.in.example.org   scrappy
-192.168.1.35 shadow.in.example.org    shadow
-</pre>
-
-Ваш <code>/etc/resolv.conf</code> файл может выглядеть так:
-
-<pre class="cmdbox">
-search in.example.org
-nameserver 24.2.68.33
-nameserver 24.2.68.34
-lookup file bind
-</pre>
-
-Если вы используете
-<a href="faq6.html#DHCP">DHCP</a>,
-вы должны добавить <code>lookup file bind</code> в ваш
-<code>/etc/resolv.conf.tail</code> файл, так как <code>resolv.conf</code>
-будет перезаписан
-<a href="https://man.openbsd.org/dhclient">dhclient(8)</a>.
 
 <h2 id="GenNotConf">Устройство "not configured" в dmesg</h2>
 
