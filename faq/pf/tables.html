@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD PF: Tables</title>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,11 +38,11 @@ PF - Таблицы
 Таблицы можно использовать для следующих целей:
 
 <ul>
-  <li>Определние в правилах адресов отправителей/получателей.
+  <li>Определние в правилах адресов отправителей/получателей
   <li>Определение translation- или redirection-адресов в
-      <code>nat-to</code> и <code>rdr-to</code> правилах.
+      <code>nat-to</code> и <code>rdr-to</code> правилах
   <li>Опредение адреса получателя в правилах <code>route-to</code>,
-      <code>reply-to</code> и <code>dup-to</code>.
+      <code>reply-to</code> и <code>dup-to</code>
 </ul>
 
 <p>
@@ -56,8 +52,8 @@ PF - Таблицы
 
 <h2 id="config">Конфигурация</h2>
 
-В <code>pf.conf</code> таблицу можно создать при помощи директивы
-<code>table</code>. Следующие атрибуты можно использовать для таблиц:
+Таблицу можно создать при помощи директивы <code>table</code> в файле
+<code>pf.conf</code>. Следующие атрибуты можно использовать для таблиц:
 
 <ul>
   <li><code>const</code> - содержимое таблицы не может быть изменено
@@ -118,8 +114,8 @@ block in on fxp0 from &lt;spammers&gt; to any
 # <b>pfctl -t spammers -T add 203.0.113.0/24</b>
 </pre>
 
-Это также создаст таблицу &lt;spammers&gt;, если ее еще нет.
-Вывести список адресов таблицы можно так:
+Это также создаст таблицу &lt;spammers&gt;, если её ещё нет.
+Вывести список адресов таблицы можно при помощи этой команды:
 
 <pre class="cmdbox">
 # <b>pfctl -t spammers -T show</b>
@@ -127,7 +123,7 @@ block in on fxp0 from &lt;spammers&gt; to any
 
 Аргумент <code>-v</code> можно использовать и совместно с
 <code>-T show</code>, чтобы вывести статистику для каждой записи
-таблицы. Удалить адреса из таблицы можно так:
+таблицы. Удалить адреса из таблицы можно при помощи этой команды:
 
 <pre class="cmdbox">
 # <b>pfctl -t spammers -T delete 203.0.113.0/24</b>
