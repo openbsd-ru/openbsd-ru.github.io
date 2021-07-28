@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Работаем с дисками</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -617,13 +613,12 @@ sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 
 Теперь вы готовы начать установку OpenBSD.
 К процессу установки пререходим как обычно, выбрав «install» или «exit» в консоли.
-Создайте все разделы на вашем новом softraid диске (<code>sd2</code> в нашем примере
-здесь), который должен быть там, а не на <code>sd0</code> или <code>sd1</code>
+Создайте все разделы на вашем новом softraid диске (<code>sd2</code> в этом примере),
+который должен быть там, а не на <code>sd0</code> или <code>sd1</code>
 (это не-RAID диски).
 
 <p>
-Используйте следующую команду, чтобы проверить состояние (status) вашего
-"зеркала":
+Используйте следующую команду, чтобы проверить состояние (status) зеркала:
 
 <pre class="cmdbox">
 # <b>bioctl sd2</b>
@@ -656,8 +651,8 @@ sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 <a href="https://man.openbsd.org/bioctl">bioctl(8)</a>.
 В этом разделе описан пример установки OpenBSD на один зашифрованный диск. Этот
 процесс очень похож на предыдущий. Обратите внимание, что в настоящее время
-«стекирование» режимов softraid (например, создание зеркала и параллельное
-шифрование) <b>не поддерживается</b>.
+«стекирование» режимов softraid <b>не поддерживается</b>.
+<!-- XXXrelease: mention RAIDC1 when booting support is added -->
 
 <p>
 Выберете <code>(S)hell</code> во время установки чтобы перейти в консоль.
