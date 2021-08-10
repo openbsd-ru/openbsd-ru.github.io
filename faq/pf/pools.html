@@ -149,7 +149,7 @@ match in on egress proto tcp to port 80 rdr-to $web_servers \
 Пул адресов может быть использован в комбинации с опцией фильтра
 <code>route-to</code> для балансировки двух или более Internet соединений,
 когда невозможно использовать правильный протокол multipath-маршрутизации
-(например <a href="http://www.rfc-editor.org/rfc/rfc1771.txt">BGP4</a>).
+(например <a href="https://www.rfc-editor.org/rfc/rfc1771.txt">BGP4</a>).
 При использовании <code>route-to</code> с адресным пулом <code>round-robin</code>
 исходящие соединения могут быть равномернораспределены между несколькими 
 исходящими маршрутами.
@@ -213,33 +213,33 @@ ext_if2 = "fxp1"
 ext_gw1 = "198.51.100.100"
 ext_gw2 = "203.0.113.200"
 
-#  nat outgoing connections on each internet interface
+# nat outgoing connections on each internet interface
 match out on $ext_if1 from $lan_net nat-to ($ext_if1)
 match out on $ext_if2 from $lan_net nat-to ($ext_if2)
 
-#  default deny
+# default deny
 block in
 block out
 
-#  pass all outgoing packets on internal interface
+# pass all outgoing packets on internal interface
 pass out on $int_if to $lan_net
-#  pass in quick any packets destined for the gateway itself
+# pass in quick any packets destined for the gateway itself
 pass in quick on $int_if from $lan_net to $int_if
-#  load balance outgoing traffic from internal network.
+# load balance outgoing traffic from internal network.
 pass in on $int_if from $lan_net \
     route-to { ($ext_if1 $ext_gw1), ($ext_if2 $ext_gw2) } \
     round-robin
-#  keep https traffic on a single connection; some web applications,
-#  especially "secure" ones, don't allow it to change mid-session
+# keep https traffic on a single connection; some web applications,
+# especially "secure" ones, don't allow it to change mid-session
 pass in on $int_if proto tcp from $lan_net to port https \
     route-to ($ext_if1 $ext_gw1)
 
-#  general "pass out" rules for external interfaces
+# general "pass out" rules for external interfaces
 pass out on $ext_if1
 pass out on $ext_if2
 
-#  route packets from any IPs on $ext_if1 to $ext_gw1 and the same for
-#  $ext_if2 and $ext_gw2
+# route packets from any IPs on $ext_if1 to $ext_gw1 and the same for
+# $ext_if2 and $ext_gw2
 pass out on $ext_if1 from $ext_if2 route-to ($ext_if2 $ext_gw2)
 pass out on $ext_if2 from $ext_if1 route-to ($ext_if1 $ext_gw1)
 </pre>
