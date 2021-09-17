@@ -38,15 +38,15 @@ PF - Преобразование сетевых адресов (Network Address
 
 Преобразование (или сопоставление) сетевых адресов (Network Address
 Translation, NAT) - это способ сопоставить всю сеть (или сети) одному
-IP-адресу. NAT необходим, когда количество IP-адресов, предоставленных
-вам вашим провайдером, меньше общего количества компьютеров, которым нужен
-доступ в интернет.
+IP-адресу. Это необходимо, к примеру, если количество IP-адресов,
+предоставленных вам вашим провайдером, меньше общего количества компьютеров,
+которым нужен доступ в интернет.
 Стандарт NAT описан в <a href="https://tools.ietf.org/html/rfc1631">RFC 1631</a>.
 
 <p>
-NAT позволяет вам воспользоваться зарезервированными адресными блоками,
+NAT позволяет администраторам воспользоваться зарезервированными адресными блоками,
 описанными в <a href="http://tools.ietf.org/html/rfc1918">RFC 1918</a>.
-Как правило, ваша внутренняя сеть будет настроена на использование одного
+Как правило, внутренняя сеть будет настроена на использование одного
 или нескольких из этих сетевых блоков.
 
 <pre class="cmdbox">
@@ -58,7 +58,7 @@ NAT позволяет вам воспользоваться зарезерви�
 OpenBSD, используемая для преобразования сетевых адресов (NAT), должна иметь
 как минимум два сетевых интерфейса: один для интернета, другой для внутренней
 сети. NAT будет транслировать запросы из внутренней сети, поэтому они будут
-поступать от вашей OpenBSD системы с NAT.
+поступать от OpenBSD системы с NAT.
 
 <h2 id="works">Принцип работы NAT</h2>
 
@@ -66,41 +66,37 @@ OpenBSD, используемая для преобразования сетев
 интернете, она отправляет, предназначенные для этой машины, IP-пакеты.
 Эти пакеты содержат информацию, необходимую для того, чтобы удаленная
 машина получила их.
-NAT связывает некоторые части этой информаци:
+NAT связывает такую информацию как: IP-адрес клиентской машины и
+TCP- или UDP-порт, используемый клиентской машиной.
 
-<ul>
-  <li>IP-адрес клиентской машины (например, 192.168.1.35)
-  <li>TCP- или UDP-порт, используемый клиентской машиной (например, 2132)
-</ul>
-
+<p>
 Когда пакеты проходят через шлюз NAT (NAT gateway), они изменяются
 таким образом, как будто их отправляет сам шлюз.
-Он записывает изменения, которые вносит, в свою таблицу состояний,
-чтобы в последствии мог а) отменить изменения в возвращаемых пакетах
-и б) обеспечить, чтобы возвратные пакеты проходили через firewall
+Он записывает изменения, которые вносит в свою таблицу состояний,
+чтобы в последствии мог отменить изменения в возвращаемых пакетах
+и обеспечить, чтобы эти пакеты проходили через firewall
 и не блокировались.
 Например, могут быть сделаны следующие изменения:
 
 <ul>
   <li>IP-адрес клиента: перезаписывается внешним адресом шлюза
-      (например, 198.51.100.1)
   <li>Порт клиента: перезаписывается случайно выбранным, неиспользуемым
-      шлюзом портом (например, 53136)
+      на шлюзе портом
 </ul>
 
 Ни внутренняя клиентская машина, ни интернет-хост не знают об этих
 изменениях. Для клиента NAT - это просто интернет-шлюз.
-Для интернет-хоста пакеты, кажется, приходят непосредственно от самого NAT;
-совершенно не известно, что внутренняя клиентская машина вообще существует.
+Для интернет-хоста пакеты, кажется, приходят непосредственно от самого NAT.
+Совершенно не известно, что внутренняя клиентская машина вообще существует.
 
 <p>
 Когда интернет-хост отвечает на пакеты клиентской внутренней машины, они
-будут адресованы внешнему IP-адресу NAT-шлюза (198.51.100.1) через порт
-трансляции (53136). Затем NAT шлюз выполнит поиск таблицы состояний, чтобы
+будут адресованы внешнему IP-адресу NAT-шлюза на выбранный для NAT-соединения
+порт. Затем NAT шлюз выполнит поиск таблицы состояний, чтобы
 определить, соответствуют ли полученные пакеты уже установленному соединению.
 Уникальное совпадение будет найдено на основе комбинации IP/порта, которая
 сообщает PF, что пакеты принадлежат соединению, инициированному внутренней
-(клиентской) машиной 192.168.1.35.
+(клиентской) машиной.
 Затем PF внесет противоположные изменения в исходящие пакеты и перенаправит
 ответные пакеты клиентской машине во внутренней сети.
 
@@ -159,38 +155,38 @@ pass out [log] on interface [af] [proto protocol] \
 <dd>When a packet traverses the ruleset and matches a <code>match</code>
     rule, any optional parameters specified in that rule are remembered
     for future use (made "sticky").
-
+<p>
 <dt><code>pass</code>
 <dd>This rule allows the packet to be transmitted.
     If the packet was previously matched by a <code>match</code> rule where
     parameters were specified, they will be applied to this packet.
     <code>pass</code> rules may have their own parameters; these take
     priority over parameters specified in a <code>match</code> rule.
-
+<p>
 <dt><code>out</code>
 <dd>Specifies the direction of packet flow where this rule applies.
     <code>nat-to</code> may only be specified for outbound packets.
-
+<p>
 <dt><code>log</code>
 <dd>Log matching packets via
     <a href="https://man.openbsd.org/pflogd">pflogd(8)</a>.
     Normally, only the first packet that matches will be logged.
     To log all matching packets, use <code>log (all)</code>.
-
+<p>
 <dt><code><i>interface</i></code>
 <dd>The name or group of the network interface to transmit packets on.
-
+<p>
 <dt><code><i>af</i></code>
 <dd>The address family, either <code>inet</code> for IPv4 or <code>inet6</code>
     for IPv6.
     PF is usually able to determine this parameter based on the
     source/destination address(es).
-
+<p>
 <dt><code><i>protocol</i></code>
 <dd>The protocol (e.g. tcp, udp, icmp) of packets to allow.
     If <i>src_port</i> or <i>dst_port</i> is specified, the protocol
     <em>must</em> also be given.
-
+<p>
 <dt><code><i>src_addr</i></code>
 <dd>The source (internal) address of packets that will be translated.
     The source address can be specified as:
@@ -218,8 +214,9 @@ pass out [log] on interface [af] [proto protocol] \
           <li><code>:peer</code> - substitutes the peer's IP address on a
           point-to-point link
          <p>In addition, the <code>:0</code> modifier can be appended to either
-            an interface name/group or to any of the above modifiers to indicate
-            that PF should not include aliased IP addresses in the substitution.
+            an interface name/group or to any of the above modifiers to
+            indicate that PF should not include aliased IP addresses in the
+            substitution.
             These modifiers can also be used when the interface is contained in
             parentheses.
             Example: <code>fxp0:network:0</code>
@@ -230,7 +227,7 @@ pass out [log] on interface [af] [proto protocol] \
       <li>A set of addresses using a <a href="macros.html#lists">list</a>.
       <li>The keyword <code>any</code> meaning all addresses
     </ul>
-
+<p>
 <dt><code><i>src_port</i></code>
 <dd>The source port in the Layer 4 packet header.
     Ports can be specified as:
@@ -308,10 +305,9 @@ used.
 <dt><code><i>pool_type</i></code>
 <dd>Specifies the type of <a href="pools.html">address pool</a> to use
     for translation.
-
+<p>
 <dt><code>static-port</code>
 <dd>Tells PF not to translate the source port in TCP and UDP packets.
-
 </dl>
 
 <p>
@@ -322,7 +318,7 @@ match out on tl0 from 192.168.1.0/24 to any nat-to 198.51.100.1
 pass on tl0 from 192.168.1.0/24 to any
 </pre>
 
-Or you may simply use:
+Or the following may be used:
 
 <pre class="cmdbox">
 pass out on tl0 from 192.168.1.0/24 to any nat-to 198.51.100.1
@@ -336,28 +332,28 @@ with 198.51.100.1.
 While the above rule is correct, it is not recommended form.
 Maintenance could be difficult as any change of the external or internal
 network numbers would require the line be changed.
-Compare instead with this easier to maintain line (<code>tl0</code> is external,
-<code>dc0</code> internal):
+Compare instead with this easier to maintain line (<code>tl0</code> is
+external, <code>dc0</code> internal):
 
 <pre class="cmdbox">
 pass out on tl0 inet from dc0:network to any nat-to tl0
 </pre>
 
-The advantage should be fairly clear: you can change the IP addresses of
-either interface without changing this rule.
+The advantage should be fairly clear: the IP addresses of either interface
+can be changed without changing this rule.
 Note that <code>inet</code> should be specified in this case to ensure that
 only IPv4 addresses are used, avoiding unexpected surprises.
 
 <p>
 When specifying an interface name for the translation address as above,
 the IP address is determined at pf.conf <i>load</i> time, not on the fly.
-If you are using DHCP to configure your external interface, this can be
+If DHCP is being used to configure the external interface, this can be
 a problem.
-If your assigned IP address changes, NAT will continue translating outgoing
+If the assigned IP address changes, NAT will continue translating outgoing
 packets using the old IP address.
 This will cause outgoing connections to stop functioning.
-To get around this, you can tell PF to automatically update the translation
-address by putting parentheses around the interface name:
+To get around this, PF can automatically update the translation address by
+putting parentheses around the interface name:
 
 <pre class="cmdbox">
 pass out on tl0 inet from dc0:network to any nat-to (tl0)
@@ -369,11 +365,11 @@ This method works for translation to both IPv4 and IPv6 addresses.
 
 A bidirectional mapping can be established by using the
 <code>binat-to</code> parameter.
-A <code>binat-to</code> rule establishes a one to one mapping between an
+A <code>binat-to</code> rule establishes a one-to-one mapping between an
 internal IP address and an external address.
 This can be useful, for example, to provide a web server on the internal
 network with its own external IP address.
-Connections from the Internet to the external address will be translated to
+Connections from the internet to the external address will be translated to
 the internal address and connections from the web server (such as DNS requests)
 will be translated to the external address.
 TCP and UDP ports are never modified with <code>binat-to</code> rules as they
@@ -391,14 +387,14 @@ pass on tl0 from $web_serv_int to any binat-to $web_serv_ext
 
 <h2 id="except">Translation Rule Exceptions</h2>
 
-If you need to translate most traffic, but provide exceptions in some cases,
-make sure that the exceptions are handled by a filter rule which does not
-include the nat-to parameter.
+If exceptions to NAT rules need to be provided in some cases, make sure
+the exceptions are handled by a filter rule which does not include the
+<code>nat-to</code> parameter.
 For example, if the NAT example above was modified to look like this:
 
 <pre class="cmdbox">
-pass  out on tl0 from 192.168.1.0/24 to any nat-to 198.51.100.79
-pass  out on tl0 from 192.168.1.208  to any
+pass out on tl0 from 192.168.1.0/24 to any nat-to 198.51.100.79
+pass out on tl0 from 192.168.1.208  to any
 </pre>
 
 Then the entire 192.168.1.0/24 network would have its packets translated to
@@ -425,33 +421,32 @@ Explanations (first line only):
     The word <code>self</code> will appear if the state is
     <a href="options.html#state-policy"><code>floating</code></a>.
 </dl>
-
+<p>
 <dl>
 <dt>TCP
 <dd>The protocol being used by the connection.
 </dl>
-
+<p>
 <dl>
 <dt>192.168.1.35:2132
 <dd>The IP address (192.168.1.35) of the machine on the internal network.
     The source port (2132) is shown after the address.
     This is also the address that is replaced in the IP header.
 </dl>
-
+<p>
 <dl>
 <dt>198.51.100.1:53136
 <dd>The IP address (198.51.100.1) and port (53136) on the gateway that
     packets are being translated to.
 </dl>
-
+<p>
 <dl>
 <dt>198.51.100.10:22
 <dd>The IP address (198.51.100.10) and the port (22) that the internal
     machine is connecting to.
 </dl>
-
+<p>
 <dl>
-
 <dt>TIME_WAIT:TIME_WAIT
 <dd>This indicates what state PF believes the TCP connection to be in.
 </dl>
