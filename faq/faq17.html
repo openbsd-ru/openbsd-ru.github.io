@@ -27,8 +27,8 @@ FAQ - Виртуальные частные сети (VPN)
     <li><a href="#clientopenbsd">С клиентом OpenBSD</a>
     <li><a href="#clientandroid">С клиентом Android</a>
     <ul>
-      <li><a href="#autheap"    >Использование MSCHAP-V2 для аутентификации EAP</a>
-      <li><a href="#authx509"   >Использование проверки подлинности сертификата X.509</a>
+      <li><a href="#autheap"    >Использование MSCHAP-V2 для EAP аутентификации</a>
+      <li><a href="#authx509"   >Использование аутентификации на основе X.509 сертификатов</a>
     </ul>
     <li><a href="#clientwindows">С клиентом Windows</a>
   </ul>
@@ -40,25 +40,24 @@ FAQ - Виртуальные частные сети (VPN)
 <h2 id="introduction">Вступление</h2>
 
 OpenBSD поставляется с <a href="https://man.openbsd.org/iked">iked(8)</a>,
-современным сервером IKEv2 с разделением привилегий. 
-Он может действовать как ответчик, например, сервер, принимающий запросы на соединение, 
-или как инициатор, например, клиент, инициирующий соединение с ответчиком.
-Утилита <a href="https://man.openbsd.org/ikectl">ikectl(8)</a> используется для управления сервером, 
-который получает свою конфигурацию из файла 
-<a href="https://man.openbsd.org/iked.conf">iked.conf(5)</a>.
+современным IKEv2 сервером, поддерживаемым разделение привилегий. 
+Он может использоваться как сервер, принимающий запросы на
+соединение,  или как клиент, инициирующий соединение с сервером.
+Утилита <a href="https://man.openbsd.org/ikectl">ikectl(8)</a>
+используется для управления сервером, который настраивается при помощи 
+<a href="https://man.openbsd.org/iked.conf">iked.conf(5)</a> файла.
 
 <p>
-Утилита <a href="https://man.openbsd.org/ikectl">ikectl(8)</a> 
-также позволяет вам поддерживать простой центр сертификации X.509 (CA) для пиров IKEv2.
+<a href="https://man.openbsd.org/ikectl">ikectl(8)</a> также позволяет
+управлять простым X.509 certificate authority(CA) для IKEv2.
 
 <p>
-Сервер IKEv1 <a href="https://man.openbsd.org/isakmpd">isakmpd(8)</a>
-также доступен, и в сочетании с
-<a href="https://man.openbsd.org/npppd">npppd(8)</a>
-он позволяет вам создать VPN IKEv1/L2TP, где IKEv2 не может быть развернут.
+IKEv1 сервер <a href="https://man.openbsd.org/isakmpd">isakmpd(8)</a>
+также доступен, и в паре с <a href="https://man.openbsd.org/npppd">npppd(8)</a>
+позволяет создать VPN IKEv1/L2TP, если IKEv2 не может быть использован.
 
 <p>
-Поддержка WireGuard так же есть и доступна при помощи устройства
+Поддержка WireGuard так же есть и доступна при помощи
 <a href="https://man.openbsd.org/wg">wg(4)</a>.
 Как рассказывается в руководстве, он может быть настроен точно так же как
 и любой другой <a href="faq6.html">сетевой интерфейс</a> в OpenBSD.
@@ -78,41 +77,33 @@ OpenBSD поставляется с <a href="https://man.openbsd.org/iked">iked(
   <li>Сертификаты X.509: часто требуются для клиентов Windows, Android и Apple
 </ul>
 
-По умолчанию открытый ключ RSA генерируется при загрузке в
-<code>/etc/iked/local.pub</code>, а закрытый ключ хранится в
+По умолчанию public RSA ключ генерируется при загрузке системы и находится в
+<code>/etc/iked/local.pub</code>, а private ключ хранится в
 <code>/etc/iked/private/local.key</code>.
 
 <h2 id="server">Настройка сервера IKEv2</h2>
 
 <h3 id="site2site">Создание межсетевых VPN-соединений</h3>
 
-Это может быть достигнуто путем обмена предоставляемых по умолчанию открытых ключей RSA:
-<code>/etc/iked/local.pub</code>
-в первой системе («server1») должен быть скопирован в
-<code>/etc/iked/pubkeys/fqdn/server1.domain</code>
-во второй системе система ("сервер2"). Затем
-<code>/etc/iked/local.pub</code>
-во второй системе следует скопировать в
-<code>/etc/iked/pubkeys/fqdn/server2.domain</code>
-в первой. Замените «serverX.domain» своим собственным полным доменным именем.
+Этого можно достигнуть путем обмена сгенерированных по умолчанию public
+RSA ключей: <code>/etc/iked/local.pub</code> из первой системы («server1»)
+должен быть скопирован в <code>/etc/iked/pubkeys/fqdn/server1.domain</code>
+на второй системе («server2»).
+Затем <code>/etc/iked/local.pub</code> из второй системы следует скопировать
+на первую систему в <code>/etc/iked/pubkeys/fqdn/server2.domain</code>.
+Замените «serverX.domain» своим собственным полным доменным именем.
 
 <p>
 С этого момента предположим, что server1 имеет публичный IP-адрес
-<code>192.0.2.1</code>
-и внутреннюю сеть
-<code>10.0.1.0/24</code>,
-а сервер2 имеет публичный IP-адрес 
-<code>198.51.100.1</code>
-и внутреннюю сеть 
-<code>10.0.2.0/24</code>.
+<code>192.0.2.1</code> и внутреннюю сеть <code>10.0.1.0/24</code>,
+а server2 имеет публичный IP-адрес <code>198.51.100.1</code> и внутреннюю
+сеть <code>10.0.2.0/24</code>.
 
 <p>
-Чтобы инициатор мог связаться с респондентом, на
-<code>isakmp</code>
-должен быть открыт UDP-порт. Если один из одноранговых узлов
-находится за NAT, UDP-порт
-<code>ipsec-nat-t</code>
-также должен быть открыт на ответчике. Если оба узла имеют
+Чтобы клиент(инициатор) мог связаться с сервером (респондером), на
+стороне сервера должен быть открыт UDP-порт для <code>isakmp</code>.
+Если одна иа из сторон находится за NAT, UDP-порт <code>ipsec-nat-t</code>
+также должен быть открыт на стороне сервера. Если оба узла имеют
 общедоступные IP-адреса, то протокол ESP должен быть разрешен.
 
 <pre class="cmdbox">
@@ -120,9 +111,8 @@ pass in log on $ext_if proto udp from 198.51.100.1 to 192.0.2.1 port {isakmp, ip
 pass in log on $ext_if proto esp from 198.51.100.1 to 192.0.2.1 tag IKED
 </pre>
 
-Пример конфигурации для
-<code>/etc/iked.conf</code> 
-(действующего как ответчик) может выглядеть следующим образом:
+Пример конфига <code>/etc/iked.conf</code> для server1 (в этом
+примере он ответчающая сторона, т.е. сервер) может выглядеть следующим образом:
 
 <pre class="cmdbox">
 ikev2 'server1_rsa' passive esp \
@@ -131,7 +121,8 @@ ikev2 'server1_rsa' passive esp \
         srcid server1.domain
 </pre>
 
-И простой конфиг для server2, выступающего в роли инициатора:
+И простой конфиг для server2, выступающего в роли клиента,
+который инициирует создание VPN-тунеля:
 
 <pre class="cmdbox">
 ikev2 'server2_rsa' active esp \
@@ -140,9 +131,8 @@ ikev2 'server2_rsa' active esp \
         srcid server2.domain
 </pre>
 
-Использование
-<code>iked -dv</code> 
-может помочь вам понять обмен. В этом примере ответчик находится за NAT:
+При помощи <code>iked -dv</code> можно проследить процесс создания тунеля.
+В этом примере сервер находится за NAT:
 
 <pre class="cmdbox">
 server1# <b>iked -dv</b>
@@ -154,7 +144,7 @@ ikev2_msg_send: IKE_AUTH response from 192.0.2.1:4500 to 198.51.100.1:4500 msgid
 sa_state: VALID -> ESTABLISHED from 198.51.100.1:4500 to 192.0.2.1:4500 policy 'server1_rsa'
 </pre>
 
-На стороне инициатора:
+На стороне клиента:
 
 <pre class="cmdbox">
 server2# <b>iked -dv</b>
@@ -166,7 +156,7 @@ ikev2_recv: IKE_AUTH response from responder 192.0.2.1:4500 to 198.51.100.1:4500
 sa_state: VALID -> ESTABLISHED from 192.0.2.1:4500 to 198.51.100.1:4500 policy 'server2_rsa'
 </pre>
 
-Потоки IPsec можно просматривать с помощью
+Процесс создания IPsec flow можно наблюдать при помощи
 <a href="https://man.openbsd.org/ipsecctl">ipsecctl(8)</a>:
 
 <pre class="cmdbox">
@@ -193,10 +183,8 @@ esp tunnel from 198.51.100.1 to 192.0.2.1 spi 0xb1fc90b8 auth hmac-sha2-256 enc 
 
 При этом обе внутренние сети должны быть в состоянии достичь друг друга. 
 Трафик между ними должен появляться после декапсуляции на интерфейсе 
-<code>enc0</code>
-и может быть отфильтрован как таковой. В этом примере 
-<code>tag VPN</code>
-был добавлен в политику:
+<code>enc0</code> и может быть отфильтрован. В этом примере 
+<code>tag VPN</code> был добавлен в правила:
 
 <pre class="cmdbox">
 # <b>pfctl -vvsr|grep VPN</b>
@@ -205,25 +193,25 @@ esp tunnel from 198.51.100.1 to 192.0.2.1 spi 0xb1fc90b8 auth hmac-sha2-256 enc 
 00:03:26.793522 rule 16/(match) pass in on enc0: 10.0.2.24 > 10.0.1.13: icmp: echo request
 </pre>
 
-Несколько слов предупреждения:
+Пару предупреждений:
 
 <ul>
-  <li><code>srcid</code>
-  <li><b>need</b><code>local</code>
-      <code>iked</code>
-  <li><b>need</b><code>peer</code>
+  <li>If the responder doesn't set <code>srcid</code>, then iked will try to use the key matching its FQDN by default.
+  <li>The responder doesn't <b>need</b> to set <code>local</code>, it just ensures iked listens on the correct interface.
+  <li>The responder doesn't <b>need</b> to set <code>peer</code>, it just ensures connections are coming from a trusted IP.
 </ul>
 
-Если конечные точки VPN должны достигать удаленной внутренней сети, 
-или внутренняя сеть должна достигать удаленной конечной точки VPN, 
-дополнительные потоки должны быть установлены с обеих сторон:
+Если для сторон VPN-соединения удаленная внутренней сеть должна быть в
+зоне досигаемости, или наоборот -- из внутренней сети должны быть доступны
+разные стороны VPN, дополнительные flows должны быть установлены с обеих
+сторон:
 
 <ul>
   <li>с локального публичного IP на удаленную сеть
   <li>из внутренней сети на удаленный публичный IP
 </ul>
 
-Конфигурация ответчика будет выглядеть следующим образом:
+Конфигурация сервера (отвечающей стороны) будет выглядеть следующим образом:
 
 <pre class="cmdbox">
 ikev2 'server1_rsa' passive esp \
@@ -234,7 +222,7 @@ ikev2 'server1_rsa' passive esp \
         srcid server1.domain
 </pre>
 
-И конфигурация инициатора будет:
+И конфигурация клиента (инициатора создания соединения) будет:
 
 <pre class="cmdbox">
 ikev2 'server2_rsa' active esp \
@@ -245,64 +233,63 @@ ikev2 'server2_rsa' active esp \
         srcid server2.domain
 </pre>
 
-<h2 id="clientikev2"></h2>
+<h2 id="clientikev2">Подключение к IKEv2 OpenBSD VPN</h2>
 
-Подключение к IKEv2 VPN в качестве
-<i>road warrior</i>
+Подключение к IKEv2 VPN в качестве <i>road warrior</i>
 аналогично предыдущему случаю, за исключением того, что
 инициатор обычно планирует маршрутизировать свой интернет-трафик
-через респондента,  который будет применять к нему NAT, так что
-трафик инициатора, как представляется, поступает от респондента
-публичный IP.
+через респондента, который будет применять к нему NAT, так что
+трафик инициатора, как представляется, поступает от респондерского
+публичного IP-адреса.
 
 <p>
 В зависимости от варианта использования, поскольку весь трафик
-будет проходить через ответчик, необходимо убедиться, что инициатор
-настроен на использование DNS-сервера, на который он может попасть
+будет проходить через респондера, необходимо убедиться, что инициатор
+настроен на использование DNS-сервера, к которому он сможет обращаться
 (возможно, один на ответчике).
 
 <h3 id="clientopenbsd">С клиентом OpenBSD</h3>
 
-В наших примерах сеть
-<code>10.0.5.0/24</code>
-используется для поддержки VPN, 
-даже если фактический сетевой интерфейс не настроен для использования
-IP в этом сетевом блоке. 
-Предположим, что общедоступный IP-адрес клиента - 
-<code>203.0.113.2</code>.
+В наших примерах сеть <code>10.0.5.0/24</code> используется для
+работы VPN. Фактический внутренний IP адрес на интерфейсе lo1
+будет автоматически установлен/настроен iked демоном.
+Предположим, что общедоступный IP-адрес клиента - <code>203.0.113.2</code>.
 
 <p>
 Как и в предыдущем примере, обмена предоставляемых по умолчанию открытых
 ключей RSA достаточно для настройки простой аутентификации между
-ответчиком и инициатором: 
-<code>/etc/iked/local.pub</code>
-в первой системе («server1») должен быть скопирован в 
-<code>/etc/iked/pubkeys/fqdn/server1.domain</code>
-во второй системе ("roadwarrior"). Затем
-<code>/etc/iked/local.pub</code>
-в системе roadwarrior необходимо скопировать в
-<code>/etc/iked/pubkeys/fqdn/roadwarrior</code>
-в первую очередь. Замените «serverX.domain» своим собственным полным
-доменным именем.
+ответчиком и инициатором: <code>/etc/iked/local.pub</code> из первой системы
+(«server1») должен быть скопирован в
+<code>/etc/iked/pubkeys/fqdn/server1.domain</code> на второй системе («roadwarrior»).
+Затем <code>/etc/iked/local.pub</code> из системы roadwarrior необходимо
+скопировать в <code>/etc/iked/pubkeys/fqdn/roadwarrior</code> на первую
+систему. Замените «serverX.domain» своим собственным полным доменным именем.
 
 <p>
-Респондент
+Отвечающий (responder)
 <a href="https://man.openbsd.org/iked.conf">iked.conf(5)</a>
-создает потоки из любого пункта назначения в подсеть VPN и маркирует
-пакеты с помощью ROADW:
+создает потоки (flows) из любого пункта назначения в динамическую
+подсеть из пула IP-адресов, которая будет определена во время выполнения,
+и помечает пакеты при помощи ROADW:
 
 <pre class="cmdbox">
 ikev2 'responder_rsa' passive esp \
-        from 0.0.0.0/0 to 10.0.5.0/24 \
+        from any to dynamic \
         local 192.0.2.1 peer any \
         srcid server1.domain \
+        config address 10.0.5.0/24 \
         tag "ROADW"
 </pre>
 
+Responder должен предоставить инициатору IP-адрес.
+Это настраивается при помощи директивы <code>config</code>.
+При использовании параметра <code>config address</code>,
+<code>to dynamic</code> будет заменен назначенным динамическим IP-адресом.
+
+<p>
 Также необходимо разрешить IPsec с любого хоста (поскольку клиенты
 могут подключаться откуда угодно), разрешить трафик с тегом ROADW на
-<code>enc0</code>
-и применить к нему NAT:
+<code>enc0</code> и применить к нему NAT:
 
 <pre class="cmdbox">
 pass in log on $ext_if proto udp from any to 192.0.2.1 port {isakmp, ipsec-nat-t} tag IKED
@@ -311,99 +298,40 @@ pass log on enc0 tagged ROADW
 match out log on $ext_if inet tagged ROADW nat-to $ext_if
 </pre>
 
-Инициатор конфигурирует глобальный поток для отправки всего
-своего трафика респонденту, говоря ему идентифицировать себя
-с ключом с именем "roadwarrior":
+Инициатор конфигурирует глобальный поток для отправки всего своего трафика
+респонденту, говоря ему идентифицировать себя с ключом с именем "roadwarrior":
 
 <pre class="cmdbox">
 ikev2 'roadwarrior' active esp \
-        from 0.0.0.0/0 to 0.0.0.0/0 \
+        from dynamic to any \
         peer 192.0.2.1 \
         srcid roadwarrior \
-        dstid server1.domain
+        dstid server1.domain \
+        request address any \
+        iface lo1
 </pre>
 
-Одним из предостережений при использовании клиента OpenBSD
-является то, что он не отправляет запросы конфигурации
-респонденту для настройки своего IP, поэтому инициатору
-необходимо вручную NAT свои исходящие пакеты на интерфейсе 
-<code>enc0</code>
-чтобы пакеты появлялись на респонденте с IP на VPN-подсеть.
-Этого можно достичь с помощью следующего правила:
-
-<pre class="cmdbox">
-match out log on enc0 inet all nat-to 10.0.5.2
-</pre>
-
-При такой конфигурации потоки выглядят так:
-
-<!-- XXX this is only going to work if there's a single client -->
-<pre class="cmdbox">
-server1$ <b>ipsecctl -sf</b>
-flow esp in from 10.0.5.0/24 to 0.0.0.0/0 peer 203.0.113.2 type use
-flow esp out from 0.0.0.0/0 to 10.0.5.0/24 peer 203.0.113.2 type require
-
-roadwarrior$ <b>ipsecctl -sf</b>
-flow esp in from 0.0.0.0/0 to 0.0.0.0/0 peer 192.0.2.1 type use
-flow esp out from 0.0.0.0/0 to 0.0.0.0/0 peer 192.0.2.1 type require
-</pre>
+Инициатор использует параметр <code>request address any</code>
+для запроса динамического IP-адреса у ответчика.
+Параметр <code>iface lo1</code> указывает интерфейс, для которого
+будут установлены полученный адрес и соответствующие маршруты.
 
 Ответчик должен иметь правильную конфигурацию NAT для "roadwarrior".
 
 <p>
-Поскольку весь трафик проходит через VPN, включая трафик,
-предназначенный для локального хоста, может потребоваться
-исключить этот трафик из потоков, чтобы гарантировать, что
-соединения со службами, работающими локально (такими как
-локальный преобразователь), достигают нужной цели.
-Это может быть достигнуто путем добавления одной строки в 
-<code>/etc/ipsec.conf</code>
-на инициаторе:
-
-<pre class="cmdbox">
-flow from 127.0.0.1/32 to 127.0.0.1/32 type bypass
-</pre>
-
-После запуска инициатора это дополнительное правило должно
-быть загружено с помощью
-<code>ipsecctl</code>:
-
-<pre class="cmdbox">
-roadwarrior# <b>ipsecctl -f /etc/ipsec.conf</b>
-</pre>
-
-Это произойдет при загрузке, если IPsec был включен с
-<code>rcctl enable ipsec</code>.
-
-<p>
-Теперь потоки на инициаторе должны выглядеть так:
-
-<pre class="cmdbox">
-flow esp in from 0.0.0.0/0 to 0.0.0.0/0 peer 192.0.2.1 type use
-flow esp in from 127.0.0.1 to 127.0.0.1 type bypass
-flow esp out from 0.0.0.0/0 to 0.0.0.0/0 peer 192.0.2.1 type require
-flow esp out from 127.0.0.1 to 127.0.0.1 type bypass
-</pre>
-
-Изящная остановка VPN на инициаторе может быть достигнута с помощью
-<code>ikectl decouple</code>
-( <code>iked</code>
-все еще работает, ожидает соединения
-<code>ikectl couple</code>
-так что он снова подключается к респонденту) или с помощью i
+Изящная остановка VPN на стороне инициатора может быть достигнута
+при помощи <code>ikectl decouple</code> (<code>iked</code> все еще
+работает, ожидает соединения <code>ikectl couple</code>
+так что он снова подключается к респонденту) или при помощи i
 <code>ikectl reset sa &amp;&amp; rcctl stop iked</code>
-для окончательной остановки
-<code>iked</code>
-и обеспечения отсутствия потоков.
+для окончательной остановки <code>iked</code> и обеспечения
+отсутствия потоков.
 
-<h3 id="clientandroid">With an Android Client</h3>
+<h3 id="clientandroid">Клиент для Android</h3>
 
-С клиентом Android
-
-Стандартный VPN-клиент Android поддерживает только IKEv1. 
-Чтобы использовать IKEv2,
-<a href="https://www.strongswan.org/">strongSwan</a>
-является опцией.
+Стандартный VPN-клиент для Android поддерживает только IKEv1. 
+Если хотите использовать IKEv2, обратите внимание на
+<a href="https://www.strongswan.org/">strongSwan</a>.
 
 <p>
 Также необходимо настроить сертификаты PKI и X.509,
@@ -420,8 +348,7 @@ writing RSA key
 server1# <b>cp /etc/iked/ca/ca.crt /var/www/htdocs/</b>
 </pre>
 
-На устройстве Android перейдите по
-<code>http://192.0.2.1/ca.crt</code>
+На устройстве c Android перейдите по <code>http://192.0.2.1/ca.crt</code>
 и импортируйте сертификат CA в клиенте strongSwan. 
 С этого момента существует несколько вариантов аутентификации
 инициатора для ответчика:
@@ -431,24 +358,16 @@ server1# <b>cp /etc/iked/ca/ca.crt /var/www/htdocs/</b>
   <li>Сертификат X.509
 </ul>
 
-Ответчик должен предоставить инициатору IP-адрес и, в конечном
-итоге, также сервер имен. Это достигается с помощью директив 
-<code>config</code>
-При использовании параметра <code>config address</code>,
-<code>to 0.0.0.0 </code> (или <code> 0.0.0.0/32 </code>)
-будет заменен назначенным динамическим IP-адресом.
+<h4 id="autheap">Использование MSCHAP-V2 для EAP аутентификации</h4>
 
-<h4 id="autheap">Использование MSCHAP-V2 для аутентификации EAP</h4>
-
-Конфигурация респондента должна указать список имени
-пользователя / пароля и использовать
-<code>eap "mschap-v2"</code>
+Конфигурация респондента должна указать список имен
+пользователя/пароля и использовать <code>eap "mschap-v2"</code>
 (который пока является единственным поддерживаемым методом EAP):
 
 <pre class="cmdbox">
 user 'android' 'password'
 ikev2 'responder_eap' passive esp \
-        from 0.0.0.0/0 to 0.0.0.0 \
+        from any to dynamic \
         local 192.0.2.1 peer any \
         srcid server1.domain \
         eap "mschap-v2" \
@@ -511,7 +430,7 @@ server1# <b>cp /tmp/export/client1.domain.pfx /var/www/htdocs/client1.domain.pfx
 
 <pre class="cmdbox">
 ikev2 'responder_x509' passive esp \
-        from 0.0.0.0/0 to 0.0.0.0 \
+        from any to dynamic \
         local 192.0.2.1 peer any \
         srcid server1.domain \
         config address 10.0.5.0/24 \
@@ -593,7 +512,7 @@ o об этих требованиях
 <pre class='cmdbox'>
 user 'windows' 'password'
 ikev2 'responder_eap' passive esp \
-        from 0.0.0.0/0 to 0.0.0.0 \
+        from any to dynamic \
         local 192.0.2.1 peer any \
         srcid server1.domain.fqdn \
         eap "mschap-v2" \
