@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<!-- If you make edits to any FAQ documents, please start each sentence
+     on a new line, and try to keep the general formatting consistent
+     with the rest of the pages -->
+
+<title>OpenBSD PF: Проблемы с FTP</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../../favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/ftp.html">
+
+<!--
+Copyright (c) 2003, Nick Holland <nick@openbsd.org>
+Copyright (c) 2003, 2004, Joel Knight <enabled@myrealbox.com>
+Permission to use, copy, modify, and distribute this documentation for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS DOCUMENTATION
+-->
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF - Проблемы с FTP
+<small>
+<a href="index.html">[Contents]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#modes"      >Режимы FTP</a>
+  <li><a href="#client"     >FTP-клиент за Firewall</a>
+  <li><a href="#server"     >PF "Самозащита" FTP-сервера</a>
+  <li><a href="#natserver"  >FTP-сервер защищен внешним Firewall
+                             c NAT</a>
+  <li><a href="#info"       >Дополнительная информация о FTP</a>
+  <li><a href="#tftp-proxy" >Проксирование TFTP</a>
+</ul>
+
+<hr>
+
+<h2 id="modes">Режимы FTP</h2>
+
+FTP - это протокол, который восходит к тому времени, когда Интернет был небольшим, 
+дружная коллекция компьютеров и все друг друга знали. 
+В то времена не было необходимости в фильтрации или строгой безопасности. 
+FTP не предназначен для фильтрации, прохождения через Firewall или для 
+работа с NAT.
+
+<p>
+FTP можно использовать одним из двух способов: пассивным или активным. 
+Как правило, выбор активного или пассивного делается для того, чтобы определить, у кого 
+проблема с межсетевым экраном.
+
+<p>
+При активном FTP, когда пользователь подключается к удаленному FTP-серверу и запрашивает 
+информацию или файл, FTP-сервер устанавливает новое соединение с 
+клиентом для передачи запрошенных данных. 
+Это называется <i>подключением к данным</i>. 
+Для начала FTP-клиент выбирает случайный порт для приема соединения, для передачи данных. 
+Клиент отправляет выбранный номер порта на FTP-сервер и прослушивает его, 
+входящее соединение на этом порту. 
+Затем FTP-сервер инициирует соединение с адресом клиента в 
+выбранный порт и передает данные. 
+Это проблема для пользователей, пытающихся получить доступ к FTP-серверам из-за шлюзом NAT. 
+Из-за того, как работает NAT, FTP-сервер инициирует соединение для передачи данных путем 
+подключение к внешнему адресу шлюза NAT на выбранном порту. 
+Машина NAT получит это, но, поскольку у него нет сопоставления для 
+пакет в своей таблице состояний, он отбросит пакет и не доставит его 
+клиенту.
+
+<p>
+В пассивном режиме FTP (режим по умолчанию в OpenBSD
+<a href="https://man.openbsd.org/ftp">ftp(1)</a> client), клиент запрашивает
+чтобы сервер выбирал случайный порт для прослушивания соединения для передачи данных. 
+Сервер сообщает клиенту выбранный порт, а клиент
+подключается к этому порту для передачи данных. 
+К сожалению, это не всегда возможно или желательно из-за
+возможность Firewall-a перед FTP-сервером, блокирующего входящие
+подключение для передачи данных.
+Чтобы активировать FTP в активном режиме, используйте флаг <code>-A</code> для <code>ftp</code>,
+или установите для пассивного режима значение "off", введя команду «<code>passive off</code>»
+в приглашении "<code>ftp&gt;</code>".
+
+<h2 id="client">FTP-клиент за Firewall</h2>
+
+Как указывалось ранее, FTP не очень хорошо проходит через NAT и Firewall.
+
+<p>
+PF предлагает решение этой ситуации, перенаправляя FTP-трафик, 
+через FTP прокси-сервер.
+Этот процесс действует, чтобы "направлять" FTP-трафик через NAT шлюз/межсетевой экран.
+путем активного добавления необходимых правил в PF и удаления их, когда это делается через
+систему <a href="anchors.html">привязки</a>. 
+FTP прокси-сервер, используемый PF:  
+<a href="https://man.openbsd.org/ftp-proxy">ftp-proxy(8)</a>.
+
+<p>
+Чтобы активировать его, поставьте что-то подобное в начале раздела правил 
+<code>pf.conf</code>:
+
+<pre class="cmdbox">
+pass in quick on $int_if inet proto tcp to port 21 divert-to 127.0.0.1 port 8021
+</pre>
+
+Это перенаправляет FTP от клиентов к программе ftp-proxy, которая
+прослушивает порт 8021 сервера.
+
+<p>
+Также нужен якорь в разделе правил:
+
+<pre class="cmdbox">
+anchor "ftp-proxy/*"
+</pre>
+
+Прокси-сервер должен быть запущен, и запущен в окне OpenBSD.
+
+<pre class="cmdbox">
+# <b>rcctl enable ftpproxy</b>
+# <b>rcctl start  ftpproxy</b>
+</pre>
+
+Для поддержки подключений в активном режиме от определенных (суетливых) клиентов,
+может потребоваться флаг <code>-r</code>.
+
+<h2 id="server">PF "Самозащита" FTP-сервера</h2>
+
+В этом случае PF работает на самом FTP-сервере, а не на выделенном
+компьютере с firewall-ом. 
+При обслуживании пассивного соединения, FTP будет использовать случайно выбранный высокий 
+TCP порт для входящих данных.
+When servicing a passive connection, FTP will use a randomly chosen, high
+TCP port for incoming data.
+По умолчанию OpenBSD <a href="https://man.openbsd.org/ftpd">ftpd(8)</a> 
+использует диапазон от 49152 до 65535.
+Очевидно, они должны быть пропущены через правила фильтрации вместе с портом 21.
+(порт управления FTP):
+
+<pre class="cmdbox">
+pass in on egress proto tcp to port 21
+pass in on egress proto tcp to port &gt; 49151
+</pre>
+
+При желании этот диапазон портов можно расширить. 
+В случае <a href="https://man.openbsd.org/ftpd">ftpd(8)</a>, это 
+выполняется с использованием переменных <a href="https://man.openbsd.org/sysctl">sysctl(8)</a>
+<code>net.inet.ip.porthifirst</code> и <code>net.inet.ip.porthilast</code>.
+
+<h2 id="natserver">FTP-сервер защищен внешним Firewall c NAT</h2>
+
+В этом случае, межсетевой экран должен дополнительно перенаправлять трафик на FTP-сервер, 
+чтобы не блокировать требуемые порты.
+
+<p>
+ftp-proxy может быть запущен в режиме, который заставляет его перенаправлять все FTP-соединения 
+на конкретный FTP-сервер.
+Прокси-сервер будет настроен на прослушивание порта 21 firewall-а, и 
+перенаправить все подключения к внутреннему серверу.
+
+<pre class="cmdbox">
+# <b>rcctl set ftpproxy flags -R 10.10.10.1 -p 21 -b 192.168.0.1</b>
+</pre>
+
+Здесь 10.10.10.1 - это IP-адрес фактического FTP-сервера, 21 - это 
+порт ftp-proxy который будет прослушивать, а 192.168.0.1 - это адрес на
+firewall, к которому будет привязан прокси.
+
+<p>
+Теперь о правилах <code>pf.conf</code>:
+
+<pre class="cmdbox">
+ext_ip = "192.168.0.1"
+ftp_ip = "10.10.10.1"
+match out on egress inet from $int_if nat-to (egress)
+anchor "ftp-proxy/*"
+pass in  on  egress inet proto tcp to $ext_ip port 21
+pass out on $int_if inet proto tcp to $ftp_ip port 21 user _ftp_proxy
+</pre>
+
+Здесь соединение, входящее в порт 21, разрешено на внешнем интерфейсе,
+а также соответствующее исходящее соединение с FTP-сервером. 
+Дополнение <code>user _ftp_proxy</code> к правилу исходящего трафика обеспечивает
+что разрешены только соединения, инициированные ftp-proxy.
+
+<h2 id="info">Дополнительная информация о FTP</h2>
+
+Более подробную информацию о фильтрации FTP и о том, как работает FTP в целом, можно 
+найти в 
+<a href="https://web.archive.org/web/20170812032619/http://www.pintday.org/whitepapers/ftp-review.shtml">этой технической документации</a>.
+
+<h2 id="tftp-proxy">Проксирование TFTP</h2>
+
+Trivial File Transfer Protocol (TFTP) страдает от того же
+что и FTP, когда дело доходит до прохождения через firewall. 
+К счастью, у PF есть вспомогательный прокси для TFTP, который называется
+<a href="https://man.openbsd.org/tftp-proxy">tftp-proxy(8)</a>.
+
+<p>
+tftp-proxy настраивается почти так же, как ftp-proxy был в
+<a href="#client">FTP-клиент за Firewall-ом</a>, приведенный выше. 
+
+<pre class="cmdbox">
+match out on egress inet from $int_if nat-to (egress)
+anchor "tftp-proxy/*"
+pass in  quick on $int_if inet proto udp from $lan to port tftp \
+    divert-to 127.0.0.1 port 6969
+pass out quick on $ext_if inet proto udp from $lan to port tftp \
+    group _tftp_proxy divert-reply
+</pre>
+
+Приведенные выше правила разрешают исходящий трафик TFTP из внутренней сети в TFTP.
+сервера во внешней сети.
+
+<p>
+Последний шаг - включить и запустить tftp-proxy.
+
+<pre class="cmdbox">
+# <b>rcctl enable tftpproxy</b>
+# <b>rcctl start  tftpproxy</b>
+</pre>
