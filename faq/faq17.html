@@ -85,7 +85,7 @@ IKEv1 сервер <a href="https://man.openbsd.org/isakmpd">isakmpd(8)</a>
 
 <h3 id="site2site">Создание межсетевых VPN-соединений</h3>
 
-Этого можно достигнуть путем обмена сгенерированных по умолчанию public
+Это настраивается путем обмена сгенерированных по умолчанию public
 RSA ключей: <code>/etc/iked/local.pub</code> из первой системы («server1»)
 должен быть скопирован в <code>/etc/iked/pubkeys/fqdn/server1.domain</code>
 на второй системе («server2»).
@@ -181,7 +181,7 @@ esp tunnel from 192.0.2.1 to 198.51.100.1 spi 0xabb5968a auth hmac-sha2-256 enc 
 esp tunnel from 198.51.100.1 to 192.0.2.1 spi 0xb1fc90b8 auth hmac-sha2-256 enc aes-256
 </pre>
 
-При этом обе внутренние сети должны быть в состоянии достичь друг друга. 
+При этом обе внутренние сети должны быть в досягаемости друг друга.
 Трафик между ними должен появляться после декапсуляции на интерфейсе 
 <code>enc0</code> и может быть отфильтрован. В этом примере 
 <code>tag VPN</code> был добавлен в правила:
@@ -196,14 +196,19 @@ esp tunnel from 198.51.100.1 to 192.0.2.1 spi 0xb1fc90b8 auth hmac-sha2-256 enc 
 Пару предупреждений:
 
 <ul>
-  <li>If the responder doesn't set <code>srcid</code>, then iked will try to use the key matching its FQDN by default.
-  <li>The responder doesn't <b>need</b> to set <code>local</code>, it just ensures iked listens on the correct interface.
-  <li>The responder doesn't <b>need</b> to set <code>peer</code>, it just ensures connections are coming from a trusted IP.
+  <li>Если ответная сторона не установит <code>srcid</code>, iked попытается
+      использовать ключ, соответствующий его FQDN, т.е. его доменному имени
+      (поведение по умолчанию).
+  <li>Ответная сторона <b>не должна</b> устанавливать <code>local</code>,
+      и так гарантируется, что iked прослушивает правильный интерфейс.
+  <li>Ответная сторона <b>не должна</b> устанавливать <code>peer</code>,
+      так как гарантируется, что входящие соединения устанавливаются с
+      IP-адреса, которому можно доверять.
 </ul>
 
-Если для сторон VPN-соединения удаленная внутренней сеть должна быть в
+Если для сторон VPN-соединения удаленная внутренняя сеть должна быть в
 зоне досигаемости, или наоборот -- из внутренней сети должны быть доступны
-разные стороны VPN, дополнительные flows должны быть установлены с обеих
+разные стороны VPN, должны быть установленны дополнительные flows с обеих
 сторон:
 
 <ul>
