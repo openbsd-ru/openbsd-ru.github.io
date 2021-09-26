@@ -35,16 +35,22 @@ FAQ - Мультимедиа
 <hr>
 
 <ul>
+  <li><a href="#enablerec"  >Enabling Audio Recording</a>
   <li><a href="#confaudio"  >Конфигурирование аудио устройств</a>
+  <li><a href="#audiolevel" >Adjusting Audio Levels</a>
+  <li><a href="#usbaudio"   >Using a USB Audio Interface</a>
   <li><a href="#playaudio"  >Проигрывание различных форматов аудио</a>
   <!-- XXX
   <li><a href="#playCD"     >Проигрывание аудио CD</a>
   XXX -->
   <li><a href="#recordaudio">Запись аудио-сэмплов</a>
   <li><a href="#recordmon"  >Recording a Monitor Mix of All Audio Playback</a>
-  <li><a href="#audioserver">Аудио-сервер OpenBSD (sndiod)</a>
+  <li><a href="#audiolat"   >Lowering Audio Latency</a>
+  <li><a href="#audionet"   >Using Remote Audio Hardware</a>
+  <li><a href="#default"    >Choosing the Default Audio Device</a>
   <li><a href="#audioprob"  >Отладка проблем со звуком</a>
   <li><a href="#midi"       >Использование MIDI инструментов</a>
+  <li><a href="#webcam"     >Using a Webcam</a>
   <!-- XXX
   <li><a href="#playDVD"    >Проигрывание DVD</a>
   <li><a href="#burnCD"     >Запись CD и DVD</a>
@@ -57,6 +63,16 @@ FAQ - Мультимедиа
   XXX -->
 </ul>
 <hr>
+
+<h2 id="enablerec">Enabling Audio Recording</h2>
+
+For privacy reasons, audio recording is disabled by default in OpenBSD.
+The <code>kern.audio.record</code> sysctl may be used to enable it.
+
+<pre class="cmdbox">
+# <b>sysctl kern.audio.record=1</b>
+# <b>echo kern.audio.record=1 >> /etc/sysctl.conf</b>
+</pre>
 
 <h2 id="confaudio">Конфигурирование Аудио Устройств</h2>
 
@@ -156,7 +172,9 @@ $ <b>aucat -i filename.wav</b>
 
 Другие аудиоформаты могут обрабатываться сторонними приложениями.
 
+<!-- XXX
 <h2 id="playCD">Воспроизведение аудио CD</h2>
+XXX -->
 
 Воспроизведение аудио компакт-дисков возможно либо с помощью проигрывателя
 компакт-дисков, воспроизводящего диск и отправляющего аналоговое аудио на
@@ -287,101 +305,6 @@ $ <b>aucat -f snd/0.mon -o file.wav</b>
 На этом этапе всё, что воспроизводит ваша система, записывается в
 <code>file.wav</code>.
 
-<h2 id="audioserver">Аудио-сервер OpenBSD (sndiod)</h2>
-
-<!-- This section Copyright (c) 2009 Alexandre Ratchov -->
-
-<h3> Какие задержки мне нужны?</h3>
-
-Задержка - это время между тем, когда программа принимает решение воспроизвести
-семпл и когда пользователь слышит семпл. Поскольку аудиоданные всегда
-буферизуются, эта задержка пропорциональна размеру аудиобуфера. Следующие
-значения рекомендуются:
-
-<ul>
-  <li>Синтезаторы реального времени: 5 мс. Это время, которое требуется между
-      нажатием клавиши на вашей MIDI-клавиатуре и фактическим прослушиванием ноты.
-      Примерно 5 мс соответствуют времени, которое требуется для распространения
-      звука на расстояние 1,75 м.
-  <li>Игры: 50мс. Это время между тем, когда вы видите событие и слышите
-      соответствующий звук.
-      corresponding sound.
-  <li>Кино и тому подобное: 500 мс и более. Такие приложения «знают» звук для
-      воспроизведения заранее и отправляют аудиоданные таким образом, чтобы они
-      воспроизводились одновременно с соответствующим изображением.
-</ul>
-
-Чем меньше аудиобуферы (для достижения низкой задержки), тем больше вероятность
-переполнения/опустошения. Переполнение/опустошение буфера приводят к
-заиканию звука.
-
-<p>
-sndiod (8) устанавливает минимальную задержку для всех аудио приложений, и
-задержка по умолчанию составляет 160 мс.
-
-Если вы планируете использовать приложения, для которых требуется меньшая
-задержка, используйте параметр <code>-b</code>, чтобы выбрать желаемую задержку
-(выраженную в количестве кадров).
-
-Например, при частоте 48000 выборок в секунду задержка 50 мс соответствует:
-
-<blockquote>
-48000 выборок в секунду &times; 0,050 секунд = 2400 выборок
-</blockquote>
-
-Затем сделайте:
-
-<pre class="cmdbox">
-# <b>rcctl set sndiod flags -b2400</b>
-</pre>
-
-<h3>Улучшает ли низкая задержка аудио-видео синхронизацию?</h3>
-
-Нет, для синхронизации аудио и видео не требуется низкая задержка.
-Проблемы с синхронизацией часто бывают вызваны самим программным обеспечением.
-Принудительное использование приложением меньших буферов (с помощью запуска
-sndiod (8) в режиме с малой задержкой) в некоторых случаях может скрыть
-реальную проблему и создать ощущение, что программное обеспечение работает
-лучше, но, очевидно, что правильнее всего начать поиск соответствующей
-проблемы.
-
-<h3>Как я могу использовать удалённую звуковую карту?</h3>
-
-sndiod (8) может быть настроен на прием соединений из сети, что позволяет
-другим машинам также использовать звуковую карту.
-На удаленной системе, на которой установлена звуковая карта, запустите:
-
-<pre class="cmdbox">
-# <b>rcctl set sndiod flags -L-</b>
-</pre>
-
-В локальной системе настройте вашу программу на использование:
-
-<pre class="cmdbox">
-snd@hostname/0
-</pre>
-
-где "имя хоста" - это адрес удаленной системы.
-Переменная окружения <code>AUDIODEVICE</code> может быть установлена в
-указанное выше значение, чтобы сделать удаленную звуковую карту
-аудиоустройством по умолчанию.
-
-<p>
-Любая система, способная подключиться по протоколу TCP к порту 11025 удаленного
-хоста, сможет использовать аудиоустройство.
-В целях конфиденциальности только один пользователь из одной системы может
-иметь подключения к ней в данный момент времени.
-Если несколько систем должны использовать аудиоустройство одновременно,
-авторизационный cookie-файл sndio (7) должен быть одинаковым.
-Например, скопируйте файл <code>~/.sndio/cookie</code> во все учетные записи,
-которые могут использовать аудиоустройство.
-
-<p>
-Чтобы избежать сбоев, трафику TCP через порт 11025 можно назначать приоритеты с
-помощью фильтра пакетов.
-При конфигурации по умолчанию sndiod будет потреблять около 200 кБ/с
-пропускной способности сети.
-
 <h2 id="audioprob">Отладка проблем со звуком</h2>
 
 Если при воспроизведении звука ничего не слышно, возможно, микшерный пульт
@@ -501,7 +424,154 @@ $ <b>cat -u &lt; /dev/rmidi0 &gt; /dev/rmidi1</b>
 
 Теперь вы можете услышать, что вы играете на MIDI-клавиатуре синтезатора.
 
+<h2 id="webcam">Using a Webcam</h2>
+
+<h3 id="enablevideo">Enabling Video Recording</h3>
+
+For privacy reasons, video recording is disabled by default in OpenBSD.
+The <code>kern.video.record</code> sysctl may be used to enable it.
+
+<pre class="cmdbox">
+# <b>sysctl kern.video.record=1</b>
+# <b>echo kern.video.record=1 >> /etc/sysctl.conf</b>
+</pre>
+
+<h3>Supported Hardware</h3>
+
+Many webcams following the USB Video Class (UVC) specification are supported
+by the <a href="https://man.openbsd.org/uvideo">uvideo(4)</a> device driver
+and are exposed to the user via the
+<a href="https://man.openbsd.org/video.4">video(4)</a> layer.
+
 <p>
+A supported webcam (or other video device) shows up in <code>dmesg</code>
+like this:
+
+<pre class="cmdbox">
+uvideo0 at uhub0 port 8 configuration 1 interface 0 "Azurewave Integrated Camera" rev 2.01/69.05 addr 10
+video0 at uvideo0
+uvideo1 at uhub0 port 8 configuration 1 interface 2 "Azurewave Integrated Camera" rev 2.01/69.05 addr 10
+video1 at uvideo1
+</pre>
+
+This device will be accessible through <code>/dev/video0</code>.
+
+<p>
+Some laptops also attach a second (unusable) video device for the infrared
+camera.
+The usable camera device can be found with the
+<a href="https://man.openbsd.org/video.1">video(1)</a> command:
+
+<pre class="cmdbox">
+$ <b>video -q -f /dev/video0</b>
+video device /dev/video0:
+  encodings: yuy2
+  frame sizes (width x height, in pixels) and rates (in frames per second):
+        320x180: 30
+        320x240: 30
+        352x288: 30
+        424x240: 30
+        640x360: 30
+        640x480: 30
+        848x480: 20
+        960x540: 15
+        1280x720: 10
+  controls: brightness, contrast, saturation, hue, gamma, sharpness, white_balance_temperature
+$ <b>video -q -f /dev/video1</b>
+video: /dev/video1 has no usable YUV encodings
+</pre>
+
+Only root is allowed to access video devices by default.
+The device's permissions must be changed to use it as a regular user:
+
+<pre class="cmdbox">
+# <b>chown $USER /dev/video0</b>
+</pre>
+
+<h3 id="recvideo">Recording a Webcam Stream</h3>
+
+This section uses <code>ffplay</code> and <code>ffmpeg</code> from the
+<code>graphics/ffmpeg</code> package.
+To see the capabilities of a given camera, run the following:
+
+<pre class="cmdbox">
+$ <b>ffplay -f v4l2 -list_formats all -i /dev/video0</b>
+[...]
+[video4linux2,v4l2 @ 0x921f8420800] Raw       : yuyv422 : YUYV : 640x480 320x180 320x240 352x288 424x240 640x360 848x480 960x540 1280x720
+[video4linux2,v4l2 @ 0x921f8420800] Compressed:   mjpeg : MJPEG : 1280x720 320x180 320x240 352x288 424x240 640x360 640x480 848x480 960x540
+</pre>
+
+The first line shows supported resolutions in the uncompressed YUYV format.
+Frame rates in this format can be very low.
+The second line shows the supported MJPEG compressed video resolutions,
+which can deliver much higher frame rates.
+
+<p>
+Choose one of the MJPEG resolutions and run the following to test it:
+
+<pre class="cmdbox">
+$ <b>ffplay -f v4l2 -input_format mjpeg -video_size 1280x720 -i /dev/video0</b>
+[...]
+Input #0, video4linux2,v4l2, from '/dev/video0':B sq=    0B f=0/0
+  Duration: N/A, start: 1599377893.546533, bitrate: N/A
+    Stream #0:0: Video: mjpeg (Baseline), yuvj422p(pc, bt470bg/unknown/unknown), 1280x720, 30 fps, 30 tbr, 1000k tbn, 1000k tbc
+</pre>
+
+The webcam stream should be displayed along with the resolution and frame
+rate.
+
+<p>
+If this works, video can be recorded with ffmpeg like so:
+
+<pre class="cmdbox">
+$ <b>ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -i /dev/video0 ~/video.mkv</b>
+</pre>
+
+Press "q" to end the recording.
+
+<h3>Controlling Webcam Settings</h3>
+
+Webcams usually have brightness, contrast and other controls that can be
+altered with the
+<a href="https://man.openbsd.org/video.1">video(1)</a> command.
+
+<pre class="cmdbox">
+$ <b>video -c</b>
+brightness=128
+contrast=32
+saturation=64
+hue=0
+gamma=120
+sharpness=3
+white_balance_temperature=auto
+</pre>
+
+As an example, the brightness setting can be changed to 200:
+
+<pre class="cmdbox">
+$ <b>video brightness=200</b>
+brightness: 128 -> 200
+</pre>
+
+All the settings can be reverted to their defaults with
+<code>video -d</code>.
+
+<p>
+Some settings support automatic adjustments if set to a value of "auto."
+
+<h3>Webcam Access in Web Browsers</h3>
+
+Chromium has access to <code>/dev/video</code> by default.
+To allow Chromium to access other video devices, the device paths must be
+added to <code>/etc/chromium/unveil.main</code> and
+<code>/etc/chromium/unveil.utility_video</code>.
+
+<p>
+Firefox has access to <code>/dev/video</code> and <code>/dev/video0</code>
+by default.
+To allow Firefox to access other video devices, the device paths must be
+added to <code>/etc/firefox/unveil.main</code>.
+
 <!-- XXX midiplay removed
 Основная утилита для воспроизведения стандартных файлов MIDI - <a
 href="https://man.openbsd.org/midiplay">midiplay(1)</a>.
@@ -521,9 +591,7 @@ MIDI-порты, позволяя программам отправлять др
 <pre class="cmdbox">
 $ <b>midiplay -f midithru/0 file.mid</b>
 </pre>
-XXX midiplay removed -->
 
-<!-- XXX
 Для записи MIDI-файлов вы можете использовать утилиту <code>smfrec</code>,
 включенную порт <code>audio/midish</code>.
 Например:
