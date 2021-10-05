@@ -173,13 +173,12 @@ ext_gw1 = "198.51.100.100"
 ext_gw2 = "203.0.113.200"
 
 pass in on $int_if from $lan_net route-to \
-   { ($ext_if1 $ext_gw1), ($ext_if2 $ext_gw2) } round-robin
+   { $ext_gw1 $ext_gw2 } round-robin
 </pre>
 
-
 Параметр <code>route-to</code> применяется к <i>входящему</i> трафику на 
-<i>внутреннем</i> интерфейсе, чтобы указать исходящий сетевой интерфейс,
-трафик которого будет балансироваться через соответствующие шлюзы.
+<i>внутреннем</i> интерфейсе, чтобы указать исходящий (outgoing) сетевой
+шлюз (gateway), трафик которого будет балансироваться.
 Заметьте, что опция <code>route-to</code> может присутствовать в 
 <i>каждом</i> правиле фильтра, которое предназначено для балансировки 
 трафика (она не может быть использованая с правилом <code>match</code>).
@@ -191,8 +190,8 @@ pass in on $int_if from $lan_net route-to \
 в правила необходимо добавить следующие две строки:
 
 <pre class="cmdbox">
-pass out on $ext_if1 from $ext_if2 route-to ($ext_if2 $ext_gw2)
-pass out on $ext_if2 from $ext_if1 route-to ($ext_if1 $ext_gw1)
+pass out on $ext_if1 from $ext_if2 route-to $ext_gw2
+pass out on $ext_if2 from $ext_if1 route-to $ext_gw1
 </pre>
 
 И наконец, NAT может быть использован на каждом исходящем интерфейсе:
@@ -227,12 +226,11 @@ pass out on $int_if to $lan_net
 pass in quick on $int_if from $lan_net to $int_if
 # load balance outgoing traffic from internal network.
 pass in on $int_if from $lan_net \
-    route-to { ($ext_if1 $ext_gw1), ($ext_if2 $ext_gw2) } \
-    round-robin
+    route-to { $ext_gw1 $ext_gw2 } round-robin
 # keep https traffic on a single connection; some web applications,
 # especially "secure" ones, don't allow it to change mid-session
 pass in on $int_if proto tcp from $lan_net to port https \
-    route-to ($ext_if1 $ext_gw1)
+    route-to $ext_gw1
 
 # general "pass out" rules for external interfaces
 pass out on $ext_if1
@@ -240,6 +238,6 @@ pass out on $ext_if2
 
 # route packets from any IPs on $ext_if1 to $ext_gw1 and the same for
 # $ext_if2 and $ext_gw2
-pass out on $ext_if1 from $ext_if2 route-to ($ext_if2 $ext_gw2)
-pass out on $ext_if2 from $ext_if1 route-to ($ext_if1 $ext_gw1)
+pass out on $ext_if1 from $ext_if2 route-to $ext_gw2
+pass out on $ext_if2 from $ext_if1 route-to $ext_gw1
 </pre>
