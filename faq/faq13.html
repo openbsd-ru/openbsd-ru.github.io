@@ -1,26 +1,22 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Мультимедиа</title>
 <meta charset=utf-8>
-<link rel="icon" type="image/x-icon" href="../favicon.ico"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico"/>
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
 <link rel="canonical" href="https://www.openbsd.org/faq/faq13.html">
 <style>
 table {
-	border-collapse: collapse;
-	empty-cells: show;
-	margin-top: 1em;
+  border-collapse: collapse;
+  empty-cells: show;
+  margin-top: 1em;
 }
 
 td {
-	text-align: center;
-	border: #000 1px solid;
+  text-align: center;
+  border: #000 1px solid;
 }
 </style>
 
@@ -29,256 +25,205 @@ td {
 <i>Open</i><b>BSD</b></a>
 FAQ - Мультимедиа
 <small>
-<a href="index.html">[FAQ Индекс]</a>
+<a href="index.html">[FAQ Каталог]</a>
 </small>
 </h2>
 <hr>
 
 <ul>
-  <li><a href="#enablerec"  >Enabling Audio Recording</a>
-  <li><a href="#confaudio"  >Конфигурирование аудио устройств</a>
-  <li><a href="#audiolevel" >Adjusting Audio Levels</a>
-  <li><a href="#usbaudio"   >Using a USB Audio Interface</a>
-  <li><a href="#playaudio"  >Проигрывание различных форматов аудио</a>
+  <li><a href="#enablerec"  >Включение аудиозаписи</a>
+  <li><a href="#confaudio"  >Настройка аудиооборудования</a>
+  <li><a href="#audiolevel" >Регулировка уровней звука</a>
+  <li><a href="#usbaudio"   >Использование аудиоинтерфейса USB</a>
+  <li><a href="#playaudio"  >Воспроизведение аудиофайлов</a>
   <!-- XXX
-  <li><a href="#playCD"     >Проигрывание аудио CD</a>
-  XXX -->
-  <li><a href="#recordaudio">Запись аудио-сэмплов</a>
-  <li><a href="#recordmon"  >Recording a Monitor Mix of All Audio Playback</a>
-  <li><a href="#audiolat"   >Lowering Audio Latency</a>
-  <li><a href="#audionet"   >Using Remote Audio Hardware</a>
-  <li><a href="#default"    >Choosing the Default Audio Device</a>
+  <li><a href="#playCD"     >Playing Audio CDs</a>
+  XXX  -->
+  <li><a href="#recordaudio">Запись аудиофайлов</a>
+  <li><a href="#recordmon"  >Запись контрольного микса всего воспроизведения звука</a>
+  <li><a href="#audiolat"   >Снижение задержки звука</a>
+  <li><a href="#audionet"   >Использование удаленного аудиооборудования</a>
+  <li><a href="#default"    >Выбор аудиоустройства по умолчанию</a>
   <li><a href="#audioprob"  >Отладка проблем со звуком</a>
-  <li><a href="#midi"       >Использование MIDI инструментов</a>
-  <li><a href="#webcam"     >Using a Webcam</a>
+  <li><a href="#midi"       >Использование MIDI-инструментов</a>
+  <li><a href="#webcam"     >Использование веб-камеры</a>
   <!-- XXX
-  <li><a href="#playDVD"    >Проигрывание DVD</a>
-  <li><a href="#burnCD"     >Запись CD и DVD</a>
+  <li><a href="#playDVD"    >Playing DVDs</a>
+  <li><a href="#burnCD"     >Burning CDs and DVDs</a>
 <ul>
-  <li><a href="#burnIntro"  >Введение и базовая настройка</a>
-  <li><a href="#writeCD"    >Запись CD</a>
-  <li><a href="#writeDVD"   >Запись DVD</a>
+  <li><a href="#burnIntro"  >Introduction and Basic Setup</a>
+  <li><a href="#writeCD"    >Writing CDs</a>
+  <li><a href="#writeDVD"   >Writing DVDs</a>
 </ul>
-  <li><a href="#plugins"    >Плагины для браузера (Java и Flash)</a>
-  XXX -->
+  <li><a href="#plugins"    >Browser Plugins (Java and Flash)</a>
+  XXX  -->
 </ul>
 <hr>
 
-<h2 id="enablerec">Enabling Audio Recording</h2>
+<h2 id="enablerec">Включение аудиозаписи</h2>
 
-For privacy reasons, audio recording is disabled by default in OpenBSD.
-The <code>kern.audio.record</code> sysctl may be used to enable it.
+По соображениям конфиденциальности запись звука в OpenBSD по умолчанию отключена.
+Для его включения можно использовать <code>kern.audio.record</code> sysctl.
 
 <pre class="cmdbox">
 # <b>sysctl kern.audio.record=1</b>
 # <b>echo kern.audio.record=1 >> /etc/sysctl.conf</b>
 </pre>
 
-<h2 id="confaudio">Конфигурирование Аудио Устройств</h2>
+<h2 id="confaudio">Настройка аудиооборудования</h2>
 
-Все поддерживаемые аудио драйвера уже включены в конфигурацию ядра GENERIC,
-поэтому не необходимости для дополнительной конфигурации или установки
-драйверов.
-При запуске <a href="https://man.openbsd.org/mixerctl">mixerctl(1)</a> без аргументов
-будут перечислены список настроек микшера устройства и текущие значения.
-
-<pre class="cmdbox">
-$ <b>mixerctl</b>
-</pre>
-
-Некоторые устройства имеют небольшое количество настроек, тогда как другие
-сотню или более.
-Обратите внимание, что не каждая настройка аудио чипа доступна для изменения извне.
-Например, в списке может быть больше выходов, чем доступно на звуковой карте
-или материнской карте.
+Каждая модель звуковой карты имеет собственный набор элементов управления.
+У некоторых вообще нет элементов управления; у других по сотне и больше.
+Запуск <a href="https://man.openbsd.org/mixerctl">Mixerctl(8)</a> от имени пользователя (root)
+отобразит все элементы управления и текущие настройки.
 
 <p>
-Есть несколько настроек, которые являются общими для большинства устройств:
-
-<ul>
-  <li><code>outputs.master</code> контролирует выходной уровень воспроизведения
-  <li><code>record.source</code> контролирует входы для АЦП (Аналого-Цифровой
-  Преобразователь), используемого для записи звука
-  <li><code>record.volume</code> контролирует входной уровень АЦП
-</ul>
-
-Элементы управления аудиоустройства могут быть помечены по-разному.
-Обычно элементы управления имеют значимую метку, но иногда нужно просто
-попробовать разные настройки, чтобы увидеть, какой эффект имеет каждый элемент
-управления.
+Не каждый вариант каждого аудиочипа обязательно попадает во внешний мир.
+Например, в списке может быть больше выходов, чем физически подключено.
+Элементы управления аудиоустройством могут быть помечены по-разному.
+Обычно элементы управления имеют значимые метки, но иногда нужно просто
+попробуйте разные настройки, чтобы увидеть, какой эффект дает каждый элемент управления.
 
 <p>
-Некоторые устройства используют так называемый EAPD, что означает отключение
-внешнего усилителя. Впрочем, это просто еще один выключатель.
-Вероятно, его называют «выключением питания», поскольку он часто используется
-для энергосбережения, что означает, что этот тип управления чаще встречается в
-ноутбуках. Иногда необходимо установить элементы управления с <code>eapd</code>
-или <code>extamp</code> в их имени, чтобы получить выходной сигнал.
+Вот список элементов управления, которые следует учитывать:
 
 <p>
-В качестве основного примера использования <code>mixerctl</code> для установки громкости
-правого и левого каналов на 200 нужно выполнить:
+<strong>Mute and Level controls</strong> - 
+Even if the main controls seem to be properly set, there might be
+multiple mute or level controls in the signal path.
+In the example below, the device has a master recording level and a
+microphone gain control:
 
 <pre class="cmdbox">
-$ <b>mixerctl outputs.master=200,200</b>
-outputs.master: 255,255 -> 207,207
+record.adc-0:1=248,248
+record.adc-0:1_source=mic
+inputs.mic=85,85
 </pre>
 
-Обратите внимение, как значения установилось в 207.
-Причина этого в том, что аудио устройство использует только 5 бит для
-регулировки громкости, которые позволяют иметь только 32 значения.
-Другое аппаратное обеспечение может иметь другую точность.
+<strong>External Amplifier Power-Down (EAPD)</strong> - 
+This switch is typically used for power saving in laptops and may need
+to be set to get an output signal:
+
+<pre class="cmdbox">
+outputs.spkr_eapd=on
+</pre>
+
+<strong>Recording Source</strong> - 
+Some devices have multiple microphone inputs.
+Examples of such controls:
+
+<pre class="cmdbox">
+record.source=mic
+record.adc-0:1_source=mic
+</pre>
+
+To make the changes take effect on each reboot, edit the
+<code>/etc/mixerctl.conf</code> file.
+For example:
+
+<pre class="cmdbox">
+record.adc-0:1_source=mic
+inputs.mic=85,85
+</pre>
+
+<h2 id="audiolevel">Adjusting Audio Levels</h2>
+
+The <a href="https://man.openbsd.org/sndioctl">sndioctl(1)</a>
+utility is used to manipulate audio controls as a regular user.
+Running it with no arguments will list all the controls and current settings.
 
 <p>
-Чтобы включить основной канал, вы должны сделать:
+The <code>output.level</code> control is always present.
+It either corresponds to a hardware control or is emulated in software.
+
+<h2 id="usbaudio">Using a USB Audio Interface</h2>
+
+An example of a USB audio interface in a dmesg output might look like this:
 
 <pre class="cmdbox">
-$ <b>mixerctl outputs.master.mute=off</b>
-outputs.master.mute: on -> off
+uaudio0 at uhub2 port 1 configuration 1 interface 1 "ABC C-Media USB Audio Device" rev 1.10/1.00 addr 2
+uaudio0: class v1, full-speed, sync, channels: 2 play, 1 rec, 8 ctls
+audio1 at uaudio0
 </pre>
 
-Чтобы изменения не сбрасывались после каждой перезагрузки отредакируйте
-<code>/etc/mixerctl.conf</code>. Например:
+On most systems, the first audio device is the internal sound card.
+A USB audio device then becomes the second one when connected.
+In the default <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>
+configuration, both devices are known to programs as
+<code>snd/0</code> (the default) and <code>snd/1</code>
+respectively and may be used independently.
+Programs set up to use <code>snd/1</code> will use the USB device.
+
+<p>
+<a href="https://man.openbsd.org/sndiod">sndiod(8)</a> may be configured
+to make <code>snd/0</code> correspond to the USB device if it's connected
+or to the internal one when it's not:
 
 <pre class="cmdbox">
-$ <b>cat /etc/mixerctl.conf</b>
-outputs.master=200,200
-outputs.master.mute=off
-outputs.headphones=160,160
-outputs.headphones.mute=off
-</pre>
-
-Чтобы изменить устройство вывода звука по умолчанию, например, использовать
-внешний ЦАП, а не встроенную звуковую карту в материнской плате, просто
-измените флаги запуска sndiod (8), чтобы использовать это устройство:
-
-<pre class="cmdbox">
-# <b>rcctl set sndiod flags -f rsnd/1</b>
+# <b>rcctl set sndiod flags -f rsnd/0 -F rsnd/1</b>
 # <b>rcctl restart sndiod</b>
 </pre>
 
-Это сделает второе аудио-устройство (<code>rsnd/1</code>) используемым по
-умолчанию.
+When the server opens the device, it will first try the USB one.
+If it's not present, the internal one is used instead.
+If the USB device is disconnected, sndiod attempts to continue operation
+using the internal sound card.
+If the USB device is connected again, sndiod will see it
+the next time it attempts to open the device.
+To force sndiod to switch between devices, reload the server:
 
-<h2 id="playaudio">Воспроизведение разных форматов аудио</h2>
+<pre class="cmdbox">
+# <b>rcctl reload sndiod</b>
+</pre>
 
-OpenBSD поставляется с <a href="https://man.openbsd.org/aucat">aucat(1)</a>,
-- программой для записи и проигрывания WAV, AIFF и AU файлов.
-В следующем примере будет воспроизводиться WAV файл.
+<h2 id="playaudio">Playing Audio</h2>
+
+<p>
+OpenBSD comes with <a href="https://man.openbsd.org/aucat">aucat(1)</a>,
+a program able to play uncompressed WAV, AIFF and AU files.
+It can be used in very simple cases or to test playback:
 
 <pre class="cmdbox">
 $ <b>aucat -i filename.wav</b>
 </pre>
 
-Другие аудиоформаты могут обрабатываться сторонними приложениями.
+There are many other players available as <a href="faq15.html">packages</a>
+that support other audio formats.
 
 <!-- XXX
-<h2 id="playCD">Воспроизведение аудио CD</h2>
+<h2 id="playCD">Playing Audio CDs</h2>
 XXX -->
 
-Воспроизведение аудио компакт-дисков возможно либо с помощью проигрывателя
-компакт-дисков, воспроизводящего диск и отправляющего аналоговое аудио на
-звуковую карту, либо путем считывания аудиоданных и отправки цифровых семплов
-на звуковую карту по шине PCI.
+<h2 id="recordaudio">Recording Audio</h2>
 
-<p>
-Для проигрывания аудио компакт-дисков с использованием аналогового выхода
-CD-ROM вы можете:
-
-<ul>
-  <li>Использовать выход для наушников, как правило, на передней стороне привода.
-  <li>Подключить аудиовыход на задней стороне привода к вашей звуковой плате.
-</ul>
-
-Используйте утилиту <a href="https://man.openbsd.org/cdio">cdio(1)</a> для
-проигрывания CD:
-
-<pre class="cmdbox">
-$ <b>cdio play</b>
-</pre>
-
-Эта команда начнёт проигрывание в первом CD-ROM устройстве, <code>cd0</code>,
-по умолчанию. Обратите внимание, что пользователь, запускающий cdio должен
-иметь достаточно прав для чтения файла устройства CD-ROM (например
-<code>/dev/rcd0c</code>).
-Так как по умолчанию устройство разрешено читать только root и пользователям в
-группе <code>operator</code>, то вы можете добавить пользователя в группу
-<code>operator</code> для удобства редактированием строки в
-<code>/etc/group</code>.
-В качестве альтернативы вы можете поменять права доступа на файл устройства,
-если это нужно.
-
-<p>
-Обратите внимание, что вам может потребоваться включить вход с CD в микшере.
-Как и у выходов, фактическое имя этого входа может отличаться в разных
-системах, но вы можете использовать такую команду:
-
-<pre class="cmdbox">
-$ <b>mixerctl inputs.cd.mute=off</b>
-</pre>
-
-Также возможно, что между вашим устройством CD и звуковой картой
-нет аналогового аудио соединения.
-В этом случае вы можете использовать <code>cdio cdplay</code> для отправки
-аудиоданных с устройства CD-ROM на звуковую карту через шину PCI.
-
-<pre class="cmdbox">
-$ <b>cdio cdplay</b>
-</pre>
-
-Многие CD-плееры с графическим интерфейсом находятся в разделе
-<code>audio</code> пакетов и портов.
-
-<h2 id="recordaudio">Запись аудиосэмплов</h2>
-
-В целях конфиденциальности аудиозапись отключена по умолчанию в OpenBSD.
-Опция <code>kern.audio.record</code> в sysctl позволяет включить её обратно.
-
-<pre class="cmdbox">
-# <b>sysctl kern.audio.record=1</b>
-# <b>echo kern.audio.record=1 >> /etc/sysctl.conf</b>
-</pre>
-
-Как только это будет сделано, <a href="https://man.openbsd.org/aucat">aucat(1)</a>
-может быть использован для записи.
+Once recording is enabled with the <code>kern.audio.record</code> sysctl,
+<a href="https://man.openbsd.org/aucat">aucat(1)</a>
+can be used for recording uncompressed WAV, AIFF and AU files.
 
 <pre class="cmdbox">
 $ <b>aucat -o file.wav</b>
 </pre>
 
-Приведенная выше команда начнет запись файла в формате WAV. Нажмите CTRL + C,
-чтобы закончить запись. Файл будет содержать 16-битные стерео сэмплы на частоте
-48 кГц. Другие форматы, частоты дискретизации и количество каналов
-также поддерживаются. Подробности смотрите в руководстве.
+The above command will start the recording of a file in WAV format.
+Press CTRL+C to finish the recording.
 
 <p>
-Чтобы воспроизвести файл, запустите:
+To play the file back, run:
 
 <pre class="cmdbox">
 $ <b>aucat -i file.wav</b>
 </pre>
 
-Если запись работала, но воспроизведение записи было тихим или не таким, как
-ожидалось, микшеру, вероятно, нужна некоторая настройка. Убедитесь, что вы
-выбрали правильное устройство для записи и что источник включен.
-Вы можете установить необходимые параметры используя
-<a href="https://man.openbsd.org/mixerctl">mixerctl(1)</a>. Например:
+If recording seemed to work, but playback of the recording was silent or
+not what was expected, the mixer probably needs some configuration.
+Make sure that you select the right source to record from and that it
+is unmuted.
 
-<pre class="cmdbox">
-inputs.mic.mute=off
-inputs.mic.preamp=on
-inputs.mic.source=mic0
-record.source=mic
-record.volume=255,255
-record.volume.mute=off
-record.mic=255
-record.mic.mute=off
-</pre>
-
-Это настройки для записи с микрофона. Предварительное усиление было включено, в
-противном случае записанный звук может быть довольно тихим в некоторых
-системах. Однако предварительное усиление также может быть довольно громким в
-других системах.
+<p>
+If needed, the resulting WAV file could be compressed with the
+appropriate program from the ports tree.
+Alternatively, ports like sox, ffmpeg, or audacity can be used to record,
+process and compress audio files.
 
 <h2 id="recordmon">Recording a Monitor Mix of All Audio Playback</h2>
 
@@ -287,102 +232,211 @@ allowing you to duplicate or save anything going through the audio subsystem.
 This feature can be useful for screencasts or any kind of live audio mixing.
 
 <p>
-Создайте под-устройство монитора <code>mon</code> для <a
-href="https://man.openbsd.org/sndiod">sndiod(8)</a>, используя:
+Create the monitor sub-device <code>mon</code> for
+<a href="https://man.openbsd.org/sndiod">sndiod(8)</a> by using:
 
 <pre class="cmdbox">
 # <b>rcctl set sndiod flags -s default -m play,mon -s mon</b>
 # <b>rcctl restart sndiod</b>
 </pre>
 
-Сконфигурируйте вашу программу для записи аудио с устройства
-<code>snd/0.mon</code>:
+Configure your program to record audio from the <code>snd/0.mon</code> device,
+for instance:
 
 <pre class="cmdbox">
 $ <b>aucat -f snd/0.mon -o file.wav</b>
 </pre>
 
-На этом этапе всё, что воспроизводит ваша система, записывается в
-<code>file.wav</code>.
+At this point, whatever your system plays is recorded in <code>file.wav</code>.
 
-<h2 id="audioprob">Отладка проблем со звуком</h2>
+<h2 id="audiolat">Lowering Audio Latency</h2>
 
-Если при воспроизведении звука ничего не слышно, возможно, микшерный пульт
-переключен на низкий уровень или просто приглушен.
-Смотрите <a href="#confaudio">этот</a> раздел для настройки микшера.
-Пожалуйста, включите <b>все</b> входы и выходы, прежде чем сообщать о проблеме.
+<!-- This section Copyright (c) 2009 Alexandre Ratchov -->
+
+Latency is the time between when a program takes the decision to play
+a sample and when the user hears the sample.
+Since audio data is always buffered, this delay is proportional to
+the audio buffer size.
+The following values are recommended:
+
+<ul>
+  <li>Real-time synthesizers: 5ms.
+      This is the time it takes between hitting a key on your MIDI keyboard
+      and actually hearing the note.
+      Roughly, 5ms corresponds to the time it takes for the sound to
+      propagate 1.75m.
+  <li>Games: 50ms.
+      This is the time between when you see an event and you hear the
+      corresponding sound.
+  <li>Movie players and alike: 500ms and more.
+      Such applications "know" the sound to play in advance, and send audio
+      data in such a way that it is played simultaneously with the
+      corresponding picture.
+</ul>
+
+The smaller the audio buffers are (to achieve low latency), the larger the
+probability to overrun/underrun is.
+Buffer overruns/underruns result in stuttering of the sound.
 
 <p>
-Если вы считаете, что ваше устройство должно работать, но по какой-то причине
-это не так, то пришло время для небольшой отладки.
-Следующие шаги помогут определить, обрабатываются ли данные ЦАП.
+sndiod(8) imposes a minimum latency on all audio applications,
+and the default latency is 160ms.
+
+If you plan to use applications that require a lower latency, use the
+<code>-b</code> option to select the desired latency (expressed in number of
+frames).
+For instance, at 48000 samples/second, 50ms latency corresponds to:
+
+<blockquote>
+48000 samples/second &times; 0.050 seconds = 2400 samples
+</blockquote>
+
+Then do:
 
 <pre class="cmdbox">
-$ <b>cat > /dev/audio0 &lt; /dev/zero &amp;</b>
+# <b>rcctl set sndiod flags -b2400</b>
+</pre>
+
+<h3>Does low latency improve audio-video synchronization?</h3>
+
+No, synchronizing audio to video doesn't require low latency.
+Synchronization problems are often caused by the software itself.
+Forcing the application to use smaller buffers (by starting sndiod(8)
+in low latency mode) may hide the actual problem in some cases, and
+give the feeling that the software works better, but obviously the
+right thing to do is to start searching for the corresponding bug.
+
+<h2 id="audionet">Using Remote Audio Hardware</h2>
+
+sndiod(8) can be configured to accept connections from the network,
+allowing other machines to use the sound card as well.
+On the remote system with the sound card, run:
+
+<pre class="cmdbox">
+# <b>rcctl set sndiod flags -L-</b>
+</pre>
+
+On the local system, configure your program to use <code>snd@hostname/0</code>,
+where "hostname" is the address of the remote system.
+The <code>AUDIODEVICE</code> environment variable could be set to the above
+value to make the remote sound card the default audio device.
+
+<p>
+Any system able to connect to TCP port 11025 of the remote host will be able
+to use the audio device.
+For privacy reasons, only one user from one system may have connections
+to it at a given time.
+If multiple systems have to use the audio device simultaneously, the
+sndio(7) authorization cookie must be the same.
+For instance, copy your <code>~/.sndio/cookie</code> to all accounts
+that may use the audio device.
+
+<p>
+To avoid glitches, TCP traffic on port 11025 could be prioritized with
+the packet filter.
+With the default configuration, sndiod will consume around 200kB/s of
+network bandwidth.
+
+<h2 id="default">Choosing the Default Audio Device</h2>
+
+The default audio device is selected with the <code>AUDIODEVICE</code>
+environment variable.
+If it's not set, <code>snd/0</code> is used, which is the first audio device
+managed by <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>.
+The most flexible way of choosing the default device is to export
+<code>AUDIODEVICE</code>, possibly in the user's login profile.
+
+<p>
+Another way to change the default audio output device is to make the desired
+device the first device managed by
+<a href="https://man.openbsd.org/sndiod">sndiod(8)</a>.
+For example, to use an external DAC rather than your motherboard's onboard
+audio, just change <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>'s
+startup flags to use that device:
+
+<pre class="cmdbox">
+# <b>rcctl set sndiod flags -f rsnd/1</b>
+# <b>rcctl restart sndiod</b>
+</pre>
+
+This would make the second audio device (<code>rsnd/1</code>) the default.
+
+<h2 id="audioprob">Debugging Audio Problems</h2>
+
+If you do not hear anything when playing audio, it's possible there
+is a mixer control turned to low or simply muted.
+See <a href="#confaudio">this section</a> for configuring the mixer.
+Please unmute <b>all</b> inputs and outputs before reporting a problem.
+
+<p>
+If you believe your device should be working, but for whatever reason isn't,
+then it's time for a little debugging.
+The following steps can determine if data is being processed by the DAC.
+
+<pre class="cmdbox">
+# <b>cat > /dev/audio0 &lt; /dev/zero &amp;</b>
 [1] 9926
-$ <b>audioctl play.{bytes,errors}</b>
+# <b>audioctl play.{bytes,errors}</b>
 play.bytes=3312000
 play.errors=0
-$ <b>audioctl play.{bytes,errors}</b>
+# <b>audioctl play.{bytes,errors}</b>
 play.bytes=7065600
 play.errors=0
-$ <b>audioctl play.{bytes,errors}</b>
+# <b>audioctl play.{bytes,errors}</b>
 play.bytes=9379200
 play.errors=0
-$ <b>kill %1</b>
-$ <b>fg %1</b>
+# <b>kill %1</b>
+# <b>fg %1</b>
 cat > /dev/audio0 &lt; /dev/zero
 Terminated
 </pre>
 
-Здесь мы видим, что количество обработанных данных <code>play.bytes</code>
-увеличивается при каждой проверке, то есть данные идут.
-Мы также видим, что устройство не провалило ни одного семпла
+Here we see that the processed data count <code>play.bytes</code> increases
+each time we check, so data is flowing.
+We also see that the device has not underrun any samples
 (<code>play.errors</code>).
-Это тоже хорошо.
+That's good too.
 
 <p>
-Обратите внимание, что даже если у вас были подключены динамики при выполнении
-вышеуказанного теста, вы ничего не должны были слышать. Тест отправляет нули на
-устройство, что является тишиной для всех поддерживаемых в настоящее время
-кодировок по умолчанию.
+Note that even if you had speakers plugged in when running the above
+test, you should not have heard anything.
+The test sends zeros to the device, which is silence for all currently
+supported default encodings.
 
 <p>
-Поскольку мы знаем, что устройство может обрабатывать данные, рекомендуется
-снова проверить настройки микшера.
-Убедитесь, что все выходы и все входы включены и находятся на приемлемом
-уровне.
+Since we know the device can process data, it's a good idea to check the mixer
+settings again.
+Make sure all outputs and all inputs are unmuted and are at a reasonable level.
 
 <p>
-Если у вас всё ещё есть проблемы, возможно, пришло время <a
-href="../report.html">подать отчёт об ошибке</a>.
-Помимо обычной информации об ошибке, такой как полный dmesg и описание
-проблемы, пожалуйста, также включите вывод <code>mixerctl -v</code> и
-вывод вышеупомянутого теста ЦАП.
+If you are still having problems at this point, it's probably time to
+<a href="../report.html">file a bug report</a>.
+Besides the normal bug report information such as a full dmesg and description
+of the problem, please also include the default output of
+<code>mixerctl -v</code>
+and the output of the above test for DAC processing.
 
-<h2 id="midi">Использование MIDI-инструментов</h2>
+<h2 id="midi">Using MIDI Instruments</h2>
 
-Протокол Musical Instrument Digital Interface (MIDI) обеспечивает
-стандартизированное и эффективное средство для представления информации о
-музыкальном исполнении в виде электронных данных.
-Данные MIDI содержат только инструкции, необходимые синтезатору для
-воспроизведения звуков, а не настоящие звуки.
-
-<p>
-Для воспроизведения даных MIDI необходим синтезатор, подключенный к MIDI-порту
-аппарата.
-Аналогично, для записи данных MIDI требуется инструмент MIDI (например,
-клавиатура MIDI).
-Некоторые звуковые карты содержат встроенные MIDI-синтезаторы, которые
-подключены как MIDI-порты.
-Усовершенствованные инструменты MIDI могут содержать несколько частей
-(синтезаторы, клавиатуры, панели управления и т.д.).
-Они появляются как несколько портов MIDI в OpenBSD.
+The Musical Instrument Digital Interface (MIDI) protocol provides a
+standardized and efficient means to represent musical performance information
+as electronic data.
+MIDI data contains only instructions needed by a synthesizer to play the
+sounds, rather than the actual sounds.
 
 <p>
-Если у вас уже запущена OpenBSD, найдите MIDI-порты в выходных данных команды
-dmesg(8).
-Пример MIDI-портов в выводе dmesg:
+To play MIDI data, a synthesizer connected to a MIDI port of the machine is
+required.
+Similarly, to record a MIDI data a MIDI instrument is required (such as a MIDI
+keyboard).
+Advanced MIDI instruments may contain multiple subparts (synthesizers,
+keyboards, control surfaces, etc...).
+They appear as multiple MIDI ports on OpenBSD.
+
+<p>
+When you already have OpenBSD running, look for MIDI ports in the output of
+the dmesg(8) command.
+An example of MIDI ports in a dmesg output is:
 
 <pre class="cmdbox">
 umidi0 at uhub2 port 2 configuration 1 interface 0 "Roland Roland XV-2020" rev 1.10/1.00 addr 2
@@ -391,38 +445,33 @@ umidi1 at uhub1 port 2 configuration 1 interface 1 "Evolution Electronics Ltd. U
 midi1 at umidi1: &lt;USB MIDI I/F&gt;
 </pre>
 
-Он показывает два MIDI-порта, известных <a
-href="https://man.openbsd.org/sndio">sndio(7)</a> как:
+It shows two <a href="https://man.openbsd.org/midi">midi(4)</a> drivers
+attached, known by programs as:
 
 <ul>
-  <li><code>rmidi/0</code> - синтезатор подключен через USB
-  <li><code>rmidi/1</code> - мастер-клавиатура MIDI
+  <li><code>midi/0</code> - synthesizer connected via USB
+  <li><code>midi/1</code> - a MIDI master keyboard
 </ul>
 
-Они поддерживаются символьными устройствами <code>/dev/rmidi0</code> и
-<code>/dev/rmidi1</code>.
-Последние устройства удобны для тестирования аппаратного обеспечения, минуя
-большинство уровней программного обеспечения.
-
-Чтобы протестировать вашу MIDI-клавиатуру, вы можете использовать утилиту <a
-href="https://man.openbsd.org/hexdump">hexdump(1)</a> для отображения
-MIDI-данных, которые вы на ней воспроизводите:
+The output of the keyboard can be connected to the input of the synthesizer
+as follows:
 
 <pre class="cmdbox">
-$ <b>hexdump -e '1/1 "%02x\n"' &lt; /dev/rmidi0</b>
-90
-3c
-71
-...
+$ <b>midicat -q midi/0 -q midi/1</b>
 </pre>
 
-Выход клавиатуры может быть подключен к входу синтезатора следующим образом:
+Now you can hear what you're playing on the MIDI keyboard on the synthesizer.
+
+<p>
+The <a href="https://man.openbsd.org/sndiod">sndiod(8)</a> server exposes MIDI
+thru ports, allowing programs to send each other MIDI data.
+For instance, if you have no hardware synthesizer connected, you could
+start a software one (like the audio/fluidsynth port) and then use it as MIDI
+output:
 
 <pre class="cmdbox">
-$ <b>cat -u &lt; /dev/rmidi0 &gt; /dev/rmidi1</b>
+$ <b>midicat -q midi/0 -q midithru/0</b>
 </pre>
-
-Теперь вы можете услышать, что вы играете на MIDI-клавиатуре синтезатора.
 
 <h2 id="webcam">Using a Webcam</h2>
 
@@ -572,144 +621,98 @@ by default.
 To allow Firefox to access other video devices, the device paths must be
 added to <code>/etc/firefox/unveil.main</code>.
 
-<!-- XXX midiplay removed
-Основная утилита для воспроизведения стандартных файлов MIDI - <a
-href="https://man.openbsd.org/midiplay">midiplay(1)</a>.
-Воспроизведение стандартного файла MIDI, в этом примере через синтезатор, так
-же просто, как:
-
-<pre class="cmdbox">
-$ <b>midiplay -f rmidi/0 file.mid</b>
-</pre>
-
-Сервер <a href="https://man.openbsd.org/sndiod">sndiod(8)</a> предоставляет
-MIDI-порты, позволяя программам отправлять друг другу MIDI-данные. Например,
-если у вас нет подключенного аппаратного синтезатора, вы можете запустить
-программный (например, порт audio/fluidsynth), а затем использовать его в
-качестве выхода MIDI:
-
-<pre class="cmdbox">
-$ <b>midiplay -f midithru/0 file.mid</b>
-</pre>
-
-Для записи MIDI-файлов вы можете использовать утилиту <code>smfrec</code>,
-включенную порт <code>audio/midish</code>.
-Например:
-
+<!-- XXX
+To record MIDI files, you can use the <code>smfrec</code> utility bundled in
+the <code>audio/midish</code> port.
+For instance:
 <pre class="cmdbox">
 $ <b>smfrec -d rmidi/0 -i rmidi/1 file.mid</b>
 </pre>
-
-Эта команда запишет то, что играют на клавиатуре (<code>rmidi/1</code>), при
-отправке в реальном времени на синтезаторе (<code>rmidi/0</code>), так что вы
-сможете слышать то, что вы играете.
-Более сложные операции, такие как редактирование, маршрутизация, микширование и
-преобразование MIDI-данных, могут быть выполнены с использованием утилиты
-<code>rmidish</code>, включенной в порт <code>audio/midish</code>.
-
-<h2 id="playDVD">Проигрывание DVD</h2>
-
-OpenBSD поддерживает DVD-носители с помощью файловой системы ISO 9660, которая
-также используется на компакт-дисках, а также через файловую систему <a
-href="http://www.osta.org/specs/">Universal Disk Format (UDF)</a>, которая
-имеется на некоторых DVD-дисках.
-Однако почти все диски DVD-Video и DVD-ROM используют формат UDF, который
-является комбинацией файловых систем DVD MicroUDF (подмножество UDF 1.02) и ISO
-9660.
-Используется по причинам обратной совместимости.
-
+This will record what is played on the keyboard (<code>rmidi/1</code>) while
+sending it in real-time on the synthesizer (<code>rmidi/0</code>) so you can
+hear what you're playing.
+More complicated operations like editing, routing, mixing and transforming
+MIDI data can be achieved using the <code>rmidish</code> utility bundled in the
+<code>audio/midish</code> port.
+<h2 id="playDVD">Playing DVDs</h2>
+OpenBSD supports DVD media through the ISO 9660 filesystem, which is also used
+on CD-ROMs, and also through the
+<a href="http://www.osta.org/specs/">Universal Disk Format (UDF)</a> filesystem
+which is found on some DVDs.
+However, almost all DVD-Video and DVD-ROM discs use the UDF bridge format,
+which is a combination of the DVD MicroUDF (subset of UDF 1.02) and ISO 9660
+filesystems.
+It is used for backward compatibility reasons.
 <p>
-Некоторые популярные медиаплееры, поддерживающие воспроизведение DVD, были
-портированы на OpenBSD.
-Пожалуйста, прочитайте инструкции по установке, которые поставляются с этими
-пакетами, потому что эти инструменты могут нуждаться в дальнейшей настройке.
-С помощью этих утилит можно воспроизводить DVD-диски путем прямого доступа к
-необработанному устройству.
-Конечно, также можно смонтировать DVD с помощью <a
-href="https://man.openbsd.org/mount_cd9660">mount_cd9660(8)</a> и воспроизвести
-файлы напрямую.
-
+Some popular media players, supporting DVD playback, have been ported to
+OpenBSD.
+Please read the installation instructions that come with these packages,
+because these tools may need further setup.
+With these utilities, it is possible to play the DVDs by directly accessing
+the raw device.
+Of course, it is also possible to mount a DVD using
+<a href="https://man.openbsd.org/mount_cd9660">mount_cd9660(8)</a> and play
+the files directly.
 <p>
-<b>Примечания:</b>
-
+<b>Notes:</b>
 <ul>
-  <li>Почти все DVD-диски, которые вы покупаете, зашифрованы с использованием
-	  системы шифрования контента (CSS). Чтобы иметь возможность воспроизводить
-	  эти зашифрованные DVD, вы можете использовать библиотеку <b>libdvd</b>,
-	  также доступную через пакеты и порты.
-  <li>Помните, что код вашего региона может присутствовать на вашем DVD диске.
-      Это не должно быть большой проблемой при воспроизведении DVD на компьютере.
+  <li>Nearly all DVDs you buy are encrypted using the Content Scrambling
+      System (CSS).
+      To be able to play these encrypted DVDs, you can use the <b>libdvd</b>
+      library, also available through packages and ports.
+  <li>Be aware that a region code may be present on your DVD disk(s).
+      This should not be much of a problem when playing DVDs on a computer.
 </ul>
-
-<h2 id="burnCD">Запись CD и DVD</h2>
-
-<h3 id="burnIntro">Введение и базовая настройка</h3>
-
-Сначала вы должны убедиться, что ваше устройство записи CD/DVD было распознано
-и настроено ядром.
-Большинство устройств SCSI поддерживаются.
-Устройства SATA, IDE/ATAPI и USB поддерживаются с помощью эмуляции SCSI.
-Вы можете быстро найти ваше устройство в выводе <a
-href="https://man.openbsd.org/dmesg">dmesg(8)</a>.
-Просто ищите строки, начинающиеся с "cd.".
-Например:
-
+<h2 id="burnCD">Burning CDs and DVDs</h2>
+<h3 id="burnIntro">Introduction and Basic Setup</h3>
+You should first make sure your CD/DVD writer has been recognized and
+configured by the kernel.
+Most SCSI devices are supported.
+SATA, IDE/ATAPI and USB devices are supported through SCSI emulation.
+You can quickly find your device in the output of
+<a href="https://man.openbsd.org/dmesg">dmesg(8)</a>.
+Just look for lines beginning with "cd."
+For example:
 <pre class="cmdbox">
 cd0 at scsibus0 targ 0 lun 0: &lt;TOSHIBA, CD-ROM XM-5702B, 2826&gt; SCSI0 5/cdrom removable
 cd1 at scsibus1 targ 4 lun 0: &lt;PLEXTOR, CD-R PX-R412C, 1.04&gt; SCSI2 5/cdrom removable
 </pre>
-
 <h4>Error: <code>mount_cd9660: /dev/cd2c on /mnt/cdrom: No such file or directory</code></h4>
-
-По умолчанию установщик OpenBSD создает только два файла устройств cd:
-<code>cd0</code> и <code>cd1</code>.
-Чтобы начать использовать ваше устройство <code>cd2</code>, вы должны создать
-необходимые файлы устройства для него.
-Рекомендуемый способ сделать это - использовать скрипт
-<a href="https://man.openbsd.org/MAKEDEV">MAKEDEV(8)</a>.
-
+By default, the OpenBSD installer creates only two cd device nodes,
+<code>cd0</code> and <code>cd1</code>.
+To start using your <code>cd2</code> device, you must create the necessary
+device nodes for it.
+The recommended way to do that is using the
+<a href="https://man.openbsd.org/MAKEDEV">MAKEDEV(8)</a> script.
 <pre class="cmdbox">
 # <b>cd /dev</b>
 # <b>./MAKEDEV cd2</b>
 </pre>
-
-В дальнейшем мы, в основном, будем обращаться к устройству записи CD/DVD через
-<i>необработанное</i> символьное устройство, а <b>не</b> <i>блочное</i>
-устройство.
-
-<h4>Проверка работы записывающего CD/DVD устройства</h4>
-
-Рекомендуется проверить, правильно ли работает устройство записи CD/DVD.
-В этом примере мы будем использовать этот USB-привод для записи DVD:
-
+In what follows, we will mostly be accessing the CD/DVD writer through the
+<i>raw</i> character device, <b>not</b> the <i>block</i> device.
+<h4>Checking CD/DVD Writer Operation</h4>
+It is recommended to check whether your CD/DVD writer is working correctly.
+In this example, we'll be using this USB DVD writer:
 <pre class="cmdbox">
 cd2 at scsibus2 targ 1 lun 0: &lt;LITE-ON, DVDRW LDW-851S, GS0C&gt; SCSI0 5/cdrom removable
 </pre>
-
-Попробуйте использовать его, установив в него существующий CD/DVD.
-При желании вы также можете проверить скорость передачи, которую вы получаете
-при копировании файлов на жесткий диск.
-
-<h3 id="writeCD">Запись CD</h3>
-
-<h4>Запись CD-ROM с данными</h4>
-
-Во-первых, вам нужно создать файловую систему ISO 9660 для установки на
-CD-ROM.
-Для этого вы можете использовать утилиту
-<a href="https://man.openbsd.org/mkhybrid">mkhybrid(8)</a> в базовой системе
-или утилиту <code>mkisofs</code> из <a href="faq15.html">пакета</a>
-<code>cdrtools</code>.
-В приведенных ниже примерах мы будем использовать mkhybrid , хотя использование
-mkisofs очень похоже.
-
+Try to use it by mounting an existing CD/DVD in it.
+If desired, you could also check the transfer rate you are getting when
+copying files to your hard disk.
+<h3 id="writeCD">Writing CDs</h3>
+<h4>Creating Data CD-ROMs</h4>
+First, you will want to create an ISO 9660 filesystem to put on a CD-ROM.
+To do this you can use the
+<a href="https://man.openbsd.org/mkhybrid">mkhybrid(8)</a>
+utility in the base system, or the <code>mkisofs</code> utility from the
+<code>cdrtools</code> <a href="faq15.html">package</a>.
+In the examples below, we will use <code>mkhybrid</code>, although
+<code>mkisofs</code> usage is very similar.
 <p>
-Например, чтобы сохранить исходные коды ядра OpenBSD в образе ISO9660, вы
-можете сделать:
-
+For example, to store the OpenBSD kernel sources in an ISO9660 image, you
+might do:
 <pre class="cmdbox">
 $ <b>mkhybrid -R -o sys.iso /usr/src/sys</b>
-
 Using ALTQ_RMC.000;1 for  /usr/src/sys/altq/altq_rmclass_debug.h (altq_rmclass.h)
 ...
 Using IEEE8021.00H;1 for  /usr/src/sys/net80211/ieee80211_amrr.c (ieee80211.c)
@@ -725,127 +728,102 @@ Path table size(bytes): 11886
 Max brk space used 0
 45919 extents written (89 Mb)
 </pre>
-
-Опция <code>-R</code> указывает <code>mkhybrid</code> создавать расширения Rock
-Ridge в образе ISO 9660.
-Протокол Rock Ridge Interchange Protocol был создан для поддержки семантики
-файловой системы POSIX в файловых системах ISO 9660, таких как более длинные
-имена файлов, владельцы, разрешения, ссылки на файлы, программные ссылки, файлы
-устройств, глубокие иерархии файлов (более 8 уровней подкаталогов) и т.д.
-
+The <code>-R</code> option tells <code>mkhybrid</code> to create Rock Ridge
+extensions in the ISO 9660 image.
+The Rock Ridge Interchange Protocol was created to support POSIX filesystem
+semantics in ISO 9660 filesystems, such as longer file names, ownerships,
+permissions, file links, soft links, device nodes, deep file hierarchies
+(more than 8 levels of subdirectories), etc.
 <p>
-Если вы хотите, чтобы длинные имена файлов на вашем компакт-диске были доступны
-для чтения в системах Windows, вы должны добавить флаг <code>-J</code>, чтобы
-включить также расширения Joliet в образ ISO 9660.
-
+If you want the long file names on your CD-ROM to be readable on Windows
+systems, you should add the <code>-J</code> flag to include Joliet extensions
+in the ISO 9660 image as well.
 <p>
-После создания файловой системы вы можете проверить это, <a
-href="faq14.html#MountImage">смонтировав образ ISO</a> 9660.
-Если все хорошо, теперь вы готовы записать CD-R(W). Самый простой способ
-сделать это - использовать утилиту <a
-href="https://man.openbsd.org/cdio">cdio(1)</a>.
-
+After creating the filesystem, you can verify it by
+<a href="faq14.html#MountImage">mounting the ISO 9660 image</a>.
+If all is well, you are now ready to burn the CD-R(W).
+The easiest way to do this is to use the
+<a href="https://man.openbsd.org/cdio">cdio(1)</a> utility.
 <p>
-Если вы используете мультизаписываемый носитель, такой как CD-RW, вам нужно
-будет очистить носитель перед его записью.
-
+If you are using multi-write media such as CD-RW, you will need to blank the
+media before burning it.
 <pre class="cmdbox">
 # <b>cdio -f cd1c blank</b>
 </pre>
-
-Теперь вы готовы записать образ, созданный в приведенном выше примере, на
-пустой CD-R(W). Вы можете использовать команду, похожую на:
-
+You are now ready to burn the image created in the above example to a blank
+CD-R(W).
+You could use a command similar to:
 <pre class="cmdbox">
 # <b>cdio -f cd1c tao sys.iso</b>
 </pre>
-
-С опциями, указанными выше, мы указываем cdio использовать второй привод CD-ROM в
-качестве записывающего устройства.
-
+With the options specified above, we're asking cdio to use the second CD-ROM
+device as the CD writer.
 <p>
-Чтобы проверить, правильно ли записан CD-ROM, вы можете смонтировать его и
-проверить, все ли на месте.
-Чтобы смонтировать файловую систему, вы должны использовать блочное устройство
-для привода CD-ROM, который в этом случае всё ещё остаётся записывающим
-устройством CD:
-
+To verify whether the CD-ROM has been written correctly, you can mount it
+and check whether everything is there.
+To mount the filesystem, you should use the <i>block</i> device for the
+CD-ROM drive, which in this case is still the CD writer:
 <pre class="cmdbox">
 # <b>mount /dev/cd1c /mnt/cdrom</b>
 </pre>
-
-<h4>Запись аудио-CD</h4>
-
-Для записи аудио-CD, вы опять можете использовать
-<a href="https://man.openbsd.org/cdio">cdio(1)</a> с опцией <code>tao -a</code>.
-
+<h4>Creating Audio CDs</h4>
+To burn audio CDs, you can again use
+<a href="https://man.openbsd.org/cdio">cdio(1)</a> with the <code>tao -a</code>
+option.
 <p>
-Как пример мы сделаем запасную копию музыкального CD.
-Это включает в себя два шага:
-
+As an example, we'll be making a backup copy of a music CD.
+This involves two steps:
 <ol>
-<li>Получить аудиодорожки с оригинального CD.
-
+<li>Fetch the audio tracks from the original CD.
 <pre class="cmdbox">
 # <b>cdio -f cd1c cdrip</b>
 </pre>
-
-Эта команда извлечёт несколько WAV файлов на диск с вашего второго привода.
-
+This command will extract a series of WAV files from your second CD-ROM drive
+to your disk.
 <p>
-<li>Запись аудиодорожки на чистый CD.
-
+<li>Write the audio tracks to a blank CD.
 <pre class="cmdbox">
 # <b>cdio -f cd1c tao -a *.wav</b>
 </pre>
 </ol>
-
-<h3 id="writeDVD">Запись DVD</h3>
-
-Есть несколько важных моментов, связанных с DVD, которые вы должны знать перед
-тем как начать записывать DVD самостоятельно.
-
+<h3 id="writeDVD">Writing DVDs</h3>
+There are a few important things about DVD you should know about before
+proceeding to write your own DVDs.
 <ul>
-  <li>Если вы действительно хотите узнать всё о DVD, то вам следует почитать
-      полезный документ <a href="https://www.dvddemystified.com/dvdfaq.html">DVD FAQ</a>.
-  <li>Инструкции из этой главы имели очень ограниченное тестирование и мы конечно же
-      не пробовали комбинации из всех возможных дисков и записывающих устройств.
-	  Тем не менее, мы слышали о положительном опыте использования всех DVD
-	  форматов, упомянутых здесь.
+  <li>If you really want to know all about DVDs, you can read the very
+      extensive <a href="https://www.dvddemystified.com/dvdfaq.html">DVD FAQ</a>
+      document to start with.
+  <li>This section has seen only very limited testing, and we certainly have
+      not tried every possible media and writer combination.
+      Nevertheless, we have had, or have heard of, positive experiences with
+      all of the DVD formats mentioned below.
 </ul>
-
-<h4>Различные форматы DVD</h4>
-
-Существует ряд различных форматов DVD. Обычно используются форматы DVD-R,
-DVD-RW, DVD+R и DVD+RW (R означает однократную запись, RW означает, что его
-можно перезаписать несколько тысяч раз). Это в значительной степени
-конкурирующие стандарты.
-
+<h4>Different DVD Formats</h4>
+There are a number of different DVD formats.
+Commonly used are the DVD-R, DVD-RW, DVD+R, and DVD+RW formats (R means
+writable once, RW means it can be rewritten a few thousand times).
+They are pretty much competing standards.
 <p>
-Совсем другой формат - это DVD-RAM, который в основном разрабатывался как
-накопитель данных и имеет расширенные функции записи пакетов, что позволяет
-использовать его как оптический жесткий диск.
-DVD-RAM не рекомендуется для использования с видео, поскольку видео
-записывается на диски в формате, несовместимом с обычными DVD-плеерами.
-
+A pretty different format is DVD-RAM, which was mainly developed as a
+data drive and has advanced packet writing functions, allowing it to be
+used like a kind of optical hard disk.
+DVD-RAM is not recommended for video usage as video gets written to the
+discs in a format not compatible with normal DVD players.
 <p>
-Важным моментом является использование носителя, который подходит вашему
-устройству записи DVD.
-Если вы ожидаете совместимости с другими DVD-плеерами, следите за своим шагом и
-обязательно прочитайте <a
-href="https://www.dvddemystified.com/dvdfaq.html#4.3.1">этот раздел</a> этот
-раздел FAQ по DVD.
-
-<h4>Скорость записи DVD</h4>
-
-Может быть полезно уточнить, что скорости DVD отличаются от скоростей CD-ROM.
-Таблица ниже даёт примерное представление:
-
+The important thing is using media which suits your DVD writer.
+If you expect compatibility with other DVD players, watch your step and
+be sure to read
+<a href="https://www.dvddemystified.com/dvdfaq.html#4.3.1">this section</a>
+of the DVD FAQ.
+<h4>DVD Writing Speed</h4>
+It may be useful to point out that DVD speed indications differ from CD-ROM
+speed indications.
+The following table gives an overview:
 <table>
 <tr>
- <td>Скорость записи и чтения DVD
- <td>Скорость передачи (MB/s)
- <td>Эквивалентная скорость чтения и записи CD-R(W)
+ <td>DVD read/write speed
+ <td>Transfer rate (MB/s)
+ <td>Equivalent CD-R(W) read/write speed
 <tr>
  <td>1&times;
  <td>1.32
@@ -863,47 +841,37 @@ href="https://www.dvddemystified.com/dvdfaq.html#4.3.1">этот раздел</a
  <td>10.57
  <td>72&times;
 </table>
-
 <p>
-Как вы можете видеть из таблицы скорость записи относительно высокая и вы
-должны убедиться в достаточной производительности вашей шины данных(SCSI,
-IDE/ATAPI, SATA, USB) для поддержки такой пропускной способности.
-В большинстве случаев скорости SCSI, SATA, и IDE/ATAPI шин должно быть
-достаточно.
-
-<h4>Запись DVD</h4>
-
-По сути, этот процесс очень похож на запись CD-R(W). Используемое программное
-обеспечение, однако, отличается.
-На данный момент лучший вариант - это <code>growisofs</code> из пакета <code>sysutils/dvd+rw-tools</code>.
-Эта утилита записывает образ ISO 9660 на носитель DVD. Все записываемые форматы
-DVD поддерживаются dvd+rw-tools.
-
+As can been seen from the table, the transfer rates are relatively high,
+and you should check whether your bus (SCSI, IDE/ATAPI, SATA, USB) is
+performant enough to handle this throughput.
+In general, the speed of SCSI, SATA, and IDE/ATAPI buses should be just fine.
+<h4>Writing the DVD</h4>
+Basically, the process is very similar to writing CD-R(W)s.
+The software used, however, is different.
+At the moment, the best option is <code>growisofs</code> from the
+<code>sysutils/dvd+rw-tools</code> package.
+This utility writes an ISO 9660 image to the DVD medium.
+All recordable DVD formats are supported by the dvd+rw-tools.
 <p>
-Если вы хотите получить больше информации о носителе, то вы можете использовать
-утилиту <code>dvd+rw-tools</code>.
-
-Есть два варианта для записи DVD:
-
+In case you want to find out more info about the media in your DVD writer,
+you can use the <code>dvd+rw-tools</code> utility.
+There are two options to write the DVD:
 <ul>
-  <li>Предварительно создайте ISO 9660 из ваших данных, сохраните образ на
-      жестком диске, затем запишите этот образ на DVD.
-  <li>Немедленно запишите ISO 9660 из ваших данных на DVD.
+  <li>Pre-master an ISO 9660 from your data, storing the image on your hard
+      disk, then write this image to the DVD.
+  <li>Write an ISO 9660 from your data immediately to the DVD.
 </ul>
-
-Я создал предварительно образ ISO 9660 из CVS-модулей OpenBSD (src, xenocara,
-ports и www), содержащихся в каталоге /cvs на моём диске.
-Я использовал следующую команду, которая выглядит очень похоже на ту, которую я
-использовал для создания образа CD-ROM выше.
-
+I created a pre-mastered ISO 9660 image from the OpenBSD CVS modules
+(src, xenocara, ports and www) contained in the /cvs directory on my disk.
+I used the following command, which looks very similar to the one I used
+to create the CD-ROM image above.
 <pre class="cmdbox">
 $ <b>mkhybrid -r -o cvs.iso /cvs</b>
 </pre>
-
-При желании проверьте файловую систему ISO 9660,
-<a href="faq14.html#MountImage">смонтировав образ</a>.
-Чтобы записать этот образ (около 2 ГБ) на пустой DVD-диск, можно использовать:
-
+If desired, check the ISO 9660 filesystem by
+<a href="faq14.html#MountImage">mounting the image</a>.
+To write this image (about 2 GB) to an empty DVD disc, one could use:
 <pre class="cmdbox">
 # <b>growisofs -dvd-compat -Z /dev/rcd2c=cvs.iso</b>
 Executing 'builtin_dd if=cvs.iso of=/dev/rcd2c obs=32k seek=0'
@@ -920,97 +888,75 @@ Executing 'builtin_dd if=cvs.iso of=/dev/rcd2c obs=32k seek=0'
 /dev/rcd2c: writing lead-out
 /dev/rcd2c: reloading tray
 </pre>
-
-Опция <code>-Z</code> указывает growisofs записать начальный сеанс на
-устройство, которое в данном случае является моим DVD-рекордером, подключенным
-к <code>cd2</code>.
-Параметр <code>-dvd-compat</code> закрывает диск, что означает, что к нему
-нельзя <code>-dvd-compat</code> больше сеансов.
-Это должно обеспечить лучшую совместимость с проигрывателями видео DVD и
-некоторыми старыми устройствами DVD-ROM.
-
+The <code>-Z</code> option tells growisofs to burn an initial session to the
+device, which in this case is my DVD writer, attached to <code>cd2</code>.
+The <code>-dvd-compat</code> option closes the disk, which means no more
+sessions can be appended to it.
+This should provide better compatibility with video DVD players and some
+older DVD-ROM units.
 <p>
-Обратите внимание, как growisofs показывает скорость записи, в данном случае
-скорость DVD 3.9x, что является ожидаемой от комбинации носителя и
-записывающего устройства, как показано <code>dvd+rw-tools</code>.
-
+Notice how growisofs indicates the writing speed, in this case 3.9x
+DVD speed, which is what could be expected from the media and writer
+combination, as indicated by <code>dvd+rw-tools</code>.
 <p>
-Если у вас мало места на диске и вы не можете сохранить образ ISO 9660 для DVD,
-вы можете записать свои данные сразу на DVD.
-Давайте сначала сделаем пробный прогон, который имитирует создание файловой
-системы.
-
+If you are short on disk space and cannot store an ISO 9660 image for a
+DVD, you can write your data directly to the DVD.
+Let's first do a dry run, which simulates the creation of the filesystem.
 <pre class="cmdbox">
 # <b>growisofs -dry-run -Z /dev/rcd2c -R /cvs</b>
 </pre>
-
-Если команда выполнилась успешно, то просто уберите опцию -dry-run и начните
-запись DVD.
-
+If this succeeds, just leave out the -dry-run option and start burning the
+DVD.
 <p>
-Также возможно добавить данные на существующий DVD с использованием опции
-<code>-M</code>, которая объединяет новую сессию с существующей:
-
+It is also possible to append data to an existing DVD, by using the
+<code>-M</code> option, which merges a new session to an existing one:
 <pre class="cmdbox">
 # <b>growisofs -M /dev/rcd2c -R /mydata</b>
 </pre>
-
-Для получения дополнительной информации о growisofs обратитесь к странице
-руководства.
-
+For more information about growisofs, refer to the man page.
 <p>
-Когда запись на DVD будет завершена смонтируйте диск и проверьте, что всё, что
-вы записывали на самом деле записано.
-
-<h4>Почему скорость записи ниже ожидаемой?</h4>
-
-Вместо скорости записи в выводе, приведенном выше, вы можете увидеть что-то
-наподобие:
-
+When you have finished writing the DVD, mount it and check whether
+everything you expected to be there is indeed there.
+<h4>Why am I not getting the writing speed I expected?</h4>
+Instead of the above writing output, you may see something like:
 <pre class="cmdbox">
    4784128/1545832448 ( 0.3%) @0.7x, remaining 26:50
    7929856/1545832448 ( 0.5%) @0.7x, remaining 29:05
   14123008/1545832448 ( 0.9%) @0.7x, remaining 27:06
 ...
 </pre>
-
-что будет сильно медленнее.
-Это означает, что недостаточно пропускной способности на той шине, которую
-использует ваш DVD-привод. В приведенном выше примере устройство записи
-DVD-дисков USB было подключено к машине, на которой драйвер
-<a href="https://man.openbsd.org/ehci">ehci(4)</a>, используемый контроллерами USB
-2.0, не был правильно инициализирован. Как всегда, вы можете предоставить
-исправления и результаты тестов.
-Записывающее устройство DVD переключилось на более медленный интерфейс USB 1.1,
-что приводит к снижению пропускной способности.
-Действительно, USB 1.1 ограничен до 12 Мбит/с, что составляет 1,43 МБ/с или
-1,08x с точки зрения скорости DVD.
-Записывающее устройство DVD возвращается к более низкому темпу, чем
-максимальный, чтобы уменьшить риск переполнения буфера.
-
-<h2 id="plugins">Плагины для браузера (Java и Flash)</h2>
-
-Поддержка Java-плагина может быть получена с помощью пакета
-<code>icedtea-web</code>. Проверьте список расширений в вашем браузере и
-убедитесь в наличии расширения icedtea-web.  Обычно список расширений можно
-найти по ссылке <code>about:plugins</code> в браузерах от Mozilla и
-<code>chrome://components</code> в Chromium/Iridium.
-
+which is much slower.
+It means you are somehow not getting enough throughput on whatever bus
+your DVD writer is using.
+In the above example, the USB DVD writer was attached to a machine on which
+the <a href="https://man.openbsd.org/ehci">ehci(4)</a> driver, used by USB 2.0
+controllers, failed to initialize properly.
+As always, you are welcome to provide patches and test results.
+The DVD writer fell back to the slower USB 1.1 interface, which causes
+reduced throughput.
+Indeed, USB 1.1 is limited to 12 Mbit/s, which amounts to 1.43 MB/s or 1.08x
+in DVD speed terms.
+The DVD writer falls back to a lower pace than the maximum to reduce the risk
+of buffer underruns.
+<h2 id="plugins">Browser Plugins (Java and Flash)</h2>
+Java plugin support can be obtained with the <code>icedtea-web</code> package.
+In your browser, check for the list of detected plugins and ensure icedtea-web
+is there.
+This is usually found via <code>about:plugins</code> in Mozilla browsers and
+<code>chrome://components</code> in Chromium/Iridium.
 <p>
-Обратите внимание, что из-за проблем с безопасностью в апплетах Java
-большинство браузеров по умолчанию отключают поддержку Java.
-У вас будет запрошено явное согласие на запуск апплетов через icedtea-web.
-
+Note that due to the security issues with Java applets on the web, most
+browsers disable Java support by default.
+You will be prompted for your explicit consent to run applets via icedtea-web.
 <p>
-Плагин Adobe Flash распространяется только в двоичном формате и
-компания-разработчик не предоставляет версию для OpenBSD. Принимая во внимание
-количество уязвимостей в этом плагине мы благодарим их за это упущение.
-
+Adobe's Flash plugin is distributed in binary form only, and they do not
+provide a native OpenBSD version.
+Considering their security record, we thank them for this neglect.
 <p>
-Если вы всего лишь хотите смотреть видео с помощью Flash на популярных
-сайтах, то обратите внимание на эти пакеты:
+If you are just looking to watch Flash videos from common websites,
+there are a number of options in packages, including
 <a href="https://github.com/monsieurvideo/get-flash-videos">get_flash_videos</a>,
 <a href="https://flavio.tordini.org/minitube">minitube</a>,
 <a href="https://streamlink.github.io/">streamlink</a>
-и <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a>.
+and <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a>.
 XXX -->
