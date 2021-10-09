@@ -88,11 +88,11 @@ FAQ - Мультимедиа
 Вот список элементов управления, которые следует учитывать:
 
 <p>
-<strong>Mute and Level controls</strong> - 
-Even if the main controls seem to be properly set, there might be
-multiple mute or level controls in the signal path.
-In the example below, the device has a master recording level and a
-microphone gain control:
+<strong>Управление отключением звука и уровнем</strong> - 
+Даже если кажется, что основные элементы управления настроены правильно, может быть
+несколько регуляторов отключения звука или уровня на пути прохождения сигнала.
+В приведенном ниже примере устройство имеет основной уровень записи и
+регулировка усиления микрофона:
 
 <pre class="cmdbox">
 record.adc-0:1=248,248
@@ -100,45 +100,44 @@ record.adc-0:1_source=mic
 inputs.mic=85,85
 </pre>
 
-<strong>External Amplifier Power-Down (EAPD)</strong> - 
-This switch is typically used for power saving in laptops and may need
-to be set to get an output signal:
+<strong>Отключение питания внешнего усилителя (EAPD)</strong> - 
+Этот переключатель обычно используется для энергосбережения в ноутбуках и может потребоваться
+для получения выходного сигнала:
 
 <pre class="cmdbox">
 outputs.spkr_eapd=on
 </pre>
 
-<strong>Recording Source</strong> - 
-Some devices have multiple microphone inputs.
-Examples of such controls:
+<strong>Источник записи</strong> - 
+Некоторые устройства имеют несколько микрофонных входов.
+Примеры таких элементов управления:
 
 <pre class="cmdbox">
 record.source=mic
 record.adc-0:1_source=mic
 </pre>
 
-To make the changes take effect on each reboot, edit the
-<code>/etc/mixerctl.conf</code> file.
-For example:
+Чтобы изменения вступали в силу при каждой перезагрузке, отредактируйте
+файл: <code>/etc/mixerctl.conf</code>.
+Например:
 
 <pre class="cmdbox">
 record.adc-0:1_source=mic
 inputs.mic=85,85
 </pre>
 
-<h2 id="audiolevel">Adjusting Audio Levels</h2>
+<h2 id="audiolevel">Регулировка уровней звука</h2>
 
-The <a href="https://man.openbsd.org/sndioctl">sndioctl(1)</a>
-utility is used to manipulate audio controls as a regular user.
-Running it with no arguments will list all the controls and current settings.
+Утилита <a href="https://man.openbsd.org/sndioctl">sndioctl(1)</a> используется для управления звуком от имени обычного пользователя.
+При его запуске без аргументов будут перечислены все элементы управления и текущие настройки.
 
 <p>
-The <code>output.level</code> control is always present.
-It either corresponds to a hardware control or is emulated in software.
+Элемент управления <code>output.level</code> присутствует всегда.
+Он либо соответствует аппаратному управлению, либо эмулируется программно.
 
-<h2 id="usbaudio">Using a USB Audio Interface</h2>
+<h2 id="usbaudio">Использование аудиоинтерфейса USB</h2>
 
-An example of a USB audio interface in a dmesg output might look like this:
+Пример аудиоинтерфейса USB в выводе dmesg может выглядеть так:
 
 <pre class="cmdbox">
 uaudio0 at uhub2 port 1 configuration 1 interface 1 "ABC C-Media USB Audio Device" rev 1.10/1.00 addr 2
@@ -146,232 +145,232 @@ uaudio0: class v1, full-speed, sync, channels: 2 play, 1 rec, 8 ctls
 audio1 at uaudio0
 </pre>
 
-On most systems, the first audio device is the internal sound card.
-A USB audio device then becomes the second one when connected.
-In the default <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>
-configuration, both devices are known to programs as
-<code>snd/0</code> (the default) and <code>snd/1</code>
-respectively and may be used independently.
-Programs set up to use <code>snd/1</code> will use the USB device.
+В большинстве систем первым аудиоустройством является внутренняя звуковая карта.
+Затем аудиоустройство USB становится вторым при подключении.
+По умолчанию <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>
+конфигурации, оба устройства известны программам как
+<code>snd/0</code> (по умолчанию), и <code>snd/1</code>
+соответственно могут использоваться независимо.
+Программы, настроенные для использования <code>snd/1</code>, будут использовать USB-устройство.
 
 <p>
-<a href="https://man.openbsd.org/sndiod">sndiod(8)</a> may be configured
-to make <code>snd/0</code> correspond to the USB device if it's connected
-or to the internal one when it's not:
+<a href="https://man.openbsd.org/sndiod">sndiod(8)</a> можно настроить
+чтобы <code>snd/0</code> соответствовал USB-устройству, если оно подключено,
+или к внутреннему, если нет:
 
 <pre class="cmdbox">
 # <b>rcctl set sndiod flags -f rsnd/0 -F rsnd/1</b>
 # <b>rcctl restart sndiod</b>
 </pre>
 
-When the server opens the device, it will first try the USB one.
-If it's not present, the internal one is used instead.
-If the USB device is disconnected, sndiod attempts to continue operation
-using the internal sound card.
-If the USB device is connected again, sndiod will see it
-the next time it attempts to open the device.
-To force sndiod to switch between devices, reload the server:
+Когда сервер открывает устройство, он сначала пытается подключиться к USB.
+Если его нет, вместо него используется внутренний.
+Если USB-устройство отключено, sndiod пытается продолжить работу.
+используя внутреннюю звуковую карту.
+Если USB-устройство подключено снова, sndiod его увидит.
+при следующей попытке открыть устройство.
+Чтобы заставить sndiod переключаться между устройствами, перезагрузите сервер:
 
 <pre class="cmdbox">
 # <b>rcctl reload sndiod</b>
 </pre>
 
-<h2 id="playaudio">Playing Audio</h2>
+<h2 id="playaudio">Воспроизведение аудиофайлов</h2>
 
 <p>
-OpenBSD comes with <a href="https://man.openbsd.org/aucat">aucat(1)</a>,
-a program able to play uncompressed WAV, AIFF and AU files.
-It can be used in very simple cases or to test playback:
+OpenBSD поставляется с <a href="https://man.openbsd.org/aucat">aucat(1)</a>,
+программа, способная воспроизводить несжатые файлы WAV, AIFF и AU.
+Его можно использовать в очень простых случаях или для тестирования воспроизведения:
 
 <pre class="cmdbox">
 $ <b>aucat -i filename.wav</b>
 </pre>
 
-There are many other players available as <a href="faq15.html">packages</a>
-that support other audio formats.
+Есть много других проигрывателей, доступных в виде <a href="faq15.html">пакетов</a>,
+которые поддерживают другие аудиоформаты.
 
 <!-- XXX
 <h2 id="playCD">Playing Audio CDs</h2>
 XXX -->
 
-<h2 id="recordaudio">Recording Audio</h2>
+<h2 id="recordaudio">Запись аудиофайлов</h2>
 
-Once recording is enabled with the <code>kern.audio.record</code> sysctl,
+После включения записи с помощью sysctl <code>kern.audio.record</code>.
 <a href="https://man.openbsd.org/aucat">aucat(1)</a>
-can be used for recording uncompressed WAV, AIFF and AU files.
+может использоваться для записи несжатых файлов WAV, AIFF и AU.
 
 <pre class="cmdbox">
 $ <b>aucat -o file.wav</b>
 </pre>
 
-The above command will start the recording of a file in WAV format.
-Press CTRL+C to finish the recording.
+Вышеупомянутая команда начнет запись файла в формате WAV.
+Нажмите CTRL+C, чтобы закончить запись.
 
 <p>
-To play the file back, run:
+Чтобы воспроизвести файл, запустите:
 
 <pre class="cmdbox">
 $ <b>aucat -i file.wav</b>
 </pre>
 
-If recording seemed to work, but playback of the recording was silent or
-not what was expected, the mixer probably needs some configuration.
-Make sure that you select the right source to record from and that it
-is unmuted.
+Если запись работала, но воспроизведение записи было тихим или
+не то, что ожидалось, возможно, микшер нуждается в некоторой настройке.
+Убедитесь, что вы выбрали правильный источник для записи и что он
+включен.
 
 <p>
-If needed, the resulting WAV file could be compressed with the
-appropriate program from the ports tree.
-Alternatively, ports like sox, ffmpeg, or audacity can be used to record,
-process and compress audio files.
+При необходимости полученный WAV-файл можно сжать с помощью
+соответствующей программы из дерева портов.
+В качестве альтернативы для записи можно использовать такие порты, как sox, ffmpeg или audacity,
+обрабатывать и сжимать аудиофайлы.
 
-<h2 id="recordmon">Recording a Monitor Mix of All Audio Playback</h2>
+<h2 id="recordmon">Запись контрольного микса всего воспроизведения звука</h2>
 
-A monitoring stream records combined audio output from all playback devices,
-allowing you to duplicate or save anything going through the audio subsystem.
-This feature can be useful for screencasts or any kind of live audio mixing.
+Поток мониторинга записывает комбинированный аудиовыход со всех воспроизводящих устройств,
+позволяя дублировать или сохранять все, что проходит через аудиоподсистему.
+Эта функция может быть полезна для скринкастов или любого вида микширования живого звука.
 
 <p>
-Create the monitor sub-device <code>mon</code> for
-<a href="https://man.openbsd.org/sndiod">sndiod(8)</a> by using:
+Создайте подустройство монитора <code>mon</code> для
+<a href="https://man.openbsd.org/sndiod">sndiod(8)</a>, используя:
 
 <pre class="cmdbox">
 # <b>rcctl set sndiod flags -s default -m play,mon -s mon</b>
 # <b>rcctl restart sndiod</b>
 </pre>
 
-Configure your program to record audio from the <code>snd/0.mon</code> device,
-for instance:
+Настройте свою программу для записи звука с устройства <code>snd/0.mon</code>,
+например:
 
 <pre class="cmdbox">
 $ <b>aucat -f snd/0.mon -o file.wav</b>
 </pre>
 
-At this point, whatever your system plays is recorded in <code>file.wav</code>.
+На этом этапе все, что воспроизводит ваша система, записано в <code>file.wav</code>.
 
-<h2 id="audiolat">Lowering Audio Latency</h2>
+<h2 id="audiolat">Снижение задержки звука</h2>
 
 <!-- This section Copyright (c) 2009 Alexandre Ratchov -->
 
-Latency is the time between when a program takes the decision to play
-a sample and when the user hears the sample.
-Since audio data is always buffered, this delay is proportional to
-the audio buffer size.
-The following values are recommended:
+Задержка - это время между тем, когда программа принимает решение играть
+образец, и когда пользователь слышит образец.
+Поскольку аудиоданные всегда буферизуются, эта задержка пропорциональна
+размеру аудиобуфера.
+Рекомендуются следующие значения:
 
 <ul>
-  <li>Real-time synthesizers: 5ms.
-      This is the time it takes between hitting a key on your MIDI keyboard
-      and actually hearing the note.
-      Roughly, 5ms corresponds to the time it takes for the sound to
-      propagate 1.75m.
-  <li>Games: 50ms.
-      This is the time between when you see an event and you hear the
-      corresponding sound.
-  <li>Movie players and alike: 500ms and more.
-      Such applications "know" the sound to play in advance, and send audio
-      data in such a way that it is played simultaneously with the
-      corresponding picture.
+  <li>Синтезаторы реального времени: 5мс.
+      Это время, которое проходит между нажатием клавиши на MIDI-клавиатуре 
+      и фактическим прослушиванием ноты.
+      Примерно, 5 миллисек. соответствуют времени, необходимому для того, чтобы звук
+      размножить 1,75м.
+  <li>Игры: 50мс.
+      Это время между тем, когда вы видите событие, и слышите
+      соответствующий звук.
+  <li>Кино-игроки и им подобные: 500мс и более.
+      Такие приложения заранее "знают" звук для воспроизведения и отправляют аудио
+      данные таким образом, что они воспроизводятся одновременно с
+      соответствующим изображением.
 </ul>
 
-The smaller the audio buffers are (to achieve low latency), the larger the
-probability to overrun/underrun is.
-Buffer overruns/underruns result in stuttering of the sound.
+Чем меньше аудио буфер (для достижения низкой задержки), тем больше
+вероятность перебега/недобега есть.
+Переполнение/опустошение буфера приводит к прерыванию звука.
 
 <p>
-sndiod(8) imposes a minimum latency on all audio applications,
-and the default latency is 160ms.
+sndiod(8) устанавливает минимальную задержку для всех аудиоприложений,
+а задержка по умолчанию составляет 160мс.
 
-If you plan to use applications that require a lower latency, use the
-<code>-b</code> option to select the desired latency (expressed in number of
-frames).
-For instance, at 48000 samples/second, 50ms latency corresponds to:
+Если вы планируете использовать приложения, требующие меньшей задержки, используйте
+<code>-b</code>, чтобы выбрать желаемую задержку (выраженную в количестве
+кадров).
+Например, при 48000 выборок в секунду задержка 50 мс соответствует:
 
 <blockquote>
 48000 samples/second &times; 0.050 seconds = 2400 samples
 </blockquote>
 
-Then do:
+Затем сделайте:
 
 <pre class="cmdbox">
 # <b>rcctl set sndiod flags -b2400</b>
 </pre>
 
-<h3>Does low latency improve audio-video synchronization?</h3>
+<h3>Улучшает ли низкая задержка синхронизацию аудио-видео?</h3>
 
-No, synchronizing audio to video doesn't require low latency.
-Synchronization problems are often caused by the software itself.
-Forcing the application to use smaller buffers (by starting sndiod(8)
-in low latency mode) may hide the actual problem in some cases, and
-give the feeling that the software works better, but obviously the
-right thing to do is to start searching for the corresponding bug.
+Нет, синхронизация звука с видео не требует малой задержки.
+Проблемы синхронизации часто вызваны самим программным обеспечением.
+Заставить приложение использовать буферы меньшего размера (запустив sndiod(8)
+в режиме с низкой задержкой) в некоторых случаях может скрыть реальную проблему, и
+создается впечатление, что программа работает лучше, но, очевидно,
+правильнее всего будет начать поиск соответствующей ошибки.
 
-<h2 id="audionet">Using Remote Audio Hardware</h2>
+<h2 id="audionet">Использование удаленного аудиооборудования</h2>
 
-sndiod(8) can be configured to accept connections from the network,
-allowing other machines to use the sound card as well.
-On the remote system with the sound card, run:
+sndiod(8) можно настроить для приема подключений из сети,
+позволяя другим машинам также использовать звуковую карту.
+В удаленной системе со звуковой картой запустите:
 
 <pre class="cmdbox">
 # <b>rcctl set sndiod flags -L-</b>
 </pre>
 
-On the local system, configure your program to use <code>snd@hostname/0</code>,
-where "hostname" is the address of the remote system.
-The <code>AUDIODEVICE</code> environment variable could be set to the above
-value to make the remote sound card the default audio device.
+В локальной системе настройте свою программу на использование <code>snd@hostname/0</code>,
+где "hostname" - это адрес удаленной системы.
+Переменная среды <code>AUDIODEVICE</code> может иметь значение, указанное выше
+значение, чтобы сделать удаленную звуковую карту звуковым устройством по умолчанию.
 
 <p>
-Any system able to connect to TCP port 11025 of the remote host will be able
-to use the audio device.
-For privacy reasons, only one user from one system may have connections
-to it at a given time.
-If multiple systems have to use the audio device simultaneously, the
-sndio(7) authorization cookie must be the same.
-For instance, copy your <code>~/.sndio/cookie</code> to all accounts
-that may use the audio device.
+Любая система, способная подключиться к TCP-порту 11025 удаленного хоста, сможет
+использовать аудиоустройство.
+Из соображений конфиденциальности только один пользователь из одной системы может иметь подключения
+к нему в данный момент.
+Если несколько систем должны использовать аудиоустройство одновременно,
+файл cookie авторизации sndio(7) должен быть таким же.
+Например, скопируйте свой <code>~/.sndio/cookie</code> во все учетные записи,
+который может использовать аудиоустройство.
 
 <p>
-To avoid glitches, TCP traffic on port 11025 could be prioritized with
-the packet filter.
-With the default configuration, sndiod will consume around 200kB/s of
-network bandwidth.
+Чтобы избежать сбоев, TCP-трафик на порту 11025 может быть приоритетным с помощью
+пакетного фильтра.
+В конфигурации по умолчанию sndiod будет потреблять около 200КБ/с
+пропускная способность сети.
 
-<h2 id="default">Choosing the Default Audio Device</h2>
+<h2 id="default">Выбор аудиоустройства по умолчанию</h2>
 
-The default audio device is selected with the <code>AUDIODEVICE</code>
-environment variable.
-If it's not set, <code>snd/0</code> is used, which is the first audio device
-managed by <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>.
-The most flexible way of choosing the default device is to export
-<code>AUDIODEVICE</code>, possibly in the user's login profile.
+Звуковое устройство по умолчанию выбирается с помощью <code>AUDIODEVICE</code>
+переменного окружения.
+Если он не установлен, используется <code>snd/0</code>, который является первым аудиоустройством.
+под управлением <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>.
+Самый гибкий способ выбора устройства по умолчанию - экспорт
+<code>AUDIODEVICE</code>, возможно, в профиле входа пользователя.
 
 <p>
-Another way to change the default audio output device is to make the desired
-device the first device managed by
+Другой способ изменить устройство вывода звука по умолчанию - сделать желаемый
+устройство первое устройство, управляемое
 <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>.
-For example, to use an external DAC rather than your motherboard's onboard
-audio, just change <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>'s
-startup flags to use that device:
+Например, чтобы использовать внешний ЦАП, а не встроенный на материнской плате
+аудио, просто измените <a href="https://man.openbsd.org/sndiod">sndiod(8)</a>
+флаги запуска для использования этого устройства:
 
 <pre class="cmdbox">
 # <b>rcctl set sndiod flags -f rsnd/1</b>
 # <b>rcctl restart sndiod</b>
 </pre>
 
-This would make the second audio device (<code>rsnd/1</code>) the default.
+Это сделает второе аудиоустройство (<code>rsnd/1</code>) по умолчанию.
 
-<h2 id="audioprob">Debugging Audio Problems</h2>
+<h2 id="audioprob">Отладка проблем со звуком</h2>
 
-If you do not hear anything when playing audio, it's possible there
-is a mixer control turned to low or simply muted.
-See <a href="#confaudio">this section</a> for configuring the mixer.
-Please unmute <b>all</b> inputs and outputs before reporting a problem.
+Если при воспроизведении аудио ничего не слышно, возможно там:
+регулятор микшера установлен на низкий или просто приглушенный.
+См. <a href="#confaudio">этот раздел</a> для настройки микшера.
+Пожалуйста, включите звук <b>всех</b> входов и выходов, прежде чем сообщать о проблеме.
 
 <p>
-If you believe your device should be working, but for whatever reason isn't,
-then it's time for a little debugging.
-The following steps can determine if data is being processed by the DAC.
+Если вы считаете, что ваше устройство должно работать, но по какой-либо причине нет,
+тогда пришло время для небольшой отладки.
+Следующие шаги помогут определить, обрабатываются ли данные DAC.
 
 <pre class="cmdbox">
 # <b>cat > /dev/audio0 &lt; /dev/zero &amp;</b>
@@ -391,52 +390,51 @@ cat > /dev/audio0 &lt; /dev/zero
 Terminated
 </pre>
 
-Here we see that the processed data count <code>play.bytes</code> increases
-each time we check, so data is flowing.
-We also see that the device has not underrun any samples
+Здесь мы видим, что количество обработанных данных <code>play.bytes</code> увеличивается
+каждый раз, когда мы проверяем, значит, данные текут.
+Мы также видим, что устройство не прогоняет ни одного образца
 (<code>play.errors</code>).
-That's good too.
+Это тоже хорошо.
 
 <p>
-Note that even if you had speakers plugged in when running the above
-test, you should not have heard anything.
-The test sends zeros to the device, which is silence for all currently
-supported default encodings.
+Обратите внимание, что даже если у вас были подключены динамики при запуске вышеуказанного
+test, вы ничего не должны были слышать.
+Тест отправляет на устройство нули, что является тишиной для всех в данный момент.
+поддерживаемой кодировки по умолчанию.
 
 <p>
-Since we know the device can process data, it's a good idea to check the mixer
-settings again.
-Make sure all outputs and all inputs are unmuted and are at a reasonable level.
+Поскольку мы знаем, что устройство может обрабатывать данные, рекомендуется проверить настройку микшера
+снова.
+Убедитесь, что все выходы и все входы включены и находятся на разумном уровне.
 
 <p>
-If you are still having problems at this point, it's probably time to
-<a href="../report.html">file a bug report</a>.
-Besides the normal bug report information such as a full dmesg and description
-of the problem, please also include the default output of
-<code>mixerctl -v</code>
-and the output of the above test for DAC processing.
+Если у вас все еще есть проблемы, возможно, пришло время
+<a href="../report.html">отправить отчет об ошибке</a>.
+Помимо обычной информации отчета об ошибке, такой как полный dmesg и описание
+проблемы, включите также вывод по умолчанию
+<code>Mixerctl -v</code>
+и результат вышеупомянутого теста для обработки DAC.
 
-<h2 id="midi">Using MIDI Instruments</h2>
+<h2 id="midi">Использование MIDI-инструментов</h2>
 
-The Musical Instrument Digital Interface (MIDI) protocol provides a
-standardized and efficient means to represent musical performance information
-as electronic data.
-MIDI data contains only instructions needed by a synthesizer to play the
-sounds, rather than the actual sounds.
-
-<p>
-To play MIDI data, a synthesizer connected to a MIDI port of the machine is
-required.
-Similarly, to record a MIDI data a MIDI instrument is required (such as a MIDI
-keyboard).
-Advanced MIDI instruments may contain multiple subparts (synthesizers,
-keyboards, control surfaces, etc...).
-They appear as multiple MIDI ports on OpenBSD.
+Протокол цифрового интерфейса музыкальных инструментов (MIDI) обеспечивает
+стандартизированные и эффективные средства представления информации о музыкальном исполнении
+как электронные данные.
+MIDI-данные содержат только инструкции, необходимые синтезатору для воспроизведения
+звуки, а не сами звуки.
 
 <p>
-When you already have OpenBSD running, look for MIDI ports in the output of
-the dmesg(8) command.
-An example of MIDI ports in a dmesg output is:
+Для воспроизведения MIDI-данных необходимо подключить синтезатор к MIDI-порту устройства.
+Точно так же для записи MIDI-данных требуется MIDI-инструмент (например, MIDI-интерфейс).
+клавиатура).
+Усовершенствованные MIDI-инструменты могут содержать несколько частей (синтезаторы,
+клавиатуры, панели управления и т.д.).
+Они отображаются в OpenBSD как несколько MIDI-портов.
+
+<p>
+Если у вас уже запущен OpenBSD, поищите MIDI-порты в выводе
+команда dmesg(8).
+Пример MIDI-портов в выводе dmesg:
 
 <pre class="cmdbox">
 umidi0 at uhub2 port 2 configuration 1 interface 0 "Roland Roland XV-2020" rev 1.10/1.00 addr 2
@@ -445,56 +443,56 @@ umidi1 at uhub1 port 2 configuration 1 interface 1 "Evolution Electronics Ltd. U
 midi1 at umidi1: &lt;USB MIDI I/F&gt;
 </pre>
 
-It shows two <a href="https://man.openbsd.org/midi">midi(4)</a> drivers
-attached, known by programs as:
+Он показывает два драйвера <a href="https://man.openbsd.org/midi">midi(4)</a>, 
+известная программами как:
 
 <ul>
-  <li><code>midi/0</code> - synthesizer connected via USB
-  <li><code>midi/1</code> - a MIDI master keyboard
+  <li><code>midi/0</code> - синтезатор, подключенный через USB
+  <li><code>midi/1</code> - мастер-клавиатура MIDI
 </ul>
 
-The output of the keyboard can be connected to the input of the synthesizer
-as follows:
+Выход клавиатуры можно подключить ко входу синтезатора
+следующим образом:
 
 <pre class="cmdbox">
 $ <b>midicat -q midi/0 -q midi/1</b>
 </pre>
 
-Now you can hear what you're playing on the MIDI keyboard on the synthesizer.
+Теперь вы можете слышать, что играете на MIDI-клавиатуре синтезатора.
 
 <p>
-The <a href="https://man.openbsd.org/sndiod">sndiod(8)</a> server exposes MIDI
-thru ports, allowing programs to send each other MIDI data.
-For instance, if you have no hardware synthesizer connected, you could
-start a software one (like the audio/fluidsynth port) and then use it as MIDI
-output:
+Сервер <a href="https://man.openbsd.org/sndiod">sndiod(8)</a> предоставляет MIDI
+через порты, позволяя программам отправлять друг другу MIDI-данные.
+Например, если у вас нет подключенного аппаратного синтезатора, вы можете
+запустите программный (например, порт audio/fluidsynth), а затем используйте его как MIDI
+выход:
 
 <pre class="cmdbox">
 $ <b>midicat -q midi/0 -q midithru/0</b>
 </pre>
 
-<h2 id="webcam">Using a Webcam</h2>
+<h2 id="webcam">Использование веб-камеры</h2>
 
-<h3 id="enablevideo">Enabling Video Recording</h3>
+<h3 id="enablevideo">Включение записи видео</h3>
 
-For privacy reasons, video recording is disabled by default in OpenBSD.
-The <code>kern.video.record</code> sysctl may be used to enable it.
+По соображениям конфиденциальности запись видео в OpenBSD по умолчанию отключена.
+Для его включения можно использовать sysctl <code>kern.video.record</code>.
 
 <pre class="cmdbox">
 # <b>sysctl kern.video.record=1</b>
 # <b>echo kern.video.record=1 >> /etc/sysctl.conf</b>
 </pre>
 
-<h3>Supported Hardware</h3>
+<h3>Поддерживаемое оборудование</h3>
 
-Many webcams following the USB Video Class (UVC) specification are supported
-by the <a href="https://man.openbsd.org/uvideo">uvideo(4)</a> device driver
-and are exposed to the user via the
-<a href="https://man.openbsd.org/video.4">video(4)</a> layer.
+Поддерживаются многие веб-камеры, соответствующие спецификации USB Video Class (UVC)
+драйвером устройства <a href="https://man.openbsd.org/uvideo">uvideo(4)</a>
+и доступны пользователю через
+слой <a href="https://man.openbsd.org/video.4">video(4)</a>.
 
 <p>
-A supported webcam (or other video device) shows up in <code>dmesg</code>
-like this:
+Поддерживаемая веб-камера (или другое видеоустройство) отображается в <code>dmesg</code>
+нравится:
 
 <pre class="cmdbox">
 uvideo0 at uhub0 port 8 configuration 1 interface 0 "Azurewave Integrated Camera" rev 2.01/69.05 addr 10
@@ -503,13 +501,13 @@ uvideo1 at uhub0 port 8 configuration 1 interface 2 "Azurewave Integrated Camera
 video1 at uvideo1
 </pre>
 
-This device will be accessible through <code>/dev/video0</code>.
+Это устройство будет доступно через <code>/dev/video0</code>.
 
 <p>
-Some laptops also attach a second (unusable) video device for the infrared
-camera.
-The usable camera device can be found with the
-<a href="https://man.openbsd.org/video.1">video(1)</a> command:
+Некоторые ноутбуки также подключают второе (непригодное для использования) видеоустройство для инфракрасного порта
+камеры.
+Используемое устройство камеры можно найти с помощью
+команды <a href="https://man.openbsd.org/video.1">video (1)</a>:
 
 <pre class="cmdbox">
 $ <b>video -q -f /dev/video0</b>
@@ -530,18 +528,18 @@ $ <b>video -q -f /dev/video1</b>
 video: /dev/video1 has no usable YUV encodings
 </pre>
 
-Only root is allowed to access video devices by default.
-The device's permissions must be changed to use it as a regular user:
+По умолчанию только root имеет доступ к видеоустройствам.
+Для использования обычного пользователя необходимо изменить разрешения устройства:
 
 <pre class="cmdbox">
 # <b>chown $USER /dev/video0</b>
 </pre>
 
-<h3 id="recvideo">Recording a Webcam Stream</h3>
+<h3 id="recvideo">Запись трансляции с веб-камеры</h3>
 
-This section uses <code>ffplay</code> and <code>ffmpeg</code> from the
-<code>graphics/ffmpeg</code> package.
-To see the capabilities of a given camera, run the following:
+В этом разделе используются <code>ffplay</code> и <code>ffmpeg</code> из
+пакета <code>graphics/ffmpeg</code>.
+Чтобы увидеть возможности данной камеры, запустите следующее:
 
 <pre class="cmdbox">
 $ <b>ffplay -f v4l2 -list_formats all -i /dev/video0</b>
@@ -550,13 +548,13 @@ $ <b>ffplay -f v4l2 -list_formats all -i /dev/video0</b>
 [video4linux2,v4l2 @ 0x921f8420800] Compressed:   mjpeg : MJPEG : 1280x720 320x180 320x240 352x288 424x240 640x360 640x480 848x480 960x540
 </pre>
 
-The first line shows supported resolutions in the uncompressed YUYV format.
-Frame rates in this format can be very low.
-The second line shows the supported MJPEG compressed video resolutions,
-which can deliver much higher frame rates.
+В первой строке показаны поддерживаемые разрешения в несжатом формате YUYV.
+Частота кадров в этом формате может быть очень низкой.
+Во второй строке показаны поддерживаемые разрешения сжатого видео MJPEG,
+что может обеспечить гораздо более высокую частоту кадров.
 
 <p>
-Choose one of the MJPEG resolutions and run the following to test it:
+Выберите одно из разрешений MJPEG и запустите следующее, чтобы проверить его:
 
 <pre class="cmdbox">
 $ <b>ffplay -f v4l2 -input_format mjpeg -video_size 1280x720 -i /dev/video0</b>
@@ -566,23 +564,22 @@ Input #0, video4linux2,v4l2, from '/dev/video0':B sq=    0B f=0/0
     Stream #0:0: Video: mjpeg (Baseline), yuvj422p(pc, bt470bg/unknown/unknown), 1280x720, 30 fps, 30 tbr, 1000k tbn, 1000k tbc
 </pre>
 
-The webcam stream should be displayed along with the resolution and frame
-rate.
+Поток веб-камеры должен отображаться вместе с разрешением и кадром.
 
 <p>
-If this works, video can be recorded with ffmpeg like so:
+Если это сработает, видео можно записать с помощью ffmpeg следующим образом:
 
 <pre class="cmdbox">
 $ <b>ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -i /dev/video0 ~/video.mkv</b>
 </pre>
 
-Press "q" to end the recording.
+Нажмите "q", чтобы закончить запись.
 
-<h3>Controlling Webcam Settings</h3>
+<h3>Управление настройками веб-камеры</h3>
 
-Webcams usually have brightness, contrast and other controls that can be
-altered with the
-<a href="https://man.openbsd.org/video.1">video(1)</a> command.
+Веб-камеры обычно имеют яркость, контрастность и другие элементы управления, которые можно
+изменено с помощью
+команды <a href="https://man.openbsd.org/video.1">video(1)</a>.
 
 <pre class="cmdbox">
 $ <b>video -c</b>
@@ -595,31 +592,31 @@ sharpness=3
 white_balance_temperature=auto
 </pre>
 
-As an example, the brightness setting can be changed to 200:
+Например, настройку яркости можно изменить на 200:
 
 <pre class="cmdbox">
 $ <b>video brightness=200</b>
 brightness: 128 -> 200
 </pre>
 
-All the settings can be reverted to their defaults with
+Все настройки можно вернуть к значениям по умолчанию с помощью
 <code>video -d</code>.
 
 <p>
-Some settings support automatic adjustments if set to a value of "auto."
+Некоторые настройки поддерживают автоматическую регулировку, если задано значение "auto".
 
-<h3>Webcam Access in Web Browsers</h3>
+<h3>Доступ к веб-камере в веб-браузерах</h3>
 
-Chromium has access to <code>/dev/video</code> by default.
-To allow Chromium to access other video devices, the device paths must be
-added to <code>/etc/chromium/unveil.main</code> and
+По умолчанию Chromium имеет доступ к <code>/dev/video</code>.
+Чтобы Chromium мог получить доступ и к другим видеоустройствам, пути к устройствам должны быть
+добавлен в <code> /etc/chromium/unveil.main </code> и
 <code>/etc/chromium/unveil.utility_video</code>.
 
 <p>
-Firefox has access to <code>/dev/video</code> and <code>/dev/video0</code>
-by default.
-To allow Firefox to access other video devices, the device paths must be
-added to <code>/etc/firefox/unveil.main</code>.
+Firefox имеет доступ к <code>/dev/video</code> и <code>/dev/video0</code>
+по умолчанию.
+Чтобы разрешить Firefox доступ к другим видеоустройствам, пути к устройствам должны быть
+добавлен в <code>/etc/firefox/unveil.main</code>.
 
 <!-- XXX
 To record MIDI files, you can use the <code>smfrec</code> utility bundled in
