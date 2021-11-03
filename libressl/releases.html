@@ -23,7 +23,7 @@
 ChangeLog</a> отражена история разработки LibreSSL.
 
 <h3>Поддерживаемые платформы</h3>
-<p>
+
 Портируемая версия LibreSSL без проблем работает на следующих платформах:
 <ul>
 	<li>Linux (на ядре 3.17 или более новом)
@@ -31,7 +31,7 @@ ChangeLog</a> отражена история разработки LibreSSL.
 	<li>NetBSD (версия 7.0 или более новая)
 	<li>HP-UX (11i)
 	<li>Solaris (11 или более новые)
-	<li>Mac OS X (протестированно в версии 10.8 и более новых)
+	<li>macOS (протестированно в версии 10.8 и более новых)
 	<li>AIX (5.3 и броее новые)
 </ul>
 
@@ -48,6 +48,19 @@ LibreSSL работает и в Windows:
 Стабильная версия LibreSSL выходит каждые 6 месяцев, в соответствии с графиком
 разработки самой OpenBSD, и поддерживается/обновляется в течение 1 года после выпуска
 OpenBSD, для которой она была подготовленна. Ниже приведены текущие стабильные версии.
+
+<h3>Signing</h3>
+
+Все архивы с релизами портированной версии LibreSSL подписаны (получают электронную подпись)
+при помощи <a href="https://man.openbsd.org/signify.1">signify(1)</a>, при использовании
+открытого (public) ключа:
+<p>
+<a href="https://github.com/libressl-portable/portable/commit/ceeb3bb4f423db4fc29704aa5a4c577f08103194">RWT44PcJDPu8ZDd5GfXWW2vuE+xq4M3haXXfYohnEnWoEYCKHNFut6W8</a>
+
+<p>
+Они также подписанны при помощи GPG, используюя
+<a href="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl.asc">этот public key</a>
+(A1EB079B8D3EB92B4EBD3139663AF51BD5E4D8D5).
 
 <h3>Версии LibreSSL</h3>
 <p>
