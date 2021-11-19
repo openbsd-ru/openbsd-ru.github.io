@@ -19,15 +19,15 @@ PF - настройка маршрутизатора (Building a Router)
 <hr>
 
 <ul>
-  <li><a href="#background">Цель</a>
-  <li><a href="#net"       >Сеть</a>
-  <li><a href="#dhcp"      >DHCP</a>
-  <li><a href="#pf"        >Firewall</a>
-  <li><a href="#dns"       >DNS</a>
+  <li><a href="#overview">Обзор</a>
+  <li><a href="#net"     >Сеть</a>
+  <li><a href="#dhcp"    >DHCP</a>
+  <li><a href="#pf"      >Firewall</a>
+  <li><a href="#dns"     >DNS</a>
 </ul>
 <hr>
 
-<h2 id="background">Цель</h2>
+<h2 id="overview">Обзор</h2>
 
 Материал на этой странице расскажет как настроить OpenBSD для работы в
 качестве маршрутизатора (router), со следующими задачами:
@@ -61,9 +61,9 @@ PF - настройка маршрутизатора (Building a Router)
 
 <h2 id="net">Сеть</h2>
 
-<a href="https://man.openbsd.org/hostname.if">Настройка</a> будет подразумевать
-использование подсети <b>192.168.1.0/24</b> для подключений при помощи кабеля и
-<b>192.168.2.0/24</b> для беспроводных соединений.
+<a href="https://man.openbsd.org/hostname.if">Настройка сети</a> будет
+подразумевать использование подсети 192.168.1.0/24 для соединений при помощи
+кабеля и 192.168.2.0/24 для беспроводных соединений.
 
 <pre class="cmdbox">
 # <b>echo 'net.inet.ip.forwarding=1' >> /etc/sysctl.conf</b>
@@ -221,7 +221,7 @@ match out on egress inet from !(egress:network) to any nat-to (egress:0)
 с <code>egress</code> интерфейсом между LAN и Интернетом.
 Более подробное объяснение правил <code>match</code> и поддерживаемых
 ими параметров можно найти в руководстве
-<a href="https://man.openbsd.org/pf.conf">pf.conf(5)</a>.
+<a href="https://man.openbsd.org/pf.conf#match">pf.conf(5)</a>.
 
 <pre class="cmdbox">
 antispoof quick for { egress $wired $wifi }
@@ -295,21 +295,26 @@ server:
 	do-not-query-localhost: no
 	hide-identity: yes
 	hide-version: yes
+	prefetch: yes
 
 forward-zone:
         name: "."
-        forward-addr: 1.2.3.4  # IP of the upstream resolver
+        forward-addr: X.X.X.X  # IP для предпочитаемого resolver'а
 </pre>
 
-Дополнительные параметры конфигурации можно найти в
+Дополнительные параметры конфигурации можно найти в руководстве для
 <a href="https://man.openbsd.org/unbound.conf">unbound.conf(5)</a>.
 Исходящие DNS-запросы могут быть зашифрованы при помощи пакета
-<code>dnscrypt-proxy</code>. Подробности в прилагаемом README файле.
+dnscrypt-proxy или при использовании поддерджки DNS over TLS в
+том же unbound.
 
 <p>
 Если маршрутизатор должен использовать caching resolver, его
 <code>/etc/resolv.conf</code> файл должен содержать
-<code>nameserver 127.0.0.1</code>.
+
+<pre class="cmdbox">
+nameserver 127.0.0.1
+</pre>
 
 <p>
 После внесения всех изменений, перезагрузите систему.
