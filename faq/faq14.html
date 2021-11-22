@@ -490,28 +490,40 @@ $ <b>man -k -s 8 mount</b>
 
 <h2 id="softraid">RAID и шифрование дисков</h2>
 
+Программа <a href="https://man.openbsd.org/bioctl">bioctl(8)</a>
+управляет как аппаратными, так и программными RAID устройствами
+через <a href="https://man.openbsd.org/bio">bio(4)</a> уровень.
 Подсистема <a href="https://man.openbsd.org/softraid">softraid(4)</a>
-работает, эмулируя <a href="https://man.openbsd.org/scsibus">scsibus(4)</a>,
-с устройствами <a href="https://man.openbsd.org/sd">sd(4)</a>, созданными путем
-объединения нескольких <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>
-разделов OpenBSD в виртуальный диск с требуемым типом RAID.
+позволяет объединить несколько разделов OpenBSD
+<a href="https://man.openbsd.org/disklabel">disklabel(8)</a>
+в виртуальный <a href="https://man.openbsd.org/sd">sd(4)</a> диск.
 С этим виртуальным диском мы работаем как и с любым другим в системе. Сначала
 он разбивается на разделы при помощи <a href="#fdisk">fdisk</a> (на платформах,
 поддерживаемых fdisk), а затем, как и обычно, создаются
 <a href="#disklabel">disklabels</a>.
-Обратите внимание, что на данный момент полностью поддерживаются только
-RAID0, RAID1, RAID5 и crypto.
 
+<p>
+<!-- XXXrelease - update if raid booting capabilities change -->
+Поддерживаемые дисциплины softraid:
+
+<ul>
+<li>RAID0  (чередование)
+<li>RAID1  (зеркалирование)
+<li>RAID1C (зеркалирование с шифрованием)
+<li>RAID5  (чередование блоков данных и контролем чётности)
+<li>CONCAT (конкатенация без избыточности, аналогично JBOD)
+<li>CRYPTO (шифрование диска)
+</ul>
+
+Настройка диска может варьироваться от платформы к платформе, и
+<b>загрузка с устройств softraid поддерживается не на всех из них</b>.
+В настоящее время можно загружаться только с RAID1 и crypto томов на
+i386, amd64, arm64 и sparc64.
 
 <h3 id="softraidDI">Установка на зеркальную пару дисков (RAID 1)</h3>
 
 В этом разделе описан процесс установки OpenBSD на зеркальную пару жестких дисков,
 и предполагается, что вы знакомы с <a href="faq4.html">процессом установки</a>.
-Настройка диска может варьироваться от платформы к платформе, и <b>загрузка с
-устройств softraid поддерживается не на всех из них</b>.
-<!-- XXXrelease - update if raid booting capabilities change -->
-В настоящее время можно загружаться только с RAID1 и crypto томов на i386,
-amd64, sparc64 и arm64.
 
 <p>
 Перед использованием install скрипта перейдете в shell и настройте
