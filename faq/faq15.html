@@ -1,32 +1,11 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
-     on a new line, and try to keep the general formatting consistent
-     with the rest of the pages -->
-
 <title>OpenBSD FAQ: Работа с пакетами</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../openbsd.css">
 <link rel="canonical" href="https://www.openbsd.org/faq/faq15.html">
-
-<!--
-Copyright (c) 2005-2009 Steven Mestdagh <steven@openbsd.org>
-
-Permission to use, copy, modify, and distribute this documentation for
-any purpose with or without fee is hereby granted, provided that the
-above copyright notice and this permission notice appear in all copies.
-
-THE DOCUMENTATION IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-WARRANTIES WITH REGARD TO THIS DOCUMENTATION INCLUDING ALL IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS DOCUMENTATION
--->
 
 <h2 id=OpenBSD>
 <a href="../index.html">
@@ -85,7 +64,7 @@ OpenBSD. Для того, чтобы их можно было легко уст�
 
 <ul>
   <li><a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>
-  - для установки и обновлении пакетов
+  - для установки и обновления пакетов
   <li><a href="https://man.openbsd.org/pkg_check">pkg_check(8)</a>
   - для проверки целостности установленных пакетов
   <li><a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>
@@ -243,7 +222,6 @@ on reboot after a system crash
 
 <pre class="cmdbox">
 # <b>pkg_add xv</b>
-quirks-2.367 signed on 2017-10-03T11:21:28Z
 xv-3.10ap4:jpeg-6bp3: ok
 xv-3.10ap4:png-1.2.14p0: ok
 xv-3.10ap4:tiff-3.8.2p0: ok
@@ -277,35 +255,33 @@ Full dependency tree is png-1.6.31 tiff-4.0.8p1 jasper-1.900.1p5 jpeg-1.5.1p0v0
 
 <h2 id="PkgUpdate">Обновление пакетов</h2>
 
-Предположим, у вас была старая версия unzip, установленная ещё до
-обновления OpenBSD. В этом случае обновить пакет до последней доступной версии
-можно вот так:
+Установленные пакеты могут быть обновлены при помощи
+<a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a>:
 
 <pre class="cmdbox">
-# <b>pkg_add -u unzip</b>
-unzip-5.52->unzip-5.52p0: ok
-Read shared items: ok
+# <b>pkg_add -u</b>
 </pre>
 
-Если у пакета есть зависимости, они так же проверяются на наличие обновлений.
-При запуске <a href="https://man.openbsd.org/pkg_add">pkg_add(1)</a> с параметром
-<code>-u</code> будут обновлены все установленные пакеты. Настоятельно
-рекомендуется обновляться именно так, нежели обновлять каждый пакет по отдельности.
+Это обновит все установленные пакеты, включая их зависимости.
 
 <h2 id="PkgRemove">Удаление пакетов</h2>
 
-Чтобы удалить пакет, просто используйте его имя как агрумент при запуске
-<a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>.
+Чтобы удалить пакет, просто используйте
+<a href="https://man.openbsd.org/pkg_delete">pkg_delete(1)</a>:
 
 <pre class="cmdbox">
 # <b>pkg_delete screen</b>
-screen-4.0.3p6: ok
-Read shared items: ok
 </pre>
 
 Как уже говорилось, измененные конфигурационные файлы не будут удалены.
-От ненужных зависимостей в любое время можно избавиться командой
-<code>pkg_delete -a</code>.
+
+<p>
+Зависимости, которые больше не нужны, могут быть удалены при помощи
+<code>-a</code> параметра:
+
+<pre class="cmdbox">
+# <b>pkg_delete -a</b>
+</pre>
 
 <h2 id="PkgDup">Дублирование установленных пакетов на другую машину</h2>
 
