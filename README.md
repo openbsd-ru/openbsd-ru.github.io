@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io)
+[![Build Status](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io.svg?branch=master)](https://app.travis-ci.com/github/openbsd-ru/openbsd-ru.github.io)
 [![License](https://img.shields.io/github/license/openbsd-ru/openbsd-ru.github.io)](https://github.com/openbsd-ru/openbsd-ru.github.io/LICENSE)
 
 
