@@ -296,7 +296,7 @@ Directory does not contain SHA256.sig. Continue without verification? [no]
 <code>sd6</code>:
 
 <pre class="cmdbox">
-# <b>dd if=install*.img of=/dev/rsd6c bs=1m</b>
+# <b>dd if=install*.img of=/dev/rsd6c bs=1M</b>
 </pre>
 
 Обратите внимание, что используется <b>raw I/O device</b> <code>rsd6c</code>,
@@ -304,8 +304,6 @@ Directory does not contain SHA256.sig. Continue without verification? [no]
 
 <p>
 Некоторые детали могут отличаться в разных системах.
-GNU версия <code>dd</code> потребует <code>bs=1M</code> (обратите внимание
-на заглавную M).
 Если вы используете другую ОС, не забудьте о правильном имени устройства:
 <code>/dev/sdX</code> в Linux или <code>/dev/rdiskX</code> в macOS, например.
 
