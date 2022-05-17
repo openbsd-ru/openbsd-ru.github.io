@@ -129,6 +129,6 @@ pull request или просто issue, если у вас появятся ка
 Он показыват ```OK```, если версии одинаковые, или ссылку на web-diff
 в противном случае.
 
-Оба скрипта привязаны к travis, так что запускаются
+Скрипты привязаны к travis, так что запускаются
 после каждого ```git push``` и их вывод можно просмотреть
-[в web](https://travis-ci.com/openbsd-ru/openbsd-ru.github.io).
+[в web](https://app.travis-ci.com/openbsd-ru/openbsd-ru.github.io).
