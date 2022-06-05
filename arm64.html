@@ -35,8 +35,8 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 <h3 id="status"><strong>Текущее состояние</strong></h3>
 
 <p>
-В настоящее время работа ведется над платформами  Allwinner A64/H5,
-Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG, Marvell ARMADA 3K/7K/8K,
+В настоящее время работа ведется над платформами  Allwinner A64/H5/H6,
+Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG, Apple M1, Marvell ARMADA 3K/7K/8K,
 Rockchip RK3328/RK3399(pro), Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4)
 и Socionext SCA11.
 
@@ -69,6 +69,13 @@ U-Boot&gt; boot
 а ОС - на USB.
 
 <p>
+Для того, чтобы OpenBSD можно было загрузить на Apple машинах, на них
+должно быть установленно UEFI окружение. Для этого можно воспрользоваться
+<a href="https://asahilinux.org/2022/03/asahi-linux-alpha-release">установщиком Asahi Linux</a>.
+После этого вы можете загрузить программу установки с USB-устройства,
+подключенного к одному из type-C USB-портов.
+
+<p>
 Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
 загружаться с SATA или USB без специальных загрузочных файлов на системном диске.
 
@@ -85,9 +92,10 @@ U-Boot&gt; boot
 OpenBSD/arm64 работает на следующем железе:
 
 <ul>
-	<li>Allwinner A64/H5
+	<li>Allwinner A64/H5/H6
 	<ul>
 		<li>Pine64 Pine 64/64+
+        <li><a href="https://www.pine64.org/pine-h64-ver-b/">Pine64 H64</a>
 		<li><a href="https://www.pine64.org/pinebook/">Pine64 Pinebook</a>
 		<li><a href="https://wiki.friendlyarm.com/wiki/index.php/NanoPi_A64">NanoPi A64</a>
 		<li><a href="http://www.orangepi.org/orangepipc2/">Orange Pi PC2</a>
@@ -110,6 +118,15 @@ OpenBSD/arm64 работает на следующем железе:
 		<li>Lenovo ThinkSystem HR330A
 		<li>Lenovo ThinkSystem HR350A
 	</ul>
+	<li>Apple M1
+	<ul>
+		<li>Apple Mac mini (M1, 2020)
+		<li>Apple MacBook Pro (13-inch, M1, 2020)
+		<li>Apple MacBook Air (M1, 2020)
+		<li>Apple iMac (24-inch, M1, 2021)
+		<li>Apple MacBook Pro (14-inch, M1 Pro/Max, 2021)
+		<li>Apple MacBook Pro (16-inch, M1 Pro/Max, 2021)
+	</ul>
 	<li>Broadcom BCM2837/BCM2711
 	<ul>
 		<li><a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/">Raspberry Pi 3</a>
@@ -121,6 +138,8 @@ OpenBSD/arm64 работает на следующем железе:
 	<li>Marvell ARMADA 3K
 	<ul>
 		<li><a href="https://www.turris.com/en/mox/">Turris MOX</a>
+		<li><a href="https://espressobin.net/">Marvell ESPRESSObin</a>
+		<li><a href="https://www.gl-inet.com/products/gl-mv1000/">GL.iNet Brume</a>
 	</ul>
 	<li>Marvell ARMADA 7K/8K
 	<ul>
@@ -160,7 +179,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/dwge.4">dwge(4)</a>
 	  для встроенной Synopsys DesignWare GMAC 10/100/Gigabit Ethernet на Rockchip RK3399
 	<li><a href="https://man.openbsd.org/arm64/dwxe.4">dwxe(4)</a>
-	  для встроенной Allwinner EMAC 10/100/Gigabit Ethernet на Allwinner A64/H5
+	  для встроенной Allwinner EMAC 10/100/Gigabit Ethernet на Allwinner A64/H5/H6
 	<li><a href="https://man.openbsd.org/arm64/msk.4">msk(4)</a>
 	  для встроенной Marvell Yukon-2 10/100/Gigabit Ethernet на OverDrive 1000
 	<li><a href="https://man.openbsd.org/arm64/mue.4">mue(4)</a>
@@ -174,7 +193,7 @@ OpenBSD на этих машинах.
 <h4>802.11 wireless</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/bwfm.4">bwfm(4)</a>
-	  на Raspberry Pi 3/4/400 и Pinebook Pro
+	  на Raspberry Pi 3/4/400, Pinebook Pro и Apple M1
 </ul>
 
 <h4>Storage</h4>
@@ -190,7 +209,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/sdhc.4">sdhc(4)</a>
 	  на Marvell ARMADA 3K/7K/8K, Rockchip RK3399 и Raspberry Pi 4
 	<li><a href="https://man.openbsd.org/arm64/sximmc.4">sximmc(4)</a>
-	  на Allwinner A64/H5
+	  на Allwinner A64/H5/H6
 </ul>
 
 <h4>USB</h4>
@@ -198,7 +217,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/dwctwo.4">dwctwo(4)</a>
 	  на Raspberry Pi 3
 	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
-	  на Allwinner A64/H5 and Rockchip RK3328/RK3399
+	  на Allwinner A64/H5/H6 и Rockchip RK3328/RK3399
 	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
 	  на Amlogic G12A/B, Ampere eMAG, Marvell ARMADA 3K/7K/8K,
 	  Rockchip RK3399, Raspberry Pi 4, OverDrive 1000 и SynQuacer-E
@@ -215,9 +234,9 @@ time clock с питанием от батарейки, тем не менее, 
 
 <p>
 Последнeй поддерживаемой версией OpenBSD/arm64 является
-<a href="https://www.openbsd.org/70.html">OpenBSD 7.0</a>.
+<a href="https://www.openbsd.org/71.html">OpenBSD 7.1</a>.
 Здесь вы можете найти
-<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/arm64/INSTALL.arm64">
+<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/arm64/INSTALL.arm64">
 инструкции по установке OpenBSD/arm64</a>.
 
 <p>
