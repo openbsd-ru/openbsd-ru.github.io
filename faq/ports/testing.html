@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang=ru id=faq>
 
-<!-- If you make edits to any FAQ documents, please start each sentence
- on a new line, and try to keep the general formatting consistent
- with the rest of the pages -->
-
 <title>Порты OpenBSD: руководство по тестированию</title>
 <meta name= "description"   content= "OpenBSD Porting Guide">
 <meta charset=utf-8>
@@ -93,13 +89,9 @@
 <ul><li>
 Проверьте, что у всех загруженных distfiles совпадают checksums,
 с теми, которые находятся в <code>distinfo</code> файле.
-Чтобы загрузить distfiles со всех указанных источников и проверить их
-checksum, воспользуйтесь этой командой (её следует запустить из
-каталога порта):
+Вы можете повторно запустить <code>make clean=dist &amp;&amp; make makesum</code>
+и убедиться, что ничего не изменилось.
 
-<pre class="cmdbox">
-$ <b>for ms in $(make show=MASTER_SITES); do make clean=dist; make fetch checksum MASTER_SITES=$ms; done</b>
-</pre>
 </ul>
 
 <li>
