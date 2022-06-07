@@ -25,6 +25,7 @@ FAQ - Руководство по установке
   <li><a href="#Install"     >Выполнение простой установки</a>
   <li><a href="#FilesNeeded" >Набор устанавливаемых компонент</a>
   <li><a href="#Partitioning">Разметка диска</a>
+  <li><a href="#WifiOnly"    >Bootstrapping Wireless Firmware</a>
   <li><a href="#SendDmesg"   >Отправка вашего dmesg после установки</a>
   <li><a href="#site"        >Настройка процесса установки</a>
   <li><a href="#Multibooting">Мультизагрузка</a>
@@ -110,26 +111,22 @@ boot> <b>boot hd1d:/bsd.rd</b>
 	  если вы используете одну из архитектур, отличных от x86. Они содержат
 	  подробные инструкции и предостережения:
           <p>
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/alpha/INSTALL.alpha">alpha</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/amd64/INSTALL.amd64">amd64</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/arm64/INSTALL.arm64">arm64</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/armv7/INSTALL.armv7">armv7</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/hppa/INSTALL.hppa">hppa</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/i386/INSTALL.i386">i386</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/landisk/INSTALL.landisk">landisk</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/loongson/INSTALL.loongson">loongson</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/luna88k/INSTALL.luna88k">luna88k</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/macppc/INSTALL.macppc">macppc</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/octeon/INSTALL.octeon">octeon</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/powerpc64/INSTALL.powerpc64">powerpc64</a>]
-[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/sparc64/INSTALL.sparc64">sparc64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/alpha/INSTALL.alpha">alpha</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/amd64/INSTALL.amd64">amd64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/arm64/INSTALL.arm64">arm64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/armv7/INSTALL.armv7">armv7</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/hppa/INSTALL.hppa">hppa</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/i386/INSTALL.i386">i386</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/landisk/INSTALL.landisk">landisk</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/loongson/INSTALL.loongson">loongson</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/luna88k/INSTALL.luna88k">luna88k</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/macppc/INSTALL.macppc">macppc</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/octeon/INSTALL.octeon">octeon</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/powerpc64/INSTALL.powerpc64">powerpc64</a>]
+[<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/sparc64/INSTALL.sparc64">sparc64</a>]
       <li>Если досуп к сети в вашем случае возможен только через wireless, узнайте
-	  заранее, требует ли ваша карта
-	  <a href="http://firmware.openbsd.org/firmware">дополнительной прошивки</a>?
-	  Если это так, вам нужно будет заранее вручную загрузить её на USB флешку или
-	  подобное устройство, а затем использовать
-	  <a href="https://man.openbsd.org/fw_update">fw_update(8)</a>, чтобы установить
-	  прошивку и включить/ативировть устройство после установки OpenBSD.
+	  заранее, требует ли ваша карта firmware?
+	  Если это так, ознакомьтесь с материалом <a href="#WifiOnly">bootstrapping wireless firmware</a>.
     </ul>
   <li>Какой метод установки будет испрользоваться
   <li>Желаемая разметка диска:
@@ -159,76 +156,76 @@ boot> <b>boot hd1d:/bsd.rd</b>
 
 <tr>
 <td>
-<b>install70.img</b>
+<b>install71.img</b>
 <td>
 Образ диска, который может быть записан на USB флешку или подобное устройство.
 Содержит <a href="#FilesNeeded">установочные компоненты</a>.
 <hr>
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.img">amd64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/arm64/install70.img">arm64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/i386/install70.img">i386</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/octeon/install70.img">octeon</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/powerpc64/install70.img">powerpc64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/riscv64/install70.img">riscv64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/sparc64/install70.img">sparc64</a>
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/install71.img">amd64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/arm64/install71.img">arm64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/i386/install71.img">i386</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/octeon/install71.img">octeon</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/powerpc64/install71.img">powerpc64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/riscv64/install71.img">riscv64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/sparc64/install71.img">sparc64</a>
 
 <tr>
 <td>
-<b>miniroot70.img</b>
+<b>miniroot71.img</b>
 <td>
 Это такой же образ, как и выше, но без установочных компонентов.
 Они могут быть загружены из интернет или c диска.
 <hr>
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/alpha/miniroot70.img">alpha</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/miniroot70.img">amd64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/arm64/miniroot70.img">arm64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/alpha/miniroot71.img">alpha</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/miniroot71.img">amd64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/arm64/miniroot71.img">arm64</a> |
 <!-- armv7 has multiple miniroot files for different boards -->
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/armv7/">armv7</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/i386/miniroot70.img">i386</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/landisk/miniroot70.img">landisk</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/luna88k/miniroot70.img">luna88k</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/octeon/miniroot70.img">octeon</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/powerpc64/miniroot70.img">powerpc64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/riscv64/miniroot70.img">riscv64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/sparc64/miniroot70.img">sparc64</a>
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/armv7/">armv7</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/i386/miniroot71.img">i386</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/landisk/miniroot71.img">landisk</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/luna88k/miniroot71.img">luna88k</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/octeon/miniroot71.img">octeon</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/powerpc64/miniroot71.img">powerpc64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/riscv64/miniroot71.img">riscv64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/sparc64/miniroot71.img">sparc64</a>
 
 <tr>
 <td>
-<b>install70.iso</b>
+<b>install71.iso</b>
 <td>
 ISO 9660 образ. Используется для создания установочных CD/DVD.
 Содержит установочные компоненты.
 <hr>
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/alpha/install70.iso">alpha</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/install70.iso">amd64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/hppa/install70.iso">hppa</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/i386/install70.iso">i386</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/macppc/install70.iso">macppc</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/powerpc64/install70.iso">powerpc64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/sparc64/install70.iso">sparc64</a>
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/alpha/install71.iso">alpha</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/install71.iso">amd64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/hppa/install71.iso">hppa</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/i386/install71.iso">i386</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/macppc/install71.iso">macppc</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/powerpc64/install71.iso">powerpc64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/sparc64/install71.iso">sparc64</a>
 
 <tr>
 <td>
-<b>cd70.iso</b>
+<b>cd71.iso</b>
 <td>
 Такой же образ как и выше, но без установочных компоненов.
 <hr>
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/alpha/cd70.iso">alpha</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/cd70.iso">amd64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/hppa/cd70.iso">hppa</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/i386/cd70.iso">i386</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/macppc/cd70.iso">macppc</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/sparc64/cd70.iso">sparc64</a>
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/alpha/cd71.iso">alpha</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/cd71.iso">amd64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/hppa/cd71.iso">hppa</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/i386/cd71.iso">i386</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/macppc/cd71.iso">macppc</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/sparc64/cd71.iso">sparc64</a>
 
 <tr>
 <td>
-<b>floppy70.img</b>
+<b>floppy71.img</b>
 <td>
 Поддерживает некоторые старые машины, где отсутствуют другие возможности для загрузки.
 <hr>
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/amd64/floppy70.img">amd64</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/i386/floppy70.img">i386</a> |
-<a href="https://cdn.openbsd.org/pub/OpenBSD/7.0/sparc64/floppy70.img">sparc64</a>
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/amd64/floppy71.img">amd64</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/i386/floppy71.img">i386</a> |
+<a href="https://cdn.openbsd.org/pub/OpenBSD/7.1/sparc64/floppy71.img">sparc64</a>
 
 </table>
 
@@ -243,14 +240,14 @@ ISO 9660 образ. Используется для создания устан
 
 <pre class="cmdbox">
 $ <b>sha256 -C SHA256 miniroot*.img</b>
-(SHA256) miniroot70.img: OK
+(SHA256) miniroot71.img: OK
 </pre>
 
 Если же вы используете ОС с GNU coreutils:
 
 <pre class="cmdbox">
 $ <b>sha256sum -c --ignore-missing SHA256</b>
-miniroot70.img: OK
+miniroot71.img: OK
 </pre>
 
 Однако это используется лишь для проверки <i>правильной загрузки</i> файлов по сети.
@@ -259,18 +256,18 @@ miniroot70.img: OK
 контрольные суммы.
 
 <pre class="cmdbox">
-$ <b>signify -Cp /etc/signify/openbsd-70-base.pub -x SHA256.sig miniroot*.img</b>
+$ <b>signify -Cp /etc/signify/openbsd-71-base.pub -x SHA256.sig miniroot*.img</b>
 Signature Verified
-miniroot70.img: OK
+miniroot71.img: OK
 </pre>
 
 Обратите внимание, что пакет signify в других операционных системах может не
 содержать требуемого
-<a href="https://ftp.openbsd.org/pub/OpenBSD/7.0/openbsd-70-base.pub">открытого ключа</a>
+<a href="https://ftp.openbsd.org/pub/OpenBSD/7.1/openbsd-71-base.pub">открытого ключа</a>
 или быть установлен в другое место.
 
 <p>
-Образы <code>install70.iso</code> и <code>install70.img</code> не содержат файл
+Образы <code>install71.iso</code> и <code>install71.img</code> не содержат файл
 <code>SHA256.sig</code>, поэтому установщик пожалуется, что не может проверить
 подпись включенных файлов, которые содержат установочные компоненты:
 
@@ -339,7 +336,7 @@ Directory does not contain SHA256.sig. Continue without verification? [no]
 root on rd0a swap on rd0b dump on rd0b
 erase ^?, werase ^W, kill ^U, intr ^C, status ^T
 
-Welcome to the OpenBSD/amd64 7.0 installation program.
+Welcome to the OpenBSD/amd64 7.1 installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell?
 </pre>
 
@@ -361,29 +358,29 @@ Welcome to the OpenBSD/amd64 7.0 installation program.
 	<td><code>bsd.rd</code>
 	<td><a href="#bsd.rd">ramdisk ядро</a>
 <tr>
-	<td><code>base70.tgz</code>
+	<td><code>base71.tgz</code>
 	<td>Базовая система <strong>(обязательно для установки)</strong>
 <tr>
-	<td><code>comp70.tgz</code>
+	<td><code>comp71.tgz</code>
 	<td>Компиляторы, заголовочные файлы (headers) и библиотеки
 <tr>
-	<td><code>man70.tgz</code>
+	<td><code>man71.tgz</code>
 	<td>Справочные man-страницы
 <tr>
-	<td><code>game70.tgz</code>
+	<td><code>game71.tgz</code>
 	<td>Консольные игры (text-based games)
 <tr>
-	<td><code>xbase70.tgz</code>
+	<td><code>xbase71.tgz</code>
 	<td>Основные библиотеки и утилиты для X11
-		(требует <code>xshare70.tgz</code>)
+		(требует <code>xshare71.tgz</code>)
 <tr>
-	<td><code>xfont70.tgz</code>
+	<td><code>xfont71.tgz</code>
 	<td>Шрифты, используемые X11
 <tr>
-	<td><code>xserv70.tgz</code>
+	<td><code>xserv71.tgz</code>
 	<td>X серверы X11
 <tr>
-	<td><code>xshare70.tgz</code>
+	<td><code>xshare71.tgz</code>
 	<td>Справочные man-страницы, конфиги и заголовочные файлы для X11
 </table>
 
@@ -391,12 +388,12 @@ Welcome to the OpenBSD/amd64 7.0 installation program.
 Новым пользователям рекомендуется установить все эти компоненты.
 
 <p>
-Некоторые библиотеки из <code>xbase70.tgz</code>, такие как freetype или
+Некоторые библиотеки из <code>xbase71.tgz</code>, такие как freetype или
 fontconfig, используются программами для работы с текстом или графикой и без X.
-Такие программы обычно нуждаются в шрифтах из <code>xfont70.tgz</code>
+Такие программы обычно нуждаются в шрифтах из <code>xfont71.tgz</code>
 или пакетов со шрифтами.
 Для простоты разработчики решили не поддерживать минимальный компонент
-<code>xbase70.tgz</code>, который позволял бы работать большинству не-X портов.
+<code>xbase71.tgz</code>, который позволял бы работать большинству не-X портов.
 
 <h3>Добавление компоненты после установки</h3>
 
@@ -464,6 +461,60 @@ fontconfig, используются программами для работы 
       <code>/tmp</code> разделах.
 </ul>
 
+<h2 id="WifiOnly">Bootstrapping Wireless Firmware</h2>
+
+По причине ограничений, связанных с лицензиями, некоторые firmware не могут
+поставляться месте с OpenBSD.
+Программа <a href="https://man.openbsd.org/fw_update">fw_update(8)</a>
+автоматически загрузит и установит любые отсутствующие в системе firmware,
+но она требует установленного и рабочего соединения с интернет.
+
+<p>
+В некоторых случаях нет возможности подключиться к интернет, например если
+на ноутбуке нет порта Ethernet. В этом случае пользователю придется вручную
+загрузить и установить firmware, чтобы подключиться к интернет.
+Это можно сделать перед установкой, добавив файлы с firmware на установочный
+носитель или после установки ОС с CD или жеского диска.
+
+<p>
+Начать стоит с поиска
+<a href="https://man.openbsd.org/?query=wireless&apropos=1">interface name</a>
+wireless адаптера в <a href="https://man.openbsd.org/dmesg">dmesg(8)</a>.
+
+<p>
+Из существующей установки OpenBSD смонтируйте установочный образ как диск
+vnode при помощи <a href="https://man.openbsd.org/vnconfig">vnconfig(8)</a>
+и используйте <a href="https://man.openbsd.org/fw_update">fw_update(8)</a>
+для загрузки нужных файлов.
+В приведенном примере используется firmware для карты
+<a href="https://man.openbsd.org/iwm">iwm(4)</a>:
+
+<pre class="cmdbox">
+# <b>vnconfig install71.img</b>
+vnd0
+# <b>mount /dev/vnd0a /mnt</b>
+# <b>cd /mnt</b>
+# <b>fw_update -Fv iwm</b>
+# <b>cd /</b>
+# <b>umount /mnt</b>
+# <b>vnconfig -u vnd0</b>
+</pre>
+
+Полученный файл затем можно использовать для <a href="#MkInsMedia">создания</a>
+загрузочного установочного образа с необходимой прошивкой (firmware).
+
+<p>
+Если у вас нет системы с OpenBSD с выходом в интернет, используйте другой
+компьютер для загрузки соответствующего файлов с
+<!-- XXX needs https -->
+<a href="http://firmware.openbsd.org">firmware.openbsd.org</a>, после чего
+скопируейте их на USB-флешку, с которой может работать OpenBSD.
+Затем, в OpenBSD системе подключите устройство при помощи
+<a href="https://man.openbsd.org/mount">mount(8)</a> и используйте все ту
+же программу <a href="https://man.openbsd.org/fw_update">fw_update(8)</a>
+для установки файлов оттуда.
+
+
 <h2 id= "SendDmesg">Отправка вашего dmesg после установки</h2>
 
 После успешной установки проверьте, не выглядит ли что-то странным
@@ -505,28 +556,28 @@ $ <b>(dmesg; sysctl hw.sensors) > ~/dmesg.txt</b>
 
 <h2 id="site">Настройка процесса установки</h2>
 
-<h3>Компонент <code>site70.tgz</code></h3>
+<h3>Компонент <code>site71.tgz</code></h3>
 
 Скрипты установки и обновления OpenBSD позволяют выбирать установленные
-пользователем настройки, называемые <code>site70.tgz</code>.
+пользователем настройки, называемые <code>site71.tgz</code>.
 Как и официальные <a href="#FilesNeeded">копоненты установки</a>, это
 <a href="https://man.openbsd.org/tar">tar(1)</a> архив, распаковывапющийся в
 корень ФС <code>/</code> и при помощи опций <code>-xzphf</code>.
 Он распаковается последним, поэтому отлично подходит для изменения файлов,
 которые присутствуют в системе после установки.
 Кроме того, можно использовать компоненты, зависящие лишь от имени хоста,
-при использовании имени <code>site70-$(hostname -s).tgz</code>.
+при использовании имени <code>site71-$(hostname -s).tgz</code>.
 
 <p>
 <b>Заметка:</b>
 Если вы хотите использовать установочные компоненты, загружая их через HTTP(s),
-поместите <code>site70.tgz</code> в каталог, откуда будете загружать архив,
+поместите <code>site71.tgz</code> в каталог, откуда будете загружать архив,
 и добавьте его имя в ваш  <code>index.txt</code>.
 Этот компонент будет доступен во время установки системы.
 
 <h3>Скрипты <code>install.site</code> и <code>upgrade.site</code></h3>
 
-Если компонент <code>site70.tgz</code> содержит файл <code>/install.site</code>,
+Если компонент <code>site71.tgz</code> содержит файл <code>/install.site</code>,
 установщик запустит его при помощи
 <a href="https://man.openbsd.org/chroot">chroot(8)</a>, в только что созданный
 для установки корень ФС.
