@@ -39,24 +39,25 @@
 
 <p id="callout">
 
-<a href="https://ftp.openbsd.org/pub/OpenBSD/rpki-client/rpki-client-7.8.txt">rpki-client 7.8</a>
-вышел 9 апреля 2022 года.
+<a href="https://ftp.openbsd.org/pub/OpenBSD/rpki-client/rpki-client-7.9.txt">
+rpki-client 7.9</a> вышел 14 июля 2022 года.
 
 <p>
 <a href="https://man.openbsd.org/rpki-client">rpki-client</a>
 это <strong>СВОБОДНАЯ</strong> и простая в использовании реализация
 Resource Public Key Infrastructure (RPKI) для Relying Parties (RP),
-которая способствует проверке маршрутов, полученных при помощи BGP.
-Программа опрашивает систему репозитория RPKI и выводит проверенные
+которая способствует проверке BGP маршрутов.
+Программа опрашивает глобальную систему репозитория RPKI и выводит проверенные
 полезные нагрузки ROA в формате конфигурации, понятной
 <a href="../openbgpd/index.html">OpenBGPD</a> или
 <a href="https://bird.network.cz/">BIRD</a>, а также в виде CSV- или
 JSON-объектов для использования другими стеками маршрутизации.
 
 <p>
-В <a href="https://tools.ietf.org/html/rfc6811">RFC 6811</a> содержится
-описание того, как BGP Prefix Origin Validation защищает инфраструктуру
-маршрутизации.
+В <a href="https://datatracker.ietf.org/doc/html/rfc6480">RFC 6480</a> и
+<a href="https://datatracker.ietf.org/doc/html/rfc6811">RFC 6811</a> содержится
+описание того, как RPKI и BGP Prefix Origin Validation помогает защитить
+глобальную инфраструктуру маршрутизации в инете (the global Internet routing system).
 
 <p>
 <a href="https://man.openbsd.org/rpki-client">rpki-client</a>
