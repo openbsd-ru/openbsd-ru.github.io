@@ -36,7 +36,7 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 
 <p>
 В настоящее время работа ведется над платформами  Allwinner A64/H5/H6,
-Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG, Apple M1, Marvell ARMADA 3K/7K/8K,
+Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG, Apple M1/M2, Marvell ARMADA 3K/7K/8K,
 Rockchip RK3328/RK3399(pro), Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4)
 и Socionext SCA11.
 
@@ -124,15 +124,17 @@ OpenBSD/arm64 работает на следующем железе:
 		<li>GIGABYTE E252-P30/31
 		<li>GIGABYTE R272-P30/31/32/33
 	</ul>
-	<li>Apple M1
+	<li>Apple M1/M2
 	<ul>
 		<li>Apple Mac mini (M1, 2020)
-		<li>Apple MacBook Pro (13-inch, M1, 2020)
 		<li>Apple MacBook Air (M1, 2020)
+		<li>Apple MacBook Pro (13-inch, M1, 2020)
 		<li>Apple iMac (24-inch, M1, 2021)
 		<li>Apple MacBook Pro (14-inch, M1 Pro/Max, 2021)
 		<li>Apple MacBook Pro (16-inch, M1 Pro/Max, 2021)
 		<li>Apple Studio (M1 Max/Ultra, 2022)
+		<li>Apple MacBook Air (M2, 2022)
+		<li>Apple MacBook Pro (13-inch, M2, 2022)
 	</ul>
 	<li>Broadcom BCM2837/BCM2711
 	<ul>
@@ -151,6 +153,10 @@ OpenBSD/arm64 работает на следующем железе:
 	<li>Marvell ARMADA 7K/8K
 	<ul>
 		<li><a href="https://www.solid-run.com/marvell-armada-family/macchiatobin/">SolidRun/Marvell MACCHIATObin</a>
+	</ul>
+	<li>Qualcomm Snapdragon 8cx Gen 3 (SC8280XP)
+	<ul>
+		<li>Lenovo ThinkPad X13s Gen 1</a>
 	</ul>
 	<li>Rockchip RK3328/RK3399(pro)
 	<ul>
@@ -180,8 +186,9 @@ OpenBSD на этих машинах.
 некоторые важные компоненты (devices) на B+ <b>НЕ</b> поддеживаются.
 
 <p>
-Поддержка систем Ampere Altra была добавлена уже после релиза OpenBSD 7.1.
-Для этих систем понадобится последний snapshot, пока не будет доступна OpenBSD 7.2.
+Поддержка систем Ampere Altra, Apple M2 и Qualcomm SC8280XP была добавлена уже
+после релиза OpenBSD 7.1. Для этих систем понадобится последний snapshot, пока
+не будет доступна OpenBSD 7.2.
 
 <h4>Ethernet</h4>
 <ul>
@@ -204,7 +211,7 @@ OpenBSD на этих машинах.
 <h4>802.11 wireless</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/bwfm.4">bwfm(4)</a>
-	  на Raspberry Pi 3/4/400, Pinebook Pro и Apple M1
+	  на Raspberry Pi 3/4/400, Pinebook Pro и Apple M1/M2
 </ul>
 
 <h4>Storage</h4>
@@ -230,7 +237,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
 	  на Allwinner A64/H5/H6 и Rockchip RK3328/RK3399
 	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
-	  на Amlogic G12A/B, Ampere eMAG, Marvell ARMADA 3K/7K/8K,
+	  на Amlogic G12A/B, Ampere eMAG, Apple M1/M2, Marvell ARMADA 3K/7K/8K,
 	  Rockchip RK3399, Raspberry Pi 4, OverDrive 1000 и SynQuacer-E
 </ul>
 
