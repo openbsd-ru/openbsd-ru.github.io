@@ -566,8 +566,8 @@ Welcome to the OpenBSD/amd64 7.1 installation program.
 Если же вы используете GPT для UEFI загрузки, сделайте следующее:
 
 <pre class="cmdbox">
-# <b>fdisk -iy -g -b 960 sd0</b>
-# <b>fdisk -iy -g -b 960 sd1</b>
+# <b>fdisk -gy -b 960 sd0</b>
+# <b>fdisk -gy -b 960 sd1</b>
 </pre>
 
 Создайте таблицу разделов (partition layout) на первом устройстве:
@@ -715,7 +715,7 @@ softraid раздел при помощи
 Если же вы используете GPT для UEFI, сделайте:
 
 <pre class="cmdbox">
-# <b>fdisk -iy -g -b 960 sd0</b>
+# <b>fdisk -gy -b 960 sd0</b>
 </pre>
 
 Далее, создайте таблицу разделов:
