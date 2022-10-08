@@ -506,19 +506,41 @@ $ <b>man -k -s 8 mount</b>
 <!-- XXXrelease - update if raid booting capabilities change -->
 Поддерживаемые дисциплины softraid:
 
-<ul>
-<li>RAID0  (чередование)
-<li>RAID1  (зеркалирование)
-<li>RAID1C (зеркалирование с шифрованием)
-<li>RAID5  (чередование блоков данных и контролем чётности)
-<li>CONCAT (конкатенация без избыточности, аналогично JBOD)
-<li>CRYPTO (шифрование диска)
-</ul>
++<table class="zebra">
++  <thead>
++    <tr>
++      <th>Level
++      <th>Description
++      <th>Bootable on
++  </thead>
++  <tr>
++    <td>RAID0
++    <td>чередование
++    <td>---
++  <tr>
++    <td>RAID1
++    <td>зеркалирование
++    <td>amd64, arm64, i386, sparc64
++  <tr>
++    <td>RAID1C
++    <td>зеркалирование с шифрованием
++    <td>amd64, arm64, sparc64
++  <tr>
++    <td>RAID5
++    <td>чередование блоков данных и контролем чётности
++    <td>---
++  <tr>
++    <td>CONCAT
++    <td>конкатенация без избыточности, аналогично JBOD
++    <td>---
++  <tr>
++    <td>CRYPTO
++    <td>шифрование диска
++    <td>amd64, arm64, i386, sparc64
++</table>
 
-Настройка диска может варьироваться от платформы к платформе, и
-<b>загрузка с устройств softraid поддерживается не на всех из них</b>.
-В настоящее время можно загружаться только с RAID1 и crypto томов на
-i386, amd64, arm64 и sparc64.
+<p>
+Настройка диска может варьироваться от платформы к платформе.
 
 <h3 id="softraidDI">Установка на зеркальную пару дисков (RAID 1)</h3>
 
@@ -539,7 +561,7 @@ i386, amd64, arm64 и sparc64.
 сделайте следующее в консоли:
 
 <pre class="cmdbox">
-Welcome to the OpenBSD/amd64 7.1 installation program.
+Welcome to the OpenBSD/amd64 7.2 installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell? <b>s</b>
 # <b>cd /dev</b>
 # <b>sh MAKEDEV sd0 sd1 sd2</b>
@@ -671,7 +693,7 @@ sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 Выберете <code>(S)hell</code> во время установки чтобы перейти в консоль.
 
 <pre class="cmdbox">
-Welcome to the OpenBSD/amd64 7.1 installation program.
+Welcome to the OpenBSD/amd64 7.2 installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell? <b>s</b>
 </pre>
 
