@@ -36,9 +36,10 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 
 <p>
 В настоящее время работа ведется над платформами  Allwinner A64/H5/H6,
-Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG, Apple M1/M2, Marvell ARMADA 3K/7K/8K,
-Rockchip RK3328/RK3399(pro), Broadcom BCM2837/BCM2711 (Raspberry Pi 3/4)
-и Socionext SCA11.
+Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG/Altra, Apple M1/M2, Marvell
+ARMADA 3K/7K/8K, Rockchip RK3328/RK3399/RK356x, Broadcom
+BCM2837/BCM2711 (Raspberry Pi 3/4) Qualcomm Snapdragon 7x/8x и
+Socionext SCA11.
 
 <p>
 Устновочный образ включает в себя firmware, необходимый для загрузки Pine 64/64+,
@@ -76,7 +77,7 @@ U-Boot&gt; boot
 подключенного к одному из type-C USB-портов.
 
 <p>
-Системы Ampere eMAG и AMD Opteron поставляются с UEFI firmware в ROM и могут
+Системы Ampere eMAG, Ampere Altra и AMD Opteron поставляются с UEFI firmware в ROM и могут
 загружаться с SATA или USB без специальных загрузочных файлов на системном диске.
 
 <p>
@@ -109,6 +110,7 @@ OpenBSD/arm64 работает на следующем железе:
 	</ul>
 	<li>Amlogic G12B/SM1
 	<ul>
+        <li><a href="https://wiki.banana-pi.org/Banana_Pi_BPI-M5">Banana Pi BPI-M5</a>
 		<li><a href="https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram/">Hardkernel ODROID-N2</a>
 		<li><a href="https://www.hardkernel.com/shop/odroid-c4/">Hardkernel ODROID-C4</a>
 		<li><a href="https://www.hardkernel.com/shop/odroid-hc4/">Hardkernel ODROID-HC4</a>
@@ -154,6 +156,10 @@ OpenBSD/arm64 работает на следующем железе:
 	<ul>
 		<li><a href="https://www.solid-run.com/marvell-armada-family/macchiatobin/">SolidRun/Marvell MACCHIATObin</a>
 	</ul>
+	<li>Qualcomm Snapdragon 7cx (SC7180/SC7180P)
+	<ul>
+		<li>Acer Aspire One</a>
+	</ul>
 	<li>Qualcomm Snapdragon 8cx Gen 3 (SC8280XP)
 	<ul>
 		<li>Lenovo ThinkPad X13s Gen 1</a>
@@ -167,6 +173,13 @@ OpenBSD/arm64 работает на следующем железе:
 		<li><a href="https://wiki.friendlyarm.com/wiki/index.php/NanoPC-T4">FriendlyElec NanoPC-T4</a>
 		<li><a href="https://www.theobroma-systems.com/som-product/rk3399-q7/">Theobroma Systems RK3399-Q7</a>
 		<li><a href="https://wiki.radxa.com/RockpiN10">Radxa Rock Pi N10</a>
+	</ul>
+	<li>Rockchip RK3566/RK3568
+	<ul>
+		<li><a href="https://www.pine64.org/quartz64a/">Pine64 Quartz64 Model A</a>
+		<li><a href="https://www.pine64.org/quartz64b/">Pine64 Quartz64 Model B</a>
+		<li><a href="https://en.t-firefly.com/product/industry/rocrk3566pc.html">ROC-RK3566-PC</a>
+		<li><a href="https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R5S">NanoPi R5S</a>
 	</ul>
 	<li>Socionext SC2A11
 	<ul>
@@ -185,6 +198,10 @@ OpenBSD на этих машинах.
 Не забывайте, что Raspberry Pi 3 модели B+ отличается от первоночальной Raspberry Pi 3;
 некоторые важные компоненты (devices) на B+ <b>НЕ</b> поддеживаются.
 
+<p>
+Поддержка Rockchip RK3566/3568 и Qualcomm SC7180/SC7180P систем была добавленна
+уже после релиза OpenBSD 7.2. По этой причие для этих систем используйте
+регулярно выкладываемые снапшоты пока не будет доступен официальный релиз OpenBSD 7.3.
 <h4>Ethernet</h4>
 <ul>
 	<li><a href="https://man.openbsd.org/arm64/bse.4">bse(4)</a>
@@ -216,7 +233,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/bcmsdhost.4">bcmsdhost(4)</a>
 	  на Raspberry Pi 3
 	<li><a href="https://man.openbsd.org/arm64/dwmmc.4">dwmmc(4)</a>
-	  на Rockchip RK3328/RK3399
+	  на Rockchip RK3328/RK3399/RK356x
 	<li><a href="https://man.openbsd.org/arm64/rkpcie.4">rkpcie(4)</a>
 	  на Rockchip RK3399
 	<li><a href="https://man.openbsd.org/arm64/sdhc.4">sdhc(4)</a>
@@ -230,10 +247,11 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/dwctwo.4">dwctwo(4)</a>
 	  на Raspberry Pi 3
 	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
-	  на Allwinner A64/H5/H6 и Rockchip RK3328/RK3399
+	  на Allwinner A64/H5/H6 и Rockchip RK3328/RK3399/RK356x
 	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
 	  на Amlogic G12A/B, Ampere eMAG, Apple M1/M2, Marvell ARMADA 3K/7K/8K,
-	  Rockchip RK3399, Raspberry Pi 4, OverDrive 1000 и SynQuacer-E
+	  Overdrive 1000, Raspberry Pi 4, Qualcomm
+	  SC7180/SC7180P/SC8280XP, Rockchip RK3399/RK356x и SynQuacer-E
 </ul>
 
 <strong>Нет real time clock:</strong> Многие arm64 устройства не имеют real
