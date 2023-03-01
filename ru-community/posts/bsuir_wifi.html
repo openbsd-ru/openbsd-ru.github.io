@@ -73,7 +73,8 @@ WiFi в <a href="https://www.bsuir.by">БГУИР</a> предоставляет
 Установить wpa_supplicant через пакетный менеджер:
 </p>
 
-<pre class="cmdbox">pkg_add wpa_supplicant
+<pre class="cmdbox">
+doas pkg_add wpa_supplicant
 </pre>
 
 
@@ -156,7 +157,7 @@ rcctl start wpa_supplicant
 <p>
 Я использую unwind, это валидирующий dns резолвер для локалхоста.
 Почему то когда я подключён к eduroam и у меня включён unwind не получается резолвить доменные имена
-( то есть получать айпи адрес из доменного имени ).
+( то есть получать IP-адрес из доменного имени ).
 Полноценное решение для этой проблемы я пока не нашёл, поэтому просто делаю:
 </p>
 <pre class="cmdbox">rcctl stop unwind
