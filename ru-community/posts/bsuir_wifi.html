@@ -1,0 +1,180 @@
+<!doctype html>
+<!-- Author email: karakin2000@gmail.com-->
+<!-- Author group number: 112601 -->
+
+<html lang=ru>
+ 
+<title>Как подключиться к wifi в библиотеках БГУИР из OpenBSD</title>
+  
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-nwidth, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+   
+<style>
+  .scsi {
+      color: var(--green);
+  }
+</style>
+
+<body>
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+Как подключиться к wifi в библиотеках БГУИР из OpenBSD
+</h2>
+
+<hr>
+<ul>
+  <li><a href="#Abstract"> Предисловие</a></li>
+  <li><a href="#InstallingSupplicant">Суппликант: Установка</a></li>
+  <li><a href="#Ifconfig"> Подключение при помощи ifconfig</a></li>
+  <li><a href="#Authentication">Аутентификация с wpa_supplicant</a></li>
+  <li><a href="#Result">Результат</a></li>
+  <li><a href="#Troubleshooting">Возможные проблемы</a>
+    <ul>
+      <li><a href="#Unwind"> Unwind</a></li>
+   </ul>
+  </li>
+</ul>
+</hr>
+
+<hr>
+
+</hr>
+
+<h3 id="Abstract"> Предисловие</h3>
+
+<p>
+Здесь не будет написано о причинах использовать OpenBSD.
+WiFi в <a href="https://www.bsuir.by">БГУИР</a> предоставляется бесплатно для студентов,
+в рамках сервиса роуминга <a href="https://ru.wikipedia.org/wiki/Eduroam">eduroam</a>,
+однако требует аутенфикации студента через номер студенческого и пароль от <a href="https://iis.bsuir.by">ИИС</a>.
+Чтобы подключиться к eduroam сети нужна поддержка
+не только самого протокола WPA2,
+но и его варианта WPA2 enterprice,
+который предполагает аутенфикацию не по паролю как в WPA2_PSK,
+а через RADIUS сервер.
+Для подключения к сети стандарта WPA2 enterprice нужен 
+<a href="https://en.wikipedia.org/wiki/Supplicant_(computer)">суппликант</a>. Его нет в базовой системе OpenBSD, но в порты специально для таких случаев добавлен <a href="https://wiki.archlinux.org/title/Wpa_supplicant">WPA supplicant</a>, про это <a href="https://undeadly.org/cgi?action=article;sid=20130128142215">есть новость</a> на undeadly. Собственно, благодаря этой новости автор статьи и смог подключиться к сети.
+Сам процесс подключения не сложен и глубоких знаний устройства сетей не требует.
+</p>
+
+
+<h3 id="InstallingSupplicant">Суппликант: Установка</h3>
+
+<p>
+Нужно сначала установить wpa_supplican, для чего к сожалению нужно быть подключенным к какой-либо другой
+уже имеющейся точке доступа. Благо в официальной документации OpenBSD это и так подробно описано,
+так что особого смысла на этом зацикливаться нет.
+</p>
+
+
+<p>
+Установить wpa_supplicant через пакетный менеджер:
+</p>
+
+<pre class="cmdbox">
+doas pkg_add wpa_supplicant
+</pre>
+
+
+<p>
+Или можно собрать из исходного кода, если уже предуставновлены порты:
+</p>
+
+<pre class="cmdbox">cd /usr/ports/security/wpa_supplicant
+make
+make install
+</pre>
+
+
+<p>
+После установки вы можете прочесть документацию посвящённую специфике использования wpa_supplicant на OpenBSD,
+но я постарался написать эту статью так чтобы в этом не было особой нужды.
+</p>
+
+<pre class="cmdbox">more /usr/local/share/doc/pkg_readmes/wpa_supplicant
+</pre>
+
+
+<h3 id="Ifconfig">Подключение при помощи ifconfig</h3>
+
+<p>
+Перед тем как аутенфецироваться в сети eduroam, к ней нужно подключиться.
+Управление сетевыми интерфейсами в OpenBSD осуществляется утилитой ifconfig.
+Скрипт /etc/nestart парсит файлы <a href="https://man.openbsd.org/hostname.if">hostname.if</a> вызывает ifconfig cоответсвующими аргументами.
+Для подключения к сети eduroam в hostname.if нужно вписать
+</p>
+<pre class="cmdbox">
+join "eduroam" wpa wpakms 802.1x
+up
+dhcp
+inet6 autoconf
+</pre>
+
+
+<h3 id="Authentication"> Аутентификация с wpa_supplicant</h3>
+
+<p>
+В файл /etc/wpa_supplicant.conf пишем
+</p>
+
+<pre class="cmdbox">
+network={
+	ssid="eduroam"
+	key_mgmt=WPA-EAP
+	eap=PEAP
+	identity="номер_студенческого@bsuir.by"
+	password="пароль_от_иис"
+}
+</pre>
+
+<p>
+После этого можно добавить в автозагрузку и запустить wpa_supplicant с помощью rcctl:
+</p>
+<pre class="cmdbox">
+rcctl enable wpa_supplicant
+rcctl start wpa_supplicant
+</pre>
+
+<p>
+По правде говоря, мне первые несколько раз чтобы удостовериться в работе приходилось запускать
+вручную и смотреть вывод. От рута:
+</p>
+
+<pre class="cmdbox">/usr/local/sbin/wpa_supplicant -c /etc/wpa_supplicant.conf -s -D openbsd -i iwm0 
+</pre>
+
+<h3 id="Result">Результат</h3>
+<p>
+После всех проведённых манипуляций у вас будет подключение к интернету через wi-fi.
+Можете проверить увидев в выводе ifconfig у соотвествующего сетевого интерфейса статус active
+или открыв страницу университета в браузере.
+</p>
+
+<h3 id="Troubleshooting"> Возможные проблемы</h3>
+<h4 id="Unwind">Unwind</h4>
+<p>
+Я использую unwind, это валидирующий dns резолвер для локалхоста.
+Почему то когда я подключён к eduroam и у меня включён unwind не получается резолвить доменные имена
+( то есть получать IP-адрес из доменного имени ).
+Полноценное решение для этой проблемы я пока не нашёл, поэтому просто делаю:
+</p>
+<pre class="cmdbox">rcctl stop unwind
+</pre>
+
+
+<p>
+Если кого-то интересует, вот конфиг unwind:
+</p>
+<pre class="cmdbox">
+opennic_fwd1=94.16.114.254
+opennic_fwd2=51.77.149.139
+opennic_fwd3=81.169.136.222 
+opennic_fwd4=81.169.136.222 
+forwarder { $opennic_fwd1 $opennic_fwd2 $opennic_fwd3 $opennic_fwd4 }
+preference forwarder
+</pre>
+
+</body>
+</html>
