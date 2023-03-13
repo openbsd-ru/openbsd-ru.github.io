@@ -30,11 +30,6 @@
   <li><a href="#Ifconfig"> Подключение при помощи ifconfig</a></li>
   <li><a href="#Authentication">Аутентификация с wpa_supplicant</a></li>
   <li><a href="#Result">Результат</a></li>
-  <li><a href="#Troubleshooting">Возможные проблемы</a>
-    <ul>
-      <li><a href="#Unwind"> Unwind</a></li>
-   </ul>
-  </li>
 </ul>
 </hr>
 
@@ -151,30 +146,6 @@ rcctl start wpa_supplicant
 Можете проверить увидев в выводе ifconfig у соотвествующего сетевого интерфейса статус active
 или открыв страницу университета в браузере.
 </p>
-
-<h3 id="Troubleshooting"> Возможные проблемы</h3>
-<h4 id="Unwind">Unwind</h4>
-<p>
-Я использую unwind, это валидирующий dns резолвер для локалхоста.
-Почему то когда я подключён к eduroam и у меня включён unwind не получается резолвить доменные имена
-( то есть получать IP-адрес из доменного имени ).
-Полноценное решение для этой проблемы я пока не нашёл, поэтому просто делаю:
-</p>
-<pre class="cmdbox">rcctl stop unwind
-</pre>
-
-
-<p>
-Если кого-то интересует, вот конфиг unwind:
-</p>
-<pre class="cmdbox">
-opennic_fwd1=94.16.114.254
-opennic_fwd2=51.77.149.139
-opennic_fwd3=81.169.136.222 
-opennic_fwd4=81.169.136.222 
-forwarder { $opennic_fwd1 $opennic_fwd2 $opennic_fwd3 $opennic_fwd4 }
-preference forwarder
-</pre>
 
 </body>
 </html>
