@@ -24,4 +24,9 @@ jobs:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         
     - name: diff checker
-      run: comp_version.sh
+      run: |
+        pwd
+        ls -la
+        ./link_update.sh | grep -v README
+        ./comp_version.sh
+        ./broken_links.sh
