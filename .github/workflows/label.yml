@@ -25,6 +25,8 @@ jobs:
         
     - name: diff checker
       run: |
+        git clone https://github.com/openbsd-ru/openbsd-ru.github.io.git
+        cd openbsd-ru.github.io
         pwd
         ls -la
         ./link_update.sh | grep -v README
