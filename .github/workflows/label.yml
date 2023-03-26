@@ -29,6 +29,6 @@ jobs:
         cd openbsd-ru.github.io
         pwd
         ls -la
-        ./link_update.sh | grep -v README
-        ./comp_version.sh
-        ./broken_links.sh
+        bash ./link_update.sh | grep -v README
+        bash ./comp_version.sh
+        bash ./broken_links.sh
