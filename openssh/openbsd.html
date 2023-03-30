@@ -35,6 +35,46 @@ h3 {
 <p>
 Нижеперечисленные версии OpenSSH можно использовать в OpenBSD:
 
+<li><h3>OpenSSH 9.3: 15 марта 2023 года</h3>
+
+<p>
+<a href="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/openssh-9.3.tar.gz">
+https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/openssh-9.3.tar.gz</a>
+
+<pre>
+# cd /usr/src/usr.bin
+# tar zxvf .../openssh-9.3.tar.gz
+# cd ssh
+# make obj
+# make cleandir
+# make depend
+# make
+# make install
+# cp ssh_config sshd_config /etc/ssh # (optional)
+</pre>
+и перезапустите sshd.
+
+
+<li><h3>OpenSSH 9.2: 2 февраля 2023 года</h3>
+
+<p>
+<a href="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/openssh-9.2.tar.gz">
+https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/openssh-9.2.tar.gz</a>
+
+<pre>
+# cd /usr/src/usr.bin
+# tar zxvf .../openssh-9.2.tar.gz
+# cd ssh
+# make obj
+# make cleandir
+# make depend
+# make
+# make install
+# cp ssh_config sshd_config /etc/ssh # (optional)
+</pre>
+и перезапустите sshd.
+
+
 <li><h3>OpenSSH 9.1: 4 октября 2022 года</h3>
 
 <p>
@@ -62,6 +102,8 @@ https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/openbsd70_9.1.patch</a>
 и перезапустите sshd.
 
 <ul>
+
+
 <li><h3>OpenSSH 9.0: 8 апреля 2022 года</h3>
 
 <p>
