@@ -27,8 +27,6 @@ jobs:
       run: |
         git clone https://github.com/openbsd-ru/openbsd-ru.github.io.git
         cd openbsd-ru.github.io
-        pwd
-        ls -la
         bash ./link_update.sh | grep -v README
         bash ./comp_version.sh
         bash ./broken_links.sh
