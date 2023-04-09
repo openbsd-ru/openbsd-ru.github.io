@@ -37,9 +37,9 @@ issue. Очень нужным и важным является самая об�
 | **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
-| **[7.2](https://www.openbsd.org/72.html)** |  Хотите перевести? | |
+| **[7.3](https://www.openbsd.org/73.html)** |  Хотите перевести? | |
 | **[Crash Reports](https://www.openbsd.org/ddb.html)** |  Хотите перевести? | |
-| **[FAQ_Upgrade Guide: 7.1 to 7.2](https://www.openbsd.org/faq/upgrade72.html)** |  Хотите перевести? | |
+| **[FAQ_Upgrade Guide: 7.2 to 7.3](https://www.openbsd.org/faq/upgrade73.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
