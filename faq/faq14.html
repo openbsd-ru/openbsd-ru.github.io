@@ -506,38 +506,38 @@ $ <b>man -k -s 8 mount</b>
 <!-- XXXrelease - update if raid booting capabilities change -->
 Поддерживаемые дисциплины softraid:
 
-+<table class="zebra">
-+  <thead>
-+    <tr>
-+      <th>Level
-+      <th>Description
-+      <th>Bootable on
-+  </thead>
-+  <tr>
-+    <td>RAID0
-+    <td>чередование
-+    <td>---
-+  <tr>
-+    <td>RAID1
-+    <td>зеркалирование
-+    <td>amd64, arm64, i386, sparc64
-+  <tr>
-+    <td>RAID1C
-+    <td>зеркалирование с шифрованием
-+    <td>amd64, arm64, sparc64
-+  <tr>
-+    <td>RAID5
-+    <td>чередование блоков данных и контролем чётности
-+    <td>---
-+  <tr>
-+    <td>CONCAT
-+    <td>конкатенация без избыточности, аналогично JBOD
-+    <td>---
-+  <tr>
-+    <td>CRYPTO
-+    <td>шифрование диска
-+    <td>amd64, arm64, i386, sparc64
-+</table>
+<table class="zebra">
+  <thead>
+    <tr>
+      <th>Level
+      <th>Description
+      <th>Bootable on
+  </thead>
+  <tr>
+    <td>RAID0
+    <td>чередование
+    <td>---
+  <tr>
+    <td>RAID1
+    <td>зеркалирование
+    <td>amd64, arm64, i386, sparc64
+  <tr>
+    <td>RAID1C
+    <td>зеркалирование с шифрованием
+    <td>amd64, arm64, sparc64
+  <tr>
+    <td>RAID5
+    <td>чередование блоков данных и контролем чётности
+    <td>---
+  <tr>
+    <td>CONCAT
+    <td>конкатенация без избыточности, аналогично JBOD
+    <td>---
+  <tr>
+    <td>CRYPTO
+    <td>шифрование диска
+    <td>amd64, arm64, i386, sparc64
+</table>
 
 <p>
 Настройка диска может варьироваться от платформы к платформе.
@@ -563,7 +563,7 @@ $ <b>man -k -s 8 mount</b>
 сделайте следующее в консоли:
 
 <pre class="cmdbox">
-Welcome to the OpenBSD/amd64 7.2 installation program.
+Welcome to the OpenBSD/amd64 7.3 installation program.
 (I)nstall, (U)pgrade, (A)utoinstall or (S)hell? <b>s</b>
 # <b>cd /dev</b>
 # <b>sh MAKEDEV sd0 sd1 sd2</b>
@@ -686,129 +686,17 @@ sd2: 10244MB, 512 bytes/sec, 20980362 sec total
 используется подсистема
 <a href="https://man.openbsd.org/softraid">softraid(4)</a> и программа
 <a href="https://man.openbsd.org/bioctl">bioctl(8)</a>.
-В этом разделе описан пример установки OpenBSD на один зашифрованный диск. Этот
-процесс очень похож на предыдущий.
+Инсталлятор OpenBSD предоставляет способ установки системы на полностью
+зашифрованный диск с использованием passphrase для его разблокировки.
 
 <p>
-Выберете <code>(S)hell</code> во время установки чтобы перейти в консоль.
-
-<pre class="cmdbox">
-Welcome to the OpenBSD/amd64 7.2 installation program.
-(I)nstall, (U)pgrade, (A)utoinstall or (S)hell? <b>s</b>
-</pre>
-
-Далее, после этого, вам будет предоставлен shell, из которого вы сможете
-работать с дисками. В этом примере мы установим <code>sd0</code> SATA
-диск, удалив все его предыдущее содержимое.
+В качестве альтернативы использования passphrase можно использовать ключ,
+хранящийся на отдельном устройстве (например, на USB-накопителе),
+чтобы разблокировать зашифрованный диск.
 
 <p>
-Так как установщик по умолчанию видит не все устройства, убедитесь,
-что устройство <code>/dev/sd0</code> распознано:
-
-<pre class="cmdbox">
-# <b>cd /dev && sh MAKEDEV sd0</b>
-</pre>
-
-Неплохой идеей будет запись случайных данных на диск. Это делается следующим
-образом:
-
-<pre class="cmdbox">
-# <b>dd if=/dev/urandom of=/dev/rsd0c bs=1m</b>
-</pre>
-
-Это может быть очень долгим (time-consuming) процессом, в зависимости от
-скорости вашего процессора, а также скорости и размера диска. Если вы не
-запишите случайные данные на весь диск, злоумышленник может определить,
-сколько используется места на диске.
-
-<p>
-Далее, инициализируйте диск при помощи
-<a href="https://man.openbsd.org/fdisk">fdisk(8)</a> и создайте
-softraid раздел при помощи
-<a href="https://man.openbsd.org/disklabel">disklabel(8)</a>.
-
-<p>
-Если вы загружаетесь с MBR, сделайте:
-
-<pre class="cmdbox">
-# <b>fdisk -iy sd0</b>
-</pre>
-
-Если же вы используете GPT для UEFI, сделайте:
-
-<pre class="cmdbox">
-# <b>fdisk -gy -b 532480 sd0</b>
-</pre>
-
-Далее, создайте таблицу разделов:
-
-<pre class="cmdbox">
-# <b>disklabel -E sd0</b>
-Label editor (enter '?' for help at any prompt)
-sd0> <b>a a</b>			<!-- sparc64 users MUST use 'a a' here -->
-offset: [64]
-size: [39825135] <b>*</b>
-FS type: [4.2BSD] <b>RAID</b>
-sd0*> <b>w</b>
-sd0> <b>q</b>
-No label changes.
-</pre>
-
-В этом примере мы будем использовать весь диск. Помните, что зашифрованный
-диск можно разбить на несколько разделов, как и обычный жесткий диск.
-
-<p>
-Теперь мы можем создать зашифрованное устройство на нашем разделе «а».
-
-<pre class="cmdbox">
-# <b>bioctl -c C -l sd0a softraid0</b>
-New passphrase:
-Re-type passphrase:
-sd1 at scsibus2 targ 1 lun 0: &lt;OPENBSD, SR CRYPTO, 005&gt; SCSI2 0/direct fixed
-sd1: 19445MB, 512 bytes/sector, 39824607 sectors
-softraid0: CRYPTO volume attached as sd1
-</pre>
-
-Вместо passphrase вы можете
-<a href="#softraidFDEkeydisk">использовать и keydisk</a>.
-
-<p>
-Удостоверьтесь, что устройство <code>/dev/sd1</code> распознано системой:
-
-<pre class="cmdbox">
-# <b>cd /dev && sh MAKEDEV sd1</b>
-</pre>
-
-Все данные, записанные на <code>sd1</code>, теперь будут зашифрованы при
-помощьи AES в режиме XTS.
-
-<p>
-Как и в предыдущем примере, мы перезапишем первый мегабайт нашего нового
-псевдо-устройства.
-
-<pre class="cmdbox">
-# <b>dd if=/dev/zero of=/dev/rsd1c bs=1m count=1</b>
-</pre>
-
-Введите команду <code>exit</code>, чтобы вернуться в программу-установщик,
-затем выберите это новое устройство для установки.
-
-<pre class="cmdbox">
-[...]
-Available disks are: sd0 sd1.
-Which disk is the root disk? ('?' for details) [sd0] <b>sd1</b>
-</pre>
-
-Во время загрузки вам будет предложено ввести passphrase, в остальном процесс
-загрузки проходит как и обычно.
-
-<h4 id="softraidFDEkeydisk">Использование keydisk</h4>
-
-В качестве альтернативы использованию passphrase можно использовать ключ,
-хранящийся на другом отдельном устройстве (например, на USB-накопителе).
-
-<p>
-Инициализируйте ваш keydisk при помощи
+В <code>(S)hell</code> приглашении установщика
+инициализируйте ваш keydisk при помощи
 <a href="https://man.openbsd.org/fdisk">fdisk(8)</a>, затем используйте
 <a href="https://man.openbsd.org/disklabel">disklabel(8)</a>, чтобы создать
 раздел RAID объемом 1 МБ для ключа.
@@ -836,9 +724,8 @@ softraid0: CRYPTO volume attached as sd2
 
 <h3 id="softraidCrypto">Шифрование внешних дисков</h3>
 
-В этом разделе объясняется, как вы можете настроить зашифрованный softraid
-для внешнего USB-накопителя. Если вы уже прочитали раздел о шифровании диска,
-то согласитесь, что разница тут совсем не большая.
+В этом разделе объясняется, как настроить зашифрованный softraid
+для внешнего USB-накопителя.
 Схема шагов выглядит следующим образом:
 
 <ul>
