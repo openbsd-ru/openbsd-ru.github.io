@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang=ru id=faq>
+
+<title>OpenBSD PF: маркировка пакетов (политика фильтрации)</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/faq/pf/tagging.html">
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+PF: маркировка пакетов (политика фильтрации)
+<small>
+<a href="index.html">[Содержание]</a>
+</small>
+</h2>
+<hr>
+
+<ul>
+  <li><a href="#intro"    >Введение</a>
+  <li><a href="#assign"   >Присваивание маркера пакетам</a>
+  <li><a href="#check"    >Проверка присвоенных маркеров</a>
+  <li><a href="#policy"   >Политика фильтрации</a>
+  <li><a href="#ethernet" >Маркировка Ethernet фреймов</a>
+</ul>
+<hr>
+
+<h2 id="intro">Введение</h2>
+
+Packet tagging — это способ маркировки пакетов внутренним идентификатором,
+который впоследствии можно использовать как критерий в правилах фильтрации
+и трансляции. С помощью маркеров (тегов, tags) можно делать такие вещи,
+как создание «доверительных отношений» между интерфейсами и определение
+того, были ли пакеты обработаны правилами трансляции.
+Также можно отказаться от фильтрации на основе правил и начать применять
+policy-based filtering (фильтрацию на основе политик).
+
+<h2 id="assign">Присваивание маркера (tags) пакетам</h2>
+
+Для присваивания маркера пакету используйте ключевое слово <code>tag</code>:
+
+<pre class="cmdbox">
+pass in on $int_if all tag INTERNAL_NET
+</pre>
+
+Маркер <code>INTERNAL_NET</code> будет добавлен любому пакету, который
+соответствует приведенному выше правилу. 
+
+<p>
+Маркер также может быть присвоен при помощи
+<a href="macros.html#macros">macro</a>.
+Например:
+
+<pre class="cmdbox">
+name = "INTERNAL_NET"
+pass in on $int_if all tag $name
+</pre>
+
+Существует набор предопределенных макросов, которыми также можно
+воспользоваться.
+
+<ul>
+  <li><code>$if</code>      - Интерфейс
+  <li><code>$srcaddr</code> - IP адрес отправителя
+  <li><code>$dstaddr</code> - IP адрес получателя
+  <li><code>$srcport</code> - Номер порта отправителя
+  <li><code>$dstport</code> - Номер порта получателя
+  <li><code>$proto</code>   - Протокол
+  <li><code>$nr</code>      - Номер правила
+</ul>
+
+Эти макросы преобразовываются в момент загрузки правил,
+а НЕ во время выполнения.
+
+<p>
+Маркировка следует правилам:
+
+<ul>
+  <li>Маркер является "липким".
+      Однажды присвоенный пакету с помощью правила,
+      которому он соответствует, маркер никогда не будет удален.
+      Однако, он может быть заменен другим маркером.
+  <li>Из-за свойства маркера "прилипать", пакет может иметь маркер,
+      даже если последнее правило, которому соответствует пакет,
+      не использует ключевое слово <code>tag</code>.
+  <li>Одновременно пакету может быть присвоен только один маркер.
+  <li>Маркеры - это <i>внутренние</i> идентификаторы.
+      Маркеры не будут переданы вовне по каналам связи.
+  <li>Имена маркеров могут быть длиной до 63 символов.
+</ul>
+
+Приведем следующий набор правил в качестве примера.
+
+<pre class="cmdbox">
+pass in on $int_if tag INT_NET
+pass in quick on $int_if proto tcp to port 80 tag INT_NET_HTTP
+pass in quick on $int_if from 192.168.1.5
+</pre>
+
+<ul>
+  <li>Пакетам, приходящим на интерфейс <code>$int_if</code>,
+      будет присвоен маркер <code>INT_NET</code> из первого правила.
+  <li>TCP пакетам, которые получил интерфейс <code>$int_if</code>,
+      и направленным на порт 80, сначала будет присвоен маркер
+      <code>INT_NET</code>, как сказано в первом правиле.
+      Затем маркер будет заменен на <code>INT_NET_HTTP</code> как
+      следует из второго правила.
+  <li>Пакеты, которые поступают на интерфейс <code>$int_if</code>
+      от 192.168.1.5 будут помечены одним из двух способов.
+      Если пакет направлен на 80/TCP порт, то он соответствует второму
+      правилу и будет помечен маркером <code>INT_NET_HTTP</code>.
+      В противном случае пакет соответствует третьему правилу, но
+      будет помечен маркетом <code>INT_NET</code>.
+      Так как пакет соответствует первому правилу, будет присвоен маркер
+      <code>INT_NET</code>, и он не будет удален впоследствии, если он
+      не попадет в правила, определяющие маркер
+      (это свойство и назвается "липкостью" маркера).
+</ul>
+
+<h2 id="check">Проверка присвоенных маркеров</h2>
+
+Для проверки ранее примененных маркеров используйте ключевое слово
+<code>tagged</code>:
+
+<pre class="cmdbox">
+pass out on egress tagged INT_NET
+</pre>
+
+Пакеты, исходящие из внешнего интерфейса, должны быть помечены
+тегом <code>INT_NET</code>, чтобы соответствовать приведенному
+выше правилу.
+Обратное сопоставление также можно выполнить при помощи оператора
+<code>!</code>:
+
+<pre class="cmdbox">
+pass out on egress ! tagged WIFI_NET
+</pre>
+
+<h2 id="policy">Политика фильтрации</h2>
+
+Фильтрация на основе политик (policy filtering) применяет другой подход
+для описания набора фильтров.
+Политика определяет какие наборы правил для какого типа трафика разрешаются,
+а для какого блокируются.
+Затем пакеты классифицируются политикой, основанной на обычных критериях:
+IP адрес/порт источника/приемника, протокол, и др.
+Например рассмотрим следующую политику файрвола:
+
+<ul>
+  <li>Трафик из внутренней локальной сети в интернет разрешен (LAN_INET)
+      и должен быть переведен (LAN_INET_NAT).
+  <li>Трафик из внутренней LAN в DMZ разрешен (LAN_DMZ).
+  <li>Трафик из интернета на серверы в DMZ разрешен (INET_DMZ).
+  <li>Трафик из интернета, который перенаправляется на
+      <a href="https://man.openbsd.org/spamd">spamd(8)</a>, разрешен (SPAMD).
+  <li>Весь остальной трафик заблокирован.
+</ul>
+
+Обратите внимание, что политика распространяется на <i>весь</i> трафик,
+проходящий через файервол.
+Элемент в скобках указывает тег, который будет использоваться для этого
+элемента политики.
+
+<p>
+Опишем правила для классификации пакетов в соответствии с политикой.
+
+<pre class="cmdbox">
+block all
+pass out on egress inet tag LAN_INET_NAT tagged LAN_INET nat-to ($ext_if)
+pass in  on $int_if from $int_net tag LAN_INET
+pass in  on $int_if from $int_net to $dmz_net tag LAN_DMZ
+pass in  on egress proto tcp to $www_server port 80 tag INET_DMZ
+pass in  on egress proto tcp from &lt;spamd&gt; to port smtp tag SPAMD rdr-to 127.0.0.1 port 8025
+</pre>
+
+Теперь правила, которые определяют политику.
+
+<pre class="cmdbox">
+pass in  quick on egress  tagged SPAMD
+pass out quick on egress  tagged LAN_INET_NAT
+pass out quick on $dmz_if tagged LAN_DMZ
+pass out quick on $dmz_if tagged INET_DMZ
+</pre>
+
+Теперь, когда весь набор правил настроен, изменения заключаются в
+изменении правил классификации.
+Например, если в демилитаризованную зону добавляется POP3/SMTP-сервер,
+необходимо будет добавить правила классификации для POP3- и SMTP-трафика,
+например:
+
+<pre class="cmdbox">
+mail_server = "192.168.0.10"
+[...]
+pass in on egress proto tcp to $mail_server port { smtp, pop3 } tag INET_DMZ
+</pre>
+
+Email трафик теперь будет передаваться как часть записи политики INET_DMZ.
+
+<p>
+Полный набор правил:
+
+<pre class="cmdbox">
+int_if      = "dc0"
+dmz_if      = "dc1"
+int_net     = "10.0.0.0/24"
+dmz_net     = "192.168.0.0/24"
+www_server  = "192.168.0.5"
+mail_server = "192.168.0.10"
+
+table &lt;spamd&gt; persist file "/etc/spammers"
+# classification -- classify packets based on the defined firewall policy.
+block all
+pass out on egress inet tag LAN_INET_NAT tagged LAN_INET nat-to (egress)
+pass in on $int_if from $int_net tag LAN_INET
+pass in on $int_if from $int_net to $dmz_net tag LAN_DMZ
+pass in on egress proto tcp to $www_server port 80 tag INET_DMZ
+pass in on egress proto tcp from &lt;spamd&gt; to port smtp tag SPAMD rdr-to 127.0.0.1 port 8025
+
+# policy enforcement -- pass/block based on the defined firewall policy.
+pass in  quick on egress  tagged SPAMD
+pass out quick on egress  tagged LAN_INET_NAT
+pass out quick on $dmz_if tagged LAN_DMZ
+pass out quick on $dmz_if tagged INET_DMZ
+</pre>
+
+<h2 id="ethernet">Маркировка Ethernet фреймов</h2>
+
+Маркировка может быть выполнена на уровне Ethernet, если машина,
+выполняющая маркировку/фильтрацию, также используется как
+<a href="https://man.openbsd.org/bridge.4">bridge(4)</a>.
+Создавая правила фильтрации моста, использующие ключевое слово
+<code>tag</code>, PF можно настроить на фильтрацию на основе
+исходного или целевого MAC-адреса.
+Правила моста создаются при помощи команды
+<a href="https://man.openbsd.org/ifconfig">ifconfig(8)</a>:
+
+<pre class="cmdbox">
+# <b>ifconfig bridge0 rule pass in on fxp0 src 0:de:ad:be:ef:0 tag USER1</b>
+</pre>
+
+После чего в файле <code>pf.conf</code>:
+
+<pre class="cmdbox">
+pass in on fxp0 tagged USER1
+</pre>
