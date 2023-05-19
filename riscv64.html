@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang=ru id=platform>
+<meta charset=utf-8>
+
+<title>OpenBSD/riscv64</title>
+<meta name="description" content="the OpenBSD/riscv64 page">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/riscv64.html">
+
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+riscv64
+</h2>
+<hr>
+
+<table><tr><td>
+<p>
+OpenBSD/riscv64 это порт OpenBSD для различных 64-битных RISC-V систем.
+
+</table>
+
+<hr>
+
+<h3 id="status"><strong>Текущее состояние</strong></h3>
+
+<p>
+
+В настоящее время работа ведется над платформой HiFive Unmatched.
+
+<p>
+Для установки системы на HiFive Unmatched просто запишите
+install/miniroot образ на USB-флешку и загрузитесь с нее.
+Убедитесь, что у вас также подключена microSD карта, поставляемая с
+HiFive Unmatched. Управление должно автоматически быть переданно
+загрузчику OpenBSD, который загрузит установочное (bsd.rd RAMDISK)
+ядро.
+
+<h3 id="hardware"><strong>Поддерживаемое железо</strong></h3>
+
+<p>
+OpenBSD/riscv64 работает на следующем железе:
+
+<ul>
+	<li>SiFive
+	<ul>
+		<li><a href="https://www.sifive.com/boards/hifive-unmatched">HiFive Unmatched</a>
+	</ul>
+	<li>StarFive
+	<ul>
+		<li>StarFive VisionFive и VisionFive 2
+		<li><strong>Внимание:</strong> для загрузки OpenBSD возможно понадобится покрутить настройки некоторых firmware.
+	</ul>
+	<li>Microsemi
+	<ul>
+		<li><a href="https://www.microsemi.com/product-directory/soc-fpgas/5498-polarfire-soc-fpga">PolarFire SoC Icicle Kit</a>
+		<li><strong>Внимание:</strong> работа над поддержкой PolarFire SoC Icicle Kit не завершена.
+	</ul>
+</ul>
+
+<h4>Ethernet</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/riscv64/cad.4">cad(4)</a>
+	  встроенный контроллер Cadence Gigabit Ethernet
+	<li><a href="https://man.openbsd.org/riscv64/dwqe.4">dwqe(4)</a>
+	  Synopsys DesignWare Ethernet Quality-of-Service контроллер
+</ul>
+
+<h4>Storage</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/riscv64/dwmmc.4">dwmmc(4)</a>
+	  используется на StarFive VisionFive/VisionFive 2
+	<li><a href="https://man.openbsd.org/riscv64/nvme.4">nvme(4)</a>
+	  используется на HiFive Unmatched и VisionFive 2
+</ul>
+
+<h4>USB</h4>
+<ul>
+	<li><a href="https://man.openbsd.org/riscv64/xhci.4">xhci(4)</a>
+	  используется на HiFive Unmatched и StarFive VisionFive/VisionFive 2
+</ul>
+
+<h3 id="install">
+<strong>Загрузка и установка OpenBSD/riscv64:</strong>
+</h3>
+
+<p>
+Последним поддерживаемым релизом OpenBSD/riscv64 является
+<a href="https://www.openbsd.org/74.html">OpenBSD 7.4</a>.
+Здесь можно найти
+<a href="https://ftp.openbsd.org/pub/OpenBSD/7.4/riscv64/INSTALL.riscv64">
+OpenBSD/riscv64 руководство по установке</a>.
+
+<p>
+Новые снапшоты выкладываются время от времени на
+<a href="https://cdn.openbsd.org/pub/OpenBSD/snapshots/riscv64">нашем сервере</a>
+и на нескольких
+<a href="ftp.html">зеркалах</a>.
+Тут описан процесс
+<a href="https://ftp.openbsd.org/pub/OpenBSD/snapshots/riscv64/INSTALL.riscv64">
+установки снапшота OpenBSD/riscv64</a>.
