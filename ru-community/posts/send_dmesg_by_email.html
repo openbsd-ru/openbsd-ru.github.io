@@ -1,0 +1,91 @@
+<!doctype html>
+<!-- Author email: karakin2000@gmail.com -->
+
+<html lang=ru>
+  <head>
+    
+    <title>Как отправить dmesg через OpenBSD mail</title>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-nwidth, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../../openbsd.css">
+    
+    <style>
+    </style>
+    
+  </head>
+  
+  <body>
+    <h2 id=OpenBSD>
+      <a href="../../index.html">
+	<i>Open</i><b>BSD</b></a>
+      Как отправить dmesg через OpenBSD mail
+    </h2>
+    <hr>
+    <ul>
+      <li><a href="#Abstract">Предисловие</a></li>
+      <li><a href="#EmailProvider">Настройка почтового ящика</a></li>
+    </ul>
+    </hr>
+    <h3 id="Abstract">Предисловие</h3>
+    <p>
+      Здесь будет описано как настроить штатный SMTP-сервер OpenBSD
+      <a href="https://www.opensmtpd.org">OpenSMTPD</a>
+      таким образом, чтобы можно было сразу после устновки ОС отправить письмо
+      с помощью входящей в базовую систему утилиты mail.
+    </p>
+    <p>
+      Это позволит отправить письмо содержащие вывод команды dmesg по адресу <b>dmesg@openbsd.org</b>,
+      а также использовать утилиту
+      <a href="https://man.openbsd.org/sendbug">sendbug</a>
+      для отправки сообщейний о неполадках.
+      А настроив соотвествующим образом git можно будет отправлять письма,
+      содержащие изменения исходного кода прямо из этой системы контроля версий.
+    </p>
+    <p>
+      Тем не менее назвать это полноценной найстройкой SMTP-сервера можно едва ли.
+      В этой статье OpenSMTPD используется также как и какой-нибудь email-клиент,
+      только отправляет письмо по протоколу SMTP на сервер провайдера электронной почты.
+      Более сложные конфигурации и скачивание писем с сервера провайдера электронной почты
+      в статье не рассмотрены. Не будет также примёров использования с провайдерами электронной почты
+      protonmail и tutanota, так как они не позволяют использовать сторонний email-клиент без
+      найстройки моста между клиентом и сервером.
+    </p>
+    <h3 id="EmailProvider">Настройка почтового ящика</h3>
+    <p>
+      Какой бы провайдер электронной почты вами не был бы выбран,
+      вам потребуется открыть веб-интерфейс почтового ящика и в настройках включить использование
+      стороннего клиента электронной почты, а затем получить пароль приложения для email-клиента.
+    </p>
+    
+    <details>
+      <summary>gmail</summary>
+      <p>
+	...
+      </p>
+    </details>
+
+    <details>
+      <summary>yandex mail</summary>
+      <p>
+	...
+      </p>
+    </details>
+    
+    <details>
+      <summary>elude.in</summary>
+      <p>
+	...
+      </p>
+    </details>
+    
+    <details>
+      <summary>disroot</summary>
+      <p>
+	...
+      </p>
+    </details>
+
+  </body>
+  
+  
+</html>
