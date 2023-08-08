@@ -8,10 +8,6 @@
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-nwidth, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="../../openbsd.css">
-    
-    <style>
-    </style>
-    
   </head>
   
   <body>
@@ -24,8 +20,10 @@
     <ul>
       <li><a href="#Abstract">Предисловие</a></li>
       <li><a href="#EmailProvider">Настройка почтового ящика</a></li>
+      <li><a href="#OpenSMTPD">Найстрока OpenSMTPD</a></li>
+      <li><a href="#git-send-email">Отправка письмом коммита из git</a></li>
     </ul>
-    </hr>
+    <hr>
     <h3 id="Abstract">Предисловие</h3>
     <p>
       Здесь будет описано как настроить штатный SMTP-сервер OpenBSD
@@ -84,7 +82,93 @@
 	...
       </p>
     </details>
+    <h3 id="OpenSMTPD">Настройка OpenSMTPD</h3>
+    <p>
+      Для начала создаём файл, в котором разместим почтовый адрес и полученный пороль приложений.
+      Cоздаём так, чтобы права на него были только у почтового сервера.
+    </p>
+    <pre class="cmdbox">
+touch /etc/mail/secrets
+chmod 640 /etc/mail/secrets
+chown root:_smtpd /etc/mail/secrets
+echo "bob username:password" > /etc/mail/secrets</pre>
+    <p>
+      Далее настроим сам почтовый сервер отредактировав файл /etc/mail/smtpd.conf
+      Вы также могли бы ознакомиться с принципами его найстройки прочтя мануал с соотвествующим названим.
+      Я буду постпенно объяснять каждую необходимую строчку конфигурации.
+    </p>
+    
+    <p>
+      Здесь включаем файлы с таблицами сопоставления,
+      одна из которых содержит наш логин и пароль приложения.    
+   </p>
 
+    <pre class="cmdbox">
+table aliases file:/etc/mail/aliases
+table secrets file:/etc/mail/secrets</pre>
+
+    <p>
+      Указываем smtpd на каком сетевом интерфейсе слушать подключения.
+      В данном случае на loopback сетевом интерфейсе,
+      доступным только изнутри и возвращающем пакеты назад на localhost.
+    </p>
+    <pre class="cmdbox">
+listen on lo0</pre>
+
+    <p>
+      В конфиге уже будет указана деректива для отправки писем на локалхост.
+      В этих письмах чаще всего оказывается информация от скриптов запускаемых cron.
+      Таких как <a href="https://man.openbsd.org/security">security(8)</a> например.
+      Здесь также можно выбрать формат храниния, заменив mailbox, на maildir.
+      Добавляем дерективу для перенаправлению писем на smtp сервер выбранного почтового провайдера.
+    </p>
+
+    <pre class="cmdbox">
+action "local_mail" mbox alias &ltalias&gt
+action "outbound" relay host smtp+tls://bob@smtp.example.com:587 \
+      auth &ltsecrets&gt </pre>
+
+    <p>
+      Также в конфиге скорее всего есть деректива соотвествия для доставки письма
+      с локалхоста на локалхост.
+      Добавляем дерективу, которая укажет соответвие для перенаправления всех отправленных с локалхоста,
+      на внешний адресс.
+    </p>
+    
+    <pre class="cmdbox">
+match from local for local action "local_mail"
+match from local for any action "outbound"</pre>
+
+    <p>
+      С этого момента вы можете отправить dmesg используя
+      поставляемый с операционный системой почтовый клиент.
+      Как это сделать <a href="https://www.openbsd.org/faq/faq4.html#SendDmesg">описано</a> в официальной документации.
+      В также можете использовать штатную утилиту для сообщения о неполадках — <a href="https://man.openbsd.org/sendbug">sendbug</a>.
+    </p>
+ 
+    <h3 id="git-send-email">Отправка письмом коммита из git</h3>
+    <p>
+      Устанавливаем необходимые пакеты.
+    </p>
+    <pre class="cmdbox">
+pkg_add git p5-Authen-SASL p5-Net-SMTP-SSL</pre>
+    <p>
+      В файле конфигурации системы контроля версий git указываем использовать программу,
+      которая добавит наш коммит в очередь почтового клиента.
+      Расположение этого файла можно узнать из <a href="https://git-scm.com/docs/git-config#FILES">документации</a>.
+      </p>
+      <pre class="cmdbox">
+[sendemail]
+    smtpserver = /usr/sbin/sendmail</pre>
+<p>
+  Теперь вы можете также использовать git send-email.
+  Некоторым проектам, вроде ядра Линукс удобнее принимать патчи по электронной почте,
+  а не <a href="https://github.com/torvalds/linux/pull/17#issuecomment-5654674">pull request</a>.
+  А разработка OpenBSD в принципе подразумевает, что перед получением доступа к системе контроля версий
+  CVS вы отправили некоторое количество патчей по почте в соответствующий мейлинлист.
+  <a href="https://git-send-email.io/#step-3">Здесь</a> вы можете попробовать этот способ взаимодествия с реальным репозиторием, а <a href="https://git-scm.com/docs/git-send-email">здесь</a> ознакомиться с документацией.
+  </p>
+    
   </body>
   
   
