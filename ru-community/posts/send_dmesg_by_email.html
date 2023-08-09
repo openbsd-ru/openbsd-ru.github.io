@@ -83,7 +83,7 @@
 touch /etc/mail/secrets
 chmod 640 /etc/mail/secrets
 chown root:_smtpd /etc/mail/secrets
-echo "bob username:password" > /etc/mail/secrets
+echo "bob coolbob@example.com:password" > /etc/mail/secrets
     </pre>
 
       Далее настроим сам почтовый сервер отредактировав файл /etc/mail/smtpd.conf
@@ -111,7 +111,7 @@ listen on lo0
       В этих письмах чаще всего оказывается информация от скриптов запускаемых cron.
       Таких как <a href="https://man.openbsd.org/security">security(8)</a> например.
       Здесь также можно выбрать формат храниния, заменив mailbox, на maildir.
-      Добавляем дерективу для перенаправлению писем на smtp сервер выбранного почтового провайдера.
+      Добавляем директиву для перенаправлению писем на smtp сервер выбранного почтового провайдера.
 
     <pre class="cmdbox">
 action "local_mail" mbox alias &ltalias&gt
@@ -121,7 +121,7 @@ action "outbound" relay host smtp+tls://bob@smtp.example.com:587 \
     <p>
       Также в конфиге скорее всего есть деректива соотвествия для доставки письма
       с локалхоста на локалхост.
-      Добавляем дерективу, которая укажет соответвие для перенаправления всех отправленных с локалхоста,
+      Добавляем директиву, которая укажет соответвие для перенаправления всех отправленных с локалхоста,
       на внешний адресс.
     
     <pre class="cmdbox">
