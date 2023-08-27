@@ -28,7 +28,7 @@ issue. Очень нужным и важным является самая об�
 | Материал к переводу | Ответственный | Комментарий |
 | --- | --- | --- |
 | **[FAQ#PF_User Shell for Authenticating Gateways (authpf)](https://www.openbsd.org/faq/pf/authpf.html)** | Хотите перевести?| |
-| **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | Хотите перевести? | |
+| **[FAQ#PF_Packet Filtering](https://www.openbsd.org/faq/pf/filter.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#PF_Network Address Translation](https://www.openbsd.org/faq/pf/nat.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | Хотите перевести? | |
 | **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | Хотите перевести? | |
