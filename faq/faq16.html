@@ -99,12 +99,12 @@ $ <b>dmesg | egrep '(VMX/EPT|SVM/RVI)'</b>
 
 В следующем примере будет создана виртуальная машина с 50 ГБ
 дискового пространства и 1 ГБ ОЗУ.
-Онa загрузится из образа <code>install73.iso</code>.
+Онa загрузится из образа <code>install74.iso</code>.
 
 <pre class="cmdbox">
 # <b>vmctl create -s 50G disk.qcow2</b>
 vmctl: qcow2 imagefile created
-# <b>vmctl start -m 1G -L -i 1 -r install73.iso -d disk.qcow2 example</b>
+# <b>vmctl start -m 1G -L -i 1 -r install74.iso -d disk.qcow2 example</b>
 vmctl: started vm 1 successfully, tty /dev/ttyp8
 # <b>vmctl show</b>
    ID   PID VCPUS  MAXMEM  CURMEM     TTY        OWNER NAME
