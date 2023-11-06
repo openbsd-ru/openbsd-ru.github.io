@@ -28,7 +28,7 @@ PF - Преобразование сетевых адресов (Network Address
   <li><a href="#ipfwd"  >IP перенаправление</a>
   <li><a href="#config" >Настройка NAT</a>
   <li><a href="#binat"  >Bidirectional Mapping (1:1 Mapping)</a>
-  <li><a href="#except" >Translation Rule Exceptions</a>
+  <li><a href="#except" >Исключения правил трансляции</a>
   <li><a href="#status" >Проверка состояния NAT</a>
 </ul>
 
@@ -66,8 +66,8 @@ OpenBSD, используемая для преобразования сетев
 интернете, она отправляет, предназначенные для этой машины, IP-пакеты.
 Эти пакеты содержат информацию, необходимую для того, чтобы удаленная
 машина получила их.
-NAT связывает такую информацию как: IP-адрес клиентской машины и
-TCP- или UDP-порт, используемый клиентской машиной.
+NAT связывает такую информацию таким образом: IP-адрес клиентской
+машины и TCP- или UDP-порт, используемый клиентской машиной.
 
 <p>
 Когда пакеты проходят через шлюз NAT (NAT gateway), они изменяются
@@ -86,7 +86,7 @@ TCP- или UDP-порт, используемый клиентской маши
 
 Ни внутренняя клиентская машина, ни интернет-хост не знают об этих
 изменениях. Для клиента NAT - это просто интернет-шлюз.
-Для интернет-хоста пакеты, кажется, приходят непосредственно от самого NAT.
+Для интернет-хоста пакеты, кажется, приходят непосредственно от самого шлюза.
 Совершенно не известно, что внутренняя клиентская машина вообще существует.
 
 <p>
@@ -126,19 +126,19 @@ TCP- или UDP-порт, используемый клиентской маши
 
 <h2 id="config">Настройка NAT</h2>
 
-NAT is specified as an optional <code>nat-to</code> parameter to an outbound
-<code>pass</code> rule.
-Often, rather than being set directly on the <code>pass</code> rule, a
-<code>match</code> rule is used.
-When a packet is selected by a <code>match</code> rule, parameters (e.g.
-<code>nat-to</code>) in that rule are remembered and are applied to the packet
-when a <code>pass</code> rule matching the packet is reached.
-This permits a whole class of packets to be handled by a single
-<code>match</code> rule and then specific decisions on whether to allow the
-traffic can be made with <code>block</code> and <code>pass</code> rules.
+NAT указывается как необязательный <code>nat-to</code> параметр для
+исходящего <code>pass</code> правила.
+Часто вместо установки <code>pass</code> правила используется правило
+<code>match</code>.
+Когда пакет попадает под критерий правила <code>match</code>, параметры
+(например, <code>nat-to</code>) в этом правиле запоминаются и применяются
+к пакету, когда достигается <code>pass</code> правило, соответствующее пакету.
+Это позволяет обрабатывать целый класс пакетов с помощью одного правила
+<code>match</code>, а затем конкретные решения о разрешении трафика можно
+принимать с помощью правил <code>block</code> и <code>pass</code>.
 
 <p>
-The general format in <code>pf.conf</code> looks something like this:
+На практике формат конфига <code>pf.conf</code> выглядит слелующим образом:
 
 <pre class="cmdbox">
 match out on interface [af] \
@@ -152,40 +152,40 @@ pass out [log] on interface [af] [proto protocol] \
 
 <dl>
 <dt><code>match</code>
-<dd>When a packet traverses the ruleset and matches a <code>match</code>
-    rule, any optional parameters specified in that rule are remembered
-    for future use (made "sticky").
+<dd>Когда пакет, пробегая через правила фильтра, наконец попадает под
+    критерий правила <code>match</code>, любые дополнительные параметры,
+    указанные в этом правиле, запоминаются для будущего использования
+    (становятся "sticky" («прикрепленными»)).
 <p>
 <dt><code>pass</code>
-<dd>This rule allows the packet to be transmitted.
-    If the packet was previously matched by a <code>match</code> rule where
-    parameters were specified, they will be applied to this packet.
-    <code>pass</code> rules may have their own parameters; these take
-    priority over parameters specified in a <code>match</code> rule.
+<dd>Это правило разрешает передачу пакета. Если пакет ранее соответствовал
+    <code>match</code> правилу, в котором были указаны параметры, они будут
+    применены к этому пакету. Правила <code>pass</code> могут иметь свои
+    собственные параметры; они имеют приоритет над параметрами, указанными
+    в правиле <code>match</code>.
 <p>
 <dt><code>out</code>
-<dd>Specifies the direction of packet flow where this rule applies.
-    <code>nat-to</code> may only be specified for outbound packets.
+<dd>Указывает направление потока пакетов, к которому применяется это правило.
+    <code>nat-to</code> можно указывать только для исходящих пакетов.
 <p>
 <dt><code>log</code>
-<dd>Log matching packets via
+<dd>Регистрирует соответствующие пакеты через
     <a href="https://man.openbsd.org/pflogd">pflogd(8)</a>.
-    Normally, only the first packet that matches will be logged.
-    To log all matching packets, use <code>log (all)</code>.
+    Обычно регистрируется только первый соответствующий пакет.
+    Чтобы зарегистрировать все соответствующие пакеты, используйте
+    <code>log (all)</code>.
 <p>
 <dt><code><i>interface</i></code>
-<dd>The name or group of the network interface to transmit packets on.
+<dd>Имя или группа сетевых интерфейсов, по которым будут передаваться пакеты.
 <p>
 <dt><code><i>af</i></code>
-<dd>The address family, either <code>inet</code> for IPv4 or <code>inet6</code>
-    for IPv6.
-    PF is usually able to determine this parameter based on the
-    source/destination address(es).
+    <dd>Семейство адресов: <code>inet</code> для IPv4 или <code>inet6</code> для IPv6.
+    PF обычно может определить этот параметр на основе адреса(ов) источника/назначения.
 <p>
 <dt><code><i>protocol</i></code>
-<dd>The protocol (e.g. tcp, udp, icmp) of packets to allow.
-    If <i>src_port</i> or <i>dst_port</i> is specified, the protocol
-    <em>must</em> also be given.
+<dd>Протокол (например, tcp, udp, icmp) разрешенных пакетов.
+    Если указан <i>src_port</i> или <i>dst_port</i>, <em>необходимо</em> также
+    указать протокол.
 <p>
 <dt><code><i>src_addr</i></code>
 <dd>The source (internal) address of packets that will be translated.
@@ -385,27 +385,26 @@ web_serv_ext = "198.51.100.6"
 pass on tl0 from $web_serv_int to any binat-to $web_serv_ext
 </pre>
 
-<h2 id="except">Translation Rule Exceptions</h2>
+<h2 id="except">Исключения правил трансляции</h2>
 
-If exceptions to NAT rules need to be provided in some cases, make sure
-the exceptions are handled by a filter rule which does not include the
-<code>nat-to</code> parameter.
-For example, if the NAT example above was modified to look like this:
+Если в некоторых случаях необходимо предоставить исключения из правил
+NAT, убедитесь, что исключения обрабатываются правилом фильтра, которое
+не включает параметр <code>nat-to</code>.
+Например, если приведенный выше пример NAT был изменен так:
 
 <pre class="cmdbox">
 pass out on tl0 from 192.168.1.0/24 to any nat-to 198.51.100.79
 pass out on tl0 from 192.168.1.208  to any
 </pre>
 
-Then the entire 192.168.1.0/24 network would have its packets translated to
-the external address 198.51.100.79 except for 192.168.1.208.
+Тогда вся сеть 192.168.1.0/24 будет транслировать пакеты на внешний
+адрес 198.51.100.79, за исключением 192.168.1.208.
 
 <h2 id="status">Проверка состояния NAT</h2>
 
-To view the active NAT translations,
-<a href="https://man.openbsd.org/pfctl">pfctl(8)</a> is used with the
-<code>-s state</code> option.
-This option will list all the current NAT sessions:
+Для просмотра активных трансляций NAT используется
+<a href="https://man.openbsd.org/pfctl">pfctl(8)</a> с опцией <code>-s state</code>.
+Эта опция выведет список всех текущих сеансов NAT:
 
 <pre class="cmdbox">
 # <b>pfctl -s state</b>
@@ -413,40 +412,39 @@ fxp0 tcp 192.168.1.35:2132 (198.51.100.1:53136) -&gt; 198.51.100.10:22 TIME_WAIT
 fxp0 udp 192.168.1.35:2491 (198.51.100.1:60527) -&gt; 198.51.100.33:53   MULTIPLE:SINGLE
 </pre>
 
-Explanations (first line only):
+Объясним первую строку:
 
 <dl>
 <dt>fxp0
-<dd>Indicates the interface that the state is bound to.
-    The word <code>self</code> will appear if the state is
+<dd>Указывает интерфейс, к которому привязано состояние.
+    Слово <code>self</code> появится, если состояние
     <a href="options.html#state-policy"><code>floating</code></a>.
 </dl>
 <p>
 <dl>
 <dt>TCP
-<dd>The protocol being used by the connection.
+<dd>Протокол, используемый соединением.
 </dl>
 <p>
 <dl>
 <dt>192.168.1.35:2132
-<dd>The IP address (192.168.1.35) of the machine on the internal network.
-    The source port (2132) is shown after the address.
-    This is also the address that is replaced in the IP header.
+<dd>IP-адрес (192.168.1.35) интерфейса внутренней сети.
+    Исходный порт (2132) отображается после адреса.
+    Это также адрес, который заменяется (перезаписываетя) в IP-заголовке.
 </dl>
 <p>
 <dl>
 <dt>198.51.100.1:53136
-<dd>The IP address (198.51.100.1) and port (53136) on the gateway that
-    packets are being translated to.
+<dd>IP-адрес (198.51.100.1) и порт (53136) на шлюзе, на который передаются пакеты.
 </dl>
 <p>
 <dl>
 <dt>198.51.100.10:22
-<dd>The IP address (198.51.100.10) and the port (22) that the internal
-    machine is connecting to.
+<dd>IP-адрес (198.51.100.10) и порт (22), к которому подключается хост из
+    внутренней сети.
 </dl>
 <p>
 <dl>
 <dt>TIME_WAIT:TIME_WAIT
-<dd>This indicates what state PF believes the TCP connection to be in.
+<dd>Это указывает, в каком состоянии, по мнению PF, находится TCP-соединение.
 </dl>
