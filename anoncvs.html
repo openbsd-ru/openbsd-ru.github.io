@@ -37,7 +37,7 @@ OpenBSD в актуальном состоянии, учитывая измен�
 
 <ul>
   <li><b>src</b> - содержит исходники базового компонента системы
-  <li><b>ports</b> - содержит <a href="faq/ports/">дерево портов</a>
+  <li><b>ports</b> - содержит <a href="faq/ports">дерево портов</a>
   <li><b>www</b> - репозиторий с web-страницами
   <li><b>xenocara</b> - содержит исходники xenocara
 </ul>
@@ -123,14 +123,15 @@ $ <b>tar xzf /tmp/xenocara.tar.gz</b>
 
 <p>
 Следующая комада подразумевает, что вы уже входите в <code>wsrc</code>
-группу:
+группу; замените <code>anoncvs.example.org</code> на зеркало из
+<a href="#CVSROOT">списка ниже</a>.
 
 <p>
 Если вы хотите использовать -current:
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
-$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P src</b>
+$ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -P src</b>
 </pre>
 
 <p>
@@ -138,7 +139,7 @@ $ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P src</b>
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
-$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -rOPENBSD_7_4 -P src</b>
+$ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -rOPENBSD_7_4 -P src</b>
 </pre>
 <!-- DO NOT EDIT ANONCVS.HTML MANUALLY - IT IS GENERATED FROM TEMPLATES! -->
 
@@ -202,7 +203,7 @@ $ <b>cvs -q up -Pd -rOPENBSD_7_4</b>
 
 <pre class="cmdbox">
 $ <b>cd /usr/src</b>
-$ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs -q up -Pd</b>
+$ <b>cvs -d anoncvs@anoncvs.example.org:/cvs -q up -Pd</b>
 </pre>
 
 <h4>Загрузка исходников, содержащих ports и xenocara</h4>
@@ -220,7 +221,7 @@ $ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs -q up -Pd</b>
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
-$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P ports</b>
+$ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -P ports</b>
 </pre>
 
 <p>
@@ -228,7 +229,7 @@ $ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P ports</b>
 
 <pre class="cmdbox">
 $ <b>cd /usr</b>
-$ <b>cvs -qd anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -rOPENBSD_7_4 -P ports</b>
+$ <b>cvs -qd anoncvs@anoncvs.example.org:/cvs checkout -rOPENBSD_7_4 -P ports</b>
 </pre>
 
 <li> В любое время обновить это дерево можно так:
@@ -267,7 +268,7 @@ $ <b>cvs diff -u sys/scsi/cd.c &gt; /tmp/patch</b>
 
 <pre class="cmdbox">
 $ <b>cd /tmp</b>
-$ <b>cvs -d anoncvs@anoncvs.ca.openbsd.org:/cvs checkout -P src/sys/arch/sparc</b>
+$ <b>cvs -d anoncvs@anoncvs.example.org:/cvs checkout -P src/sys/arch/sparc</b>
 [copies the files from the repository to your machine]
 $ <b>cd src/sys/arch/sparc</b>
 $ <b>cvs log locore.s</b>
@@ -316,22 +317,22 @@ $ <b>cvs -d /home/cvs -q up -Pd</b>
 </pre>
 
 <!-- XXXrelease - needs an occasional update -->
-В ноябре 2019 года размер репозиториев был таким:
+В марте 2024 года размер репозиториев был таким:
 
 <pre class="cmdbox">
 $ <b>du -shc *</b>
-175M    CVSROOT
-1.1G    ports
-2.9G    src
-787M    www
-1.7G    xenocara
-6.6G    total
+224M    CVSROOT
+1.6G    ports
+3.9G    src
+936M    www
+2.3G    xenocara
+9.0G    total
 </pre>
 
 <p>
 Общий размер репозитория в настоящее время увеличивается примерно
-на <b>400</b> МБ в год. Репозиторий src увеличивается примерно на
-<b>150</b> МБ.
+на <b>530</b> МБ в год. Репозиторий src увеличивается примерно на
+<b>220</b> МБ.
 
 <h3 id="CVSROOT">Доступные анонимные CVS сервера</h3>
 
@@ -353,7 +354,7 @@ CVS-серверы позволяют подключаться на альтер
 Для использования другого порта настройте ваш ssh-клиент добавив <code>Host</code>
 секцию в <code>$HOME/.ssh/config</code>, например:
 <pre class="cmdbox">
-Host anoncvs.ca.openbsd.org
+Host anoncvs.example.org
     Port 2022
 </pre>
 
