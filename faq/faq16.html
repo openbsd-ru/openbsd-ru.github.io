@@ -231,26 +231,32 @@ pass in proto { udp tcp } from 100.64.0.0/10 to any port domain \
 Иногда вам может потребоваться дополнительный контроль
 над виртуальной сетью для ваших виртуальных машин, например,
 возможность устанавливать некоторые из них на свой виртуальный
-коммутатор. Это можно сделать с помощью интерфейса
-<a href="https://man.openbsd.org/bridge">bridge(4)</a>
-и <a href="https://man.openbsd.org/vether">vether(4)</a>.
+коммутатор. Это можно сделать при помощи интерфейсов
+<a href="https://man.openbsd.org/veb">veb(4)</a>
+и <a href="https://man.openbsd.org/vport">vport(4)</a>.
 
 <p>
-Создайте интерфейс <code>vether0</code> который будет
+Создайте интерфейс <code>vport0</code>, который будет
 иметь частный IPv4-адрес, как определено выше. В этом примере
 мы будем использовать подсеть <code>10.0.0.0/8</code>.
 
 <pre class="cmdbox">
-# <b>echo 'inet 10.0.0.1 255.255.255.0' > /etc/hostname.vether0</b>
-# <b>sh /etc/netstart vether0</b>
+# <b>cat &lt;&lt;END > /etc/hostname.vport0
+inet 10.0.0.1 255.255.255.0
+up
+END</b>
+# <b>sh /etc/netstart vport0</b>
 </pre>
 
-Создайте интерфейс <code>bridge0</code>
-интерфейсом <code>vether0</code> в качестве порта моста:
+Создайте интерфейс <code>veb0</code>
+при помощи <code>vport0</code> в качестве порта моста:
 
 <pre class="cmdbox">
-# <b>echo 'add vether0' > /etc/hostname.bridge0</b>
-# <b>sh /etc/netstart bridge0</b>
+# <b>cat &lt;&lt;END > /etc/hostname.veb0
+add vport0
+up
+END</b>
+# <b>sh /etc/netstart veb0</b>
 </pre>
 
 Убедитесь, что NAT настроен правильно, 
@@ -259,7 +265,7 @@ pass in proto { udp tcp } from 100.64.0.0/10 to any port domain \
 <code>/etc/pf.conf</code> может выглядеть так:
 
 <pre class="cmdbox">
-match out on egress from vether0:network to any nat-to (egress)
+match out on egress from vport0:network to any nat-to (egress)
 </pre>
 
 Следующие строки в <a href="https://man.openbsd.org/vm.conf">vm.conf(5)</a> 
@@ -267,7 +273,7 @@ match out on egress from vether0:network to any nat-to (egress)
 
 <pre class="cmdbox">
 switch "my_switch" {
-    interface bridge0
+    interface veb0
 }
 
 vm "my_vm" {
@@ -282,27 +288,51 @@ vm "my_vm" {
 
 <p>
 Для удобства вы можете настроить <a href="faq6.html#DHCP">DHCP-сервер</a> на 
-<code>vether0</code>.
+<code>vport0</code>.
 
-<h3>Вариант 4 - виртуальные машины как реальные хосты в одной сети</h3>
+<h3>Вариант 4 - виртуальные машины в одной сети</h3>
 
-В этом случае интерфейс виртуальной машины будет
-подключен к той же сети, что и хост, поэтому его можно
-настроить так, как если бы он был физически подключен
-к сети хоста. Эта опция работает только для устройств
-на основе Ethernet, так как стандарт IEEE 802.11 запрещает
-беспроводным интерфейсам участвовать в сетевых мостах.
+В этом случае интерфейс виртуальной машины будет соединен с той же сетью,
+что и хост. Затем виртуальную машину можно настроить так, как если бы она
+была физически подключена к хост-сети.
+Эта опция работает только для хостов с подключением Ethernet, поскольку
+стандарт IEEE 802.11 запрещает участие беспроводных интерфейсов в сетевых
+мостах.
 
 <p>
-Создайте интерфейс <code>bridge0</code> с сетевым
-интерфейсом хоста в качестве порта моста.
-В этом примере сетевым интерфейсом хоста является
-<code>em0</code> - вам следует заменить имя интерфейса,
-к которому вы хотите подключить виртуальную <code>em0</code>:
+Сеть Ethernet будет переключаться между реальной сетью,
+хостом и виртуальной машиной с помощью
+<a href="https://man.openbsd.org/veb">veb(4)</a>.
+Поскольку veb(4) отключает интерфейсы, добавленные как порты,
+от стека IP, любая конфигурация IP на реальном интерфейсе должна
+быть перемещена на интерфейс
+<a href="https://man.openbsd.org/vport">vport(4)</a>,
+чтобы хост мог участвовать в сети.
+В этом примере <code>em0</code> — это интерфейс, подключенный
+к реальной сети.
+
+<p>
+Скопируйте конфигурацию интерфейса <code>em0</code>
+для нового <code>vport0</code>:
 
 <pre class="cmdbox">
-# <b>echo 'add em0' > /etc/hostname.bridge0</b>
-# <b>sh /etc/netstart bridge0</b>
+# <b>mv /etc/hostname.em0 /etc/hostname.vport0</b>
+# <b>echo up >> /etc/hostname.vport0</b>
+# <b>echo up >> /etc/hostname.em0</b>
+# <b>sh /etc/netstart em0 vport0</b>
+</pre>
+
+<p>
+Создайте интерфейс <code>veb0</code> и добавьте интерфейсы
+<code>em0</code> и <code>vport0</code>:
+
+<pre class="cmdbox">
+# <b>cat &lt;&lt;END > /etc/hostname.veb0
+add em0
+add vport0
+up
+END</b>
+# <b>sh /etc/netstart veb0</b>
 </pre>
 
 Как и в предыдущем примере, создайте или измените файл 
@@ -311,7 +341,7 @@ vm "my_vm" {
 
 <pre class="cmdbox">
 switch "my_switch" {
-    interface bridge0
+    interface veb0
 }
 
 vm "my_vm" {
@@ -320,17 +350,19 @@ vm "my_vm" {
 }
 </pre>
 
-Гостевая <code>my_vm</code> теперь в сети хоста, как если бы он
+Гостевая <code>my_vm</code> теперь в real network, как если бы он
 был физически подключен.
 <p>
 
 <b>Примечание:</b>
-Если сетевой интерфейс (<code>em0</code> в приведенном выше примере)
-также настроен на использование DHCP,
-<a href="https://man.openbsd.org/dhcpleased">dhcpleased(8)</a>,
-работающий на этом же интерфейсе, может блокировать DHCP-запросы
-от гостевых виртуальных машин. В этом случае вам следует выбрать
-другой сетевой интерфейс, не использующий DHCP, или остановить
-все процессы <a href="https://man.openbsd.org/dhcpleased">dhcpleased(8)</a>,
-назначенные этому интерфейсу, перед запуском виртуальных машин,
-или же использовать статические IP-адреса для виртуальных машин.
+Если интерфейс хоста (<code>em0</code> в приведенном выше примере)
+использует автоматическую настройку адреса (например, DHCP), он может
+полагаться на MAC-адрес интерфейса для назначения определенного
+IP-адреса. В этом случае MAC-адрес <code>em0</code> может быть
+назначен <code>vport0</code>, чтобы он мог использовать его в
+реальной сети (real network).
+
+<p>
+Виртуальные машины могут быть подключены к реальной сети,
+но изолированы от хоста, путем исключения интерфейса vport в
+конфигурации выше.
