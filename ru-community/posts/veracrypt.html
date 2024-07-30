@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- Author email: karakin2000@gmail.com-->
+<html lang=ru>
+<meta charset=utf-8>
+
+<title>Как примонтировать раздел зашифрованный veracrypt в OpenBSD</title>
+
+<meta name="viewport" content="width=device-nwidth, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../../openbsd.css">
+
+<style>
+  .scsi {
+      color: var(--green);
+  }
+</style>
+
+<h2 id=OpenBSD>
+<a href="../../index.html">
+<i>Open</i><b>BSD</b></a>
+Как примонтировать раздел зашифрованный veracrypt в OpenBSD
+</h2>
+
+
+<hr>
+<ul>
+  <li><a href="#Abstract"> Предисловие</a></li>
+  <li><a href="#FirstStage">Первый этап</a></li>
+  <li><a href="#SecondStage">Второй этап</a></li>
+</ul>
+<hr>
+
+<h3 id="Abstract">Предисловие</h3>
+
+<p>
+  Кратко: В два этапа. Сначала примонтировать раздел как виртуальный
+  диск на файле. То есть pseudo-device
+  vnd(<a href="https://man.openbsd.org/vnd.4">4</a>).
+</p>
+
+<p>
+  Затем, примонтировать файловую систему с этого виртуального диска на
+  файле. В данном случае это может быть FAT32, exfat, ntfs-3g
+</p>
+
+<h3 id="FirstStage">Первый этап</h3>
+
+<p>
+  Монтируем зашифрованный диск, без указания файловой системы.
+</p>
+
+<pre class="cmdbox">
+doas  veracrypt  --text \
+	--mount /dev/sd2i \
+	--password=my_simple_pass \
+	--filesystem=none \
+	--verbose
+</pre>
+
+<p>
+  Если veracrypt сам не распознает данных вначале раздела,
+  то вам об этом сообщит, и статус завершения команды будет не равен нулю.
+  Однако это актуально для случая без стеганографии.
+  Про работу veracrypt с разделом защищенным стеганографией что-то добавить пока не могу.
+</p>
+
+<p>
+Если команда выполнилась успешно, то смотрим список примонтированных
+veracrypt разделов.
+</p>
+
+<pre class="cmdbox">
+doas veracrypt --text --list --verbose
+</pre>
+
+<p>
+Будет выведено перечисление примонтированных разделов. В моём
+упрощенном случае тут только один раздел и он примонтирован как файл
+виртуального диска.
+Местоположение файла смотрим в строке, начинающейся со словосочетания Virtual Device.
+
+<pre class="cmdbox">
+doas veracrypt --text --list --verbose | grep &quot;Virtual Device&quot;
+</pre>
+
+<h3 id="SecondStage">Второй этап</h3>
+
+<p>
+В моём случае, внутри зашифрованного раздела veracrypt находился
+раздел с файловой системой ntfs.
+</p>
+
+<p>
+Монтирую её с помощью ntfs-3g из портов. Указываю uid своего
+пользователя, чтобы дальше не приходилось повышать права с помощью doas.
+Если вам файловой системы хватит и в режиме read-only, то можно
+использовать
+mount_ntfs(<a href="https://man.openbsd.org/mount_ntfs">8</a>)
+из базовой системы.
+</p>
+
+<pre class="cmdbox">
+ntfs-3g -o uid=1000 /dev/vnd0c /mnt/disk
+</pre>
+
+И это все. Работать с зашифрованными дисками не так уж сложно.
