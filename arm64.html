@@ -35,7 +35,7 @@ email с текстом в теле письма <b>"subscribe arm"</b> на а�
 <h3 id="status"><strong>Текущее состояние</strong></h3>
 
 <p>
-В настоящее время работа ведется над платформами  Allwinner A64/H5/H6,
+В настоящее время работа ведется над платформами  Allwinner A64/H5/H6/H616,
 Amlogic G12B/SM1, AMD Opteron A1100, Ampere eMAG/Altra, Apple M1/M2, Marvell
 ARMADA 3K/7K/8K, Rockchip RK3328/RK3399/RK356x, Broadcom
 BCM2837/BCM2711 (Raspberry Pi 3/4) Qualcomm Snapdragon 7x/8x и
@@ -74,7 +74,7 @@ U-Boot&gt; boot
 должно быть установленно UEFI окружение. Для этого можно воспрользоваться
 <a href="https://asahilinux.org/2022/03/asahi-linux-alpha-release">установщиком Asahi Linux</a>.
 После этого вы можете загрузить программу установки с USB-устройства,
-подключенного к одному из type-C USB-портов.
+подключенного к одному из портов.
 
 <p>
 Системы Ampere eMAG, Ampere Altra и AMD Opteron поставляются с UEFI firmware в ROM и могут
@@ -93,7 +93,7 @@ U-Boot&gt; boot
 OpenBSD/arm64 работает на следующем железе:
 
 <ul>
-	<li>Allwinner A64/H5/H6
+	<li>Allwinner A64/H5/H6/H616
 	<ul>
 		<li>Pine64 Pine 64/64+
         <li><a href="https://www.pine64.org/pine-h64-ver-b/">Pine64 H64</a>
@@ -101,6 +101,7 @@ OpenBSD/arm64 работает на следующем железе:
 		<li><a href="https://wiki.friendlyelec.com/wiki/index.php/NanoPi_A64">NanoPi A64</a>
 		<li><a href="http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-PC-2.html">Orange Pi PC2</a>
 		<li><a href="http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-Plus.html">Orange Pi Zero Plus</a>
+		<li><a href="http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-2.html">Orange Pi Zero2</a>
 	</ul>
 	<li>AMD Opteron A1100 (Seattle)
 	<ul>
@@ -225,7 +226,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/dwge.4">dwge(4)</a>
 	  для встроенной Synopsys DesignWare GMAC 10/100/Gigabit Ethernet на Rockchip RK3399
 	<li><a href="https://man.openbsd.org/arm64/dwxe.4">dwxe(4)</a>
-	  для встроенной Allwinner EMAC 10/100/Gigabit Ethernet на Allwinner A64/H5/H6
+	  для встроенной Allwinner EMAC 10/100/Gigabit Ethernet на Allwinner A64/H5/H6/H616
 	<li><a href="https://man.openbsd.org/arm64/msk.4">msk(4)</a>
 	  для встроенной Marvell Yukon-2 10/100/Gigabit Ethernet на OverDrive 1000
 	<li><a href="https://man.openbsd.org/arm64/mue.4">mue(4)</a>
@@ -255,7 +256,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/sdhc.4">sdhc(4)</a>
 	  на Marvell ARMADA 3K/7K/8K, Rockchip RK3399 и Raspberry Pi 4
 	<li><a href="https://man.openbsd.org/arm64/sximmc.4">sximmc(4)</a>
-	  на Allwinner A64/H5/H6
+	  на Allwinner A64/H5/H6/H616
 </ul>
 
 <h4>USB</h4>
@@ -263,7 +264,7 @@ OpenBSD на этих машинах.
 	<li><a href="https://man.openbsd.org/arm64/dwctwo.4">dwctwo(4)</a>
 	  на Raspberry Pi 3
 	<li><a href="https://man.openbsd.org/arm64/ehci.4">ehci(4)</a>
-	  на Allwinner A64/H5/H6 и Rockchip RK3328/RK3399/RK356x
+	  на Allwinner A64/H5/H6/H616 и Rockchip RK3328/RK3399/RK356x
 	<li><a href="https://man.openbsd.org/arm64/xhci.4">xhci(4)</a>
 	  на Amlogic G12A/B, Ampere eMAG, Apple M1/M2, Marvell ARMADA 3K/7K/8K,
 	  Overdrive 1000, Raspberry Pi 4, Qualcomm
