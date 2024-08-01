@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang=ru>
+<meta charset=utf-8>
+
+<title>OpenBSD: сообщить о сбои в ядре</title>
+<meta name="description" content="Как сообщить о проблеме в ядре OpenBSD">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="openbsd.css">
+<link rel="canonical" href="https://www.openbsd.org/ddb.html">
+<style>
+h3, h4 {
+	color: var(--blue);
+}
+</style>
+
+<h2 id=OpenBSD>
+<a href="index.html">
+<i>Open</i><b>BSD</b></a>
+Сообщить о сбое в ядре
+</h2>
+
+<hr>
+
+<h3>Минимум информации о проблемах в ядре</h3>
+
+<p>
+Сначала ознакомьтесь с
+<a href="report.html">общими процедурами сообщения об ошибках</a>.
+Все это будет иметь место и тут.
+При сообщении о панике ядра или сбое, пожалуйста, помните:
+
+<ul>
+  <li><em>Нам нужен вывод консоли, который у вас на экране</em>.
+    Скопируйте его каким-нибудь образом и сохраните.
+    Лучше всего использовать последовательные консоли
+    (serial consoles), но если у вас VGA-консоль, вы можете
+    <a href="faq/faq7.html">прокрутить консоль назад</a>
+    и сфотографировать экран при помощи телефона или камеры.
+  <li><em>Если ядро запаниковало, нам нужно сообщение о панике
+		  (panic message) и трассировка (traceback).</em>
+    Она может быть отображена на экране.
+    Если вы находитесь в командной строке
+    <samp><a href="https://man.openbsd.org/ddb.4">ddb</a>></samp>,
+    введите команды <kbd>show panic</kbd> и <kbd>trace</kbd>.
+    Если вы используете SMP, используйте команду <kbd>mach ddbcpu N</kbd>
+    для каждого из <var>N</var> процессоров, которые у вас есть,
+    и повторите команду <kbd>trace</kbd> для каждого процессора.
+  <li><em>Нам нужен список процессов.</em>
+    Используйте команду <kbd>ps</kbd>, чтобы получить его.
+</ul>
+
+<p>
+<em>
+Отчеты без вышеуказанной информации бесполезны.
+Это минимум, который нам нужен, чтобы отследить проблему.
+</em>
+
+<h3>Дополнительная информация, которую вы можете сообщить</h3>
+
+<p>
+В некоторых ситуациях нужно больше информации.
+Ниже изложены некоторые дополнительные шаги, которые помогут
+получить больше инфы:
+
+<ul>
+  <li><i>Если ваш сбой связан с файловыми системами.</i>
+    Следующая дополнительная информация будет полезна:
+    <ul>
+      <li>Вывод команды
+        <samp><a href="https://man.openbsd.org/ddb.4">ddb</a>></samp>
+        <kbd>show uvm</kbd>
+      <li>Вывод команды
+        <samp><a href="https://man.openbsd.org/ddb.4">ddb</a>></samp>
+        <kbd>show bcstats</kbd>
+      <li>Вывод команды <kbd>mount</kbd> с вашей машины, чтобы мы знали,
+	  какие файловые системы смонтированы и как.
+    </ul>
+  <li> ... XXX boot crash? XXX
+  <li> ... XXX show regs? XXX
+</ul>
+
+<h3>Потеряли сообщение об ошибке?</h3>
+
+<p>
+Бывают случаи, когда вы можете потерять самое первое сообщение о панике,
+в котором указывается ее причина.
+
+<pre class="cmdbox">
+ddb> <b>show panic</b>
+0:      kernel: page fault trap, code=0
+ddb>
+</pre>
+
+<h3>Важно для SMP систем</h3>
+
+<p>
+В отчете вы должны указать отладочную информацию (trace) на каждом процессоре:
+
+<pre class="cmdbox">
+ddb{0}> <b>trace</b>
+pool_get(d05e7c20,0,dab19ef8,d0169414,80) at pool_get+0x226
+fxp_add_rfabuf(d0a62000,d3c12b00,dab19f10,dab19f10) at fxp_add_rfabuf+0xa5
+fxp_intr(d0a62000) at fxp_intr+0x1e7
+Xintr_ioapic0() at Xintr_ioapic0+0x6d
+--- interrupt ---
+idle_loop+0x21:
+ddb{0}> <b>machine ddbcpu 1</b>
+Stopped at      Debugger+0x4:   leave
+ddb{1}> <b>trace</b>
+Debugger(d0319e28,d05ff5a0,dab1bee8,d031cc6e,d0a61800) at Debugger+0x4
+i386_ipi_db(d0a61800,d05ff5a0,dab1bef8,d01eb997) at i386_ipi_db+0xb
+i386_ipi_handler(b0,d05f0058,dab10010,d01d0010,dab10010) at i386_ipi_handler+0x
+4a
+Xintripi() at Xintripi+0x47
+--- interrupt ---
+i386_softintlock(0,58,dab10010,dab10010,d01e0010) at i386_softintlock+0x37
+Xintrltimer() at Xintrltimer+0x47
+--- interrupt ---
+idle_loop+0x21:
+ddb{1}>
+</pre>
+
+<p>
+Повторите команду <code>machine ddbcpu x</code> после <code>trace</code>
+для каждого процессора на вашем компьютере.
+
+<h3>Как собрать дополнительную информацию о причинах краха ядра?</h3><p>
+
+<p>
+Типичный сбой/крах ядра в OpenBSD выглядит следующим образом:
+
+<pre class="cmdbox">
+kernel: page fault trap, code=0
+Stopped at    <b>pf_route+0x263</b>:        mov     0x40(%edi),%edx
+ddb>
+</pre>
+
+<p>
+Этот сбой произошел по смещению <code>0x263</code> в функции <code>pf_route</code>.
+
+<p>
+Первая команда, которую нужно запустить из командной строки
+<a href="https://man.openbsd.org/ddb">ddb(4)</a>, — <code>trace</code>:
+
+<pre class="cmdbox">
+ddb> <b>trace</b>
+<b>pf_route</b>(e28cb7e4,e28bc978,2,1fad,d0b8b120) at <b>pf_route+0x263</b>
+pf_test(2,1f4ad,e28cb7e4,b4c1) at pf_test+0x706
+pf_route(e28cbb00,e28bc978,2,d0a65440,d0b8b120) at pf_route+0x207
+pf_test(2,d0a65440,e28cbb00,d023c282) at pf_test+0x706
+ip_output(d0b6a200,0,0,0,0) at ip_output+0xb67
+icmp_send(d0b6a200,0,1,a012) at icmp_send+0x57
+icmp_reflect(d0b6a200,0,1,0,3) at icmp_reflect+0x26b
+icmp_input(d0b6a200,14,0,0,d0b6a200) at icmp_input+0x42c
+ipv4_input(d0b6a200,e289f140,d0a489e0,e289f140) at ipv4_input+0x6eb
+ipintr(10,10,e289f140,e289f140,e28cbd38) at ipintr+0x8d
+Bad frame pointer: 0xe28cbcac
+ddb>
+</pre>
+
+<p>
+Это говорит нам о том, какие вызовы функции привели к сбою.
+
+<p>
+Чтобы узнать конкретную место, т.е. строку C кода, где произошел сбой, сделайте следующее:
+
+<p>
+Найдите файл, в котором определена эта функция.
+В этом примере это будет <code>pf_route()</code> в <code>/sys/net/pf.c</code>.
+Используйте <a href="https://man.openbsd.org/objdump">objdump(1)</a>, чтобы дизассемблировать ее:
+
+<pre class="cmdbox">
+$ <b>cd /sys/arch/$(uname -m)/compile/GENERIC</b>
+$ <b>objdump -dlr obj/pf.o >/tmp/pf.dis</b>
+</pre>
+
+<p>
+В выводе выполните grep для имени функции:
+
+<pre class="cmdbox">
+$ <b>grep "&lt;pf_route>:" /tmp/pf.dis</b>
+0000<b>7d88</b> &lt;pf_route>:
+</pre>
+
+<p>
+К найденному шестнадцатеричному числу <code>7d88</code> (адрес функции) добавьте
+смещение <code>0x263</code> из строки <code>Stopped at</code>:
+
+<pre class="cmdbox">
+$ <b>printf '%x\n' $((0x7d88 + 0x263))</b>
+7feb
+</pre>
+
+<p>
+Прокрутите вниз до строки <code>7feb</code>.
+Инструкция ассемблера должна соответствовать той, что указана в
+<code>Stopped at</code> строке.
+Затем прокрутите вверх до ближайшего номера C строки:
+
+<pre class="cmdbox">
+$ <b>more /tmp/pf.dis</b>
+/sys/net/pf.c:<b>3872</b>
+    7fe7:       0f b7 43 02             movzwl 0x2(%ebx),%eax
+    <b>7feb</b>:       8b 57 40                <b>mov    0x40(%edi),%edx</b>
+    7fee:       39 d0                   cmp    %edx,%eax
+    7ff0:       0f 87 92 00 00 00       ja     8088 &lt;pf_route+0x300>
+</pre>
+
+<p>
+Итак, сбой происходит именно в строке <code>3872</code> файла <code>pf.c</code>:
+
+<pre class="cmdbox">
+$ <b>nl -ba /sys/net/pf.c | sed -n 3872p</b>
+  3872		if ((u_int16_t)ip->ip_len &lt;= ifp->if_mtu) {
+</pre>
+
+<p>
+Ядро, которое завершило свою работу крахом и выдавшее сообщение об аварийном завершении,
+и объектный файл для objdump должны быть скомпилированы из одного и того же исходного
+файла, в противном случае смещения не будут совпадать.
+
+<p>
+Предоставте и вывод ddb trace и соответствующую часть вывода objdump.
