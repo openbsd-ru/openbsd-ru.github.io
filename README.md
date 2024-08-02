@@ -34,7 +34,6 @@
 | **[FAQ#PF_Traffic Redirection (Port Forwarding)](https://www.openbsd.org/faq/pf/rdr.html)** | Хотите перевести? | |
 | **[FAQ#PF_Shortcuts For Creating Rulesets](https://www.openbsd.org/faq/pf/shortcuts.html)** | Хотите перевести? | |
 | **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
-| **[Innovations](https://www.openbsd.org/innovations.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
 | **[7.5](https://www.openbsd.org/75.html)** |  Хотите перевести? | |
