@@ -1,6 +1,6 @@
 [![Status](https://github.com/openbsd-ru/openbsd-ru.github.io/actions/workflows/label.yml/badge.svg)](https://github.com/openbsd-ru/openbsd-ru.github.io/actions?query=workflow%3ALabeler)
 [![License](https://img.shields.io/github/license/openbsd-ru/openbsd-ru.github.io)](https://github.com/openbsd-ru/openbsd-ru.github.io/blob/master/LICENSE)
-[![telegram](https://img.shields.io/badge/telegram-openbsd_ru-blue)](https://t.me/openbsd_ru)
+[![patreon](https://img.shields.io/badge/support_me-patreon-blue)](https://www.patreon.com/anaumov)
 
 # Переведенные web-страницы проекта OpenBSD :blowfish:
 
