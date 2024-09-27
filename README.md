@@ -40,7 +40,6 @@
 | **[FAQ_Upgrade Guide: 7.4 to 7.5](https://www.openbsd.org/faq/upgrade75.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
-| **[OpenSSH](https://www.openssh.com/)** | [Alexander Naumov](https://github.com/alexander-naumov) | [старый перевод](https://github.com/alexander-naumov/openbsd-doc-ru/tree/master/openssh)|
 
 ## Правила перевода
 
