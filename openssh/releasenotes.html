@@ -1,19 +1,11 @@
-<!--
-	DO NOT EDIT MANUALLY!  This is generated from:
-	www/build/openssh/releasenotes.html.head
-	www/build/openssh/releasenotes.html.tail
-
-	See comments in www/build/openssh/Makefile for details.
--->
-
 <!doctype html>
-<html lang=en>
+<html lang=ru>
 <meta charset=utf-8>
 
 <title>OpenSSH: Release Notes</title>
 <meta name="description" content="OpenSSH release notes">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="canonical" href="https://www.openssh.com/releasenotes.html">
+<link rel="canonical" href="https://openbsd-ru.github.io/openssh/releasenotes.html">
 <link rel="stylesheet" type="text/css" href="openbsd.css">
 
 <h2 id=OpenBSD>
@@ -22,49 +14,55 @@
 Release Notes
 </h2>
 <hr>
-<h3><a href='txt/release-9.9' id='9.9'>OpenSSH 9.9</a>/<a href='txt/release-9.9' id='9.9p1'>9.9p1</a> (2024-09-19)</h3>
+<h3><a href='https://openssh.com/txt/release-9.9' id='9.9'>OpenSSH 9.9</a>/<a href='https://openssh.com/txt/release-9.9' id='9.9p1'>9.9p1</a> (2024-09-19)</h3>
 <pre>
-OpenSSH 9.9 was released on 2024-09-19. It is available from the
-mirrors listed at <a href='https://www.openssh.com/'>https://www.openssh.com/</a>.
-OpenSSH is a 100% complete SSH protocol 2.0 implementation and
-includes sftp client and server support.
+Релиз OpenSSH 9.9 состоялся 19 сентября 2024 года.
+Он доступен на зеркалах, перечисленных на сайте 
+<a href='https://openbsd-ru.github.io/openssh/ftp.html'>https://openbsd-ru.github.io/openssh/ftp.html</a>.
 
-Once again, we would like to thank the OpenSSH community for their
-continued support of the project, especially those who contributed
-code or patches, reported bugs, tested snapshots or donated to the
-project. More information on donations may be found at:
-<a href='https://www.openssh.com/donations.html'>https://www.openssh.com/donations.html</a>
+OpenSSH — это 100% полная реализация протокола SSH 2.0,
+которая поддерживает клиентскую и серверную часть sftp.
 
-Future deprecation notice
-=========================
+Еще раз мы хотели бы поблагодарить сообщество OpenSSH за их
+постоянную поддержку проекта, особенно тех, кто работал над
+кодом и слал патчи, сообщал об ошибках, помогал в тестировании
+или делал пожертвования проекту.
+Более подробную информацию о пожертвованиях можно найти по адресу:
+<a href='donations.html'>https://openbsd-ru.github.io/openssh/donations.html</a>
 
-OpenSSH plans to remove support for the DSA signature algorithm in
-early 2025. This release disables DSA by default at compile time.
 
-DSA, as specified in the SSHv2 protocol, is inherently weak - being
-limited to a 160 bit private key and use of the SHA1 digest. Its
-estimated security level is only 80 bits symmetric equivalent.
+Уведомление о скором прекращении поддержки
+==========================================
 
-OpenSSH has disabled DSA keys by default since 2015 but has retained
-run-time optional support for them. DSA was the only mandatory-to-
-implement algorithm in the SSHv2 RFCs, mostly because alternative
-algorithms were encumbered by patents when the SSHv2 protocol was
-specified.
+Мы планируем прекратить поддержку алгоритма подписи DSA в
+начале 2025 года. Уже этот релиз не включает DSA по умолчанию
+во время компиляции.
 
-This has not been the case for decades at this point and better
-algorithms are well supported by all actively-maintained SSH
-implementations. We do not consider the costs of maintaining DSA
-in OpenSSH to be justified and hope that removing it from OpenSSH
-can accelerate its wider deprecation in supporting cryptography
-libraries.
+DSA, как указано в протоколе SSHv2, изначально слаб — он ограничен
+160-битным закрытым ключом и использованием дайджеста SHA1.
+Его предполагаемый уровень безопасности составляет всего 80-битный
+симметричный эквивалент.
 
-Currently DSA is disabled at compile time. The final step of
-removing DSA support entirely is planned for the first OpenSSH
-release of 2025.
+Мы отключили ключи DSA в OpenSSH по умолчанию с 2015 года, но
+сохранил для них необязательную поддержку во время выполнения.
+DSA был единственным обязательным для реализации алгоритмом в SSHv2
+RFC, в основном потому, что альтернативные алгоритмы были обременены
+патентами, когда был указан протокол SSHv2.
 
-DSA support may be re-enabled on OpenBSD by setting "DSAKEY=yes"
-in Makefile.inc. To enable DSA support in portable OpenSSH, pass
-the "--enable-dsa-keys" option to configure.
+Это не было актуально в течение десятилетий, и лучшие алгоритмы
+хорошо поддерживаются всеми активно поддерживаемыми реализациями SSH.
+Мы не считаем затраты на поддержку DSA в OpenSSH оправданными и
+надеемся, что удаление его из OpenSSH может ускорить его более
+широкое устаревание в поддержке криптографических библиотек.
+
+В настоящее время DSA отключен во время компиляции.
+Последний шаг полного удаления поддержки DSA запланирован на первый
+выпуск OpenSSH 2025 года.
+
+Поддержка DSA может быть повторно включена в версии для OpenBSD
+путем установки "DSAKEY=yes" в Makefile.inc.
+Чтобы включить поддержку DSA в переносимой версии OpenSSH, передайте
+параметр "--enable-dsa-keys" во время сборки.
 
 Potentially-incompatible changes
 --------------------------------
@@ -87,19 +85,21 @@ Potentially-incompatible changes
    script is easiest way to preserve compatibility with both the old
    and new versions.
 
-Changes since OpenSSH 9.8
-=========================
+Изменения в сравнении с OpenSSH 9.8
+===================================
 
-This release contains a number of new features and bugfixes.
+Этот релиз содержит новые возможности и исправления.
 
-New features
-------------
+Новые возможности
+-----------------
 
- * <a href='https://man.openbsd.org/ssh.1'>ssh(1)</a>, <a href='https://man.openbsd.org/sshd.8'>sshd(8)</a>: add support for a new hybrid post-quantum key
-   exchange based on the FIPS 203 Module-Lattice Key Enapsulation
-   mechanism (ML-KEM) combined with X25519 ECDH as described by
-   <a href='https://datatracker.ietf.org/doc/html/draft-kampanakis-curdle-ssh-pq-ke-03'>https://datatracker.ietf.org/doc/html/draft-kampanakis-curdle-ssh-pq-ke-03</a>
-   This algorithm "mlkem768x25519-sha256" is available by default.
+ * <a href='https://man.openbsd.org/ssh.1'>ssh(1)</a>, <a href='https://man.openbsd.org/sshd.8'>sshd(8)</a>:
+   добавлена поддержка нового гибридного постквантового обмена ключами
+   на основе механизма инкапсуляции ключей FIPS 203 Module-Lattice Key
+   Enapulation (ML-KEM) в сочетании с X25519 ECDH, как описано  вв
+   <a href='https://datatracker.ietf.org/doc/html/draft-kampanakis-curdle-ssh-pq-ke-03'
+   >https://datatracker.ietf.org/doc/html/draft-kampanakis-curdle-ssh-pq-ke-03</a>
+   Этот алгоритм "mlkem768x25519-sha256" доступен по умолчанию.
 
  * <a href='https://man.openbsd.org/ssh.1'>ssh(1)</a>: the ssh_config "Include" directive can now expand
    environment as well as the same set of %-tokens "Match Exec"
@@ -136,8 +136,8 @@ New features
  * <a href='https://man.openbsd.org/sshd.8'>sshd(8)</a>: add a random amount of jitter (up to 4 seconds) to the
    grace login time to make its expiry unpredictable.
 
-Bugfixes
---------
+Исправления
+-----------
 
  * <a href='https://man.openbsd.org/sshd.8'>sshd(8)</a>: relax absolute path requirement back to what it was prior
    to OpenSSH 9.8, which incorrectly required that sshd was started
@@ -184,8 +184,8 @@ Bugfixes
    session terminated, the mux master process would issue a bad message
    that terminated the connection.
 
-Portability
------------
+Портирование
+------------
 
  * sync contrib/ssh-copy-id to the latest upstream version.
 
@@ -219,11 +219,14 @@ hexadecimal (which is the default for most checksum tools). The PGP
 key used to sign the releases is available from the mirror sites:
 <a href='https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/RELEASE_KEY.asc'>https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/RELEASE_KEY.asc</a>
 
-Reporting Bugs:
-===============
+Сообщайте об ошибках:
+=====================
 
-- Please read <a href='https://www.openssh.com/report.html'>https://www.openssh.com/report.html</a>
-  Security bugs should be reported directly to openssh@openssh.com
+- По поводу сообщений об ошибке можно прочитать на этой странице
+  <a href='https://openbsd-ru.github.io/openssh/report.html'
+  >https://openbsd-ru.github.io/openssh/report.html</a>
+  Информация об ошибках, связанных с безопасностью, должна быть
+  отправленны в закрытую рассылку для разработчиков openssh@openssh.com
 
 </pre><hr>
 <h3><a href='txt/release-9.8' id='9.8'>OpenSSH 9.8</a>/<a href='txt/release-9.8' id='9.8p1'>9.8p1</a> (2024-07-01)</h3>
