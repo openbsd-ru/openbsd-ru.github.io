@@ -36,8 +36,8 @@
 | **[Copyright Policy](https://www.openbsd.org/policy.html)** |  Хотите перевести? | |
 | **[Events](https://www.openbsd.org/events.html)** | Хотите перевести? | |
 | **[sparc64](https://www.openbsd.org/sparc64.html)** |  Хотите перевести? | |
-| **[7.5](https://www.openbsd.org/75.html)** |  Хотите перевести? | |
-| **[FAQ_Upgrade Guide: 7.4 to 7.5](https://www.openbsd.org/faq/upgrade75.html)** |  Хотите перевести? | |
+| **[7.6](https://www.openbsd.org/76.html)** |  Хотите перевести? | |
+| **[FAQ_Upgrade Guide: 7.5 to 7.6](https://www.openbsd.org/faq/upgrade76.html)** |  Хотите перевести? | |
 | **[FAQ#Ports_Porting Guide](https://www.openbsd.org/faq/ports/guide.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 | **[FAQ#Ports_Special Porting Topics](https://www.openbsd.org/faq/ports/specialtopics.html)** | [Alexander Naumov](https://github.com/alexander-naumov) | |
 
